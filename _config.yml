@@ -62,6 +62,21 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 #   3rd Party Settings    #
 # ----------------------- #
 
+
+# Navigation pages
+
+navigation:
+- text: Home
+  url: /index.html
+- text: Security
+  url: /blog/categories/security/
+- text: IOS
+  url: /blog/categories/ios/
+- text: Archives
+  url: /blog/archives/index.html
+- text: About
+  url: /about/
+
 # Github repositories
 github_user: prateek147
 github_repo_count: 3
@@ -105,3 +120,7 @@ google_analytics_tracking_id:
 
 # Facebook Like
 facebook_like: true
+
+
+
+
