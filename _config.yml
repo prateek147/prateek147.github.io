@@ -69,9 +69,9 @@ navigation:
 - text: Home
   url: /index.html
 - text: Security
-  url: /blog/categories/security/
+  url: /security/
 - text: IOS
-  url: /blog/categories/ios/
+  url: /ios/
 - text: Archives
   url: /blog/archives/index.html
 - text: About
