@@ -3,7 +3,7 @@ layout: post
 title: "DNS Hacking - Beginner to Advanced"
 date: 2013-06-09 22:42
 comments: yes
-categories: [Security]
+categories: [security]
 ---
 
 	    
