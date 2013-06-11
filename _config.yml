@@ -70,9 +70,9 @@ navigation:
 - text: Home
   url: /index.html
 - text: Security
-  url: /security/
+  url: /blog/categories/security/
 - text: IOS
-  url: /ios/
+  url: /blog/categories/ios/
 - text: Archives
   url: /blog/archives/index.html
 - text: About
