@@ -7,7 +7,8 @@ title: Prateek gianchandani | IOS Developer/Hacker. Snooker addict. Wannabe Moun
 subtitle: A blogging framework for hackers.
 author: Prateek gianchandani
 simple_search: http://google.com/search
-description:
+keywords: ios,application security,ios security,restkit,web application security,udp, tcp,dns,backtrack
+description: IOS Development and Security tutorials
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -100,7 +101,7 @@ linkedin_user: prateekgianchandani
 
 # Google Plus Profile
 # Hidden: No visible button, just add author information to search results
-googleplus_user:
+googleplus_user: 
 googleplus_hidden: false
 
 # Pinboard
