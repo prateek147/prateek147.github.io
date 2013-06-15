@@ -72,11 +72,8 @@ categories: [ios, security]
 <p>We already learnt that all the IOS apps use a runtime environment while execution which means that a lot of the decisions are taken at runtime. As the name suggests, method swizzling is just another weapon that we can use to our advantage for modifying the behaviour of an IOS application. It allows us to change the mapping from the selector to the implementation which we could use to our advantage and call our own methods instead. We will look into Method Swizzling in great detail in the next article.</p>
 
 <b>References:</b>
-
- <ul>
-     <li><p>The Dark art of IOS Application hacking</br><a href ="http://www.slideshare.net/daniel_bilar/blackhat2012-zdziarskidarkarti-osapplicationhacking">http://www.slideshare.net/daniel_bilar/blackhat2012-zdziarskidarkarti-osapplicationhacking/</a></p>
-     </li>
-	<li><p>The Objective-C runtime</br><a href="http://www.slideshare.net/mobiledatasolutions/objectivec-runtime">http://www.slideshare.net/mobiledatasolutions/objectivec-runtime</a></p>
-     </li>
+<ul>
+<li><p>The Dark art of IOS Application hacking</br><a href ="http://www.slideshare.net/daniel_bilar/blackhat2012-zdziarskidarkarti-osapplicationhacking">http://www.slideshare.net/daniel_bilar/blackhat2012-zdziarskidarkarti-osapplicationhacking/</a></p></li>
+<li><p>The Objective-C runtime</br><a href="http://www.slideshare.net/mobiledatasolutions/objectivec-runtime">http://www.slideshare.net/mobiledatasolutions/objectivec-runtime</a></p></li>
 	
- </ul>
+</ul>
