@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://highaltitudehacks.com
-title: Prateek gianchandani | IOS Developer/Hacker. Snooker addict. Wannabe Mountaineer
+title: Prateek Gianchandani
 subtitle: A blogging framework for hackers.
-author: Prateek gianchandani
+author: Prateek Gianchandani
 simple_search: http://google.com/search
 keywords: ios,application security,ios security,restkit,web application security,udp, tcp,dns,backtrack
 description: IOS Development and Security tutorials
@@ -76,7 +76,7 @@ navigation:
 - text: Archives
   url: /blog/archives/index.html
 - text: About
-  url: /about/
+  url: /about/index.html
 
 # Github repositories
 github_user: prateek147
