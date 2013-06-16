@@ -20,4 +20,4 @@ The fastest way to reach me is on my email at <b>prateek dot searchingeye at gma
 
 <h3>About this site</h3>
 
-This website is proudly powered by <a href="octopress.org">Octopress</a>, a blogging framework for hackers. The theme used in this website is called Octoflat and is developed by <a href="alexgaribay.com">Alex Garibay</a>. The github page fo,,r the Octoflat theme can be found <a href="https://github.com/alexgaribay/octoflat">here.</a>
+This website is proudly powered by <a href="octopress.org">Octopress</a>, a blogging framework for hackers. The theme used in this website is called Octoflat and is developed by <a href="alexgaribay.com">Alex Garibay</a>. The github page for the Octoflat theme can be found <a href="https://github.com/alexgaribay/octoflat">here.</a>
