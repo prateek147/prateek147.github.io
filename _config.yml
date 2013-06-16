@@ -76,7 +76,7 @@ navigation:
 - text: Archives
   url: /blog/archives/index.html
 - text: About
-  url: /about/index.html
+  url: /about/
 
 # Github repositories
 github_user: prateek147
