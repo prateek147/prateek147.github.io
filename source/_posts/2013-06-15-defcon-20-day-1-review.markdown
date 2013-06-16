@@ -58,4 +58,7 @@ categories: [defcon, security]
 
 <img src="/images/posts/defcon1//IMG_0951.JPG" width="5184" height="3456" alt="IMG 0951">
 <img src="/images/posts/defcon1//IMG_0965.JPG" width="5184" height="3456" alt="IMG 0965">
-<img src="/images/posts/defcon1//IMG_0970.JPG" width="5184" height="3456" alt="IMG 0970">		
+<img src="/images/posts/defcon1//IMG_0970.JPG" width="5184" height="3456" alt="IMG 0970">
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>

@@ -25,6 +25,9 @@ categories: [security, honeypots]
 
 <p>My name is Sebastian Poeplau, i am 22 years old and pursuing my studies in Computer Science from Bonn university, Germany. My interest with malware research began when i was working under a professor in second year of college and was offered some student assistantship. I liked this domain of security a lot and this is how it all began.</p>
 
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
 <h3>2. Can you please tell us in brief about the the Ghost USB honeypot project?</h3>
 
 <p>During the course of our research in malware analysis and detection, we realized that there was no such honeypot which detects malwares that spread over USB devices.  So me and my project members at the Computer Science department at Bonn university decided to create one on our own. Ghost works by first emulating a USB storage device, which tricks the malware into infecting the honeypot. Currently, Ghost only supports Windows XP and Windows 7, but we plan to port it to different versions of Windows, mainly because malwares generally target Windows based systems.</p>

@@ -3,7 +3,7 @@ layout: post
 title: "w3af walkthrough and tutorial part 4 - w3af tools"
 date: 2013-06-13 20:35
 comments: true
-categories: [w3af, web-application-security] 
+categories: [w3af, web-application-security, security] 
 ---
 
 <p>In the previous articles in this series, we looked at all the plugins available in w3af and looked at their applications in different scenarios. In this article, we will look at some of the other tools present in w3af which allow us to send Manual Requests, perform Fuzzing, Encode and Decode requests and responses, use a Proxy to intercept and modify requests and responses, and allow us to perform a comparison between different HTTP requests and responses. We will also look at how we can write our own w3af scripts to automate the task of Web Application Penetration Testing. We will then look at the various profiles present in w3af.</p>
@@ -151,3 +151,5 @@ categories: [w3af, web-application-security]
 </li>
 
 </ul>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>

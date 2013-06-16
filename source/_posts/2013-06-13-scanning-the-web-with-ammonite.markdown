@@ -3,7 +3,7 @@ layout: post
 title: "Scanning the web with Ammonite"
 date: 2013-06-13 22:09
 comments: true
-categories: [web-application-security]
+categories: [web-application-security, security]
 ---
 
 

@@ -3,7 +3,7 @@ layout: post
 title: "Defending the Internet with Project Meshent"
 date: 2013-06-13 08:35
 comments: true
-categories: [meshnet, privacy]
+categories: [meshnet, privacy, security]
 ---
 
 <p>Topics related to Internet censorship have been over much debate in the last few years. The main purpose of such
@@ -169,4 +169,7 @@ includes git and wget. A good thing would be to download the "Command Line Tools
 	<li>Mesh Networking</br><a href="http://en.wikipedia.org/wiki/Mesh_networking">http://en.wikipedia.org/wiki/Mesh_networking</a>
      </li>
 </ul>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
  

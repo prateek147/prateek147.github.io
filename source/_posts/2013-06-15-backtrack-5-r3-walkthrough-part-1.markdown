@@ -89,7 +89,7 @@ categories: [security, backtrack]
 
 <img src="/images/posts/bt5r1/12.png" width="785" height="172" alt="12">
 
-<p> In this article, we looked at a couple of the most popular tools that were introduced with Backtrack 5 R3. In further articles in this series, we will be discussing about many other new tools that were shipped with Backtrack 5 R3. If there is a particular tool that you want me to write about or if you have any questions, comments, suggestions regarding this series, please write them down in the comments below.</p>
+<p> In this article, we looked at a couple of the most popular tools that were introduced with Backtrack 5 R3. In further articles in this series, we will be    discussing about many other new tools that were shipped with Backtrack 5 R3. If there is a particular tool that you want me to write about or if you have any questions, comments, suggestions regarding this series, please write them down in the comments below.</p>
 
 <h2>References:</h2>
 
@@ -100,3 +100,6 @@ categories: [security, backtrack]
  </li>
  <li><p>Dnmap framework official page</br><a href ="http://sourceforge.net/projects/dnmap/">http://sourceforge.net/projects/dnmap/</a></p>
  </li>
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>

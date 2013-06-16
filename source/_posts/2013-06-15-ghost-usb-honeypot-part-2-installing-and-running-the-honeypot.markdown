@@ -69,3 +69,5 @@ type "ghosttool". One of the most important things to remember while doing this 
 <li><p>Ghost USB Honeypot project</br><a href ="http://http://code.google.com/p/ghost-usb-honeypot/">http://code.google.com/p/ghost-usb-honeypot/</a></p>
 </li>
 </ul>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>

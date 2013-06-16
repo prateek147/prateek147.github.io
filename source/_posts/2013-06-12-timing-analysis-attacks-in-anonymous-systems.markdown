@@ -71,3 +71,6 @@ Anonymous systems are used to allow users to surf the web, communicate with serv
     <li><p>PlanetLab</br><a href="http://www.planet-lab.org/">http://www.planet-lab.org/</a></p></li>
     <li><p>Anonymity Analysis of Mix Networks Against Flow-Correlation Attacks</br><a href="http://www.cs.tamu.edu/academics/tr/tamu-cs-tr-2005-2-1">http://www.cs.tamu.edu/academics/tr/tamu-cs-tr-2005-2-1</a></p></li>
 </ol>
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>

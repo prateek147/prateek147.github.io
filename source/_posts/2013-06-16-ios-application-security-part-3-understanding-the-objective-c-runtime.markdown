@@ -77,3 +77,5 @@ categories: [ios, security]
 <li><p>The Objective-C runtime</br><a href="http://www.slideshare.net/mobiledatasolutions/objectivec-runtime">http://www.slideshare.net/mobiledatasolutions/objectivec-runtime</a></p></li>
 	
 </ul>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>

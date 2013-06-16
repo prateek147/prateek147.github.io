@@ -3,7 +3,7 @@ layout: post
 title: "Circumventing NAT using UDP hole punching"
 date: 2013-06-13 22:35
 comments: true
-categories: [networking]
+categories: [networking, security]
 ---
 
 <p>A lot of the networks use NAT (Network Address Translation) these days. This allows the systems on the same network to have a single global IP address. This also assures enhanced security but at the same time adds complications specially while connecting to P2P (Peer to Peer) networks. This is because at the time of initiating a connection in a Peer to Peer network, it is not possible to determine which packet coming from the peer is intended for which host on the network simply because they have one global IP address. Also, most of the networks with NAT may drop incoming packets simply because it cannot figure out which client on the NAT the packet is directed to, or may recognize it as an unauthorized packet etc. Some of the common Peer to Peer applications are Skype, Spotify etc.</p>  
@@ -117,4 +117,6 @@ categories: [networking]
 
      <li><p>UDP hole punching</br><a href="http://en.wikipedia.org/wiki/UDP_hole_punching">http://en.wikipedia.org/wiki/UDP_hole_punching</a></p></li>
 </ol>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
 

@@ -3,7 +3,7 @@ layout: post
 title: "w3af walkthrough and tutorial part 2 - Discovery and Audit plugins"
 date: 2013-06-13 09:05
 comments: true
-categories: [w3af, web-application-security]
+categories: [w3af, web-application-security, security]
 ---
 
 
@@ -197,3 +197,6 @@ Just double click on the shell and you are all set and ready to go.
 	<li><p>w3af-Plugins and descriptions</br><a href="http://w3af.sourceforge.net/plugin-descriptions.php">http://w3af.sourceforge.net/plugin-descriptions.php</a></p>
      </li>
  </ul>
+
+
+ <p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>

@@ -155,7 +155,10 @@ categories: [security, metasploit]
 <h2>Conclusion</h2>
 
 <p>Wireless networks have become very common these days, however due to the vulnerabilities in the algorithms used to connect to a wireless network, an attacker can force a client to connect to a Fake AP after which the attacker will have IP-level connectivity to the client and can launch a bunch of exploits against it. Karma was developed as a POC for this vulnerability and later integrated with the Metasploit framework and called Karmetasploit. Karmetasploit uses the vulnerability in the 802.11 protocols and the exploits present in metasploit framework to carry out a directed attack at the victim. One of the good features about this kind of attack is that it will even work against secured wireless networks.</p>
-7
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
 
 
 

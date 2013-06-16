@@ -196,6 +196,9 @@ categories: [security, maintaining-access]
 <p>In this article we discussed different ways of maintaining access on a victim once it is compromised. There could be different scenarios, the victim may be behind a firewall, or could just be running a simple web server directly accessible from the internet. We learnt about 3 different categories of tools a) Tunneling tools, which can help us encapsulate one protocol onto another, thereby bypassing the firewall b)OS Backdoor- Netcat , sbd , creating custom backdoors using Msfpayload and then encode it using Msfencode c)Web backdoors- Could be some kind of custom backdoors, or could be webshells which could allow us to execute commmands, browse directories on the remote server etc.</p>
 
 
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
 
 
 

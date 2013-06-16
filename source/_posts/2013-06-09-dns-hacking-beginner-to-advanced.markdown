@@ -157,4 +157,9 @@ keywords: DNS, zone transfer, dns brute forcing, dns wildcard
        
 <h2>CONCLUSION</h2>
 <p>DNS protocol is a very critical component of the Internet as it resolves IP address into hostnames and makes life easier for us. However, if the nameservers are not properly configured they might leak out the whole DNS server database to any malicious hacker. Even if the servers are properly configured, they can be bruteforced to leak information about their mail servers, IP addresses, etc. It is therefore important to properly configure your DNS servers and be aware of the security issues with DNS.</p> 
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
 	

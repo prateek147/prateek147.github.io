@@ -3,7 +3,7 @@ layout: post
 title: "w3af walkthrough and tutorial part 3 - Remaining plugins"
 date: 2013-06-13 20:27
 comments: true
-categories: [w3af, web-application-security]
+categories: [w3af, web-application-security, security]
 ---
 
 <p>In the previous article <a href ="http://resources.infosecinstitute.com/w3af-tutorial-2/">w3af walkthrough and tutorial part 2 - Discovery and Audit plugins</a> we looked at the various discovery and audit plugins used by w3af to identify vulnerabilities in a web application. We also looked at how we can exploit these vulnerabilities by using the exploit plugins present in w3af. In this article, we will look at the remaining plugins present in w3af which are bruteforce, grep, mangle, output, auth and evasion plugins and look at their applications in web application penetration testing.</p>
@@ -135,4 +135,6 @@ categories: [w3af, web-application-security]
 <li><p>w3af Walkthrough and Tutorial Part 1</br><a href ="http://resources.infosecinstitute.com/w3af-tutorial/">http://resources.infosecinstitute.com/w3af-tutorial/</a></p>
 </ol>
  
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
 

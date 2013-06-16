@@ -3,7 +3,7 @@ layout: post
 title: "Inserting Vulnerabilities in Web Applications"
 date: 2013-06-13 20:43
 comments: true
-categories: [web-application-security]
+categories: [web-application-security, security]
 ---
 
 
@@ -303,4 +303,6 @@ require_once($imp_file);
 
 <li><p>Cross-site_request_forgery</br>http://en.wikipedia.org/wiki/Cross-site_request_forgery</p></li>
      
-</ul>
+</ul
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
