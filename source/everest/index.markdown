@@ -1,8 +1,32 @@
 ---
-layout: page
-title: "everest"
-date: 2013-06-18 21:30
-comments: true
-sharing: true
+layout: default
+title: "Posts on Security"
+comments: false
+sharing: false
 footer: true
 ---
+
+
+{% include header.html %}
+<div class="blog-index">
+  {% assign index = true %}
+  {% for post in site.categories.everest %}
+  {% assign content = post.content %}
+    <article>
+      {% include article.html %}
+    </article>
+    {% unless post == paginator.posts.last %}
+    <hr>
+    {% endunless %}
+  {% endfor %}
+  <div class="pagination">
+    {% if paginator.next_page %}
+    <a class="prev" href="{{paginator.next_page}}">&larr; Older</a>
+    {% endif %}
+
+    {% if paginator.previous_page %}
+    <a class="next" href="{{paginator.previous_page}}">Newer &rarr;</a>
+    {% endif %}
+  </div>
+</div>
+

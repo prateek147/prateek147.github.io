@@ -70,11 +70,11 @@ navigation:
 - text: Home
   url: /index.html
 - text: Security
-  url: /categories/security/
+  url: /security/
 - text: IOS
-  url: /categories/ios/
+  url: /ios/
 - text: Everest
-  url: /categories/everest/
+  url: /everest/
 - text: Archives
   url: /archives/index.html
 - text: About
