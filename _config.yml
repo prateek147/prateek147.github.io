@@ -73,6 +73,8 @@ navigation:
   url: /blog/categories/security/
 - text: IOS
   url: /blog/categories/ios/
+- text: Everest
+  url: /blog/categories/everest/
 - text: Archives
   url: /blog/archives/index.html
 - text: About

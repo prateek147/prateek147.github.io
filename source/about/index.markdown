@@ -16,7 +16,7 @@ Currently, i am working as a full time IOS Developer at Ophio. I have been fortu
 
 <h3>Where can you contact me ?</h3>
 
-The fastest way to reach me is on my email at <b>prateek dot searchingeye at gmail dot com.</b> Don't be a stranger.
+The fastest way to reach me is on my email at <b>prateek dot searchingeye at gmail dot com</b>. 
 
 <h3>About this site</h3>
 
