@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Defending the Internet with Project Meshent"
+title: "Defending the Internet with Project Meshnet"
 date: 2013-06-13 08:35
 comments: true
 categories: [meshnet, privacy, security]
