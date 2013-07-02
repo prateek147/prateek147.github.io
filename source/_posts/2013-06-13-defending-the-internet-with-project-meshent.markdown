@@ -121,9 +121,9 @@ includes git and wget. A good thing would be to download the "Command Line Tools
 
 <img src="/images/posts/meshnet/7.png" width="1201" height="149" alt="7">
 
-<p>Right now, since Meshnet doesn't have a lot of user base around the world, the Meshnet team has made some public peers available around the world for to connect to. The figure below shows a snapshot from the page http://wiki.projectmeshnet.org/Public_peers which shows all the public peers available to connect to.</p>
+<p>Right now, since Meshnet doesn't have a lot of user base around the world, the Meshnet team has made some public peers available around the world to connect to. Please visit http://wiki.projectmeshnet.org/Public_peers for more info regarding that.</p>
 
-<img src="/images/posts/meshnet/8.png" width="1267" height="369" alt="8">
+
 
 <p>It's always good to check if these servers can be reached by pinging them before we connect to them using Meshnet. For e.g, in the figure below i am pinging a server in the United States to see if it is reachable.</p>
 
