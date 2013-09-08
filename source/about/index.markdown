@@ -8,7 +8,7 @@ footer: true
 
 <h3>Who am i ?</h3>
 
-I am Prateek Gianchandani. I live and work in New Delhi, India. I have interests in network security, IOS development, reverse engineering, vulnerability assessment, mobile and web application security. IOS security is one field that i really enjoy. Apart from work, i enjoy swimming, playing snooker, listening to music and eating different kinds of pizzas. I also enjoy travelling and i have a huge bucket list of all the places i want to go, some of which i have ticked off. Mountaineering is the latest obsession. I am also a huge Apple fanboy and i possess almost all of their products.
+I am Prateek Gianchandani. I live and work in New Delhi, India. I have interests in network security, IOS development, reverse engineering, vulnerability assessment, mobile and web application security. IOS security is one field that i really enjoy. Apart from work, i enjoy swimming, playing snooker, listening to music and eating different kinds of pizzas. I also enjoy travelling and i have a huge bucket list of all the places i want to go, some of which i have ticked off. Mountaineering is the latest obsession. I am also a huge Apple fanboy and i possess almost all of their products. I graduated from IIT Roorkee in 2011.
 
 <h3>What do i do for a living ?</h3>
 
