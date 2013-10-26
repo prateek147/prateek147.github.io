@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application security Part 3 - Understanding the Objective-C Runtime"
 date: 2013-06-16 02:59
 comments: true
-categories: [ios, security] 
+categories: [security] 
 ---
 
 <p>Almost all the native IOS applications are written in Objective-C. All these apps use Cocoa which is a library that sits on top on Objc-C and provides high level APIs that make development for Mac and IOS much easier. Cocoa also adds a runtime environment for the applications. In this article, we will focus on understanding the Objective-C runtime and all the intricate details about how the language functions internally. This will help us get a much deeper understanding of its applications to IOS application security.</p>

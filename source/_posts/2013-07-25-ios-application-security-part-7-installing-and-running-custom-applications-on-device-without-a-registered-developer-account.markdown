@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account"
 date: 2013-07-25 15:15
 comments: true
-categories: [ios , security]
+categories: [security]
 ---
 
 <p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn IOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>

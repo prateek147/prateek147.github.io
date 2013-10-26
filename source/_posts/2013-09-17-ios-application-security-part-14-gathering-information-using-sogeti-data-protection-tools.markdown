@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools"
 date: 2013-09-17 13:10
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In the previous article, we looked at how we can boot a device using a custom ramdisk using Sogeti Data protection tools. In this article, we will look at how we can use some of their tools to gather information from the device like fetching the keychain information, dumping the entire filesystem or even bruteforcing the passcode.</p>

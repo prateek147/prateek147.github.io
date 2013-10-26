@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 6 - New Security Features in IOS 7"
 date: 2013-07-25 15:07
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>As we all know, Apple recently introducted its new version of IOS at WWDC 2013 with a completely redesinged User Interface. If you haven't seen it yet, check out this video from WWDC 2013.</p>

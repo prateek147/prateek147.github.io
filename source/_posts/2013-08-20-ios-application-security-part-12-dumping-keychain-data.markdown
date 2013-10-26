@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 12 – Dumping Keychain Data"
 date: 2013-08-20 07:32
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 

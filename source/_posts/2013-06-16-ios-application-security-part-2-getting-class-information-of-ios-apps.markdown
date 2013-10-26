@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application security Part 2 - Getting class information of IOS apps"
 date: 2013-06-16 02:56
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>Have you ever checked out an IOS app and thought it was cool, and wondered if you could find some information about the source code of the app, the third-party libraries it uses, or how the code is designed internally ? Have you ever wondered if it was possible to dump all the images, plist files used in any app either preinstalled on your device or downloaded from the App store? If the answer is Yes, then you have come to the right place.</p>

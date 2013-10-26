@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS"
 date: 2013-08-20 07:32
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In the previous article, we looked at IOS filesystem and forensics. In this article, we will be looking at how we can analyze the network traffic flowing across an IOS device. Analyzing the network traffic for an application could be helpful in many ways. It could help us deduce how the application is managing the session of its users, the endpoints to which the application makes the call, how the application works internally etc. We will also look at how we can analyze network traffic over SSL.</p>

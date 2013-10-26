@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 9 – Analyzing Security of IOS Applications using Snoop-it"
 date: 2013-08-20 07:29
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In some of the previous articles, we have looked at how we can dump class information of IOS apps using class-dump-z, hook into the runtime using Cycript and perform runtime manipulation and method swizzling, analyze the flow of the app using gdb etc. However, there could be a much better way of doing these things. We shouldn't be using seperate tools for all these tasks. It would be great if a tool could perform all these tasks and at the same time display the information in a much more presentable way.</p>

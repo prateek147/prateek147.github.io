@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 10 – IOS Filesystem and Forensics"
 date: 2013-08-20 07:32
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In this article, we will be looking at the IOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>

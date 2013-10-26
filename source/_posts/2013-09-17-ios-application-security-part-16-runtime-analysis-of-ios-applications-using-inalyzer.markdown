@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 16 – Runtime Analysis of IOS Applications using iNalyzer"
 date: 2013-09-17 13:12
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In the previous article, we looked at how we can perform static analysis of IOS Applications using iNalyzer. In this article, we will look at how we can use iNalyzer to perform runtime analysis of IOS applications. We can invoke methods during runtime, find the value of a particular instance variable at a particular time in the app, and basically do anything that we can do with Cycript.</p>

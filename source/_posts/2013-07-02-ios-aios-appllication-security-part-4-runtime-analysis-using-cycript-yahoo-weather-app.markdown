@@ -3,7 +3,7 @@ layout: post
 title: "IOS Appllication Security Part 4 – Runtime Analysis Using Cycript (Yahoo Weather App)"
 date: 2013-07-02 17:20
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In the previous article, we learnt about the runtime capabilities of an IOS App written in Objective-C which uses the Cocoa framework. In this article,  we will look at how we can use a very essential tool named Cycript to analyze and modify the runtime of an IOS application. In this article, we will be performing our analysis on the Yahoo Weather IOS app.</p>

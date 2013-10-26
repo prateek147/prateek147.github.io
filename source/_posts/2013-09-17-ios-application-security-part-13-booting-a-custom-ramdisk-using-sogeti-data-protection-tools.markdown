@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 13 – Booting a custom Ramdisk using Sogeti Data Protection tools"
 date: 2013-09-17 13:07
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In the previous article, we looked at how we can use Keychain-Dumper and Snoop-it to analyze and dump the contents of the Keychain from an IOS device. In this article, we will look at how we can boot a non-jailbroken device using a custom ramdisk and analyze the contents of the device.</p>

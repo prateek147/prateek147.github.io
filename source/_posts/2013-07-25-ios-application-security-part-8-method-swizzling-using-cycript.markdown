@@ -3,7 +3,7 @@ layout: post
 title: "IOS Application Security Part 8 -  Method Swizzling using Cycript"
 date: 2013-07-25 15:16
 comments: true
-categories: [ios, security]
+categories: [security]
 ---
 
 <p>In the previous article, we looked at how we can install custom apps on our device without a developer certificate. In this article, we will look at how we can perform method Swizzling using Cycript on a sample application.</p>
