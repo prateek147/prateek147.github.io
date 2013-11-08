@@ -15,6 +15,8 @@ categories: [security]
 <p>We then create an instance of the Introspy class. The arguments that we need to provide are the database name, 
 the group name, the subgroup name and the list. Now, for this case, lets provide all the parameters as None except the database path. Introspy will hence include all the groups rather than just including a particular group.</p>
 
+<!-- more -->
+
 <img src="/images/posts/ios19/2.png" width="920" height="89" alt="2">
 
 <p>Let's create an object with a group and a subgroup. Now even though i couldn't find the different categories of groups and subgroups anywhere in the documentation, but from the HTML reports for Introspy that we generated in the previous articles, i was able to find a list of groups and subgroups. If you look at the image below, all the main menu items can be used as group names whereas all the submenu items can be used as subgroup names.</p>
@@ -69,9 +71,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 <b>References</b>
 
  <ul>
-     <li><p>Introspy</br><a href ="https://github.com/iSECPartners/introspy">https://github.com/iSECPartners/introspy</a></p>
-     </li>
-	
+ <li><p>Introspy</br><a href ="https://github.com/iSECPartners/introspy">https://github.com/iSECPartners/introspy</a></p>
+ </li>
  </ul>
 
 	</body>
