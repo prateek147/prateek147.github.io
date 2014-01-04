@@ -77,6 +77,8 @@ navigation:
   url: /everest/
 - text: Archives
   url: /archives/index.html
+- text: DVIA
+  url: http://damnvulnerableiosapp.com
 - text: About
   url: /about/
 
