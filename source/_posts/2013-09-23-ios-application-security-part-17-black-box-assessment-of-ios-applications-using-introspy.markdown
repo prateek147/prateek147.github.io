@@ -9,7 +9,7 @@ categories: [security]
 <p>In this article, we will look at how we can use Introspy for Black-box assessment of IOS applications. Introspy is developed by <a href="https://www.isecpartners.com/">ISEC partners</a> and its github page can be found <a href="https://github.com/iSECPartners/introspy">here</a>. Introspy consists of two seperate modules, a tracer and an analyzer. It is undoubtedly one of the most powerful tools for analyzing the security of IOS applications.</p>
 
 
-<p>The first step is to install the Introspy tracer on your device. You can download the debian package from <a href="https://www.dropbox.com/s/z5cwqk5wti3zsvd/com.isecpartners.introspy-v0.3-iOS_6.1.deb?dl=1">here</a>. Once it is downloaded, just upload it and install on your device. The image below shows how to perform all the above mentioned steps.</a>
+<p>The first step is to install the Introspy tracer on your device. You can download the debian package from <a href="https://www.dropbox.com/s/z5cwqk5wti3zsvd/com.isecpartners.introspy-v0.3-iOS_6.1.deb?dl=1">here</a>. Once it is downloaded, just upload it and install on your device. The image below shows how to perform all the above mentioned steps.</p>
 
 <!-- more -->
 	

@@ -42,7 +42,7 @@ rdiscount:
     - smart
 pygments: false # default python pygments have been replaced by pygments.rb
 
-paginate: 10          # Posts per page on the blog index
+paginate: 20          # Posts per page on the blog index
 pagination_dir:   # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 5       # Posts in the sidebar Recent Posts section
 excerpt_link: "Read on &rarr;"  # "Continue reading" link text at the bottom of excerpted articles
@@ -71,13 +71,13 @@ navigation:
   url: /index.html
 - text: Security
   url: /security/
-- text: IOS
+- text: IOS Development
   url: /ios/
 - text: Everest
   url: /everest/
 - text: Archives
   url: /archives/index.html
-- text: About
+- text: About Me
   url: /about/
 
 # Github repositories
