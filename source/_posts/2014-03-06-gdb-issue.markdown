@@ -1,0 +1,15 @@
+---
+layout: post
+title: "GDB segmentation fault issue fix with jailbroken device"
+date: 2014-03-06 15:15
+comments: true
+categories: [security]
+---
+
+If you have been experiencing segmentation fault issues with GDB while attaching to a process on a jailbroken iOS device, it is because the GDB that comes with Cydia is broken and you need to install a proper version.
+
+You can download a proper working version of GDB from <a href="https://dl.dropboxusercontent.com/u/34557464/gdb">here</a>.
+
+You need to copy this executable into <i>/usr/bin</i> on your jailbroken iOS device and give it executable permissions.
+
+If it still doesn't work, let me know what issue you are facing by writing a comment below.
