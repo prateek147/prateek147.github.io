@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App) - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="IOS Application Security Part 5 – Advanced Runtime Analysis and Manipulation Using Cycript (Yahoo Weather App) Jul 2nd, 2013 Posted by Prateek &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    IOS Application Security Part 5 – Advanced Runtime Analysis and Manipulation Using Cycript (Yahoo Weather App)
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-02T17:26:00+04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2013</time></h5>
+  <h4>
+  
+
+<p>Posted by <a href="http://highaltitudehacks.com/about/">Prateek Gianchandani</a></p>
+<h4>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>In the previous article, we learnt how to setup Cycript on your idevice, hook into a running process and obtain information about its properties in runtime. In this article, we will look at some advanced runtime analysis techniques. We will look at how we can obtain information about a particular class (methods, instance variables) and modify them at runtime.</p>
+
+
+
+
+<h2>Finding methods for a particular class</h2>
+
+
+
+
+<p>Let&#8217;s say we are analyzing the flow of an app during its runtime. It would be really good to know what are the methods being called in a particular view controller or in a particular class. Since Cycript is a blend of Objective-C and Javascript, we can write a function that has both Objective-C and Javscript syntax. We can define functions in the interpreter and use them anytime we want to find out some particular information. A good source for finding such code snippets is available <a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">here</a> and we will be using most of the code snippets from here for this article.</p>
+
+
+
+
+<p>First of all, lets make sure we are hooked into the running process.</p>
+
+
+<p><img src="/images/posts/ios5/1.png" width="892" height="186" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>Let&#8217;s define a method that prints out the methods for a particular class. You can find the code snippet on the Cycript tricks page <a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">here</a>.</p>
+
+
+<p><img src="/images/posts/ios5/2.png" width="892" height="310" alt="2"></p>
+
+<p>Now that we have the method defined, we can input any class here and get the corresponding methods for it. From the previous article, we found out that the delegate class for this app was YWAppDelegate. Hence, let&#8217;s try and see all the methods contained in this class.</p>
+
+
+<p><img src="/images/posts/ios5/3.png" width="1102" height="285" alt="3"></p>
+
+<p>This gives us all the methods defined in the class YWAppDelegate. Everything after the @selector is the name of the method. Note that this will also give us information about the private methods. Also, this will also include the getters and setters for the properties defined in the class.</p>
+
+
+
+
+<p>Similarly, we can also print out the methods of YahooSlidingViewController.</p>
+
+
+<p><img src="/images/posts/ios5/4.png" width="1379" height="733" alt="4"></p>
+
+<p>We know that YahooSlidingViewController manages the sliding meny and works as a facade over the other view controllers. In order to find out the view controller that is actually responsible for displaying weather in the app, we can use the following command.</p>
+
+
+<p><img src="/images/posts/ios5/5.png" width="1032" height="130" alt="5"></p>
+
+<p>Hence, the YWMainViewController is the view controller responsible for displaying the weather in the app. So the view shown in the screenshot below is actually the one coming from YWMainViewController.</p>
+
+
+<p><img src="/images/posts/ios5/IMG_0094.PNG" width="640" height="960" alt="IMG 0094"></p>
+
+<p>Let&#8217;s print out the methods for YWMainViewController.</p>
+
+
+<p><img src="/images/posts/ios5/6.png" width="1380" height="651" alt="6"></p>
+
+<p>As you can see, there is a method named userDidRequestUpdate.</p>
+
+
+<p><img src="/images/posts/ios5/9y.png" width="861" height="17" alt="9y"></p>
+
+<p>From the method name, its obvious that this method gets called whenever the user pulls down on the app to refresh. With Cycript, we can call this method anytime we want. We will have to reference this view controller and then call this method on it. Here is how it&#8217;s done.</p>
+
+
+<p><img src="/images/posts/ios5/9.png" width="1273" height="36" alt="9"></p>
+
+<p>And if you see in the app, the update method gets called even though we didn&#8217;t actually pull down.</p>
+
+
+<p><img src="/images/posts/ios5/IMG_0097.PNG" width="640" height="960" alt="IMG 0097"></p>
+
+<p>As told before in this article, these methods also contain the getters and setters of the properties.</p>
+
+
+
+
+<p>From a security point of view, such power to manipulate the runtime of an application gives us a lot of advantages.We can call any method whenever we want in the app. Imagine a flow in the app where the user first logs in the app by entering the username/password and then once he is logged in, a method named <i>didLogin</i> gets called. In our case, we can just call this method ourselves without having to enter any username/password combination.</p>
+
+
+
+
+<p>It would be a bit helpful if we could print out all the variables used in a particular view controller. So lets define a function that prints out all the instance variables. You can find the code snippets <a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">here</a> </p>
+
+
+<p><img src="/images/posts/ios5/7.png" width="999" height="76" alt="7"></p>
+
+<p>Now, lets print out the instance variables for YWMainViewController.</p>
+
+
+<p><img src="/images/posts/ios5/8.png" width="1374" height="431" alt="8"></p>
+
+<p>As you can see, there is an instance variable named location view controllers. In the Yahoo weather app, you can swipe left and right to see the weather for different locations. From its name, it looks like the variable locationViewControllers is an array of view controllers which is responsible for holding a list of location view controllers. Using Cycript, we can also print out the value of this instance variable.</p>
+
+
+<p><img src="/images/posts/ios5/9x.png" width="1272" height="75" alt="9x"></p>
+
+<p>Now let me swipe right to another location New york.</p>
+
+
+<p><img src="/images/posts/ios5/IMG_0098.PNG" width="640" height="960" alt="IMG 0098"></p>
+
+<p>Let&#8217;s print the value of this variable now.</p>
+
+
+<p><img src="/images/posts/ios5/10.png" width="1269" height="59" alt="10"></p>
+
+<p>As you can see, this array always has 3 location view controllers inside it and the others are null. It doesn&#8217;t contain all the reference of location view controllers so as to manage memory better. So at a particular time, we can have the view controller that we are looking at, and the left and right view controllers being instantiated. When we move to a different location, it automatically adjusts to make the visible view controller instance the one in the center and instantiates the left and right view controllers so the user can swipe left and right and won&#8217;t face any delay. This is one example of writing code that doesn&#8217;t take up much memory.</p>
+
+
+<p></p>
+
+<h3>Conclusion</h3>
+
+
+
+
+<p>In the previous two articles, we have performed the runtime analysis of the Yahoo weather app. In the next article, we will be looking at some more Cycript tricks and will focus specially on a technique known as method swizzling.</p>
+
+
+<p><b>References:</b></p>
+
+<ul>
+<li><p>Cycript</br><a href ="http://www.cycript.org/">http://www.cycript.org/</a></p>
+</li>
+<li><p>Cycript tricks</br><a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">http://iphonedevwiki.net/index.php/Cycript_Tricks</a></p>
+</li>
+</ul>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="//categories/ios/"><span class="badge">ios</span></a>
+
+  <a href="//categories/security/"><span class="badge">security</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2013/07/02/ios-aios-appllication-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app" title="Previous Post: IOS Appllication Security Part 4 – Runtime Analysis Using Cycript (Yahoo Weather App)">&laquo; IOS Appllication Security Part 4 – Runtime Analysis Using Cycript (Yahoo Weather App)</a>
+          
+          
+            <a class="basic-alignment right" href="/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix" title="Next Post: IOS 7 Beta 3 : Some bugs that i want Apple to Fix !">IOS 7 Beta 3 : Some bugs that i want Apple to Fix ! &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://prateek147.github.io/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app';
+        var disqus_url = 'http://prateek147.github.io/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: w3af | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/w3af/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2014-10-27T13:08:28+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[w3af walkthrough and tutorial part 4 - w3af tools]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools"/>
+    <updated>2013-06-13T20:35:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools</id>
+    <content type="html"><![CDATA[<p>In the previous articles in this series, we looked at all the plugins available in w3af and looked at their applications in different scenarios. In this article, we will look at some of the other tools present in w3af which allow us to send Manual Requests, perform Fuzzing, Encode and Decode requests and responses, use a Proxy to intercept and modify requests and responses, and allow us to perform a comparison between different HTTP requests and responses. We will also look at how we can write our own w3af scripts to automate the task of Web Application Penetration Testing. We will then look at the various profiles present in w3af.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p><b>1)Manual Request -</b>The Manual Request feature in w3af allows us to send specially crafted requests and then analyze the response. This technique could be used in various cases which includes testing for SQL Injection, Cross Site Scripting etc. The tools present in w3af can be found by clicking on the <i>Tools</i> menu as shown in the figure below. Click on <i>Manual Request</i> to open up the Manual Request editor tool.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/1.png" width="800" height="196" alt="1"></p>
+
+<p>Once this is done, you can write your own manual request and send it to analyze the response. As you can see from the figure below, i am making a simple GET request to http://google.com . Also, you might want to change the <i>User-Agent</i> field as this gives away the fact that the request is coming from w3af.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/2.png" width="794" height="256" alt="2"></p>
+
+<p>Click on <i>Send Request</i> to send the request. Once this is done, the response will be displayed. You can then simply analyze the response or send it to other w3af tools.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/3.png" width="800" height="556" alt="3"></p>
+
+<p>It is also possible to send requests to the Manual Request Editor from the results of scans by clicking on its corresponding button below the request/response as shown in the figure below. Same applies to all the other tools like Encoder/Decoder, Fuzzy Request editor, Export Requests etc.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/X.png" width="1160" height="351" alt="X"></p>
+
+<p><p><b>2)Fuzzy Request &ndash;</b> The Fuzzy Request feature present in w3af allows us to send different requests with varying data and analyze the responses.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/4.png" width="1002" height="688" alt="4"></p>
+
+<p><p>The fuzzy request editor is shown in the figure above. The varying text is added between the dollar sign ($). It is clear from the figure above that the varying data is determined by the syntax &ldquo;$xrange(10)$&rdquo; which includes numbers from 0 to 9. In case two such text generators are present, then the requests will be combined. For e.g if one of the generator generates 5 values whereas the other generator generates 6 values, then the total number of requests that will be sent will be 30. Some of the common syntax used to generate variable text is shown in the figure below from w3af GUI.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/5.png" width="471" height="146" alt="5"></p>
+
+<p><p>Once we have written the generators, we can simply click on <i>Analyze</i> to analyze the requests that will be generated during the fuzzing test. This is useful because it allows you to actually see these requests before sending them.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/6.png" width="1013" height="688" alt="6"></p>
+
+<p><p>Click on the play button in the bottom left to send the requests. Once the requests have been sent, you can analyze the responses by clicking on the Response tab. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/7.png" width="999" height="689" alt="7"></p>
+
+<p><p>Once the responses are received, you can seperate these responses into different clusters. There are different clustering methods present in w3af which have different ways of determining the distance between these HTTP responses. Using these responses, different clusters are created and the responses with the minimum difference between them are added to the same cluster. This is a quick way to determine which response stands out as different from the other responses which is an important step in Fuzzing.</p></p>
+
+<p><p>The figure below shows the cluster created by  using the method <i>Levenshtein distance of the HTTP bodies</i>. w3af also allows you to write a customized clustering method to perform the task. It is also possible to send requests to the Fuzzy Request generator from the results of scans.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/8.png" width="727" height="541" alt="8"></p>
+
+<p><p><b>3)Encode/Decode &ndash;</b> The Encode/Decode tool in w3af is used to encode or decode strings, urls etc. You can choose from a variety of encoding and decoding options. The figure below shows a base64 encoded string being decoded by the w3af decode tool.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/9.png" width="1001" height="531" alt="9"></p>
+
+<p><p><b>4)Export Requests &ndash;</b> The Export Requests tools allows us to generate code in different languages which when run will regenerate the request. In the figure below, i am generating some code in Python, which when run will regenerate the original request. The Export Requests tool allow you to generate code in HTML, Ajax, Python and Ruby.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/10.png" width="1085" height="602" alt="10"></p>
+
+<p><p><b>5)Compare &ndash;</b> The Compare tool is used to perform comparison between 2 requests/responses. As shown in the figure below, i have sent the comparer tool 2 responses for 2 different requests. The difference between these responses is highlighted by the comparer tool.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/11.png" width="1002" height="534" alt="11"></p>
+
+<p><p><b>6)Proxy &ndash;</b> w3af also comes with an intercepting proxy that allow us to intercept requests, and modify them on the fly. To use this proxy, we have to configure our browser to use this proxy. In case of real world web application testing, it is important that we intercept only those requests that we want. The figure below shows the configuration for the proxy. We can see that it is running on port 8080. We have also configured the proxy to not trap requests for certain images, css, swf files etc.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/12.png" width="1000" height="693" alt="12"></p>
+
+<p><p>Let&rsquo;s configure our browse to route traffic through this proxy.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/13.png" width="610" height="572" alt="13"></p>
+
+<p><p>Once this is done, start browsing through your browser. You will see the requests and the responses appearing in the History tab as shown in the figure below. Right now the requests and responses are being passed through the proxy without interception.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/14.png" width="998" height="688" alt="14"></p>
+
+<p><p>As discussed before in this article, you can send the requests/responses to the other tools like Manual Request editor, Fuzzy Request editor etc present in w3af. Click on the arrow pointing downwards on the top left to start intercepting the requests. If you browse through the proxy now, you will notice that the requests are being intercepted by the proxy as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/15.png" width="1002" height="690" alt="15"></p>
+
+<p><p>You can simply Drop the request so that it doesn&rsquo;t reach its destination, forward it as it was or modify the request and then forward it. For e.g in the intercepted request shown in the figure below, we can see that the search query was <i>w3af</i>. We can easily change it to whatever search query we want it to be. Some of the other uses of w3af proxy could be finding out the parameter names through which the authentication credentials are sent in a login submission.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/16.png" width="1191" height="695" alt="16"></p>
+
+<p><h2>w3af scripting</h2></p>
+
+<p><p>Many times we have to perform scans on different websites with the same set of plugins and the same configurations. However, for every new scan (or every new profile), we have to select the plugins, configure the options each time. This process could be time consuming. w3af scripting makes this very easy for us. We can write our own w3af scripts to automate the task of selecting the plugins, and performing the scan on different websites. w3af scripts end with the extension &ldquo;.w3af&rdquo; . We write a set of w3af console commands in the file. Once the script is run, each w3af console command will get executed in each line in the same order as they were written in the file. This is just the same way we would be using the w3af console. If we want to perform the scan on a different website with the same set of plugins, we can just change the target in the script. One other thing about running w3af scripts is that you can add your own commands once the script has run and made its changes. For e.g if i want to perform a scan with the same set of plugins and options on different websites i can just write a script which sets the plugins and the configurations without setting the target. Once the script has run, we can enter the target ourselves and then run the scan.</p></p>
+
+<p><p>Let&rsquo;s start by writing a simple script to demonstrate the use of w3af scripts. In the figure below, i am writing a script that sets some plugins for a vulnerability scan. As it is clear from the figure below, i am using the webSpider discovery plugin, the xss and sqli audit plugins and the getMails grep plugin.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/17.png" width="1246" height="196" alt="17"></p>
+
+<p><p>Once this is done, we save the file as simple-config.w3af. To run the script we just have to use the command <i>&ldquo;./w3af_console -s simple-config.w3af&rdquo;</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/18.png" width="547" height="49" alt="18"></p>
+
+<p><p> We can see the output in the figure below. Once this is done, we can simply set the target ourselves and start the scan. Hence, having prewritten w3af scripts for different kinds of scans can save us a lot of time.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/19.png" width="1424" height="485" alt="19"></p>
+
+<p><p>The following figure below shows another example of a w3af script which when run enables some plugins and starts the scan against the specified target.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/20.png" width="1066" height="188" alt="20"></p>
+
+<p><h2>w3af profiles</h2></p>
+
+<p><p>A w3af profile can be defined as a profile with preconfigured plugins made for a specific scenario keeping the resources and time availability in mind. We can also create our own w3af profile. However, w3af offers some of its own set of profiles which we can use in our scan as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/21.png" width="339" height="336" alt="21"></p>
+
+<p><p>Let&rsquo;s discuss all these profiles in brief.</p></p>
+
+<p><p><b>1)OWASP_TOP10</b>&ndash; This profile searches the target web application for the ten most common security vulnerabilities defined by OWASP.</p></p>
+
+<p><p><b>2)audit_high_risk</b>&ndash; This profile searches the target web application for high risk vulnerabilities like OS commanding etc which can later be used to fully compromise the web application.</p></p>
+
+<p><p><b>3)bruteforce</b>&ndash; This profile can be used to perfom a bruteforce attack on the web application.</p></p>
+
+<p><p><b>4)fast_scan</b>&ndash; This profile is used to perform a fast scan of the target web application. It uses only the webSpider plugin for discovery as enabling a large number of discovery plugins can take a long time.</p></p>
+
+<p><p><b>5)full_audit</b>&ndash; This profile performs a full audit of the web application. It has almost all the audit, bruteforce and grep plugins enabled. Like the fast_scan profile, this also uses the webSpider plugin for discovery.</p></p>
+
+<p><p><b>6)full_audit_manual_disc</b> &ndash; This profile is very similar to the full_audit profile, except that it also uses the SpiderMan plugin to perform manual discovery on the target web application. The SpiderMan and the webSpider plugins communicate with each other to find as much information as possible about the web application.</p></p>
+
+<p><p><b>7)sitemap</b>&ndash; This profiles uses different discovery plugins like robotsReader, yahooSiteExplorer etc to create a sitemap of the target application.</p></p>
+
+<p><p><b>8)web_infrastructure</b>&ndash; This profiles uses some of the discovery plugins like fingerprint_os, hmap, serverHeader etc to fingerprint the web application.</p></p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>In this article we looked at the various tools like Proxy, Manual Request editor etc that w3af has to offer to help us perform web application vulnerability assessment and penetration testing. We then looked at how we can write our own w3af scripts to help automate the task of web application testing. Finally, we then looked at all the different preconfigured profiles that w3af has to offer and discussed their applications in different scenarios.</p></p>
+
+<p><p>This article is the final article in the <i>&ldquo;w3af walkthrough and tutorial&rdquo;</i> series. Please drop a comment if you liked this series or if you have any questions regarding this series.</p></p>
+
+<p><h2>References:</h2></p>
+
+<p><ul>
+<li><p>w3af User Guide</br><a href ="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf"><a href="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf">http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf</a></a></p>
+</li>
+<li><p>w3af-Plugins and descriptions</br><a href="http://w3af.sourceforge.net/plugin-descriptions.php"><a href="http://w3af.sourceforge.net/plugin-descriptions.php">http://w3af.sourceforge.net/plugin-descriptions.php</a></a></p>
+</li></p>
+
+<p></ul></p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[w3af walkthrough and tutorial part 3 - Remaining plugins]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-3-remaining-plugins"/>
+    <updated>2013-06-13T20:27:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-3-remaining-plugins</id>
+    <content type="html"><![CDATA[<p>In the previous article <a href ="http://resources.infosecinstitute.com/w3af-tutorial-2/">w3af walkthrough and tutorial part 2 - Discovery and Audit plugins</a> we looked at the various discovery and audit plugins used by w3af to identify vulnerabilities in a web application. We also looked at how we can exploit these vulnerabilities by using the exploit plugins present in w3af. In this article, we will look at the remaining plugins present in w3af which are bruteforce, grep, mangle, output, auth and evasion plugins and look at their applications in web application penetration testing.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>We will still be using the same test environment which we used in part 2, which is the <i>"w3af test environment"</i> present in Web Security Dojo. Web Security Dojo is a vulnerable VM which has some vulnerable web applications as well as the tools needed to break into these web applications. It has both the console and the GUI versions of w3af. You can get a copy of Web Security Dojo from <a href="http://sourceforge.net/projects/websecuritydojo/files/">here</a>.</p>
+
+
+
+
+<p><b>1)Brute force</b> - Brute force plugins can be used to brute force login forms as well as http-auth logins. Once the discovery plugin finds any form with form based input or an http-auth input it will automatically launch the brute force attack against it if the corresponding brute force plugin is enabled. However, brute force plugins can be run as a seperate plugin themselves and can be used to carry out targeted attacks against a particular url with login forms. Some of the important things to set while running the brute force plugins are the configuration parameters. Brute force attacks take a long time and hence it is important to configure the options to maximize the efficiency with the minimum time.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/Screen Shot 2012-03-21 at 2.20.11 PM.png" width="1069" height="475" alt="Screen Shot 2012 03 21 At 2.20.11 PM"></p>
+
+<p>It is advisable that you use your own list of files for the list of usernames and passwords. However w3af has its own set of files containing usernames and passwords. Also be sure to take a look at some of the other options. The useProfiling options uses the list of passwords generated by the passwordProfiling plugin. The passwordProfiling plugin is one of the grep plugins which generates a list of possible passwords by reading the responses and counting the most common words. The profilingNumber option indicates the number of passwords from the result of the passwordProfiling plugin to use for the bruteforce attack. The useLeetPasswd option uses leet passwords also for the attack. An example of a Leet password would be l33t (for the password leet).One of the other good configurable parameter is the useMails option. This options uses the email addresses that w3af finds (maybe through the grep plugin) to be one of the inputs for the username field. For e.g if one of the usernames is example@infosecinstitute.com, then the username tried would be example. This is another example of how the interaction between the different plugins in w3af could make the job much more effective.</p>
+
+
+
+
+<p>In this case, we will be going ahead and carrying out a bruteforce attack on the login form as shown in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/2.png" width="1066" height="187" alt="2"></p>
+
+<p>Let's go ahead and give the url of the login form as a target to w3af. Also make sure that the formAuthBrute plugin is selected and configure the parameters according to your need. Once this is done, click on <i>start</i> to launch the attack</p>
+
+
+<p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/3.png" width="1436" height="646" alt="3"></p>
+
+<p>As you can clearly see from the output, w3af found the username and password as admin/1234.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/4.png" width="1437" height="669" alt="4"></p>
+
+<p><i>However, this is not always the case with every brute force attack</i>. w3af and many other tools gives false positives on brute force attacks. Different tools have different ways to determine whether an attack has been successful or not. Some of the tools look for particular strings like "successful" or "logged in" etc to determine whether the attack has been successful or not. While some tools look for the response codes to determine whether the response was successful or not. This often leads to false positives because some application return the HTTP Status Code 200 with successful as well as unsuccessful login requests. Some tools identify the status code 200 as a metric for successful authentication and hence return false positives. Application which have the minimal difference in response between a successful or an unsuccessful login are likely to give away false positives when a tool is run against them. For e.g when the application DVWA (Damm Vulnerable web application) is configured on Security Level "High", it just returns the response with a different length value for a successful login than for an unsuccessful login as shown in the figure below. (test perfomed by using BurpSuite)</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/5.png" width="782" height="550" alt="5"></p>
+
+<p>Even the response codes are same in this case for both successful or unsuccessful logins. Hence it is often not advisable to look at what the tool says about a successful attack. Rather we should look at the response for different scenarios and see how they differ from each other. We will discuss these things in more detail later in this series.</p>
+
+
+<p><b>2)Grep</b>-The grep plugin is used to find interesting information in the requests and responses going through like email accounts, forms with file upload capabilities, hashes, credit card numbers, email addresses etc. You can set the type of information you want to look for by setting the appropriate plugin. Since the grep plugin only analyzes the request and response, it is important to have some kind of discovery plugin enabled for it to work. Otherwise grep plugins are of no use. The information obtained by the grep plugins can be used by other plugins, for e.g the information obtained by the passwordProfiling plugin is used by the bruteForce plugin.</p></p>
+
+<p>Let's run a simple test for the grep plugin. From the test environment, we give a url to w3af which has a credit card number in it as shown in the figure below. From the grep plugins list, make sure that the <i>creditCards</i> plugin is selected. Once this is done, click on <i>Start</i> to start the scan.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/6.png" width="1438" height="446" alt="6"></p>
+
+<p>As we can see from the figure below, w3af found the credit card number present in the page. Let's discuss some of the most important grep plugins.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/1 copy.png" width="1428" height="256" alt="1 Copy"></p>
+
+<p><p>a)Code Disclosure- This plugins checks the page for code disclosure vulnerabilities. It does this by looking for the expressions &lt;?.<em>?> and &lt;%.</em>%> which could reveal server side code like php etc. The test result from the figure below shows a code disclosure vulnerability found.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/7.png" width="1438" height="228" alt="7"></p>
+
+<p><p>However, it is important to check whether the result is a false positive or not. As recommended in the previous articles in this series, it is always good to analyze the requests and responses which actually lead to the identification of that particular vulnerability. As we can see from the figure below, there is indeed a code disclosure vulnerability.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/8.png" width="1440" height="621" alt="8"></p>
+
+<p><p>b)DOM Based XSS-The DOM based XSS plugin helps find XSS vulnerabilities. This occurs when a user input is used to output the data in the DOM. As we can see from the code of the page below, it looks for a parameter name, and then outputs that value in the DOM. However, from the code we can see that the paramter value is not being validated. Hence this is vulnerable to DOM Based XSS.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/9.png" width="1084" height="394" alt="9"></p>
+
+<p><p>When we select this plugin and run a test against it, we see that w3af is able to find the DOM based XSS vulnerability.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/10.png" width="1437" height="306" alt="10"></p>
+
+<p><p>Again, it is important to check the request and response for the corresponding vulnerability and figure out if it was a false positive or not.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/11.png" width="1433" height="588" alt="11"></p>
+
+<p><p>c)findComments- The findComments plugin is used to check the response for interesting comments. For e.g a string containing the word &ldquo;password&rdquo; would be tagged as interesting and would be reported.</p></p>
+
+<p><p>d)getMails-This is one of the most important grep plugins. It looks for email addresses in every page. This information could then be used by the brute force plugins. Collecting emails form an important part of the information gathering stage during a penetration test.</p></p>
+
+<p><p>e)fileUpload-This plugin checks every page for file upload capabilities so that it can be further checked for fileUpload vulnerabilities. The figure below shows the result of running the fileUpload plugin against a page which contains a file upload capability. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/12.png" width="1439" height="324" alt="12"></p>
+
+<p><p><b>3)Evasion</b>&ndash; Evasion plugins are used to modify requests in order to bypass any WAF or IPS etc. It does this by modifying requests in unique ways so that the signature is not detected by Intrusion Prevention Systems. I contacted <i>Andres Riancho</i> (the original author of w3af), and he had this to say about Evasion plugins.</p></p>
+
+<p><i>&ldquo;In evasion plugins I would also recommend only enabling one at the time and only doing so if you really know what you&rsquo;re doing as it may break the scan and make it unstable&rdquo;</i></p>
+
+<p><p>Let&rsquo;s see some of the Evasion plugins and see how they work.</p></p>
+
+<p><p>a)backSpaceBetweenDots &ndash; This plugin is used to bypass the filters for the character <i>&ldquo;..&rdquo;</i>. It does this by adding a character after a dot (.) and then adding a backspace character (%08) after it. Hence he character after the dot and the backspace character cancel each other thereby leaving only <i>&ldquo;..&rdquo;</i> . This plugin could be used while performing Local File Inclusion or Remote file Inclusion attacks.</p>
+
+<p><p>b)ShiftOutShiftInBetweenDots &ndash; This plugin works similar to the backSpaceBetweenDots plugin and is used to bypass filters for <i>&ldquo;..&rdquo;</i>. It just uses shift-in (%0E) and shift-out (%0F) characters which cancel each other out. </p></p>
+
+<p><p>c)rndHexEncode &ndash; This plugin adds random hex encoding in the url thereby making it difficult for different WAF or IPS. </p></p>
+
+<p><p><b>4)Mangle</b> &ndash; This plugin is used to modify request and responses on the fly using regular expressions. There are 3 configurable parameters, Expressions, fixContentLen and priority. In the expression option, we specify the expression which determines the rules by which the request or response will be changed. The figure below from w3af gui shows 2 examples of using Stream editing expression.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/Screen Shot 2012-03-21 at 2.56.03 PM.png" width="707" height="399" alt="Screen Shot 2012 03 21 At 2.56.03 PM"></p>
+
+<p><p>As shown in the figure below, i have configured w3af to look for the expression Google in the response body and replace it with the string Poogle.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/13.png" width="745" height="337" alt="13"></p>
+
+<p><p><b>5)Output</b>-The output plugin helps us decide the format in which we want the output. w3af supports many formats like console, emailReport, html, xml, text etc. Again you can set various parameters here like the filename, verbosity etc. In the figure below, i have set <i>verbose</i> to True in the htmlFile plugin as i want a very detailed report about the application that i am testing.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/14.png" width="1096" height="551" alt="14"></p>
+
+<p><p><b>6)Auth</b> -Last but not the least, the  auth plugin is one of the most important plugins in w3af. It is present only in newer versions of w3af. Hence, it is important to keep updated with the latest versions of w3af as a lot of bug fixes and performance enhancements are done with each release. Their is only one plugin named generic in auth plugins list. The main use of auth plugin comes in when w3af hits a login form while crawling a web application. Being a good scanner, it should be able to submit the credentials automatically in order to continue looking for information. By using this plugin, we can specify a predefined username/password that w3af should enter itself whenever it hits a login form. We need to specify all the parameters for the generic plugin in order for it to work successfully. </p></p>
+
+<p><p>In the figure below i am setting options for w3af to successfully log in to DVWA (Damn vulnerable web application) which is located on the address <a href="http://127.0.0.1/dvwa">http://127.0.0.1/dvwa</a></p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/15.png" width="1023" height="581" alt="15"></p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>In this article, we looked at some of the plugins in w3af like bruteForce, Mangle, Grep, Evasion and Auth and looked at how they aid us in the process of Web Application Penetration Testing. In the fourth and final part of this series, we will look at the various tools in w3af like <i>Manual Request</i> editor, <i>Encoder</i>, <i>Decoder</i>, <i>Mitm-Proxy</i> etc. We will also look at a topic called <i>w3af scripting</i> through which it is possible to write w3af scripts which can perform the scans for us.</p></p>
+
+<p><p>Please drop a comment if you liked the article or if there is something about w3af that you want to see in the upcoming article.</p></p>
+
+<p><h2>References:</h2></p>
+
+<p><ol>
+ <li><p>w3af User Guide</br><a href ="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf"><a href="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf">http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf</a></a></p>
+ </li>
+<li><p>w3af-Plugins and descriptions</br><a href="http://w3af.sourceforge.net/plugin-descriptions.php"><a href="http://w3af.sourceforge.net/plugin-descriptions.php">http://w3af.sourceforge.net/plugin-descriptions.php</a></a></p>
+ </li>
+<li><p>w3af Walkthrough and Tutorial Part 1</br><a href ="http://resources.infosecinstitute.com/w3af-tutorial/"><a href="http://resources.infosecinstitute.com/w3af-tutorial/">http://resources.infosecinstitute.com/w3af-tutorial/</a></a></p>
+</ol></p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[w3af walkthrough and tutorial part 2 - Discovery and Audit plugins]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-2-discovery-and-audit-plugins"/>
+    <updated>2013-06-13T09:05:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-2-discovery-and-audit-plugins</id>
+    <content type="html"><![CDATA[<p>In the previous article <a href="http://resources.infosecinstitute.com/w3af-tutorial/">w3af walkthrough and tutorial Part 1</a> we looked at how to use the w3af console. We also learnt about the different plugins in w3af and how they interact with each other to perform various tasks. In this article we will look at how to use the discovery and audit plugins in w3af to perform a vulnerability scan of the web applications and consequently exploit the vulnerabilities present. We will also look at the various techniques used by w3af to identify these vulnerabilities. In this article we will be working with the w3af GUI version.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h2>Web Security Dojo</h2>
+
+
+
+
+<p>One of the first and foremost things while testing w3af is to have a test environment where we can test all the features of w3af.  Web Security Dojo is a vulnerable VM which has some vulnerable web applications as well as the tools needed to break into these web applications. Among the vulnerable web applications is the "w3af Test Environment". This is the environment used by w3af to perform unit tests. Web Security Dojo also has both w3af console and w3af gui installed on it by default. You can get a copy of Web Security Dojo from <a href="http://sourceforge.net/projects/websecuritydojo/files/">here</a>.</p>
+
+
+
+
+<p>Once you have downloaded Web Security Dojo, go to Applications-->Targets-->w3af Test Environment. You will be greeted with a message as shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/1.png" width="1247" height="291" alt="1"></p>
+
+<p>Please note that even though Web Security Dojo is very useful for performing w3af tests, i would always recommend to use Backtrack 5 for the same purpose. One of the major problems with Web Sec Dojo is that it may not have the latest version of w3af. For e.g in the version of Web Sec Dojo which i have, the auth plugin is not there. You can just copy the w3af test environment folder (present in /var/www/w3af) from Web Sec dojo to your Backtrack machine and you are all set and ready to go. Also, please keep your w3af updated as major bug fixes are done with every new revision.</p>
+
+
+
+
+<h2>Audit Plugins</h2>
+
+
+
+
+<p>So Let's go to the Audit section in the w3af test environment. As we can see, the page has different links categorized on the basis of the vulnerabilities.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/2.png" width="623" height="484" alt="2"></p>
+
+<p>If we go on the page <i>Cross Site Scripting</i> we see that there are a number of url's that are vulnerable to Cross Site Scripting.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/3.png" width="815" height="422" alt="3"></p>
+
+<p>Hence the next step is to give the url to w3af and scan it for XSS vulnerabilities. Open up w3af GUI. Once it is open, on the left hand side, we can see an option to choose from various profiles. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/4.png" width="403" height="311" alt="4"></p>
+
+<p>We can choose any profile from the list depending on our need, as well as the time availability. These profiles already has configurations to use some specific plugins for a particular task. For e.g if we if look the profile OWASP_TOP10, we will see that it uses several of the Audit, Grep and Discovery plugins to perform its tasks.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/5.png" width="784" height="547" alt="5"></p>
+
+<p>For the time being, we are going to use an <i>Empty profile</i> as we just want to check a single url for an XSS vulnerability. Note that this is usually not the way in which we will use the w3af framework. In a real world environment, we will choose some specific discovery plugins to find different url's to check for injections, auth plugins to automatically log in to forms and crawl ahead, grep plugins to look for interesting information in the response, and audit plugins to scan for vulnerabilities in the found injection points.</p>
+
+
+
+
+<p>Type in the url in the target field and choose the <i>xss</i> plugin from the audit plugins.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/6.png" width="1430" height="346" alt="6"></p>
+
+<p>Once this is done, click on <i>Start</i>. This will start the scan on the given url. As we can see from the output, it found a XSS vulnerability.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/7.png" width="1434" height="247" alt="7"></p>
+
+<p>If you are interested in knowing what actually happened, go to the <i>Results</i> Tab. Click on <i>xss</i> on the left side. On the right side, you can see a description of how the vulnerability was found. On the bottom right, you can also see the request and response which led to the identification of the vulnerability. It is a very good practice to look at the requests and responses sent through by w3af as this lets us know what's going on under the hood.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/31.png" width="1432" height="525" alt="31"></p>
+
+<p>So basically what happened was that w3af sent javascript strings to every parameter in the url, and then checked for those strings in the response. In case of stored XSS, w3af takes a note of the injected string and makes a request again to the url looking for that string. If it finds that string, then a stored XSS has been identified.</p>
+
+
+
+
+<p>Let's now use an OS commanding vulnerability to obtain a shell on the system. From the OS commanding section in the w3af test environment, choose a url and give it as target to w3af. Under the audit plugins section, check the OS commanding plugin.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/8.png" width="1429" height="297" alt="8"></p>
+
+<p>Once this is done, click on start to launch the vulnerability scan. As we can see from the output, w3af identified an OS commanding vulnerability.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/9.png" width="1431" height="669" alt="9"></p>
+
+<p>w3af supports detection of both simple and blind OS commanding vulnerability. In simple OS commanding, it sends a simple command to every parameter and then looks for a response to that command in the output. In case of blind OS commanding in which the response is not present in the output, it uses time delays to identify if a vulnerability is present. For e.g if it sends a command which delays the response for some seconds, and if we note a delay in the output, we can say that a blind OS commanding vulnerability is present.</p>
+
+
+
+
+<p>Again, in the results section, we can see the request and the response which led to identification of the vulnerability. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/10.png" width="1429" height="578" alt="10"></p>
+
+<p>w3af also allows us to exploit vulnerabilities. If we go under the <i>Exploit</i> section, we can see the identified vulnerability in the <i>Vulnerabilities</i> section. If we click on it, we can see that <i>osCommandignShell</i> in the Exploits section turns black. This is an indication that the vulnerability can be exploited using the osCommandingShell plugin in w3af. Right click on osCommandingShell and click on <i>Exploit ALL vulns</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/11.png" width="1434" height="436" alt="11"></p>
+
+<p>Once this is done, if the vulnerability is exploited successfully, we will get a shell on the target machine. We can see the list of shells on the right side. Note that it is not possible to get a shell in case of every vulnerability.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/12.png" width="1433" height="499" alt="12"></p>
+
+<p>Just double click on the shell and you are all set and ready to go.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/13.png" width="1429" height="465" alt="13"></p>
+
+<p>Similarly, let's use a file upload vulnerability to get a shell. Give the vulnerable url as a target to w3af. Make sure, the <i>fileUpload</i> plugin is checked in the audit plugins list.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/14.png" width="1434" height="248" alt="14"></p>
+
+<p>Also make sure to check the extensions option in the <i>fileUpload</i> plugin. Since in some cases, the web application allows only some specific extensions, it would be favorable to add those extensions to the list as well.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/15.png" width="610" height="75" alt="15"></p>
+
+<p>Click on <i>Start</i>. As we can see from the output, w3af identified a file Upload vulnerability.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/16.png" width="1432" height="284" alt="16"></p>
+
+<p>Click on the <i>Results</i> Tab. You can see that w3af tried to upload a file named w3af_dt4LqT.html. It did this by sending the file object in the uploadedfile parameter. It then looked for these files in common directories like uploads etc. If the file is found, then it can be said that a Insecure File Upload vulnerability exists. However, this is not always the case as most of the web application filter files based on their extension. To bypass this w3af has templates for some of the most common file extensions. These templates have valid extensions but have a section that can be replaced with scripting code. The figure below shows the files with different extensions present in w3af.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/17.png" width="962" height="37" alt="17"></p>
+
+<p>If we open up any of these files with Kate, we can see the content inside it. As we can see from the figure below, the file template.png has a string of A's in its comment section. This string can actually be replaced by scripting code like php.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/18.png" width="1431" height="239" alt="18"></p>
+
+<p>With all of these basics out of the way, let's exploit this vulnerability using the <i>fileUploadShell</i> plugin. You can also set the configuration of these plugins  by right clicking on them and clicking on <i>Configure the plugin</i>.</p>
+
+
+
+
+<p>As we can see from the figure below, the vulnerability was successfully exploited and we got a shell on the target machine.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/19.png" width="1430" height="493" alt="19"></p>
+
+<p>Similarly you can perform tests for many other exploits like Local File Inclusion, Remote File Inclusion, SQL Injection etc.</p>
+
+
+
+
+<h2>The Need of Discovery Plugins</h2>
+
+
+
+
+<p>In our previous tests, all we have been doing is giving the specific vulnerable url's to w3af. However, this is not how real world Web application Vulnerability scanning works. The web application should itself be capable of identifying different url's in the web application. These url's will then serve as different injection points for the audit plugin. This is a good example of how the discovery and audit plugins work together with each other, passing along information.</p>
+
+
+
+
+<p>Two of the most popular Discovery plugins are webSpider and SpiderMan. Basically webSpider uses the given input URL, makes a request and extracts any links or forms obtained in the response. Using these links, it crawls on looking for more links (possibly injection points). The other plugin named SpiderMan is also a very useful plugin for sites which uses Flash or Javascript. Basically it is difficult for web crawlers to look for information if the website uses Javascript etc. In actual, most of the web crawlers just ignore Javascript completely. This is because it is not able to figure out what the Javascript code is supposed to do. Most of the web crawlers just look for static information like links, forms etc. In case the webSpider crawler hits a login form, it will enter the credentials automatically if the auth plugin is enabled (and all the options on it are filled correctly) and keep crawling ahead. </p>
+
+
+
+
+<p>In cases where the web application uses Javascript or Flash, the spiderMan plugin should be used. The spiderman plugin starts a proxy, and the user has to navigate through that proxy. Based on the results from the user's navigation, spiderMan plugin is able to identify different injection points which could be then sent to the different audit plugins for vulnerability scanning. Another important feature of the spiderMan plugin is the ability to save cookies and reuse them. Let's say we use the spiderMan proxy and login to a form using the browser and receive a cookie. The spiderMan plugin will then send the cookie to the rest of the plugins which can use it to crawl the rest of the application.</p>
+
+
+
+
+<p>Let's run the webSpider plugin on the w3af test environment. Give the url of the test environment as the target url, make sure only the webSpider plugin is checked inside discovery plugins and click on <i>Start</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/20.png" width="1431" height="336" alt="20"></p>
+
+<p>We can see from the Log that the webSpider plugin has been able to identify some new url's. The graph below gives a good idea of the information obtained with time.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/21.png" width="1433" height="670" alt="21"></p>
+
+<p>As the scan is progressing, go to the Results Tab, click on <i>URLs</i>. As we can see from the figure below, w3af has made a graphical diagram which defines the web application structure. On the left hand side, you can click on the <i>+</i> sign to see detailed information about a particular branch.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/22.png" width="1430" height="670" alt="22"></p>
+
+<p>Let's do another example of webSpider plugin. Give the target as the dvwa login page, make sure the WebSpider plugin is checked and click start. In the result, we obtain a graphical structure of the application as shown below. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/23.png" width="1432" height="527" alt="23"></p>
+
+<p>This, however is not correct. This is because DVWA has a whole list of url's inside the vulnerabilities folder. However webSpider plugin was not able to crawl to that directory because it required us to enter a login form as shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/24.png" width="749" height="354" alt="24"></p>
+
+<p>This is where the spiderMan plugin comes into use. A good idea is to use the SpiderMan and WebSpider plugin in conjunction with each other. This is because the SpiderMan plugin will help us in reaching places where the webSpider crawler cannot go, and the webSpider crawler can them carry on from those places to crawl the rest of the web application.</p>
+
+
+
+
+<p>Let's do the same test again using the SpiderMan plugin as well. Make sure both SpiderMan and WebSpider plugin are enabled and click on start. Also make sure to check the listen Address and listen port as well.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/25.png" width="1436" height="591" alt="25"></p>
+
+<p>Once this is done, we need to configure our browser to use the SpiderMan proxy for navigation. If we have to terminate the SpiderMan plugin, we have to browse to a specific url as clearly indicated in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/26.png" width="1435" height="178" alt="26"></p>
+
+<p>Now we need to configure our browser to use the SpiderMan proxy for navigation. In my case, i changed the port number to 44448. It is usually 44444 by default in w3af.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/27.png" width="602" height="569" alt="27"></p>
+
+<p>Once this is done, log in to the dvwa application (default credentials: admin/password) and start navigating to different url's. You can see these requests are noted by the spiderMan plugin as shown in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/28.png" width="1434" height="443" alt="28"></p>
+
+<p>To terminate the spiderMan plugin, browse over to the following url as shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/29.png" width="1155" height="119" alt="29"></p>
+
+<p>Once this is done, the SpiderMan plugin will terminate and the information will be passed over to the different plugins. As we can see from the figure below, the webSpider plugin has found some new url's (for e.g http://localhost/dvwa/vulnerabilities/csrf/) to which it was able to crawl to using the information from the spiderMan plugin.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/30.png" width="1436" height="298" alt="30"></p>
+
+<p>If we look at the structure of the application, we see that it is actually correct as even the vulnerabilities section was identified.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af2/32.png" width="1426" height="528" alt="32"></p>
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article, we looked at the various discovery and audit plugins in w3af, how they communicate with each other and looked at some of the ways of exploiting these vulnerabilities by using the exploit plugins available in w3af.</p>
+
+
+
+
+<p>In the upcoming articles in this series, we are going to look at the following features in w3af.</p>
+
+
+
+
+<ol>
+    <li>Using different profiles</li>
+    <li>Using the Manual Request and Fuzzy request feature</li>
+    <li>Using the Mitm proxy and the encoder/decoder features</li>
+    <li>w3af scripting</li>
+    <li>Optimizing w3af scans</li>
+</ol>
+
+
+
+
+<p>Please drop a comment if you liked the article or if there is something about w3af that you want to see in the upcoming articles.</p>
+
+
+
+
+<h2>References:</h2>
+
+
+
+
+<ul>
+     <li><p>w3af User Guide</br><a href ="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf">http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf</a></p>
+     </li>
+    <li><p>w3af-Plugins and descriptions</br><a href="http://w3af.sourceforge.net/plugin-descriptions.php">http://w3af.sourceforge.net/plugin-descriptions.php</a></p>
+     </li>
+ </ul>
+
+
+<p> <p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[W3af walkthrough Part 1]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/w3af-walkthrough-part-1"/>
+    <updated>2013-06-13T08:49:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/w3af-walkthrough-part-1</id>
+    <content type="html"><![CDATA[<p>w3af (Web Application audit and attack framework) is a framework for auditing and exploitation of web applications. In this series of articles we will be looking at almost all the features that w3af has to offer and discuss how to use them for Web application Penetration testing. In the first part of this series we will be working with w3af console and getting ourselves familiar with the commands. We will also be looking at the different types of plugins that w3af has to offer and discuss how to use them for optimal performance. </p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Some of the major features of w3af are:</p>
+
+
+
+
+<ol>
+    <li>It has plugins that communicate with each other. For eg. the discovery plugin in w3af looks for different url's to test for vulnerabilities and passes it on to the audit plugin which then uses these URL's to search for vulnerabilities.</li>
+    <li>It removes some of the headaches involved in Manual web application testing through its Fuzzy and Manual request generator feature. It can also be configured to run as a MITM proxy. The requests intercepted can be sent to the request generator and then manual web application testing can be performed using variable parameters.</li>
+    <li>It also has features to exploit the vulnerabilities that it finds.</li>
+</ol>
+
+
+
+
+<p>It is important to understand that no  automated web application scanner is perfect and false positives will always occur. With w3af the first and the foremost step is to make sure that we have the latest version. This is very important because w3af developers (Andres Riancho and the w3af team) are constantly fixing bugs and hence it is very important to make sure that we have the most bug free version. To open up w3af console, type in the command as shown in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/1.png" width="640" height="47" alt="1"></p>
+
+<p>w3af may ask you to update the version. It is advisable to keep updated with the latest version. Ok, so now that we are in the console, type in <i>help</i> to look at the list of available commands.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/2.png" width="645" height="382" alt="2"></p>
+
+<p>We can see the list of available options available to us. Type the <i>keys</i> command to look at the various shortcuts keys available to us. I recommend you get familiar with them.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/3.png" width="758" height="149" alt="3"></p>
+
+<p>Let's have a look at the plugins which are available in w3af.  Type <i>plugins</i>. You can see the console output change to <i>w3af/plugins</i>. Type <i>back</i> to go back or type <i>help</i> to display the list of available plugins.</p>
+
+
+
+
+<p>To know information about a specific plugins, just type <i>help pluginName</i>. For e.g if i want to know about the discovery plugin, i would type <i>help discovery</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/5.png" width="788" height="365" alt="5"></p>
+
+<p> We can see that there are about 9 types of different plugins. </p>
+
+
+
+
+<p><b>1)Discovery</b>- The discovery plugin helps in finding more Url's, forms etc to be used for vulnerability scanning. This information is then passed over to the audit plugin. There are a number of different discovery plugins like webSpider, spiderMan, hmap etc. All these plugins have a different function. A user can enable one or more plugins at the same time.</p>
+
+
+
+
+<p>To see the discovery plugins, just type <i>discovery</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/4.png" width="1405" height="335" alt="4"></p>
+
+<p>To find specific information about a particular plugin, just type <i>pluginType desc pluginname</i>. For e.g if i want to know more information about the spiderMan <a href="index.html" id="" title="index">index</a>plugin i would write the command <i>discovery desc spiderMan</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/6.png" width="1018" height="343" alt="6"></p>
+
+<p>One of the important things to note here is that the spiderMan plugin has 2 configurable parameters. To set the configurable parameters, type in the following commands as shown in the figure below. As you can see from the figure below, i have set the listenPort to 55555.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/7.png" width="1100" height="295" alt="7"></p>
+
+<p>Here are some other commands that could be used.</p>
+
+
+<p>1) discovery pluginType1, pluginType2 - Selects two plugins. </p>
+
+
+<p>2) discovery all- Enables all the plugins (not advisable as it may take a long time to finish).</p>
+
+
+<p>3) discovery !all - Removes all the enabled plugins.</p>
+
+
+<p>4) list discovery enabled - Lists all the plugins currently enabled.</p>
+
+
+
+
+<p>Here is a screenshot below showing some of these commands in action.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/8.png" width="1423" height="344" alt="8"></p>
+
+<p>Let's now run one of the discovery plugins. I will be using the hmap plugin in discovery to know the version of the server running on a remote host. As you can see from the figure below, i have enabled the hmap plugin.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/9.png" width="1155" height="168" alt="9"></p>
+
+<p>Once this is done, it is now time to give the location of the target server. Type <i>back</i> to navigate back. Then type the following commands as shown in the figure below to set the target. As we can see, the target is set by the <i>set target target-address</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/10.png" width="1075" height="212" alt="10"></p>
+
+<p>Once this is done, type <i>back</i> to navigate back and the type <i>start</i> to start the plugin. As we can see, w3af has figured out the version of Apache and php running on my server. We will discuss more features of the discovery plugin later.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/11.png" width="870" height="240" alt="11"></p>
+
+<p><b>2)Audit</b>-Audit plugins are used to detect vulnerabilities in the URL's or forms provided by the discovery plugins. This is where the interaction between plugins in w3af comes to use. The audit plugin has options for testing different types of vulnerabilities like xss, sqli, csrf etc. It does this by injecting different strings in its request and then looking for a specific value (corresponding to the input string) in the response. False positives may occur during this process. If i want to know how the sqli plugin works, i could type in the commands as shown in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/12.png" width="870" height="150" alt="12"></p>
+
+<p>Again, i can set the different configuration parameters while selecting a particular plugin. For e.g in the figure below i am increasing the number of checks while performing a XSS audit. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/13.png" width="1075" height="166" alt="13"></p>
+
+<p><b>3)Grep</b> - The grep plugin is used to find interesting information in the requests and responses going through like email accounts, forms with file upload capabilities, hashes, credit card numbers, email addresses etc. You can set the type of information you want to look for by setting the appropriate plugin. Since the grep plugin only analyzes the request and response, it is important to have some kind of discovery plugin enabled for it to work. Otherwise grep plugins are of no use. As you can see in the figure below i have set grep to use the getMails plugin.</p>
+
+
+<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/14.png" width="1112" height="144" alt="14"></p>
+
+<p><b>4)Brute force</b> - Brute force plugins can be used to brute force login forms as well as http-auth logins. Once the discovery plugin finds any form with form based input or an http-auth input it will automatically launch the brute force attack against it if the corresponding brute force plugin is enabled. Some of the important things to know about the brute force are the configuration parameters. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/15.png" width="1061" height="458" alt="15"></p>
+
+<p>It is advisable that you use your own configuration file for the list of usernames and passwords. Also be sure to take a look at some other options. As you can see in the figure below, i have set the option passEqUser to false simply because i don't think users wouldn't have their passwords as the same as their username.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/16.png" width="1413" height="304" alt="16"></p>
+
+<p>One of the other good configurable parameter is the useMails option. This options uses the email addresses that w3af finds (maybe through the grep plugin) to be one of the inputs for the username field. For e.g if one of the usernames is example@infosecinstitute.com, then the username tried would be example. This is another example of how the interaction between the different plugins could make the job much more effective.</p>
+
+
+
+
+<p><b>5)Output</b> - The output plugin helps us decide the format in which we want the output. w3af supports many formats like console, emailReport, html, xml, text etc. Again you can set various parameters here like the filename, verbosity etc. In the figure below, i have set <i>verbose</i> to True as i want a very detailed report about the application that i am testing.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/17.png" width="882" height="205" alt="17"></p>
+
+<p><b>6)Mangle</b> - The mangle plugin is used to mangle with request and responses on the fly. It has only one plugin named sed (Stream editor) which is used to modify requests and responses using different regular expressions. The expressions should have a specific format. The usage is quite evident from the description.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/18.png" width="857" height="353" alt="18"></p>
+
+<p>As you can see from the figure below, i have set the plugin to look for the string Yahoo and replace it with Google in the request header.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/19.png" width="1086" height="175" alt="19"></p>
+
+<p><b>7)Evasion</b>- The evasion plugins uses various techniques to bypass WAF (Web application firewalls). For e.g one of the options rndHexEncode randomly encodes the url in hex format to avoid detection while the plugin fullWidthEncode does a full width encode of the Url to bypass Http content scanning systems using the vulnerability described <a href="http://www.kb.cert.org/vuls/id/739224">here</a>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/20.png" width="1397" height="292" alt="20"></p>
+
+<p><b>8)Auth</b> - Last but not the least, auth plugin is one of the most important plugins in w3af. It has only one type called generic. This is because while crawling on a target web application, if w3af hits a login form, then it needs to submit the credentials automatically in order to continue looking for information. By using this plugin, we can specify a predefined username/password that w3af should enter when it hits a login form. We need to specify all the parameters for generic in order for it to work successfully.</p>
+
+
+
+
+<p>In the figure below i am setting options for w3af to successfully log in to DVWA (Damn vulnerable web application) which is located on the address http://10.0.1.24/dvwa</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af1/21.png" width="1400" height="411" alt="21"></p>
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article we discussed about the plugins available in w3af and learnt how to work with the w3af console. In the upcoming articles in this series, we are going to discuss the following topics.</p>
+
+
+
+
+<ol>
+    <li>Using different profiles</li>
+    <li>Exploiting a vulnerability found by the audit plugin</li>
+    <li>Using the Manual Request and Fuzzy request feature</li>
+    <li>Using the Mitm proxy and the encoder/decoder features</li>
+    <li>w3af scripting</li>
+    <li>Optimizing w3af scans</li>
+</ol>
+
+
+
+
+<p>Please drop a comment if you liked the article or if there is something about w3af that you want to see in the upcoming articles.</p>
+
+
+
+
+<h2>References:</h2>
+
+
+
+
+<ul>
+     <li><p>w3af User Guide</br><a href ="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf">http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf</a></p>
+     </li>
+</ul>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+]]></content>
+  </entry>
+  
+</feed>

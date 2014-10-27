@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2014-10-27T13:08:28+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Wifite Walkthrough part 2: Cracking WPA access points]]></title>
+    <link href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points"/>
+    <updated>2014-10-27T01:43:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at cracking access points using WPA-PSK or WPA2-PSK using Wifite.</p>
+
+
+
+
+<p>If you have used tools like airodump-ng, aircrack-ng etc to crack WPA access points before, you would know that the required thing to successfully crack a WPA-PSK network is a captured WPA four-way handshake. More details about the WPA four-way handshake can be found on <a href="http://en.wikipedia.org/wiki/IEEE_802.11i-2004">this</a> wikipedia page.</p>
+
+
+
+
+<p>As mentioned in the previous article, there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn't aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = ['aireplay-ng',</i> with <i>cmd = ['aireplay-ng','--ignore-negative-one',</i></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>To start wifite for cracking a WPA access point, give it the option <i>-wpa</i> to only target WPA networks. Also, give it a dictionary file as an input for cracking the WPA passphrase with the <i>-dict</i> option. In kali linux, the wordlists are stored at the location <i>/usr/share/wordlists</i>. Wifite will now start scanning for WPA access points.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/1.png" width="947" height="316" alt="1"></p>
+
+<p>Press Ctrl+C to give a target number. In my case, the target number is 2 which is an access point i have configured for testing purposes. The access point uses WPA2-PSK encryption with the key as "password".</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/2.png" width="741" height="443" alt="2"></p>
+
+<p>Wifite will now start listening for the handshake. Once it has found it, it will automatically start cracking the passphrase using the dictionary file that we supplied.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/4.png" width="834" height="358" alt="4"></p>
+
+<p>And as you can see, Wifite has successfully found the passphrase for the access point.</p>
+
+
+
+
+<p>Sometimes, things may not work as smoothly. In order to capture a WPA handshake between the client and the access point, the client has to connect to the wireless network during that period when we are monitoring the network. If the client is already connected, there will be no handshake that is captured. Wifite does this by automatically sending deauthentication packets to a particular client or a broadcast deauthentication packet if it is required. You can specify the time between deauthentication packets using the -wpadt flag. Hence, when the client tries to reconnect to the access point, the handshake is captured.</p>
+
+
+
+
+<p>You can also specify which tool you want to use to crack the passphrase once the four-way handshake has been successfully captured. By default, aircrack-ng is selected. You can also use cowpatty, pyrit or tshark to crack the passphrase.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/5.png" width="622" height="92" alt="5"></p>
+
+<p>Another cool option in Wifite is to anonymize your MAC address using the <i>-mac</i> option. Even though it is quite trivial using simple commands or <i>macchanger</i> utility to change the MAC address for a specific interface, it is good to have this feature in the tool itself. However, in order to make this work, you first have to take that specific interface for which you want to change the MAC address down to managed mode if it is in monitor mode previously. You can use the command <i>iwconfig</i> to check all the interfaces that are in monitor mode and then take them down using the command <i>airmon-ng stop interface-name</i> command. As we can see from the image below, the mon0 interface is in monitor mode.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/6.png" width="698" height="287" alt="6"></p>
+
+<p>Hence, lets take it down using the command <i>airmon-ng stop mon0</i></p>
+
+
+<p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/7.png" width="678" height="351" alt="7"></p>
+
+<p>Now we can add the <i>-mac</i> option to anonymize the MAC address. As you can see, Wifite is intelligent enough to change the MAC address to something that is similar the existing MAC address of the interface and not to something ridiculous (for e.g AA:BB:CC:DD:EE:FF) which is a giveaway.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/8.png" width="895" height="378" alt="8"></p>
+
+<p>And when you stop the capture, Wifite is nice enough to change the MAC address back to the original one.</p>
+
+
+
+
+<p>In this article, we looked at how we can use Wifite to crack networks using WPA-PSK or WPA2-PSK. Wifite is great at its job and automates almost everything, however it is important to understand how it uses the tools like airodump-ng, aircrack-ng etc under the hood to perform its task. I would recommend that you go through the source code of Wifite and figure out how this is done.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Wifite Walkthrough part 1: Cracking WEP access points]]></title>
+    <link href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points"/>
+    <updated>2014-10-27T01:41:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points</id>
+    <content type="html"><![CDATA[<p>In this article series, we will look at a tool named Wifite suitable for automated auditing of wireless networks. Most of you who have experience in wireless pentesting would use tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng to crack wireless networks. This would involve a sequence of steps, like capturing a specific numbers of IV's in case of WEP, capturing the WPA handshake in case of WPA etc, and then subsequently using aircrack-ng to crack the password required for authentication to the network. Wifite aims to ease this process by using a wrapper over all these tools and thus making it super easy to crack Wifi networks.</p>
+
+
+
+
+<p>Here is a list of features of Wifite as per its official <a href="https://code.google.com/p/wifite/">homepage</a>.</p>
+
+
+
+
+<ul>
+    <li>sorts targets by signal strength (in dB); cracks closest access points first</li>
+    <li>automatically de-authenticates clients of hidden networks to reveal SSIDs</li>
+    <li>numerous filters to specify exactly what to attack (wep/wpa/both, above certain signal strengths, channels, etc)</li>
+    <li>customizable settings (timeouts, packets/sec, etc)</li> 
+    <li>"anonymous" feature; changes MAC to a random address before attacking, then changes back when attacks are complete</li>
+    <li>all captured WPA handshakes are backed up to wifite.py's current directory</li>
+    <li>smart WPA de-authentication; cycles between all clients and broadcast deauths</li>
+    <li>stop any attack with Ctrl+C, with options to continue, move onto next target, skip to cracking, or exit</li>
+    <li>displays session summary at exit; shows any cracked keys</li>
+    <li>all passwords saved to cracked.txt</li>
+    <li>built-in updater: ./wifite.py -upgrade</li>
+</ul>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Before we start using wifite, make sure you have a proper wireless card that supports packet injection. If you don't have one, i would suggest that you buy <a href="http://www.amazon.com/Alfa-AWUS036H-802-11b-Wireless-network/dp/B002WCEWU8">this</a> card.</p>
+
+
+
+
+<p><p>Note that there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn&rsquo;t aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = [&lsquo;aireplay-ng&rsquo;,</i> with <i>cmd = [&lsquo;aireplay-ng&rsquo;,&lsquo;&mdash;ignore-negative-one&rsquo;,</i></p>
+
+<p><p>Wifite can be found under <i>Applications &ndash;> Kali Linux &ndash;> Wireless Attacks &ndash;> 802.11 Wireless Tools</i>. Also, note that if you are running wifite in a different VM than Kali Linux, then you have to make sure that tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng are already installed on that system. This is because Wifite is nothing but a wrapper over all these tools. Before we even start using Wifite, it is better to update to the latest version.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/1.png" width="846" height="328" alt="1"></p>
+
+<p><p>In my case, i already have the latest version. In this tutorial, we will be targeting a simple Wifi network with WEP encryption. Just using the command <i>wifite -h</i> will give you a list of all the commands.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/2.png" width="962" height="596" alt="2"></p>
+
+<p><p>A very tempting option would be <i>-all</i> which tries to attack every network that it finds. We will try it in later articles in this series. However, first lets take a look at all the targets that we have. To do that, use the command <i>wifite -showb</i></p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/3.png" width="930" height="331" alt="3"></p>
+
+<p><p>Once this is done, we can see that wifite has put our network interface card into monitor mode (using airmon-ng) and started to look for clients. After a few more seconds, it will start displaying the list of access points.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/4.png" width="907" height="314" alt="4"></p>
+
+<p><p>Note that as it is mentioned in its feature list (automatically de-authenticates clients of hidden networks to reveal SSIDs), this list will also include hidden access points. Hence, wifite can also be used to find hidden access points. In this case we will attack an access point with the BSSID 00:26:75:02:EF:65 that i have set up for testing purposes. The access point has a simple WEP password <i>1234567890</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/5.png" width="777" height="290" alt="5"></p>
+
+<p><p>To start attacking an access point, just press <i>Ctrl+C</i>. Wifite will now ask you to choose a target number from the list. The target number for my test network is 1, so let me enter that. Note that if you press <i>Ctrl+C</i> again, it will quit Wifite.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/6.png" width="750" height="80" alt="6"></p>
+
+<p><p>You can now see that Wifite will start attempting to crack the WEP access point using the different known techniques for cracking WEP encryption. After some unsuccessful tries, it has finally begun to start attacking the access points using different techniques for cracking WEP.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/11.png" width="744" height="160" alt="11"></p>
+
+<p><p>Once enough IV&rsquo;s are being captured, it will automatically start cracking the password.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/12.png" width="653" height="324" alt="12"></p>
+
+<p><p>As we can see, Wifite has successfully figured out the WEP key for the access point. Wifite is an extremely useful tool for cracking wireless networks. As i mentioned previously, you need to have all the tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng already installed on your system. To further prove the point, let&rsquo;s dive into the source code of Wifite.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/10.png" width="545" height="297" alt="10"></p>
+
+<p><p>As we can see, the python code has mentions of calling aireplay-ng. Hence, it is recommended to run Wifite inside Kali linux.</p></p>
+
+<p><p>In the next article, we will look at some advanced usage options of Wifite.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 35 – Auditing iOS Applications With iDB]]></title>
+    <link href="http://prateek147.github.io/2014/10/18/ios-application-security-part-35-auditing-ios-applications-with-idb"/>
+    <updated>2014-10-18T14:14:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/10/18/ios-application-security-part-35-auditing-ios-applications-with-idb</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at another cool utility named iDB for pentesting iOS applications.</p>
+
+
+
+
+<p>Before that, i would like to apologize for coming up late with this article. A lot of you have been requesting articles on different topics and i promise that i will write on them soon :). So since we are best friends again, let's dive into this tool.</p>
+
+
+
+
+<p>iDB is open source and you can download it from its <a href="https://github.com/dmayer/idb">Github</a> page. You can then follow the tutorial <a href="https://github.com/dmayer/idb/wiki/Getting-started">here</a> to know how to install it. Installation might take some time as there might be some dependencies you will have to install, so have some patience. Also, please note that it works with ruby versions 1.9 and 2.1 so make sure you set that version of ruby. You can use <i>rvm list</i> to list the versions of ruby installed on your system and then use <i>rvm use</i> followed by the version of ruby that you want to use.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Once you are done installing iDB, browser to its root directory and open it using the command <i>ruby gidb.rb</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/1.png" width="652" height="216" alt="1"></p>
+
+<p>This will launch iDB.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/2.png" width="1440" height="830" alt="2"></p>
+
+<p>Before you start using iDB, you must set up the connection settings. Go to Ruby -> Preferences.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/3.png" width="495" height="379" alt="3"></p>
+
+<p>Now under the <i>Device Config</i> tab, select either SSH directly or SSH over USB which uses usbmuxd internally. I prefer the latter one. Provide your username and password and the port number over which SSH is running.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/4.png" width="485" height="453" alt="4"></p>
+
+<p>Under the port forwarding section, you can set options for port forwarding if you want. This is generally done by the syntax <i>remote:8080 -> localhost:8080</i> which is quite self explanatory. Here, we are not going to set any port forwarding as we really don't need it for this tutorial, but we must set the option <i>Port for Manual SSH</i> which will be used by usbmuxd. What this will do is forward all the connections sent to port 2222 on localhost to the device on port 22 over USB.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/5.png" width="482" height="453" alt="5"></p>
+
+<p>So basically, you can now just SSH to localhost on port 2222 and it will connect you to your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/6.png" width="778" height="146" alt="6"></p>
+
+<p>Now make sure your device is connected to your system over USB. Go to Devices and select the option <i>USB Device</i> to connect to your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/7.png" width="656" height="125" alt="7"/></p>
+
+<p><b>One of the unique functionalities of iDB is that it allows you to connect to iOS simulators as well. I have tried it and it works quite well. This is specially helpful for iOS developers who use Xcode and want to audit their apps quite frequently. I would like you to check that feature out as well.</b></p>
+
+<p>As soon as iDB connects to your device, it will do a quick analysis and tell you what apps that it needs are already installed on your device and which one needs to be installed. You can just click on install next to the tool to install it. Make sure you install each of the required dependencies. In some cases you might feel that the application is already installed. Well, iDB checks for files in specific locations, for e.g /usr/bin, so it might not be able to detect it always. Its better just to reinstall the tool in case iDB is not able to detect it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/8.png" width="936" height="591" alt="8"></p>
+
+<p><p>Once you have installed all the apps, click on <i>Select App</i> on the top left and select the application that you want to audit. In this case, i am going to select <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/9.png" width="885" height="250" alt="9"></p>
+
+<p><p>Next, click on <i>Launch App</i> to launch your app on the device.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/10.png" width="477" height="479" alt="10"></p>
+
+<p><p>On the left hand side, you can click on <i>Analyze Binary</i> to see whether certain security features like Encryption, PIE etc have been enabled in the app or not. Since i have installed this app manually on a jailbroken device, there is no encryption.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/11.png" width="485" height="250" alt="11"></p>
+
+<p><p>So let&rsquo;s go through each feature one by one. On the <i>Storage</i> tab, you can see all the files DVIA is writing to or has already written to along with their data protection levels. In case it doesn&rsquo;t show up, click Refresh.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/12.png" width="953" height="715" alt="12">
+<p>The <i>URL Handlers</i> tab tells you which URL schemes the app registers to. You can then call any url starting with that url scheme to see how the app reacts to it.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/13.png" width="961" height="658" alt="13"></p>
+
+<p><p>The binary tab will show you all the Shared libraries the app is using, class information using <i>Weak Class Dump</i> and all the strings it could find in the binary.</p></p>
+
+<p> <img src="http://prateek147.github.io/images/posts/ios35/14.png" width="976" height="692" alt="14"></p>
+
+<p> <p>The filesystem tab can be used to see all the files in the application sandbox folder along with their permisions. If you want to see the contents of any file, just double click on it.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/15.png" width="966" height="713" alt="15">
+<img src="http://prateek147.github.io/images/posts/ios35/16.png" width="842" height="554" alt="16"></p>
+
+<p> <p>The Tools section will allow you to see the cached screenshot that is stored on the device whenever the application goes to the background.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/17.png" width="956" height="661" alt="17"></p>
+
+<p> <p>And you can also install the Burp CA certificate that is used for analyzing SSL connections directly on your device or simulator. For device, it will simply open the url <a href="http://burp">http://burp</a> (Make sure proxy is set on your device). This is again quite a useful feature and saves you a lot of time. You can also edit the hosts file on your system in case you want to redirect the request for a particular ip or hostname to some other location.</p></p>
+
+<p> <p>The Log tab shows you the device logs. It can be used to test scenarios when the application is logging sensitive information to the console.</p></p>
+
+<p> <img src="http://prateek147.github.io/images/posts/ios35/18.png" width="971" height="683" alt="18"></p>
+
+<p><p>The keychain tab will dump all the keychain information stored using this application using the keychain dumper utility.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/19.png" width="973" height="576" alt="19"></p>
+
+<p><p>The pasteboard tab will analyze the pasteboard buffer to see if there is some sensitive information stored in the buffer. As you can see, here it finds a string named <i>secret123</i> stored in the pasteboard buffer.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/20.png" width="914" height="506" alt="20"></p>
+
+<p><p>Overall, iDB is a great tool for iOS pentesting and helps us save a lot of time by doing most of the tasks with just one click. There are other features as well such as integration with Cycript and Snoop-it, but they are still in the development phase. I would recommend that you clone the repository from github if you want to check those features out.</p></p>
+
+<pre><code>&lt;/body&gt;
+</code></pre>
+
+<p></html></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 34 - Tracing Method calls using Logify]]></title>
+    <link href="http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify"/>
+    <updated>2014-04-18T16:59:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify</id>
+    <content type="html"><![CDATA[<p>In the previous articles, we have seen how applications like Snoop-it can trace method calls specific to the application at runtime. This is very important in deducing the flow of the application. The same process can be performed by using a perl script named Logify.pl that comes installed with Theos. The script takes input as a header file and generates the hooking code that we can add in our tweak. We can also specify the classes we want to check. Once the tweak is installed on the device, whenever a method for that particular class is called, the tweak logs out the method along with the arguments to syslog. The first step here is to get the header files for a particular application. You can get the header files by using the -H option in class-dump-z. Once the headers folder is generated, you can copy it to your system.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/1.png" width="1389" height="315" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>Now we can use the Logify.pl script on these header files to generate our tweak. In this case, we are testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a>. Let's add all the classes for which we want to log the method calls. In our case, we select three classes for which we want to trace the method calls, ClientSideInjectionVC, JailbreakDetectionVC and DamnVulnerableAppUtilities.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/2.png" width="773" height="65" alt="2"></p>
+
+<p>This is how our Tweak.xm file looks like.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/3.png" width="883" height="458" alt="3"></p>
+
+<p>Now let's create a tweak and replace its Tweak.xm file with our own. Also, give the filter as the bundle identifier for DVIA, as we only want to trace calls for DVIA. Have a look at the <a href="http://highaltitudehacks.com/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate">previous</a> article if you are new to writing tweaks.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/4.png" width="867" height="392" alt="4"></p>
+
+<p>Build the package.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/5.png" width="1251" height="103" alt="5"></p>
+
+<p>Now install it on your device and respring your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/6.png" width="1069" height="238" alt="6"></p>
+
+<p>Now check the folder <i>/Library/MobileSubstrate/DynamicLibraries</i> on your device to see whether the tweak was installed, and sure enough, we can see that it has been installed.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/7.png" width="309" height="388" alt="7"></p>
+
+<p>Now run the DVIA app. Make sure your device is connected to your computer and go to Xcode –> Window –> Organizer –> Devices & select your device and click on Console. You will see the DVIAMethodTracer tweak being loaded into your application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/8.png" width="1146" height="250" alt="8"></p>
+
+<p>And now as you browse around in the application and invoke methods for the particular classes that we have set up Logify for, you will see that these methods are logged along with the value of their arguments.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/9.png" width="1263" height="358" alt="9"></p>
+
+<p>Logify can be a very useful tool in figuring out the order in which methods are called and hence deducing a lot about the flow of the application.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 33 - Writing tweaks using Theos (Cydia Substrate)]]></title>
+    <link href="http://prateek147.github.io/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate"/>
+    <updated>2014-04-18T11:59:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate</id>
+    <content type="html"><![CDATA[<p>In some of the <a href="http://highaltitudehacks.com/security">previous</a> articles in this series, we have looked at how we can modify the behaviour of an application by patching it using IDA Pro, Hopper etc. However, doing this hasn't been quite straightforward always. We can also use Cycript to modify the behaviour of an application by changing some of the method implementations, but the change isn't permanent. This is where writing tweaks for an application comes in handy. A tweak is nothing but a run-time patch to an application using the Cydia Substrate framework. Cydia Substrate consists of 3 major components: MobileHooker, MobileLoader and safe mode. You can read about these 3 major components <a href="http://iphonedevwiki.net/index.php/MobileSubstrate">here</a>. Saurik has also written a complete series of documentation <a href="http://www.cydiasubstrate.com/">here</a>. Our main focus here would be not to go in depth and learn how to write tweaks for jailbroken devices but to understand there relevance to application security so we can quickly write our own tweaks when necessary.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p><p>By default, on compiling and building a tweak, it gets converted into the .dylib format and is stored in the location <i>/Library/MobileSubstrate/DynamicLibraries</i> on the device. There is a plist file with the same name but the extension .plist with every .dylib file that determines certain configuration settings for the tweak. For e.g, one of the most popular configuration settings is <i>Filter</i>. You can use this configuration to filter the library or process you want to inject the code into. You can read more about filters and configurations <a href="http://www.cydiasubstrate.com/inject/darwin/">here</a>.</p>
+
+<p><p>If you have a jailbroken device and have installed tweaks before from Cydia, you can clearly see these tweaks being injected into different applications during runtime by simply looking at the logs. Go to Xcode &ndash;> Window &ndash;> Organizer &ndash;> Devices &amp; select your device and click on Console. Make sure your device is connected to your computer. You will see the tweaks being loaded into your application as you open applications on your device.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/1.png" width="1265" height="269" alt="1"></p>
+
+<p><p>It is also a good idea to check the folder <i>/Library/MobileSubstrate/DynamicLibraries</i> on your device and see all the tweaks you have installed on your device. You can do this by using a simple utility like iExplorer. Also, it is recommended to check the plist files for these installed extensions to see how they impose their restrictions on specific libraries and applications.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/2.png" width="899" height="742" alt="2"></p>
+
+<p><p>By far, the most preferred way of creating tweaks for iOS is by using Theos. To set up theos on your device, you can follow the instructions mentioned <a href="http://iphonedevwiki.net/index.php/Theos/Getting_Started">here</a>. It&rsquo;s pretty straightforward but make sure that the path where you are creating tweaks doesn&rsquo;t include some directories that have spaces in them. It has caused problems for me in the past and hence i would recommend you to avoid it.</p></p>
+
+<p><p>For help, you can always go to the IRC channel where most of the big names hang out and are willing to help. There is a channel for Substrate (#substrate) and Cycript (#cycript) on the server irc.saurik.com. Apart from this, there is also a channel for theos (#theos) and channels for specific jailbreak questions such as #jailbreakqa on irc.freenode.net.</p></p>
+
+<p><p>Please note that if something goes wrong once you build and deploy a tweak then you should immediately remove the tweak from <i>/Library/MobileSubstrate/DynamicLibraries</i>. For e.g, if your phone is not booting properly, you can still connect to it over iExplorer and remove the dylib and plist file for the tweak that you think screwed your application.</p></p>
+
+<p><p>So let&rsquo;s write a tweak. We will test our skills on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS Application</a>. We will solve the first challenge in the Runtime Manipulation section, where we have to bypass the login check on tapping <i>Login Method 1</i> as shown in the image below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/3.PNG" width="320" height="568" alt="3"></p>
+
+<p><p>Open theos and select the option to create a tweak. Let&rsquo;s name the project as DVIABypass. It will also ask you to specify the bundle identifier. Since we only want the tweak to hook into DVIA, we will specify the bundle identifier for DVIA only. In case you don&rsquo;t know how to find out the bundle identifier for a particular application, you can always find it out by inspecting the Info.plist file in the application folder for a particular app using iExplorer. You will see that this bundle identifier will automatically get added in the plist file for your tweak created by Theos.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/8.png" width="876" height="302" alt="8"></p>
+
+<p><p>As we can see, the project folder has been created. Let&rsquo;s navigate inside it.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/5.png" width="483" height="59" alt="5"></p>
+
+<p><p>Here you can see some weird files. The plist file is the one that we discussed about previously. This file is copied over to your device along with the generated dynamic library. The Tweak.xm file is where all your hooking code will go. The Makefile is where you will add all the needed frameworks and other global variables.</p></p>
+
+<p><p>In order to write a tweak for a particular application or library method, we must know the header file information of the classes we want to hook into. The header file information can easily be dumped by using class-dump-z. In this case, since we are only dealing with the application DVIA, we need to just dump the class methods for that particular application. However, if you want to hook into any method of Springboard, you need to have the entire class information of it. One option is to either dump the entire content yourself using class-dump-z. Another option is to get it from some other people&rsquo;s repositories. For e.g, <a href="https://github.com/thomasfinch/iOS-7-SpringBoard-Headers">here</a> is a Github repository that contains the headers dumped for Springboard in iOS 7.</p></p>
+
+<p><p>By looking at the class information for DVIA, we can figure out that we want to hook into the method <i>isLoginValidated</i> in the view controller <i>RuntimeManipulationDetailsVC</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/6.png" width="900" height="289" alt="6"></p>
+
+<p><p>Now lets look at the Tweak.xm file. Just reading it will tell you a lot about how to go ahead and write and your own tweak. I am not going to explain what is already written here, it will be very easy to understand it anyways.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/7.png" width="925" height="663" alt="7"></p>
+
+<p><p>Replace your Tweak.xm file with the following lines of code. As you can clearly note here, this patch hooks into the class RuntimeManipulationDetailsVC, hijacks the implementation of the method isLoginValidated, and replaces it with our own implementation which returns TRUE every time.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/9.png" width="372" height="169" alt="9"></p>
+
+<p><p>Now make sure you have all the proper variables set. Make sure your computer and device are connected to the same wifi network. The first time you make a package and install it on the device, you will be prompted for the ssh password.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/10.png" width="623" height="64" alt="10"></p>
+
+<p><p>Now build the package and install it by using the command <i>make package install</i></p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/11.png" width="1237" height="200" alt="11"></p>
+
+<p><p>And now everytime you tap on the button that says <i>Login Method 1</i> in <a href="http://damnvulnerableiosapp.com">DVIA</a>, you will notice that the login will be bypassed.</p></p>
+
+<p><p>You can also double check whether the package has been installed on your device by looking for the dylib file for your package in the directory <i>/Library/MobileSubstrate/DynamicLibraries</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/12.png" width="307" height="336" alt="12"></p>
+
+<p><p>And if you feel that you have screwed up with your tweak, just remove the dylib and plist files from this folder and restart your device.</p></p>
+
+<p><p>The important thing to note about creating a tweak or a patch while doing security assessment of iOS applications is that the change is permanent and the whole process is also not as tough as patching an entire method by modifying the diassembly. While we didn&rsquo;t cover some of the basic stuff regarding developing for jailbroken devices, i would recommend you to to read <a href="http://brandontreb.com/beginning-jailbroken-ios-development-your-first-tweak">this</a> article as it explains things in much more depth.</p></p>
+
+<p><p>If you have any questions, comments or suggestions, feel free to write them down in the comments section below and i will get back to you.</p></p>
+]]></content>
+  </entry>
+  
+</feed>

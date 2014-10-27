@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: dns | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/dns/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2014-10-27T13:08:28+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A New DNS Exploitation technique - Ghost domain names]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/a-new-dns-exploitation-technique-ghost-domain-names"/>
+    <updated>2013-06-15T02:26:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/a-new-dns-exploitation-technique-ghost-domain-names</id>
+    <content type="html"><![CDATA[<p><p>DNS is a naming system which coverts human readable domain names into computer readable IP addresses. Whenever there is a query for a domain which is not in the resolver&rsquo;s cache, the process happens by traversing through the entire DNS hierarchy from the root servers to the top level domain (for e.g .com). The top level domain then gives us the information about the nameserver that has been delegated the responsibility of the domain whose IP address we are looking for. We then get the information about that domain from it&rsquo;s nameserver. The results are then cached by the DNS resolver with a particular value of TTL(time to live) after which the entry in the cache expires. In some cases a domain may be identified as malicious and needs to be removed. This could be because of various reasons like malware propogation, phishing etc. One of the steps to prevent users from accessing this domain is by deleting the domain from its TLD (top level domain) servers. However this does not completely remove the threat because the domain will still be resolved by the resolver until the TTL expires. In this article we will discuss about a recent DNS exploit  discovered by researchers which is present in most of the DNS servers which exploits a weakness in the cache update logic of some of the DNS servers. This allows their cache to be overwritten in such a way that it is possible to continuously extend the TTL for the delegation data of a particular domain and prevent it from expiring. Hence the domain will be completely resolvable even though it has been deleted from the TLD servers. These types of domains have been named as <i>Ghost Domain Names</i>.</p>
+
+<p><!-- more --></p>
+
+<p><p>This article is based on the recent work by <i>Jian Jiang, Jinjin Liang, Kang Li, Jun Li, Haixin Duan and Jianping Wu</i>. The research paper by them can be found <a href="https://www.isc.org/files/imce/ghostdomain_camera.pdf">here</a>. </p></p>
+
+<p><h2>DNS Basics</h2></p>
+
+<p><p>So Lets understand how DNS resolution works. Lets say the user opens up the browser and types in infosecinstitute.com. It is now the responsibility of the DNS resolver in the user operating system to fetch the IP address. It first checks its local cache to see if it can find a record for the queried domain name. A cache usually contains a mapping of IP-addresses to hostnames which are saved during recent lookups so that the resolver does not have to fetch the IP address again and again. If it cannot find the IP address in its cache it queries the DNS server to see if it has a record for it. A DNS server is usually given to you by the ISP or you can manually set up a DNS server for yourself. If it still cannot find the IP Address then it goes through a recursive DNS query in which it queries different nameservers to get the IP-address of the domain. As soon as it finds the IP-address it returns the IP-address back to the user and also caches it for its future use.</p></p>
+
+<p><h2>Understanding DNS lookup</h2></p>
+
+<p><p>It is important to understand how a DNS lookup works. We will do this by traversing the entire DNS hierarchy from the root servers to the top level domain. Open up the terminal in Backtrack (you can use your own favourite distro) and type in &ldquo;dig&rdquo;. You will get something as shown in the figure below.</p>
+<img src="http://prateek147.github.io/images/posts/ghost-dns/dig.png" width="777" height="473" alt="Dig">
+<p>What we get is a list of the Root DNS Servers. Let&rsquo;s use this root DNS server to query infosecinstitute.com. We do this as shown in the figure below</p>
+<img src="http://prateek147.github.io/images/posts/ghost-dns/dig 1st query.png" width="784" height="479" alt="Dig 1st Query">
+<p>What we get is a list of authoritative name servers for the com domain. Notice the dot (.) at the end, this is what makes this a fully qualified domain name (FQDN). Let&rsquo;s use these Name servers to query again.</p>
+<img src="http://prateek147.github.io/images/posts/ghost-dns/dig 2nd query.png" width="779" height="474" alt="Dig 2nd Query">
+<p>Now we get the list of authoritative name servers for infosecinstitute.com (which is ns1.pairnic.com and ns2.pairnic.com). Now we need to query these name servers to get the IP-address of Infosecinstitute.com </p>
+<img src="http://prateek147.github.io/images/posts/ghost-dns/dig 3rd query.png" width="779" height="473" alt="Dig 3rd Query">
+<p>And now in the Answer Section we can see that the Ip-address for infosecinstitute.com is 216.92.251.5. SUCCESS !</p></p>
+
+<p><p>It is also possible for us to set custom DNS servers to query for different records. In the figure below, we will be using DIG to perform a DNS query for the A record of infosecinstitute.com using Google&rsquo;s DNS server (8.8.8.8).</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/1.png" width="764" height="287" alt="1"></p>
+
+<p><p>The thing 3599 basically indicates the time to live for that particular record provided by the DNS query. If we do the same process again we can see that the TTL has now reduced to 3503.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/2.png" width="746" height="276" alt="2"></p>
+
+<p><p>In case a domain is identified as malicious, then its removal from the global domain name space is basically a 2 step process. The first is to remove its records from the TLD servers and the second is to wait for the TTL to expire across all DNS servers. </p></p>
+
+<p><p>To identify the IP address of a domain, one of the important things to know is the delegation data of that particular domain. The delegation data contains the NS record of a domain and its corresponding A record, i.e the IP address of the nameserver. The delegation data also has a particular TTL which tells us the time until which the delegation data will be in the cache. In the figure below, i am querying one of the TLD servers for .com to give me the address of an unexisting subdomain. It replies back with an  Authority and an Additional section which has the NS records for the domain as we as the IP address (i.e A record) of the nameservers. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/10.png" width="783" height="431" alt="10"></p>
+
+<p><p>Let&rsquo;s see this through an example. Let me create a subdomain named infosec.searching-eye.com on my website.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/3.png" width="739" height="312" alt="3"></p>
+
+<p><p>Once it is done, let&rsquo;s use a particular open DNS server say 8.8.8.8 (OpenDNS) to query the domain.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/5.png" width="747" height="282" alt="5"></p>
+
+<p><p>We can see the response in the answer section.  Also we can see that it has a particular TTL value of 14399. The delegation data is now cached by this server. So let&rsquo;s go ahead and remove the subdomain now.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/6.png" width="745" height="159" alt="6"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/7.png" width="742" height="124" alt="7"></p>
+
+<p><p>As we can see, the subdomain infosec.searching-eye.com has been successfully removed. Now let&rsquo;s go ahead and make the same query for the subdomain infosec.searching-eye.com from the same DNS server.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/8.png" width="746" height="278" alt="8"></p>
+
+<p><p>Surprise, we still get a response. This is because of the cached records that are present in Google&rsquo;s DNS server. As we can see the TTL has decreased down to 12790. We know why this response is here. This is because of the fact that the delegation data for the subdomain has been cached into the DNS server because of the query we made while the subdomain was live. Let&rsquo;s make the same query for the same subdomain through our default DNS server.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/9.png" width="749" height="242" alt="9"></p>
+
+<p><p>As we can see from the image above, we get no response. This is because there were no cached records present in our default DNS server due to which it had to traverse the entire DNS hierarchy in order to find the IP address of the subdomain we were looking for. Once it reached the TLD (i.e .com), it found out that there were no records there. Hence it returned no results.</p></p>
+
+<p><h2>The Vulnerability</h2></p>
+
+<p><p>The vulnerability exists in the DNS cache update policy of a particular DNS server. As discussed earlier in the article, a domain can be completely removed from the global domain name space by removing it from the TLD and allowing enough time for the delegation data to expire across all DNS servers. If somehow it is possible to extend the TTL of delegation data such that it doesn&rsquo;t touch 0, then the domain will still be resolvable.</p></p>
+
+<p><p>Note that not all the DNS servers will be vulnerable to this kind of an exploit. However it is discussed in the <a href="https://www.isc.org/files/imce/ghostdomain_camera.pdf">paper</a> that most of the DNS servers were found vulnerable simply because they did not follow a strict cache update logic.</p></p>
+
+<p><p>The first step is to register a nameserver. This service is generally provided by your domain service provider. This is because i want my nameserver to be of the type <i>xyz.mydomain.com</i> rather than <i>xyz.hostingcompany.com</i>. Note that the IP address you provide must be a valid IP address of a nameserver.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/12.png" width="821" height="229" alt="12"></p>
+
+<p><p>Once we have registered a nameserver, we have to set it as our nameserver as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/13.png" width="428" height="448" alt="13"></p>
+
+<p><p>We can confirm that <i>testns.searching-eye.com</i> has been successfully set as a nameserver by querying for an non-existent subdomain as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/14.png" width="787" height="431" alt="14"></p>
+
+<p><p>We then create another subdomain named <i>ghost.searching-eye.com</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/15.png" width="744" height="176" alt="15"></p>
+
+<p><p>Once this is done, we take a particular DNS server(which we think is vulnerable) and use it to query the subdomain.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ghost-dns/16.png" width="783" height="292" alt="16"></p>
+
+<p><p>So now we know that the delegation data has been cached by the DNS server. So now we go ahead and delete the subdomain. So now the delegation data of the domain will have a TTL which will be constantly decreasing. As we know that the delegation data is the NS record of a domain and the A record of the name server. It could be represented as..</p></p>
+
+<p>```</p>
+
+<pre><code>ghost.searching-eye.com  86400 IN NS testns.searching-eye.com
+testns.searching-eye.com 86400 IN A  abc.32.31.xy  
+</code></pre>
+
+<p>```</p>
+
+<p><p>After the subdomain has been deleted and some time has passed by, the delegation data could look something like this.</p></p>
+
+<p>```</p>
+
+<pre><code>ghost.searching-eye.com  46400 IN NS testns.searching-eye.com
+testns.searching-eye.com 46400 IN A  abc.32.31.xy  
+</code></pre>
+
+<p>```<br/>
+<p>The next step is to change the name of the nameserver to something else like <i>test2.searching-eye.com</i>. Using the same DNS server (4.2.2.4) as before, we then query for the A record of the nameserver, i.e <i>test2.searching-eye.com</i>. The resolver will look into the delegation data and make a query to the IP address of <i>testns.searching-eye.com</i> which is infact the IP address of <i>test2.searching-eye.com</i>. It will return the IP address of the nameserver. But it will also notice that their is a new nameserver now (because the name has changed), and it will overwrite the current cache with the new one (cache update logic will vary across different DNS servers ). After the cache is overwritten, the delegation data could look something like this(depending on the fact that the DNS server does not follow a strict cache update logic and is vulnerable to the exploit discussed in this article).</p></p>
+
+<p><code>
+   ghost.searching-eye.com  86400 IN NS test2.searching-eye.com
+   test2.searching-eye.com  86400 IN A  192.32.31.xy  
+</code></p>
+
+<p><p>We can notice that the new delegation data has a new TTL value. If this process is repeated over and over again, it is possible to continuously keep the TTL value from reaching zero. (Though in some cases it will touch 0 after a long period of time, read the <a href="https://www.isc.org/files/imce/ghostdomain_camera.pdf">paper</a> for more details).</p></p>
+
+<p><p>In order to successfully carry out this attack over a large range, the attacker had to make query through as many vulnerable DNS servers as possible before the TTL for the delegation data of the attacker domain expires on those DNS servers. As the number of DNS servers which still cache the delegation data increases, the number of users who still resolve the domain to an IP address controlled by the attacker also increase. </p></p>
+
+<p><h2>Detecting Ghost Domain Names</h2></p>
+
+<p><p>Ghost domain names are those domains that have been removed from the TLD but are still resolvable by the DNS server. There could basically be two reasons for it.</p></p>
+
+<p><ol>
+<li>The TTL value for the delegation data of the domain has not expired. Note that these kind of domains may not qualify under the category of Ghost domain names simply because their is a possibility that their TTL is not being renewed.</li>
+<li>The TTL value for the delegation data is being renewed somehow by using the vulnerability in the DNS server.</li>
+</ol></p>
+
+<p><p>These are the steps that could be followed to identify the Ghost domain names.</p></p>
+
+<p><ol>
+<li>Perform a DNS lookup on the domain by traversing the DNS hierarchy as discussed in the &ldquo;DNS lookup&rdquo; section in this article.</li>
+<li>Query for an A record of the domain using a particular DNS server </li>
+</ol></p>
+
+<p><p>If the DNS lookup step doesn&rsquo;t give us an IP-address but we get a result from the DNS query step using a particular DNS server, then there is a possibility that the domain is a Ghost domain. We cannot be sure because the results might be coming because the TTL for the delegation data on the DNS server may not have expired (excluding the possibility of resetting the TTL). Hence the challenge is now to identify which are the ghost domains and which are not. The following steps could be followed for that.</p></p>
+
+<p><ol>
+<li>Note down the TTL value for the delegation data.</li>
+<li>Wait for the time equivalent to the TTL value of that domain. Perform the same query again. If the DNS server still resolves the domain then we can be convinced that the domain is a Ghost domain.</li>
+</ol></p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>In this article we discussed a vulnerability recently discussed in a <a href="https://www.isc.org/files/imce/ghostdomain_camera.pdf">paper</a> which signifies how it is possible to illegally update the cache of a DNS server and renew its TTL value for the delegation data of a particular domain. This would mean that the domain will still be resolvable even though it has been removed from the TLD. We then discussed some of the possible methods through which it is possible to determine if a particular domain is a Ghost domain or not.</p></p>
+
+<p><h2>References</h2>
+<ol>
+<li><p>Ghost Domain Names: Revoked Yet Still Resolvable</br><a href="https://www.isc.org/files/imce/ghostdomain_camera.pdf"><a href="https://www.isc.org/files/imce/ghostdomain_camera.pdf">https://www.isc.org/files/imce/ghostdomain_camera.pdf</a></a></p></li>
+<li><p>DNS Hacking (Beginner to Advanced)</br><a href="http://resources.infosecinstitute.com/dns-hacking/"><a href="http://resources.infosecinstitute.com/dns-hacking/">http://resources.infosecinstitute.com/dns-hacking/</a></a></p></li>
+</ol></p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+</feed>

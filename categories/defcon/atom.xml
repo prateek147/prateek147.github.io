@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: defcon | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/defcon/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2014-10-27T13:08:28+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Defcon 20 Day 3 Review]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/defcon-20-day-3-review"/>
+    <updated>2013-06-15T02:53:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/defcon-20-day-3-review</id>
+    <content type="html"><![CDATA[<p>Defcon day 3 started with one of the most awaited talks of Defcon 20. It was the talk "Defeating PPTP VPNs and WPA2 Enterprise with MS-CHAPv2" by Moxie Marlinspike, David Hulton and Marsh Ray. Moxie marlinspike has been one of the most popular speakers at Defcon for the past few years and as expected, the hall was full of people.</p>
+
+
+
+
+<!-- more -->
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon3/IMG_1216.JPG" width="5184" height="3456" alt="IMG 1216"></p>
+
+<h2>Defeating PPTP VPNs and WPA2 Enterprise with MS-CHAPv2</h2>
+
+
+
+
+<p>This talk was mainly about pointing out the vulnerabilities in the MS-CHAP v2 protocol. The speaker talks about how the previous research has shown that the security of the protocol is based on the password of the user. PPTP and WPA 2 Enterprise (which is used by the Defcon wi-fi network) both depend on MS-CHAP v2 protocol. He then explains how many of the VPN providers support PPTP, giving a specific example about Ipredator which only supports PPTP. He then gives a quick explaination about the MS-CHAP v2 handshake. He then explains how all the parameters in the handshake except the md4 hash of the password can be found as it is either know or sent in plaintext. Using some advanced mathematical logic, he then explains how the complexity of the password is that of a single DES encrypt, which is 2 to the power of 56. So the only thing to do now is to bruteforce the challenged response. Moxie then passes on the conversation to David hulton who explains how by using a GPA in a machine with a number of cores, it is possible to decrypt the challenged response in less than 24 hours. He then passes on the conversation to Moxie who explains about a new tool called "Chapcrack" that they will be releasing which is capable of parsing packets, get all the information about MS-CHAP v2 handshake, username etc. He then explains how the ability to crack hashes faster is not available to the general public. Finally, he announces the additional feature to crack MS-CHAP v2 responses in his website Cloud Cracker. The user can enter his email address on the website and get the result within 1 day. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon3/IMG_1217.JPG" width="5184" height="3456" alt="IMG 1217"></p>
+
+<h2>Owning bad guys with Javascript Botnets</h2>
+
+
+
+
+<p>This was also a very good and informative talk by Chema Alonso. The speaker starts by telling how people think that creating a botnet is considered a very tedious task. He then talks about a new idea for creating botnet that he has been working on. He talks about the idea of a JS in the middle attack. This would allow the attacker to modify form fields, get access to cookie etc. But how will it be possible to inject JS code in the middle. He then talks about using a proxy server which will allow the users to direct their traffic through it. He then tells about how the information about the proxy server is posted by other people on the internet. Once the IP address of the proxy server is spread over the internet, people will connect to it without thinking much. Once the people connect through, all the javascript files are infected with the malicious Javascript code. The speaker then tells that how in just one day he was able to get control of 5000 bots. The speaker then finally concludes by giving examples of the information that he found in some of the bots and gives a quick look into the control panel of this botnet.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon3/IMG_1221.JPG" width="5184" height="3456" alt="IMG 1221"></p>
+
+<p>A pic from the panel discussion "Meet the Fed Panel Two"</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon3/IMG_1225.JPG" width="5184" height="3456" alt="IMG 1225"></p>
+
+<p>A pic from "Q & A with the Men (and Women) in Black"</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon3/IMG_1226.JPG" width="5184" height="3456" alt="IMG 1226"></p>
+
+<p>A pic from "Bigger Monster,Weaker Chains: The NSA and the Constitution"</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon3/IMG_1227.JPG" width="5184" height="3456" alt="IMG 1227"></p>
+
+<p>If you are at Defcon, you may not want to miss on the Defcon nightlife. There are a lot of parties held everyday, some of them are private and need invitations, while some of them are open to all the Defcon attendees. I went to the Infected mushroom party on Saturday night. Here is a pic from the party.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon3/IMG_1245.JPG" width="5184" height="3456" alt="IMG 1245"></p>
+
+<p>And here is a video from the Infected Mushroom party.</p>
+
+
+<h3>EMBED CODE FOR VIDEO GOES HERE</h3>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Defcon 20 Day 2 Review]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/defcon-20-day-2-review"/>
+    <updated>2013-06-15T02:51:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/defcon-20-day-2-review</id>
+    <content type="html"><![CDATA[<p>The talks on Defcon day 2 were scheduled to begin from 10 am. I reached the venue at 8:30 am and decided to use the time to buy some Defcon merchandise. The lines for the merchandise are usually very long but it wasn't at that time of the day.</p>
+
+
+
+
+<!-- more -->
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/1.JPG" width="5184" height="3456" alt="1"></p>
+
+<p>After buying a Defcon T-shirt, i decided to go to the room where the CTF contest was being held. The room was already filled with participants who were just setting up their systems for the contest. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/2.JPG" width="5184" height="3456" alt="2"></p>
+
+<p>Here are some pics of the contests hall where some of the events like Bro CTF, gaming events etc were being held.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1092.JPG" width="5184" height="3456" alt="IMG 1092"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1094.JPG" width="5184" height="3456" alt="IMG 1094"></p>
+
+<p>And there was also the very famous Wall of Sheep.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/Wall_OF_sheep.JPG" width="5184" height="3456" alt="Wall OF Sheep"></p>
+
+<p class = "talk">Making Sense of Static - New tools for hacking GPS </p>
+
+
+
+
+<p>This talk was mainly focussed on explaining how the GPS works and introduced some of the new tools for GPS hacking. The talk was mainly divided into three parts a) Why is GPS interesting for hacking. b) GPS 101 and c) New tools for hacking GPS. The speakers started by explaining that these days there are a lot of GPS devices being used and hence a lot of techniques have been developed for performing spoofing and jamming attacks. They then gave a very detailed description about GPS, how the geolocation information is being determined by locating the distance from the satellites and all the other technical aspects related to it.In the end, the speakers introduced two new GPS hacking tools named Libswiftnav and Piksi.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/pIksi.png" width="746" height="508" alt="PIksi"></p>
+
+<p class = "talk">Drones</p>
+
+
+
+
+<p>The speaker Chris Anderson starts by telling how the vast amount of technology required to create Drones is already available to the public for a very cheap amount. He then tells about how he once started a community DIY drones dedicated to created drones. Over the past 5 years, it has transformed into the largest amateur UAV community on the web. He then explains that the success of this was because of the support from the community and the use of Open source hardware and software. DIY Drones has been able to create thousands of Unmanned aerial vehicles at a cost of as less as 1% than the cost of the equivalent military drones. He then explains about the challenges that he faced while creating the community. He tells about his plan to make these drones available to the public at a good price and the legal challenges that he is going to face while doing this. He also explains how by doing this the community can actually help them improve their product. He explains about his plan to compete with some of the aerospace industries. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1115.JPG" width="5184" height="3456" alt="IMG 1115"></p>
+
+<p class = "talk">Can You Track Me Now? Government And Corporate Surveillance Of Mobile Geo-Location Data</p>
+
+
+
+
+<p>This was a panel discussion by Christopher Soghoian, Ben Wizner, Catherine Crump and Ashkan Soltani. The speakers tell about the investigation they have done on how the government is utilizing geolocation data of regular users via their mobile devices. The speakers first start by explaining about some of the local and network attacks which could lead to disclosure of geolocation information. These could be local caches stored on their phone or through third party apps which disclose the user's geolocation information. In some cases, the photos in the device and are available to the third party apps and these photos could sometimes contain geolocation information. They explain about how the carriers companies are forced by the government to reveal the location data of their customers. This geolocation information could be of different types for e.g real time GPS data, historical data or triangulated data. They explain how the carrier companies have built web portals which allow government to track the users while sitting at their office. They also explain that encrypting information on a mobile device doesn't server the purpose as Apple and Google (which are the two major manufacturers of mobile OS) can undo the encryption if needed by the government. A lot of innocent citizens are subjected to surveillance and they don't even know about it. They also explain how the laws for protecting user's privacy are outdated and are not up to pace with the technology. The speakers finally conclude by saying that the least these carries companies can do is inform the users if their private information is being looked into. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1086.JPG" width="5184" height="3456" alt="IMG 1086"></p>
+
+<p class = "talk">New techniques in SQLi obfuscation</p>
+
+
+
+
+<p>The speaker Nick Galbreath discusses about some of new techniques of hiding SQL injection from WAF's. He first starts by introducing  Libinjection which is a quasi-SQL tokenizer and parser to detect SQL injection. He then explains how he tested it with a very large number of Sql injection attacks and noted that some of the code in WAF's was never even executed. He explains how he walked through some of the dark corners of different languages like MySql, PGSql, Oracle looing for different kinds of syntax. He starts by explaining about the NULL character. NULL in MySQL an be written as \N, whereas \n means a new line. This means any WAF that does a to_lower on the user input and looks for null will miss this test case. He then explains about some of the unique Postgres functions that might slip through WAF's too. He explains that because of so much of syntax available and because of the ability to write things in different formats, it becomes tough to write a regular expression to detect SQL injection. He continues the discussion by talking about some oracle special literals, hexadecimal literals . binary literals, money Literals. comments, strings etc and how their syntax can be used to get through WAF. He finally concludes the talk by talking about his intention to add more parsing support for libinjection.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1122.JPG" width="5184" height="3456" alt="IMG 1122"></p>
+
+<p class = "talk">Divashark</p>
+
+
+
+
+<p>The speaker talks about a new tool named Divashark he has been working on. He starts by telling that the inspiration behind this work came from the Defcon Capture the Packet contest where contestants use Wireshark filters to get the information they need. Divashark is an application which assists in live network traffic analysis. He explains how Wireshark can sometimes contain too much information, and if someone is looking for high level information like username and password, then it becomes a very tedious task. He tells that Divashark has the capability to follow tcp and udp streams and group them together. It also has some Protocol dissectors which are designed to get you the information that you want. He finally concludes by telling that the user interface isn't ready yet but should be available soon.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1125.JPG" width="5184" height="3456" alt="IMG 1125"></p>
+
+<p>Here are some other pictures from Defcon day 2 </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1104.JPG" width="5184" height="3456" alt="IMG 1104"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1110.JPG" width="5184" height="3456" alt="IMG 1110"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/defcon2/IMG_1097.JPG" width="5184" height="3456" alt="IMG 1097"></p>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Defcon 20 Day 1 Review]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/defcon-20-day-1-review"/>
+    <updated>2013-06-15T02:45:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/defcon-20-day-1-review</id>
+    <content type="html"><![CDATA[<p>This article will discuss about the talks and events that happened on Defcon day 1.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h2>Venue: Rio Hotel and Casino</h2>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon1//1.JPG" width="5184" height="3456" alt="1"></p>
+
+<p>We reached Rio Hotel at around 8 am. We thought we did good on time until a nice gentleman came to us and said "It's a 3 hour long line guys !". We however got through the line in about 90 minutes, thanks to the nice staff at Defcon.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon1//3.JPG" width="5184" height="3456" alt="3"></p>
+
+<p>One you get through the registration process, you are offered a Defcon badge which is your entry pass to Defcon and a  booklet that informs you about the whole Defcon schedule. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon1//IMG_0909.JPG" width="5184" height="3456" alt="IMG 0909"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/defcon1//IMG_0914.JPG" width="5184" height="3456" alt="IMG 0914"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/defcon1//IMG_0915.JPG" width="5184" height="3456" alt="IMG 0915"></p>
+
+<h2> to Digital Forensics: Tools and Tactics</h2>
+
+
+
+
+<p>This talk by Ripshy and Jacob was mainly directed at people who wanted to get started with Infosec. Before the talk, the authors quickly distributed some Backtrack Live CD's to the public. The talk started by an introduction to the Backtrack distro, telling about the little things like the user/pass for logging in to BT and getting started with network services in BT. The author then mentioned the top 5 tools used in Infosec which included Nmap, TCPDump, netcat, Ntop and Metasploit. The author then explained all the 5 top Infosec tools and their basic usage, by giving examples with screenshots, commands etc. </p>
+
+
+
+
+<h2>Cerebral Source Code</h2>
+
+
+
+
+<p>This was one of the best talks i have ever been to at Defcon. This talk by Siviak was mainly focussed on Social Engineering. The speaker starts by explaining how simple things like being nice to people can help you get the information you want. The speaker then tells that things like good books and courses for Social Engineering doesn't exist. To be good at Social engineering, you have to go out and live the experience, and take a chance whenever possible. The key thing is to motivate people to give you the thing that you want. There is no such thing as an effective Social Engineering technique, it changes by time and even by weather. One of the funny incidents happened when someone from the audience asked "What is an effective technique to get traffic on your site by Social Networking ?" and the speaker replied "PORN." One of the good questions asked were "What is a good Social Engineering technique to gain access to a security facility via Social Engineering ?". The speaker Siviak replied by telling that we should always look like we know what we are doing, and that we are supposed to be in the place where we are. If some security guy fires a tough question at you, fire them back ! They don't know how to react to such a situation. Don't give their brains time to catch up. Humans are like computers, the more information you give them, the more they will be able to figure things out. We must change things quickly so their brains don't catch up with what's going on. If you want to perform Social engineering on a specific subject (person) and you don't know what he/she has under her desk, how many kids he/she have etc, you are not trying hard enough. These things will help you build a common thread which could help you in obtaining more information from the subject. The talk ended with a last question when someone asked "Do we need to learn psychology in order to perform Social Engineering ?" and the speaker replied "No". Overall the talk was very informative and the speaker was very funny so he kept the audience in a very good mood throughout.</p>
+
+
+
+
+<h2>DEF CON 101 </h2>
+
+
+
+
+<p>This panel was taken by Pyro, Roamer, Lockheed, Alxrogan, Lost and FLipper who are responsible for organizing many of the events and maintaining the network at Defcon. The talk was mainly focussed on how you could maximize your Defcon experience. The main point told by the organizers was "You get as much out of Defcon as you put into it." They talk about how we should just not attend Defcon talks, but meet and socialize with people. We could just go up to some people, but them a beer and you never know, that guy might just turn into your best friend. The defcon organizers tell about how they are looking forward to this weekend for the whole year, and all they want from us is just to listen to the Goons if they have some problem with you. Lockheed then comes up and talk about some of the challenges they face while setting up the Defcon network. The authors then tell us about the Defcon nightlife, some of the events that will be happening in the night, and asks us to attend these events too. The authors conclude by telling us that we should be careful while talking to the media and should ask for the power to edit the article because you never know what they might publish.</p >
+
+
+<p></p>
+
+<h2>Screw the Planet, Hack the Job !</h2>
+
+
+
+
+<p>This talk by Roamer, Lockheed, Alxrogan who are part of the Defcon staff tells us how utilizing Defcon can help you find your dream job. One of the best parts of this talk was when someone asked "I know there are potential employers/employees at Defcon. Do you plan to have something like a job fair at Defcon ?" and one of the speakers replied "I know what you are talking about, we have people who want to hire at Defcon. But the moment we cross that line and it turns into a job fair, we have lost our credibility."</p>
+
+
+
+
+<h2>HF Skiddies SUCK, don't be one. Learn some basic Python.'</h2>
+
+
+
+
+<p>The speaker King TunA starts by speaking about some of the basic advantages of using Python by giving demos via videos (which weren't possible to see as long as you are very close to the screen but are online on Youtube). The speaker explains how things which can take 200-300 lines of code in other languages could be done in Python in much lesser lines. Finally, the author ends the talk by giving a demo of an HTTP scraper.</p>
+
+
+
+
+<p>Here's a quick video of this year's Defcon badge. </p>
+
+
+<h3>VIDEO GOES HERE</h3>
+
+<p>Well there is more to Defcon than just the talks. Its also about the Defco nightlife, meetups etc. There was this very good event called "the Summit" being held which was a fundraiser for the EFF. I went to the hackfest meetup in Flamigo though. </p>
+
+
+
+
+<p>Well that's it for Defcon day 1. I will be writing about Defcon day 2 and day 3 also. Please let me know if there is something specific about Defcon that you want me to write about. I leave you now with some pictures from the event. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/defcon1//IMG_0951.JPG" width="5184" height="3456" alt="IMG 0951">
+<img src="http://prateek147.github.io/images/posts/defcon1//IMG_0965.JPG" width="5184" height="3456" alt="IMG 0965">
+<img src="http://prateek147.github.io/images/posts/defcon1//IMG_0970.JPG" width="5184" height="3456" alt="IMG 0970"></p>
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+]]></content>
+  </entry>
+  
+</feed>

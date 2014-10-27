@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>IOS Application Security Part 21 – ARM and GDB Basics - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="IOS Application Security Part 21 – ARM and GDB Basics Nov 8th, 2013 Posted by Prateek Gianchandani All the IOS devices released uptil now are based &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    IOS Application Security Part 21 – ARM and GDB Basics
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-11-08T14:50:00+04:00" pubdate data-updated="true">Nov 8<span>th</span>, 2013</time></h5>
+  <h4>
+  
+
+<p>Posted by <a href="http://highaltitudehacks.com/about/">Prateek Gianchandani</a></p>
+<h4>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>All the IOS devices released uptil now are based on the ARM architecture. All the Objective-C code that we write while developing IOS applications is first converted into ARM assembly before being converted to machine code (1s and 0s). With good understanding of the ARM assembly language and with good knowledge of debugging using GDB, it is possible for a hacker to decipher the Objective-C code during runtime and even modify it.</p>
+
+
+
+
+<p>For this article, we will be using a sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Make sure to install and run it on your IOS device. If you don&#8217;t have a registered developer account to run this on your device, you can follow the instructions mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a></p>
+
+
+<p>.</p>
+
+<p>Now let&#8217;s SSH into the device.</p>
+
+
+<p><img src="/images/posts/ios21/1.png" width="465" height="108" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>Now lets start GDB and ask GDB to hook into our application as soon as it is started. This is done by using the command <i>attach &#8211;waitfor Appname</i>. Optionally, you can also start the application on your device and hook into the running process using the <i>attach</i> command as shown below.</p>
+
+
+<p>.</p>
+
+<p><img src="/images/posts/ios21/2.png" width="1059" height="422" alt="2"></p>
+
+<p>Now once GDB has hooked into the application, you will notice that the application is in a paused state. You can resume the application by just using the <i>c</i> command. But let&#8217;s do some investigation before that. Just like any other architecture, the memory in ARM is divided into registers. All these registers are 32 bit in size (except in IOS 7 which is 64 bit) and their purpose is to hold and move data between each other. You can find information about these registers  by just using the <i>info registers</i> command.</p>
+
+
+<p><img src="/images/posts/ios21/3.png" width="1089" height="358" alt="3"></p>
+
+<p>Please note that this command does not print out all the registers in ARM. To print all the registers, use the command <i>info all-registers</i></p>
+
+
+<p><img src="/images/posts/ios21/4.png" width="882" height="590" alt="4"></p>
+
+<pre><code>&lt;p&gt;To dump the diassembly, just use the &lt;i&gt;disassemble&lt;/i&gt; or &lt;i&gt;disas&lt;/i&gt; command. This will give us the assembly dump for the next few instructions. We can also dump the assembly of a particular function by specifying the function name after the &lt;i&gt;disas&lt;/i&gt; command. For e.g, to dump the assembly for the main function, use the &lt;i&gt;disas main&lt;/i&gt; command.&lt;/p&gt;
+</code></pre>
+
+<p><img src="/images/posts/ios21/5.png" width="642" height="364" alt="5"></p>
+
+<p>If we look at the application that we just installed on our device, we will see that it is just a simple application that prompts for a username and password.</p>
+
+
+<p><img src="/images/posts/ios21/IMG_0099.PNG" width="320" height="480" alt="IMG 0099"></p>
+
+<p>We can also see from the class-dump-z output of the application that there is a class named <i>ViewController</i> and a method named <i>-(void)loginButtonTapped:(id)tapped;</i></p>
+
+
+<p><img src="/images/posts/ios21/6.png" width="724" height="237" alt="6"></p>
+
+<p>With GDB, we can also set breakpoints in the application. You can type the method names to set breakpoints to. Just use the command <i>b functionName</i>. You can also specify the method signature without the class if you are unsure and GDB will ask you which class you want to set the breakpoint on.</p>
+
+
+<p><img src="/images/posts/ios21/7.png" width="546" height="228" alt="7"></p>
+
+<p>Please note that instance methods are prefixed with a minus sign <i>-</i> whereas class methods are prefixed with a plus sign <i>+</i> as shown below. For e.g, <i>sharedInstance</i> is a class method that returns the shared instance of a singleton class.</p>
+
+
+<p><img src="/images/posts/ios21/8.png" width="622" height="564" alt="8"></p>
+
+<pre><code>&lt;p&gt;You can see all your breakpoints using the command &lt;i&gt;info breakpoints&lt;/i&gt;.&lt;/p&gt;
+</code></pre>
+
+<p><img src="/images/posts/ios21/9.png" width="774" height="89" alt="9"></p>
+
+<p>You can remove any breakpoint by using the command <i>delete</i> followed by the ID of the breakpoint.</p>
+
+
+<p><img src="/images/posts/ios21/10.png" width="767" height="89" alt="10"></p>
+
+<p>Anyways, lets set a breakpoint for the method <i>loginButtonTapped:</i>.</p>
+
+
+<p><img src="/images/posts/ios21/11.png" width="314" height="44" alt="11"></p>
+
+<p>We can then resume the app by using the <i>continue</i> or the <i>c</i> command.</p>
+
+
+<p><img src="/images/posts/ios21/12.png" width="213" height="38" alt="12"></p>
+
+<p>Lets tap on the login button in the app. This will trigger our breakpoint.</p>
+
+
+<p><img src="/images/posts/ios21/13.png" width="648" height="96" alt="13"></p>
+
+<pre><code>&lt;p&gt;We can then find some of the next instruction by using the disassemble command.&lt;/p&gt;
+</code></pre>
+
+<p><img src="/images/posts/ios21/14.png" width="712" height="468" alt="14"></p>
+
+<p>To set breakpoint any particular instruction, add the asterix sign before the address for that instruction.</p>
+
+
+<p><img src="/images/posts/ios21/15.png" width="275" height="40" alt="15"></p>
+
+<p>In <a href="http://highaltitudehacks.com/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime/">part 3</a> of this article series, we also learnt about the function objc_msgSend. Objective-C is based on messaging and whenever a message is being sent, the objc_msgSend fucntion gets called. In the disassembly code for the function <i>loginButtonTapped:</i> that we printed out, there are a lot of objc_msgSend calls. A good way to find this out is to look for the <i>blx</i> instruction. Wherever you see a blx instruction, you can be sure that an objc_msgSend call is happening.</p>
+
+
+<p><img src="/images/posts/ios21/16.png" width="818" height="193" alt="16"></p>
+
+<p>Whenever a new method is called or a property is accessed, the objc_msgSend function gets called. So if we can set a breakpoint for the objc_msgSend call and find a way to print out the method being called and the object that calls this method, then this will give us a very good insight into the flow of the app. We had already looked at how Snoop-it was able to find out all the traced calls in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">part 9</a> of this series. To find out the methods being called, first we need to look at calling convention for ARM. Here is a screenshot of the ARM calling convention from <a href="http://en.wikipedia.org/wiki/Calling_convention">Wikipedia</a>.</p>
+
+
+<p><img src="/images/posts/ios21/17.png" width="1262" height="482" alt="17"></p>
+
+<p>The important line to note here is this.</p>
+
+
+<p><img src="/images/posts/ios21/18.png" width="794" height="24" alt="18"></p>
+
+<p>So we can set a breakpoint for every objc_msgSend call and find the parameters passed to this function by using the values of r0-r3 registers. Let&#8217;s have a look at the signature for objc_msgSend call. Here is a screenshot taken from Apple&#8217;s <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html#//apple_ref/c/func/objc_msgSend">documentation</a>.</p>
+
+
+<p></p>
+
+<p><img src="/images/posts/ios21/19.png" width="1212" height="459" alt="19"></p>
+
+<p>So the first two arguments to the function are <i>self - A pointer that points to the instance of the class that is to receive the message</i> and <i>op -
+The selector of the method that handles the message.</i>. The selector is nothing but the signature for the message. For e.g if a method has the prototype <i>-(void)addOjectsToArray:(NSArray *)array</i> then the signature for it would be <i>addOjectsToArray:</i>. And we also know that r0 to r3 are used to hold argument values passed to a subroutine, hence we can conclude that <i>r0 will contain self</i> and <i>r1 will contain op</i>.</p>
+
+
+
+
+<p>Let&#8217;s understand this through an example. Set up a breakpoint for the objc_msgSend call and continue until the breakpoint is hit.</p>
+
+
+<p><img src="/images/posts/ios21/20.png" width="429" height="122" alt="20"></p>
+
+<p>As we learnt, r0 should contain a pointer to the instance of the class that is to receive the message, r1 should contain the selector and after that starting from r2 should be the arguments for the method. But first we should learn about the <i>x</i> command. x stands for examine and helps us to examine memory in many different formats. So we can specify the format in which we want to examine the memory. To find out all the options available with this command, use the <i>help x</i> command.</p>
+
+
+<p><img src="/images/posts/ios21/21.png" width="641" height="243" alt="21"></p>
+
+<p>Let&#8217;s start by examining r0. We know it will contain a pointer to the instance of the class that will receive the message. Hence the format is address and we use x/a. We use $ before r0 because we want to examine the memory, and hence the $ sign.</p>
+
+
+<p><img src="/images/posts/ios21/22.png" width="553" height="56" alt="22"></p>
+
+<p>We can see that the receiver is an instance of the UIRoundedRectButton class. Now lets try to examine the value in r1 register. We know that it contains the selector, i.e the signature of the method. This is a string and hence we use x/s. </p>
+
+
+<p><img src="/images/posts/ios21/23.png" width="390" height="63" alt="23"></p>
+
+<p>Now, we have to find out the arguments to this method. This can be tricky as we don&#8217;t know what format is r2. But looking at the selector which is <i>respondsToSelector:</i> and using some common sense, we can assume that the argument will be a selector, and hence we again use x/s to examine the memory in string format.</p>
+
+
+<p><img src="/images/posts/ios21/24.png" width="369" height="61" alt="24"></p>
+
+<p>Alright, so the argument is <i>debugDescription</i>. From the method selector, we can see that there is only one argument to this function, hence we don&#8217;t worry about examining further registers. So now, we can say that the method being called must be something like this.</p>
+
+
+
+
+<p>-[UIRoundedRectButton respondsToSelector:@selector(debugDescription)];</p>
+
+
+
+
+<p>But there are so many objc_msgSend calls and examining all of these calls one by one is such a pain. So lets try and automate this process. In <a href="http://highaltitudehacks.com/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime/">part 3</a> of this series, we learnt how to use the commands option in gdb to print something whenever a breakpint is hit. Let&#8217;s use it here as well.</p>
+
+
+<p><img src="/images/posts/ios21/25.png" width="543" height="137" alt="25"></p>
+
+<p>Now press <i>c</i> to continue. You will see all the methods being called. This tells us so much about what is happening in the application.</p>
+
+
+<p><img src="/images/posts/ios21/26.png" width="762" height="665" alt="26"></p>
+
+<p>Now let&#8217;s try and print this in Objective-C like syntax. We are going to use the function class_getName mentioned in Apple&#8217;s <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html#//apple_ref/c/func/objc_msgSend">documentation</a>. As you can see, it requires an argument which is the class object, hence we will pass it r0.</p>
+
+
+<p><img src="/images/posts/ios21/27.png" width="512" height="295" alt="27"></p>
+
+<p>Now rewrite the calls in commands like this.</p>
+
+
+<p><img src="/images/posts/ios21/28.png" width="674" height="152" alt="28"></p>
+
+<p>Type c to continue and now as you can see, the information is in a much more readable format.</p>
+
+
+<p><img src="/images/posts/ios21/29.png" width="825" height="531" alt="29"></p>
+
+<p>This tells us so much about what is happening inside an application. In the next article, we will take our knowledge gained from this article and learn how to perform runtime manipulation with GDB.</p>
+
+
+
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="//categories/security/"><span class="badge">security</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults" title="Previous Post: IOS Application Security Part 20 – Local Data Storage (NSUserDefaults">&laquo; IOS Application Security Part 20 – Local Data Storage (NSUserDefaults</a>
+          
+          
+            <a class="basic-alignment right" href="/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb" title="Next Post: IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB">IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics';
+        var disqus_url = 'http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

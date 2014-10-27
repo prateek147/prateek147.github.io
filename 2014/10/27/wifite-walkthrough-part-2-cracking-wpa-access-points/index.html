@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Wifite Walkthrough part 2: Cracking WPA access points - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="Wifite Walkthrough Part 2: Cracking WPA Access Points Oct 27th, 2014 Posted by Prateek Gianchandani In this article, we will look at cracking access &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Wifite Walkthrough Part 2: Cracking WPA Access Points
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2014-10-27T01:43:00+04:00" pubdate data-updated="true">Oct 27<span>th</span>, 2014</time></h5>
+  <h4>
+  
+
+<p>Posted by <a href="http://highaltitudehacks.com/about/">Prateek Gianchandani</a></p>
+<h4>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>In this article, we will look at cracking access points using WPA-PSK or WPA2-PSK using Wifite.</p>
+
+
+
+
+<p>If you have used tools like airodump-ng, aircrack-ng etc to crack WPA access points before, you would know that the required thing to successfully crack a WPA-PSK network is a captured WPA four-way handshake. More details about the WPA four-way handshake can be found on <a href="http://en.wikipedia.org/wiki/IEEE_802.11i-2004">this</a> wikipedia page.</p>
+
+
+
+
+<p>As mentioned in the previous article, there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn&#8217;t aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = [&#8216;aireplay-ng&#8217;,</i> with <i>cmd = [&#8216;aireplay-ng&#8217;,&#8217;&#8211;ignore-negative-one&#8217;,</i></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>To start wifite for cracking a WPA access point, give it the option <i>-wpa</i> to only target WPA networks. Also, give it a dictionary file as an input for cracking the WPA passphrase with the <i>-dict</i> option. In kali linux, the wordlists are stored at the location <i>/usr/share/wordlists</i>. Wifite will now start scanning for WPA access points.</p>
+
+
+<p><img src="/images/posts/wifite2/1.png" width="947" height="316" alt="1"></p>
+
+<p>Press Ctrl+C to give a target number. In my case, the target number is 2 which is an access point i have configured for testing purposes. The access point uses WPA2-PSK encryption with the key as &#8220;password&#8221;.</p>
+
+
+<p><img src="/images/posts/wifite2/2.png" width="741" height="443" alt="2"></p>
+
+<p>Wifite will now start listening for the handshake. Once it has found it, it will automatically start cracking the passphrase using the dictionary file that we supplied.</p>
+
+
+<p><img src="/images/posts/wifite2/4.png" width="834" height="358" alt="4"></p>
+
+<p>And as you can see, Wifite has successfully found the passphrase for the access point.</p>
+
+
+
+
+<p>Sometimes, things may not work as smoothly. In order to capture a WPA handshake between the client and the access point, the client has to connect to the wireless network during that period when we are monitoring the network. If the client is already connected, there will be no handshake that is captured. Wifite does this by automatically sending deauthentication packets to a particular client or a broadcast deauthentication packet if it is required. You can specify the time between deauthentication packets using the -wpadt flag. Hence, when the client tries to reconnect to the access point, the handshake is captured.</p>
+
+
+
+
+<p>You can also specify which tool you want to use to crack the passphrase once the four-way handshake has been successfully captured. By default, aircrack-ng is selected. You can also use cowpatty, pyrit or tshark to crack the passphrase.</p>
+
+
+<p><img src="/images/posts/wifite2/5.png" width="622" height="92" alt="5"></p>
+
+<p>Another cool option in Wifite is to anonymize your MAC address using the <i>-mac</i> option. Even though it is quite trivial using simple commands or <i>macchanger</i> utility to change the MAC address for a specific interface, it is good to have this feature in the tool itself. However, in order to make this work, you first have to take that specific interface for which you want to change the MAC address down to managed mode if it is in monitor mode previously. You can use the command <i>iwconfig</i> to check all the interfaces that are in monitor mode and then take them down using the command <i>airmon-ng stop interface-name</i> command. As we can see from the image below, the mon0 interface is in monitor mode.</p>
+
+
+<p><img src="/images/posts/wifite2/6.png" width="698" height="287" alt="6"></p>
+
+<p>Hence, lets take it down using the command <i>airmon-ng stop mon0</i></p>
+
+
+<p>.</p>
+
+<p><img src="/images/posts/wifite2/7.png" width="678" height="351" alt="7"></p>
+
+<p>Now we can add the <i>-mac</i> option to anonymize the MAC address. As you can see, Wifite is intelligent enough to change the MAC address to something that is similar the existing MAC address of the interface and not to something ridiculous (for e.g AA:BB:CC:DD:EE:FF) which is a giveaway.</p>
+
+
+<p><img src="/images/posts/wifite2/8.png" width="895" height="378" alt="8"></p>
+
+<p>And when you stop the capture, Wifite is nice enough to change the MAC address back to the original one.</p>
+
+
+
+
+<p>In this article, we looked at how we can use Wifite to crack networks using WPA-PSK or WPA2-PSK. Wifite is great at its job and automates almost everything, however it is important to understand how it uses the tools like airodump-ng, aircrack-ng etc under the hood to perform its task. I would recommend that you go through the source code of Wifite and figure out how this is done.</p>
+
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="//categories/security/"><span class="badge">security</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points" title="Previous Post: Wifite Walkthrough part 1: Cracking WEP access points">&laquo; Wifite Walkthrough part 1: Cracking WEP access points</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points';
+        var disqus_url = 'http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

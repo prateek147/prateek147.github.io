@@ -1,0 +1,1400 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Oct 26th, 2013 Comments security IOS Application Security Part 19 – &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/downloads/code/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div class="jumbotron">
+  <div class="container">
+    Hi. I&#8217;m Prateek Gianchandani.
+    <h3 class="tagline">Security Researcher. Mountaineer. Diver.</h3>
+  </div>
+</div>
+
+
+<div class="blog-index">
+  
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-10-26T23:38:00+04:00" pubdate data-updated="true">Oct 26<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/10/26/ios-application-security-part-19-programmatical-usage-of-introspy#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/10/26/ios-application-security-part-19-programmatical-usage-of-introspy">IOS Application Security Part 19 – Programmatical Usage of Introspy</a></h1>
+      <p>In this article, we will look at how we can Introspy as a python module in our scripts.</p>
+
+
+
+
+<p>The first thing to do is to import the introspy module and Namespace from argparse module.</p>
+
+
+<p><img src="/images/posts/ios19/1.png" width="555" height="140" alt="1"></p>
+
+<p>We then create an instance of the Introspy class. The arguments that we need to provide are the database name, 
+the group name, the subgroup name and the list. Now, for this case, lets provide all the parameters as None except the database path. Introspy will hence include all the groups rather than just including a particular group.</p>
+
+
+
+
+
+      
+       <a href="/2013/10/26/ios-application-security-part-19-programmatical-usage-of-introspy">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-26T17:41:00+04:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox">IOS Dev - Encrypting images and saving them in App Sandbox</a></h1>
+      <p>One of the requirements in my latest project was to encrypt an image and save it on the device in the application&rsquo;s sandbox, then decrypt is during runtime and upload it to the server. I looked at the documentation for Apple&rsquo;s CommonCrypto Framework, but it was taking me plenty of time to implement it so instead i decided to use some wrappers that would get the job done for me. I found the <a href="https://github.com/rnapier/RNCryptor">RNCryptor</a> library on Github that uses AES encrypton. It was pretty simple to implement it. First, download the files from its github url and include all the files that are relevant to you present inside the <b>RNCryptor</b> folder on your project. In my case, i just imported all of them for now.</p>
+
+<p><img src="/images/posts/imageen/1.png" width="292" height="102" alt="1"></p>
+
+<p>Then use the following code to encrypt the image.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//  Code for encrypting and saveing image </span>
+</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">imageToEncrypt</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;SomeImage&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">fetchedImage</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNEncryptor</span> <span class="nl">encryptData:</span><span class="n">data</span>
+</span><span class='line'>                                        <span class="nl">withSettings:</span><span class="n">kRNCryptorAES256Settings</span>
+</span><span class='line'>                                            <span class="nl">password:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                               <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">encryptedData</span> <span class="nl">writeToFile:</span><span class="n">imagePath</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that encryting and decrypting the image requires a passcode (ABC123). To decrypt the image, use the following code ..</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="c1">//  Code for loading image by decryption</span>
+</span><span class='line'>    <span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfFile:</span><span class="n">imagePath</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">decryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNDecryptor</span> <span class="nl">decryptData:</span><span class="n">encryptedData</span>
+</span><span class='line'>                                        <span class="nl">withPassword:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                               <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData:</span><span class="n">decryptedData</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> See, its pretty simple. If you have any questions, let me know in the comments secton below and i will get back to you.</p>
+
+      
+      
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-26T17:18:00+04:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/26/ios-application-security-part-18-detecting-custom-signatures-with-introspy#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/26/ios-application-security-part-18-detecting-custom-signatures-with-introspy">IOS Application Security Part 18 – Detecting custom signatures with Introspy</a></h1>
+      <p>In the previous article, we looked at how we can use Introspy for Black-box assessment of IOS applications. In this article, we will look at how we can use Introspy to set up our own custom signatures and detect them in an application trace. Setting up our own predefined signatures could be useful for cases where you have a found a method in a particular application that seems of particular interest to you and you want to know when it is being called. Introspy already has a list of predefined signatures that it uses to flag vulnerabilities or insecure configurations. However, it also allows us to add our own signatures.</p>
+
+
+
+
+<p>You can find the predefined signatures in Introspy in the signatures.py file inside the analyzer folder. </p>
+
+
+
+
+
+      
+       <a href="/2013/09/26/ios-application-security-part-18-detecting-custom-signatures-with-introspy">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-23T13:21:00+04:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/23/ios-application-security-part-17-black-box-assessment-of-ios-applications-using-introspy#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/23/ios-application-security-part-17-black-box-assessment-of-ios-applications-using-introspy">IOS Application Security Part 17 – Black-Box Assessment of IOS Applications using INTROSPY</a></h1>
+      <p>In this article, we will look at how we can use Introspy for Black-box assessment of IOS applications. Introspy is developed by <a href="https://www.isecpartners.com/">ISEC partners</a> and its github page can be found <a href="https://github.com/iSECPartners/introspy">here</a>. Introspy consists of two seperate modules, a tracer and an analyzer. It is undoubtedly one of the most powerful tools for analyzing the security of IOS applications.</p>
+
+
+
+
+<p>The first step is to install the Introspy tracer on your device. You can download the debian package from <a href="https://www.dropbox.com/s/z5cwqk5wti3zsvd/com.isecpartners.introspy-v0.3-iOS_6.1.deb?dl=1">here</a>. Once it is downloaded, just upload it and install on your device. The image below shows how to perform all the above mentioned steps.</p>
+
+
+
+
+
+      
+       <a href="/2013/09/23/ios-application-security-part-17-black-box-assessment-of-ios-applications-using-introspy">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-17T17:55:00+04:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax">IOS Dev - Storing Info in Keychain with NSUserDefaults like syntax</a></h1>
+      <p>Recently, i decided to improve the security of one of my applications by storing some of the information that i was previously saving in NSUserDefaults in the Keychain. Basically, this doesn&rsquo;t make that much of a difference if your device is jailbroken. However, if your device is not jailbroken then it is possible to fetch the information saved by NSUserDefaults but not from the Keychain. This is because NSUserDefaults saves the information in an unencrypted format in a plist file inside the application sandbox which can be easily fetched. It can also be fetched from an iTunes backup. Hence, saving info in the Keychain adds an extra layer of security in that case.</p>
+
+<p>I started looking for some Keychain Wrappers and bumped into this amazing library from Github named <a href="https://github.com/carlbrown/PDKeychainBindingsController">PDKeychainBindingsController</a>. I found it ridiculously simple to use.</p>
+
+
+      
+       <a href="/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-17T13:12:00+04:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer">IOS Application Security Part 16 – Runtime Analysis of IOS Applications using iNalyzer</a></h1>
+      <p>In the previous article, we looked at how we can perform static analysis of IOS Applications using iNalyzer. In this article, we will look at how we can use iNalyzer to perform runtime analysis of IOS applications. We can invoke methods during runtime, find the value of a particular instance variable at a particular time in the app, and basically do anything that we can do with Cycript.</p>
+
+
+
+
+<p>In the last article, we were successfully able to generate the html files via Doxygen and open it up to view class information and other information about the app. For runtime analysis, we will be using the Firefox browser. The developer of this tool has personally recommended me to use Firefox as this may not work on other browsers. However, it seemed to be working fine for me on Chrome as well.</p>
+
+
+
+
+
+      
+       <a href="/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-17T13:11:00+04:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer">IOS Application Security Part 15 – Static Analysis of IOS Applications using iNalyzer</a></h1>
+      <p>In the previous article, we looked at how we can use Sogeti Data protection tools to boot an iDevice using a custom ramdisk with the help of a bootrom exploit. In this article, we will look at a tool named iNalyzer than we can use for black box assessment of IOS applications. iNalyzer allows us to view the class information, perform runtime analysis and many other things. Basically it automates the efforts of decrypting the application, dumping class information and presents it in a much more presentable way. We can also hook into a running process just like Cycript and invoke methods during runtime. iNalyzer is developed and maintained by <a href="https://appsec-labs.com">AppSec Labs</a> and its offical page can be found <a href="https://appsec-labs.com/iNalyzer">here</a>. iNalyzer is also made available open source and its github page can be found <a href="https://github.com/appsec-labs/iNalyzer">here</a>.</p>
+
+
+
+
+
+      
+       <a href="/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-17T13:10:00+04:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/17/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools">IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools</a></h1>
+      <p>In the previous article, we looked at how we can boot a device using a custom ramdisk using Sogeti Data protection tools. In this article, we will look at how we can use some of their tools to gather information from the device like fetching the keychain information, dumping the entire filesystem or even bruteforcing the passcode.</p>
+
+
+
+
+<p>Until the previous article, we had successfully set up a connection to the device using usbmux, ssh&#8217;ed into the device and had mounted the partitions. Here is what these partitions contain.</p>
+
+
+<p><img src="/images/posts/ios14/1.png" width="1381" height="153" alt="1"></p>
+
+
+      
+       <a href="/2013/09/17/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-17T13:07:00+04:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/09/17/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools">IOS Application Security Part 13 – Booting a custom Ramdisk using Sogeti Data Protection tools</a></h1>
+      <p>In the previous article, we looked at how we can use Keychain-Dumper and Snoop-it to analyze and dump the contents of the Keychain from an IOS device. In this article, we will look at how we can boot a non-jailbroken device using a custom ramdisk and analyze the contents of the device.</p>
+
+
+
+
+<p>So what is the need of booting a device using a custom ramdisk ? Imagine a scenario where you only have temporary access to a device and you can&#8217;t jailbreak it. You just have access to the device for say like 30 minutes. In that time, you can boot the device using a custom ramdisk, brute force the passcode, and dump all the information for later analysis. The best thing is that the device does not need to be jailbroken in order for you to carry out this attack. Ofcouse, if the device is using a alphanumeric passcode, then it might take even more time to bruteforce the passcode. You can imagine this as similar to booting a windows machine with a Linux live CD, and then mounting the windows partition and then using the Linux OS to access the contents of the hard drive. 
+      
+       <a href="/2013/09/17/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-29T14:20:00+04:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/08/29/mind-over-body-stok-kangri-summit-day-16#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/everest/"><span class="badge">everest</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/08/29/mind-over-body-stok-kangri-summit-day-16">Mind over Body !</br> Stok Kangri Summit Day</br> 16,300 ft -> 20,187 ft -> 16,300 ft</a></h1>
+      <h3>9:40 pm - Stok Kangri Base Camp - 16,300 ft</h3>
+
+
+
+
+<blockquote><p>Why climb Everest ? Because it&#8217;s there.</p><footer><strong>George  Mallory</strong></footer></blockquote>
+
+
+<p><img src= "/images/posts/stok/first.png" width="70%" height="70%"/></p>
+
+<p>I crawled out of my tent after a 3 hour restless sleep. We were supposed to leave at 10:30 pm for the summit. It was a perfectly clear day, something that we had really wished for. There was a storm at the same time the night before. I looked up and saw all the stars.  It was an unbelievably beautiful sight. I could easily make out some of the constellations and the milky way galaxy. In those 15 mins, i saw atleast 4-5 shooting stars.</p>
+
+
+      
+       <a href="/2013/08/29/mind-over-body-stok-kangri-summit-day-16">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-23T14:44:00+04:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/08/23/what-to-expect-from-iphone-5s-slash-5c#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/08/23/what-to-expect-from-iphone-5s-slash-5c">What to expect from the new iPhone (5S/5C) - Rumor roundup</a></h1>
+      <p>The smartphone world is buzzing about rumors for the new Iphone. The new Iphone is rumored to be launched on September 10 in an event in San Francisco, which means that the invitations for the event would be sent to the press sometime around September 3. This time, Apple is reported to be releasing two models of iPhone, one is the iPhone 5s and the other a cheaper variant, reportedly named as the iPhone 5C. Here is a complete rumor roundup from multiple sources about the next generation iPhone.</p>
+
+<h2>Fingerprint Sensor</h2>
+
+
+<p>There is absolutely no doubt regarding the fact that the new iPhone will come with a biometric fingerprint sensor.Code for biometric scanning has already been discovered in the beta versions of IOS 7 (by Hamza Sood) released to developers.</p>
+
+<p><img src = "http://asset3.cbsistatic.com/cnwk.1d/i/tim2/2013/07/29/BQXGg5-CUAAiXp6_610x585.jpg%3Alarge"/></p>
+
+
+      
+       <a href="/2013/08/23/what-to-expect-from-iphone-5s-slash-5c">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-20T07:32:00+04:00" pubdate data-updated="true">Aug 20<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/08/20/ios-application-security-part-12-dumping-keychain-data#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-12-dumping-keychain-data">IOS Application Security Part 12 – Dumping Keychain Data</a></h1>
+      <p>In the previous article, we looked at the different ways in which we could analyze the network traffic and the api calls being made through an IOS application. In this article, we will look at how we can dump the contents of the Keychain from an IOS device.</p>
+
+
+
+
+<h2>Keychain Basics</h2>
+
+
+
+
+<p>According to Apple, a Keychain in an IOS device is a secure storage container that can be used to store sensitive infromation like usernames, passwords,network passwords, authentication tokens for different applications. Apple itself uses the Keychain to store Wi-fi network passwords, VPN credentials etc. It&#8217;s a sqlite database file located at <i>/private/var/Keychains/keychain-2.db</i> and all the data stored in it is encrypted. Developers usually want to leverage this feature of the operating system to store credentials rather than storing it themseleves in NSUserDefaults, plist files etc. The reason for this could be that the developer may not want the user to log in everytime and hence store the authentication information somewhere in the device and use it to log in the user automatically whenver the user opens up the app again. The keychain information for every app is stored outside of its sandbox.</p>
+
+
+
+
+
+      
+       <a href="/2013/08/20/ios-application-security-part-12-dumping-keychain-data">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-20T07:32:00+04:00" pubdate data-updated="true">Aug 20<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS</a></h1>
+      <p>In the previous article, we looked at IOS filesystem and forensics. In this article, we will be looking at how we can analyze the network traffic flowing across an IOS device. Analyzing the network traffic for an application could be helpful in many ways. It could help us deduce how the application is managing the session of its users, the endpoints to which the application makes the call, how the application works internally etc. We will also look at how we can analyze network traffic over SSL.</p>
+
+
+
+
+<p>There are both active and passive ways of sniffing traffic on a network. In case you are interested in analyzing the traffic for a particular device over a network remotely, wireshark is the tool to go for. Just open up Wireshark, start sniffing over the network and add a filter  (for e.g ip.addr == 192.168.1.2) so that it shows only the traffic sent or received from your IOS device. It is possible that you may lose some packets if you don&#8217;t have a good wireless card. </p>
+
+
+
+
+
+      
+       <a href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-20T07:32:00+04:00" pubdate data-updated="true">Aug 20<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/08/20/ios-application-security-part-10-ios-filesystem-and-forensics#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-10-ios-filesystem-and-forensics">IOS Application Security Part 10 – IOS Filesystem and Forensics</a></h1>
+      <p>In this article, we will be looking at the IOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>
+
+
+
+
+<p>One of the important things to note is that in all the previous articles, we have been logging in to the device as the user <i>root</i>. There is another kind of user with the username <i>mobile</i>. A mobile user has less privileges than a root user. All the applications run with the user <i>mobile</i>, with the exception of Cydia and some other applications which run with root privileges. Some of Apple&#8217;s internal daemons or services also run with root privileges. A quick <i>ps aux</i> will make this very clear. On the extreme left, you will see the USER column. We can see that Cydia runs with root privileges, whereas all other applications run with mobile user, for e.g <i>/Applications/AppStore.app/AppStore</i> while some of the daemons for e.g <i>/usr/sbin/wifid</i> run with root privileges. Some other applications that you install via Cydia may also run with root privileges. By default, once you jailbreak the device, the password for both root and mobile user is <i>alpine</i>.</p>
+
+
+
+
+
+      
+       <a href="/2013/08/20/ios-application-security-part-10-ios-filesystem-and-forensics">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-20T07:29:00+04:00" pubdate data-updated="true">Aug 20<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">IOS Application Security Part 9 – Analyzing Security of IOS Applications using Snoop-it</a></h1>
+      <p>In some of the previous articles, we have looked at how we can dump class information of IOS apps using class-dump-z, hook into the runtime using Cycript and perform runtime manipulation and method swizzling, analyze the flow of the app using gdb etc. However, there could be a much better way of doing these things. We shouldn&#8217;t be using seperate tools for all these tasks. It would be great if a tool could perform all these tasks and at the same time display the information in a much more presentable way.</p>
+
+
+
+
+<p>Snoop-it is a tool that solves these problems. It allows for runtime analysis and blackbox security assessment of IOS apps by retrofitting existing apps with debugging and runtime tracing capabilities. It also provides a very neat web interface. At the time of writing of this article, Snoop-it is not released yet but is a couple of weeks away from launch. I mailed the authors and they were nice enough to provide me with a beta version for testing. You can check out its official page <a href="https://code.google.com/p/snoop-it/">here</a> or you can follow the author on <a href="http://twitter.com/aykay/">Twitter</a></p>
+
+
+<p>.</p>
+
+
+      
+       <a href="/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-25T15:16:00+04:00" pubdate data-updated="true">Jul 25<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">IOS Application Security Part 8 -  Method Swizzling using Cycript</a></h1>
+      <p>In the previous article, we looked at how we can install custom apps on our device without a developer certificate. In this article, we will look at how we can perform method Swizzling using Cycript on a sample application.</p>
+
+
+
+
+<p>The first thing is to download the sample Xcode project. You can download the Xcode project from <a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.zip">here</a>. Or you can also just download the binary file on your device from <a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.ipa">here</a>. If you have installed the Xcode project, you will have to build the Xcode project using a self signed certificate.The previous article talks about this in great detail. If you have downloaded the binary, you can directly run it on a jailbroken device without any issues but to get a look at the source code, it is recommended to download the Xcode project.</p>
+
+
+
+
+
+      
+       <a href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-25T15:15:00+04:00" pubdate data-updated="true">Jul 25<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">IOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account</a></h1>
+      <p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn IOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
+
+
+
+
+
+      
+       <a href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-25T15:07:00+04:00" pubdate data-updated="true">Jul 25<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7">IOS Application Security Part 6 - New Security Features in IOS 7</a></h1>
+      <p>As we all know, Apple recently introducted its new version of IOS at WWDC 2013 with a completely redesinged User Interface. If you haven&#8217;t seen it yet, check out this video from WWDC 2013.</p>
+
+
+
+
+<iframe width="560" height="315" src="http://www.youtube.com/embed/zcebqUdvDrw" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<p>This article will be a small deviation from the other parts in this series. In this articles, we  will discuss about the latest security features introduced in IOS 7.</p>
+
+
+
+
+
+      
+       <a href="/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-10T15:03:00+04:00" pubdate data-updated="true">Jul 10<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix">IOS 7 Beta 3 : Some bugs that i want Apple to Fix !</a></h1>
+      <p>So i have had IOS 7 on my iPhone 5 since the day it was released at WWDC 2013. Since then, i have seen a number of bugs being fixed with the coming beta versions. However, there are some bugs that are still there, easily reproducible and not fixed yet !</p>
+
+<h2>The black Background bug.</h2>
+
+
+<p>To reproduce this, you need to have only one app running. Make sure you are on this app and double tap the home button.</p>
+
+
+      
+       <a href="/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-02T17:26:00+04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)</a></h1>
+      <p>In the previous article, we learnt how to setup Cycript on your idevice, hook into a running process and obtain information about its properties in runtime. In this article, we will look at some advanced runtime analysis techniques. We will look at how we can obtain information about a particular class (methods, instance variables) and modify them at runtime.</p>
+
+
+
+
+<h2>Finding methods for a particular class</h2>
+
+
+
+
+<p>Let&#8217;s say we are analyzing the flow of an app during its runtime. It would be really good to know what are the methods being called in a particular view controller or in a particular class. Since Cycript is a blend of Objective-C and Javascript, we can write a function that has both Objective-C and Javscript syntax. We can define functions in the interpreter and use them anytime we want to find out some particular information. A good source for finding such code snippets is available <a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">here</a> and we will be using most of the code snippets from here for this article.</p>
+
+
+
+
+<p>First of all, lets make sure we are hooked into the running process.</p>
+
+
+<p><img src="/images/posts/ios5/1.png" width="892" height="186" alt="1"></p>
+
+
+      
+       <a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+  
+  <div class="pagination">
+    
+    <a class="prev" href="/downloads/code/page/3/">&larr; Older</a>
+    
+
+    
+    <a class="next" href="/downloads/code/">Newer &rarr;</a>
+    
+  </div>
+</div>
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

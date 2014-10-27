@@ -1,0 +1,645 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Posts on IOS Development - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Mar 12th, 2014 ios security How to distribute IPA file for jailbroken &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/ios">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div class="jumbotron">
+  <div class="container">
+    Hi. I&#8217;m Prateek Gianchandani.
+    <h3 class="tagline">Security Researcher. Mountaineer. Diver.</h3>
+  </div>
+</div>
+
+
+
+
+<div class="blog-index">
+  
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2014-03-12T11:53:00+04:00" pubdate data-updated="true">Mar 12<span>th</span>, 2014</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices">How to distribute IPA file for jailbroken devices</a></h1>
+      <p>So i have been getting a few queries on how to create an IPA file from Xcode and distribute it for jailbroken devices. Here is how i did it for <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS App</a>.</p>
+
+<p>First we need to run the application using Xcode on the device. This requires a valid provisioning profile. I am doing this on Xcode 5.x but on the previous versions of Xcode, it was possible to run the application on the device without a valid provisioning profile.</p>
+
+<p>Once the application is installed on the device, copy the .app folder from the device on your system.</p>
+
+<p><img src="/images/posts/distribute/1.png" width="525" height="320" alt="2"></p>
+
+
+      
+       <a href="/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-26T17:41:00+04:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox">IOS Dev - Encrypting images and saving them in App Sandbox</a></h1>
+      <p>One of the requirements in my latest project was to encrypt an image and save it on the device in the application&rsquo;s sandbox, then decrypt is during runtime and upload it to the server. I looked at the documentation for Apple&rsquo;s CommonCrypto Framework, but it was taking me plenty of time to implement it so instead i decided to use some wrappers that would get the job done for me. I found the <a href="https://github.com/rnapier/RNCryptor">RNCryptor</a> library on Github that uses AES encrypton. It was pretty simple to implement it. First, download the files from its github url and include all the files that are relevant to you present inside the <b>RNCryptor</b> folder on your project. In my case, i just imported all of them for now.</p>
+
+<p><img src="/images/posts/imageen/1.png" width="292" height="102" alt="1"></p>
+
+<p>Then use the following code to encrypt the image.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//  Code for encrypting and saveing image </span>
+</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">imageToEncrypt</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;SomeImage&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">fetchedImage</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNEncryptor</span> <span class="nl">encryptData:</span><span class="n">data</span>
+</span><span class='line'>                                        <span class="nl">withSettings:</span><span class="n">kRNCryptorAES256Settings</span>
+</span><span class='line'>                                            <span class="nl">password:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                               <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="n">encryptedData</span> <span class="nl">writeToFile:</span><span class="n">imagePath</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that encryting and decrypting the image requires a passcode (ABC123). To decrypt the image, use the following code ..</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="c1">//  Code for loading image by decryption</span>
+</span><span class='line'>    <span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfFile:</span><span class="n">imagePath</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">NSData</span> <span class="o">*</span><span class="n">decryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNDecryptor</span> <span class="nl">decryptData:</span><span class="n">encryptedData</span>
+</span><span class='line'>                                        <span class="nl">withPassword:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                               <span class="nl">error:</span><span class="o">&amp;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'>    <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData:</span><span class="n">decryptedData</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> See, its pretty simple. If you have any questions, let me know in the comments secton below and i will get back to you.</p>
+
+      
+      
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-17T17:55:00+04:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax">IOS Dev - Storing Info in Keychain with NSUserDefaults like syntax</a></h1>
+      <p>Recently, i decided to improve the security of one of my applications by storing some of the information that i was previously saving in NSUserDefaults in the Keychain. Basically, this doesn&rsquo;t make that much of a difference if your device is jailbroken. However, if your device is not jailbroken then it is possible to fetch the information saved by NSUserDefaults but not from the Keychain. This is because NSUserDefaults saves the information in an unencrypted format in a plist file inside the application sandbox which can be easily fetched. It can also be fetched from an iTunes backup. Hence, saving info in the Keychain adds an extra layer of security in that case.</p>
+
+<p>I started looking for some Keychain Wrappers and bumped into this amazing library from Github named <a href="https://github.com/carlbrown/PDKeychainBindingsController">PDKeychainBindingsController</a>. I found it ridiculously simple to use.</p>
+
+
+      
+       <a href="/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-23T14:44:00+04:00" pubdate data-updated="true">Aug 23<span>rd</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/08/23/what-to-expect-from-iphone-5s-slash-5c">What to expect from the new iPhone (5S/5C) - Rumor roundup</a></h1>
+      <p>The smartphone world is buzzing about rumors for the new Iphone. The new Iphone is rumored to be launched on September 10 in an event in San Francisco, which means that the invitations for the event would be sent to the press sometime around September 3. This time, Apple is reported to be releasing two models of iPhone, one is the iPhone 5s and the other a cheaper variant, reportedly named as the iPhone 5C. Here is a complete rumor roundup from multiple sources about the next generation iPhone.</p>
+
+<h2>Fingerprint Sensor</h2>
+
+
+<p>There is absolutely no doubt regarding the fact that the new iPhone will come with a biometric fingerprint sensor.Code for biometric scanning has already been discovered in the beta versions of IOS 7 (by Hamza Sood) released to developers.</p>
+
+<p><img src = "http://asset3.cbsistatic.com/cnwk.1d/i/tim2/2013/07/29/BQXGg5-CUAAiXp6_610x585.jpg%3Alarge"/></p>
+
+
+      
+       <a href="/2013/08/23/what-to-expect-from-iphone-5s-slash-5c">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-10T15:03:00+04:00" pubdate data-updated="true">Jul 10<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix">IOS 7 Beta 3 : Some bugs that i want Apple to Fix !</a></h1>
+      <p>So i have had IOS 7 on my iPhone 5 since the day it was released at WWDC 2013. Since then, i have seen a number of bugs being fixed with the coming beta versions. However, there are some bugs that are still there, easily reproducible and not fixed yet !</p>
+
+<h2>The black Background bug.</h2>
+
+
+<p>To reproduce this, you need to have only one app running. Make sure you are on this app and double tap the home button.</p>
+
+
+      
+       <a href="/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-02T17:26:00+04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)</a></h1>
+      <p>In the previous article, we learnt how to setup Cycript on your idevice, hook into a running process and obtain information about its properties in runtime. In this article, we will look at some advanced runtime analysis techniques. We will look at how we can obtain information about a particular class (methods, instance variables) and modify them at runtime.</p>
+
+
+
+
+<h2>Finding methods for a particular class</h2>
+
+
+
+
+<p>Let&#8217;s say we are analyzing the flow of an app during its runtime. It would be really good to know what are the methods being called in a particular view controller or in a particular class. Since Cycript is a blend of Objective-C and Javascript, we can write a function that has both Objective-C and Javscript syntax. We can define functions in the interpreter and use them anytime we want to find out some particular information. A good source for finding such code snippets is available <a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">here</a> and we will be using most of the code snippets from here for this article.</p>
+
+
+
+
+<p>First of all, lets make sure we are hooked into the running process.</p>
+
+
+<p><img src="/images/posts/ios5/1.png" width="892" height="186" alt="1"></p>
+
+
+      
+       <a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-21T21:30:00+04:00" pubdate data-updated="true">Jun 21<span>st</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/06/21/pagination-in-restkit-0-dot-2-using-rkpaginator-ios-development">Pagination in Restkit 0.2 using RKPaginator</a></h1>
+      <p>Restkit 0.2 supports pagination through a class called RKPaginator. It has all the necessary methods for supporting pagination properly and efficiently.</p>
+
+<p>The first step is to define the properties required for pagination.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//Properties required for pagination</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">)</span> <span class="n">RKPaginator</span> <span class="o">*</span><span class="n">paginator</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">objects</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">assign</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">isPaginatorLoading</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also make sure to define the url path for your request. The parameters after <code>:</code> denotes the attributes of the RKPaginator object. For e.g, in the below path, instead of <code>:currentPage</code>, the value that will be passed is the <code>currentPage</code> attribute of the paginator object. The two attributes that are necessarily required are <code>perPage</code> and <code>currentPage</code>.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#define kUrlStringForPagination @&quot;/ios-pagination/?dummy_variable=dummyVariable&amp;page=:currentPage&amp;per_page=:perPage&amp;dummy_variable2=dummyVariable2&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+      
+       <a href="/2013/06/21/pagination-in-restkit-0-dot-2-using-rkpaginator-ios-development">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  <div class="pagination">
+    
+
+    
+  </div>
+</div>
+
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

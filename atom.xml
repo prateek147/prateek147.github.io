@@ -1,0 +1,2582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2014-10-27T13:08:28+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Wifite Walkthrough part 2: Cracking WPA access points]]></title>
+    <link href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points"/>
+    <updated>2014-10-27T01:43:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at cracking access points using WPA-PSK or WPA2-PSK using Wifite.</p>
+
+
+
+
+<p>If you have used tools like airodump-ng, aircrack-ng etc to crack WPA access points before, you would know that the required thing to successfully crack a WPA-PSK network is a captured WPA four-way handshake. More details about the WPA four-way handshake can be found on <a href="http://en.wikipedia.org/wiki/IEEE_802.11i-2004">this</a> wikipedia page.</p>
+
+
+
+
+<p>As mentioned in the previous article, there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn&#8217;t aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = [&#8216;aireplay-ng&#8217;,</i> with <i>cmd = [&#8216;aireplay-ng&#8217;,&#8217;&#8211;ignore-negative-one&#8217;,</i></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>To start wifite for cracking a WPA access point, give it the option <i>-wpa</i> to only target WPA networks. Also, give it a dictionary file as an input for cracking the WPA passphrase with the <i>-dict</i> option. In kali linux, the wordlists are stored at the location <i>/usr/share/wordlists</i>. Wifite will now start scanning for WPA access points.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/1.png" width="947" height="316" alt="1"></p>
+
+<p>Press Ctrl+C to give a target number. In my case, the target number is 2 which is an access point i have configured for testing purposes. The access point uses WPA2-PSK encryption with the key as &#8220;password&#8221;.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/2.png" width="741" height="443" alt="2"></p>
+
+<p>Wifite will now start listening for the handshake. Once it has found it, it will automatically start cracking the passphrase using the dictionary file that we supplied.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/4.png" width="834" height="358" alt="4"></p>
+
+<p>And as you can see, Wifite has successfully found the passphrase for the access point.</p>
+
+
+
+
+<p>Sometimes, things may not work as smoothly. In order to capture a WPA handshake between the client and the access point, the client has to connect to the wireless network during that period when we are monitoring the network. If the client is already connected, there will be no handshake that is captured. Wifite does this by automatically sending deauthentication packets to a particular client or a broadcast deauthentication packet if it is required. You can specify the time between deauthentication packets using the -wpadt flag. Hence, when the client tries to reconnect to the access point, the handshake is captured.</p>
+
+
+
+
+<p>You can also specify which tool you want to use to crack the passphrase once the four-way handshake has been successfully captured. By default, aircrack-ng is selected. You can also use cowpatty, pyrit or tshark to crack the passphrase.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/5.png" width="622" height="92" alt="5"></p>
+
+<p>Another cool option in Wifite is to anonymize your MAC address using the <i>-mac</i> option. Even though it is quite trivial using simple commands or <i>macchanger</i> utility to change the MAC address for a specific interface, it is good to have this feature in the tool itself. However, in order to make this work, you first have to take that specific interface for which you want to change the MAC address down to managed mode if it is in monitor mode previously. You can use the command <i>iwconfig</i> to check all the interfaces that are in monitor mode and then take them down using the command <i>airmon-ng stop interface-name</i> command. As we can see from the image below, the mon0 interface is in monitor mode.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/6.png" width="698" height="287" alt="6"></p>
+
+<p>Hence, lets take it down using the command <i>airmon-ng stop mon0</i></p>
+
+
+<p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/7.png" width="678" height="351" alt="7"></p>
+
+<p>Now we can add the <i>-mac</i> option to anonymize the MAC address. As you can see, Wifite is intelligent enough to change the MAC address to something that is similar the existing MAC address of the interface and not to something ridiculous (for e.g AA:BB:CC:DD:EE:FF) which is a giveaway.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/wifite2/8.png" width="895" height="378" alt="8"></p>
+
+<p>And when you stop the capture, Wifite is nice enough to change the MAC address back to the original one.</p>
+
+
+
+
+<p>In this article, we looked at how we can use Wifite to crack networks using WPA-PSK or WPA2-PSK. Wifite is great at its job and automates almost everything, however it is important to understand how it uses the tools like airodump-ng, aircrack-ng etc under the hood to perform its task. I would recommend that you go through the source code of Wifite and figure out how this is done.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Wifite Walkthrough part 1: Cracking WEP access points]]></title>
+    <link href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points"/>
+    <updated>2014-10-27T01:41:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points</id>
+    <content type="html"><![CDATA[<p>In this article series, we will look at a tool named Wifite suitable for automated auditing of wireless networks. Most of you who have experience in wireless pentesting would use tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng to crack wireless networks. This would involve a sequence of steps, like capturing a specific numbers of IV&#8217;s in case of WEP, capturing the WPA handshake in case of WPA etc, and then subsequently using aircrack-ng to crack the password required for authentication to the network. Wifite aims to ease this process by using a wrapper over all these tools and thus making it super easy to crack Wifi networks.</p>
+
+
+
+
+<p>Here is a list of features of Wifite as per its official <a href="https://code.google.com/p/wifite/">homepage</a>.</p>
+
+
+
+
+<ul>
+    <li>sorts targets by signal strength (in dB); cracks closest access points first</li>
+    <li>automatically de-authenticates clients of hidden networks to reveal SSIDs</li>
+    <li>numerous filters to specify exactly what to attack (wep/wpa/both, above certain signal strengths, channels, etc)</li>
+    <li>customizable settings (timeouts, packets/sec, etc)</li> 
+    <li>&#8220;anonymous&#8221; feature; changes MAC to a random address before attacking, then changes back when attacks are complete</li>
+    <li>all captured WPA handshakes are backed up to wifite.py&#8217;s current directory</li>
+    <li>smart WPA de-authentication; cycles between all clients and broadcast deauths</li>
+    <li>stop any attack with Ctrl+C, with options to continue, move onto next target, skip to cracking, or exit</li>
+    <li>displays session summary at exit; shows any cracked keys</li>
+    <li>all passwords saved to cracked.txt</li>
+    <li>built-in updater: ./wifite.py -upgrade</li>
+</ul>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Before we start using wifite, make sure you have a proper wireless card that supports packet injection. If you don&#8217;t have one, i would suggest that you buy <a href="http://www.amazon.com/Alfa-AWUS036H-802-11b-Wireless-network/dp/B002WCEWU8">this</a> card.</p>
+
+
+
+
+<p><p>Note that there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn&rsquo;t aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = [&lsquo;aireplay-ng&rsquo;,</i> with <i>cmd = [&lsquo;aireplay-ng&rsquo;,&lsquo;&mdash;ignore-negative-one&rsquo;,</i></p>
+
+<p><p>Wifite can be found under <i>Applications &ndash;> Kali Linux &ndash;> Wireless Attacks &ndash;> 802.11 Wireless Tools</i>. Also, note that if you are running wifite in a different VM than Kali Linux, then you have to make sure that tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng are already installed on that system. This is because Wifite is nothing but a wrapper over all these tools. Before we even start using Wifite, it is better to update to the latest version.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/1.png" width="846" height="328" alt="1"></p>
+
+<p><p>In my case, i already have the latest version. In this tutorial, we will be targeting a simple Wifi network with WEP encryption. Just using the command <i>wifite -h</i> will give you a list of all the commands.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/2.png" width="962" height="596" alt="2"></p>
+
+<p><p>A very tempting option would be <i>-all</i> which tries to attack every network that it finds. We will try it in later articles in this series. However, first lets take a look at all the targets that we have. To do that, use the command <i>wifite -showb</i></p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/3.png" width="930" height="331" alt="3"></p>
+
+<p><p>Once this is done, we can see that wifite has put our network interface card into monitor mode (using airmon-ng) and started to look for clients. After a few more seconds, it will start displaying the list of access points.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/4.png" width="907" height="314" alt="4"></p>
+
+<p><p>Note that as it is mentioned in its feature list (automatically de-authenticates clients of hidden networks to reveal SSIDs), this list will also include hidden access points. Hence, wifite can also be used to find hidden access points. In this case we will attack an access point with the BSSID 00:26:75:02:EF:65 that i have set up for testing purposes. The access point has a simple WEP password <i>1234567890</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/5.png" width="777" height="290" alt="5"></p>
+
+<p><p>To start attacking an access point, just press <i>Ctrl+C</i>. Wifite will now ask you to choose a target number from the list. The target number for my test network is 1, so let me enter that. Note that if you press <i>Ctrl+C</i> again, it will quit Wifite.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/6.png" width="750" height="80" alt="6"></p>
+
+<p><p>You can now see that Wifite will start attempting to crack the WEP access point using the different known techniques for cracking WEP encryption. After some unsuccessful tries, it has finally begun to start attacking the access points using different techniques for cracking WEP.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/11.png" width="744" height="160" alt="11"></p>
+
+<p><p>Once enough IV&rsquo;s are being captured, it will automatically start cracking the password.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/12.png" width="653" height="324" alt="12"></p>
+
+<p><p>As we can see, Wifite has successfully figured out the WEP key for the access point. Wifite is an extremely useful tool for cracking wireless networks. As i mentioned previously, you need to have all the tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng already installed on your system. To further prove the point, let&rsquo;s dive into the source code of Wifite.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/wifite1/10.png" width="545" height="297" alt="10"></p>
+
+<p><p>As we can see, the python code has mentions of calling aireplay-ng. Hence, it is recommended to run Wifite inside Kali linux.</p></p>
+
+<p><p>In the next article, we will look at some advanced usage options of Wifite.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 35 – Auditing iOS Applications With iDB]]></title>
+    <link href="http://prateek147.github.io/2014/10/18/ios-application-security-part-35-auditing-ios-applications-with-idb"/>
+    <updated>2014-10-18T14:14:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/10/18/ios-application-security-part-35-auditing-ios-applications-with-idb</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at another cool utility named iDB for pentesting iOS applications.</p>
+
+
+
+
+<p>Before that, i would like to apologize for coming up late with this article. A lot of you have been requesting articles on different topics and i promise that i will write on them soon :). So since we are best friends again, let&#8217;s dive into this tool.</p>
+
+
+
+
+<p>iDB is open source and you can download it from its <a href="https://github.com/dmayer/idb">Github</a> page. You can then follow the tutorial <a href="https://github.com/dmayer/idb/wiki/Getting-started">here</a> to know how to install it. Installation might take some time as there might be some dependencies you will have to install, so have some patience. Also, please note that it works with ruby versions 1.9 and 2.1 so make sure you set that version of ruby. You can use <i>rvm list</i> to list the versions of ruby installed on your system and then use <i>rvm use</i> followed by the version of ruby that you want to use.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Once you are done installing iDB, browser to its root directory and open it using the command <i>ruby gidb.rb</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/1.png" width="652" height="216" alt="1"></p>
+
+<p>This will launch iDB.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/2.png" width="1440" height="830" alt="2"></p>
+
+<p>Before you start using iDB, you must set up the connection settings. Go to Ruby -> Preferences.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/3.png" width="495" height="379" alt="3"></p>
+
+<p>Now under the <i>Device Config</i> tab, select either SSH directly or SSH over USB which uses usbmuxd internally. I prefer the latter one. Provide your username and password and the port number over which SSH is running.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/4.png" width="485" height="453" alt="4"></p>
+
+<p>Under the port forwarding section, you can set options for port forwarding if you want. This is generally done by the syntax <i>remote:8080 -> localhost:8080</i> which is quite self explanatory. Here, we are not going to set any port forwarding as we really don&#8217;t need it for this tutorial, but we must set the option <i>Port for Manual SSH</i> which will be used by usbmuxd. What this will do is forward all the connections sent to port 2222 on localhost to the device on port 22 over USB.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/5.png" width="482" height="453" alt="5"></p>
+
+<p>So basically, you can now just SSH to localhost on port 2222 and it will connect you to your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/6.png" width="778" height="146" alt="6"></p>
+
+<p>Now make sure your device is connected to your system over USB. Go to Devices and select the option <i>USB Device</i> to connect to your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/7.png" width="656" height="125" alt="7"/></p>
+
+<p><b>One of the unique functionalities of iDB is that it allows you to connect to iOS simulators as well. I have tried it and it works quite well. This is specially helpful for iOS developers who use Xcode and want to audit their apps quite frequently. I would like you to check that feature out as well.</b></p>
+
+<p>As soon as iDB connects to your device, it will do a quick analysis and tell you what apps that it needs are already installed on your device and which one needs to be installed. You can just click on install next to the tool to install it. Make sure you install each of the required dependencies. In some cases you might feel that the application is already installed. Well, iDB checks for files in specific locations, for e.g /usr/bin, so it might not be able to detect it always. Its better just to reinstall the tool in case iDB is not able to detect it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/8.png" width="936" height="591" alt="8"></p>
+
+<p><p>Once you have installed all the apps, click on <i>Select App</i> on the top left and select the application that you want to audit. In this case, i am going to select <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/9.png" width="885" height="250" alt="9"></p>
+
+<p><p>Next, click on <i>Launch App</i> to launch your app on the device.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/10.png" width="477" height="479" alt="10"></p>
+
+<p><p>On the left hand side, you can click on <i>Analyze Binary</i> to see whether certain security features like Encryption, PIE etc have been enabled in the app or not. Since i have installed this app manually on a jailbroken device, there is no encryption.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/11.png" width="485" height="250" alt="11"></p>
+
+<p><p>So let&rsquo;s go through each feature one by one. On the <i>Storage</i> tab, you can see all the files DVIA is writing to or has already written to along with their data protection levels. In case it doesn&rsquo;t show up, click Refresh.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/12.png" width="953" height="715" alt="12">
+<p>The <i>URL Handlers</i> tab tells you which URL schemes the app registers to. You can then call any url starting with that url scheme to see how the app reacts to it.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/13.png" width="961" height="658" alt="13"></p>
+
+<p><p>The binary tab will show you all the Shared libraries the app is using, class information using <i>Weak Class Dump</i> and all the strings it could find in the binary.</p></p>
+
+<p> <img src="http://prateek147.github.io/images/posts/ios35/14.png" width="976" height="692" alt="14"></p>
+
+<p> <p>The filesystem tab can be used to see all the files in the application sandbox folder along with their permisions. If you want to see the contents of any file, just double click on it.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/15.png" width="966" height="713" alt="15">
+<img src="http://prateek147.github.io/images/posts/ios35/16.png" width="842" height="554" alt="16"></p>
+
+<p> <p>The Tools section will allow you to see the cached screenshot that is stored on the device whenever the application goes to the background.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/17.png" width="956" height="661" alt="17"></p>
+
+<p> <p>And you can also install the Burp CA certificate that is used for analyzing SSL connections directly on your device or simulator. For device, it will simply open the url <a href="http://burp">http://burp</a> (Make sure proxy is set on your device). This is again quite a useful feature and saves you a lot of time. You can also edit the hosts file on your system in case you want to redirect the request for a particular ip or hostname to some other location.</p></p>
+
+<p> <p>The Log tab shows you the device logs. It can be used to test scenarios when the application is logging sensitive information to the console.</p></p>
+
+<p> <img src="http://prateek147.github.io/images/posts/ios35/18.png" width="971" height="683" alt="18"></p>
+
+<p><p>The keychain tab will dump all the keychain information stored using this application using the keychain dumper utility.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/19.png" width="973" height="576" alt="19"></p>
+
+<p><p>The pasteboard tab will analyze the pasteboard buffer to see if there is some sensitive information stored in the buffer. As you can see, here it finds a string named <i>secret123</i> stored in the pasteboard buffer.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios35/20.png" width="914" height="506" alt="20"></p>
+
+<p><p>Overall, iDB is a great tool for iOS pentesting and helps us save a lot of time by doing most of the tasks with just one click. There are other features as well such as integration with Cycript and Snoop-it, but they are still in the development phase. I would recommend that you clone the repository from github if you want to check those features out.</p></p>
+
+<pre><code>&lt;/body&gt;
+</code></pre>
+
+<p></html></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 34 - Tracing Method calls using Logify]]></title>
+    <link href="http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify"/>
+    <updated>2014-04-18T16:59:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify</id>
+    <content type="html"><![CDATA[<p>In the previous articles, we have seen how applications like Snoop-it can trace method calls specific to the application at runtime. This is very important in deducing the flow of the application. The same process can be performed by using a perl script named Logify.pl that comes installed with Theos. The script takes input as a header file and generates the hooking code that we can add in our tweak. We can also specify the classes we want to check. Once the tweak is installed on the device, whenever a method for that particular class is called, the tweak logs out the method along with the arguments to syslog. The first step here is to get the header files for a particular application. You can get the header files by using the -H option in class-dump-z. Once the headers folder is generated, you can copy it to your system.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/1.png" width="1389" height="315" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>Now we can use the Logify.pl script on these header files to generate our tweak. In this case, we are testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a>. Let&#8217;s add all the classes for which we want to log the method calls. In our case, we select three classes for which we want to trace the method calls, ClientSideInjectionVC, JailbreakDetectionVC and DamnVulnerableAppUtilities.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/2.png" width="773" height="65" alt="2"></p>
+
+<p>This is how our Tweak.xm file looks like.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/3.png" width="883" height="458" alt="3"></p>
+
+<p>Now let&#8217;s create a tweak and replace its Tweak.xm file with our own. Also, give the filter as the bundle identifier for DVIA, as we only want to trace calls for DVIA. Have a look at the <a href="http://highaltitudehacks.com/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate">previous</a> article if you are new to writing tweaks.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/4.png" width="867" height="392" alt="4"></p>
+
+<p>Build the package.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/5.png" width="1251" height="103" alt="5"></p>
+
+<p>Now install it on your device and respring your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/6.png" width="1069" height="238" alt="6"></p>
+
+<p>Now check the folder <i>/Library/MobileSubstrate/DynamicLibraries</i> on your device to see whether the tweak was installed, and sure enough, we can see that it has been installed.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/7.png" width="309" height="388" alt="7"></p>
+
+<p>Now run the DVIA app. Make sure your device is connected to your computer and go to Xcode –> Window –> Organizer –> Devices & select your device and click on Console. You will see the DVIAMethodTracer tweak being loaded into your application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/8.png" width="1146" height="250" alt="8"></p>
+
+<p>And now as you browse around in the application and invoke methods for the particular classes that we have set up Logify for, you will see that these methods are logged along with the value of their arguments.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios34/9.png" width="1263" height="358" alt="9"></p>
+
+<p>Logify can be a very useful tool in figuring out the order in which methods are called and hence deducing a lot about the flow of the application.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 33 - Writing tweaks using Theos (Cydia Substrate)]]></title>
+    <link href="http://prateek147.github.io/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate"/>
+    <updated>2014-04-18T11:59:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate</id>
+    <content type="html"><![CDATA[<p>In some of the <a href="http://highaltitudehacks.com/security">previous</a> articles in this series, we have looked at how we can modify the behaviour of an application by patching it using IDA Pro, Hopper etc. However, doing this hasn&#8217;t been quite straightforward always. We can also use Cycript to modify the behaviour of an application by changing some of the method implementations, but the change isn&#8217;t permanent. This is where writing tweaks for an application comes in handy. A tweak is nothing but a run-time patch to an application using the Cydia Substrate framework. Cydia Substrate consists of 3 major components: MobileHooker, MobileLoader and safe mode. You can read about these 3 major components <a href="http://iphonedevwiki.net/index.php/MobileSubstrate">here</a>. Saurik has also written a complete series of documentation <a href="http://www.cydiasubstrate.com/">here</a>. Our main focus here would be not to go in depth and learn how to write tweaks for jailbroken devices but to understand there relevance to application security so we can quickly write our own tweaks when necessary.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p><p>By default, on compiling and building a tweak, it gets converted into the .dylib format and is stored in the location <i>/Library/MobileSubstrate/DynamicLibraries</i> on the device. There is a plist file with the same name but the extension .plist with every .dylib file that determines certain configuration settings for the tweak. For e.g, one of the most popular configuration settings is <i>Filter</i>. You can use this configuration to filter the library or process you want to inject the code into. You can read more about filters and configurations <a href="http://www.cydiasubstrate.com/inject/darwin/">here</a>.</p>
+
+<p><p>If you have a jailbroken device and have installed tweaks before from Cydia, you can clearly see these tweaks being injected into different applications during runtime by simply looking at the logs. Go to Xcode &ndash;> Window &ndash;> Organizer &ndash;> Devices &amp; select your device and click on Console. Make sure your device is connected to your computer. You will see the tweaks being loaded into your application as you open applications on your device.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/1.png" width="1265" height="269" alt="1"></p>
+
+<p><p>It is also a good idea to check the folder <i>/Library/MobileSubstrate/DynamicLibraries</i> on your device and see all the tweaks you have installed on your device. You can do this by using a simple utility like iExplorer. Also, it is recommended to check the plist files for these installed extensions to see how they impose their restrictions on specific libraries and applications.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/2.png" width="899" height="742" alt="2"></p>
+
+<p><p>By far, the most preferred way of creating tweaks for iOS is by using Theos. To set up theos on your device, you can follow the instructions mentioned <a href="http://iphonedevwiki.net/index.php/Theos/Getting_Started">here</a>. It&rsquo;s pretty straightforward but make sure that the path where you are creating tweaks doesn&rsquo;t include some directories that have spaces in them. It has caused problems for me in the past and hence i would recommend you to avoid it.</p></p>
+
+<p><p>For help, you can always go to the IRC channel where most of the big names hang out and are willing to help. There is a channel for Substrate (#substrate) and Cycript (#cycript) on the server irc.saurik.com. Apart from this, there is also a channel for theos (#theos) and channels for specific jailbreak questions such as #jailbreakqa on irc.freenode.net.</p></p>
+
+<p><p>Please note that if something goes wrong once you build and deploy a tweak then you should immediately remove the tweak from <i>/Library/MobileSubstrate/DynamicLibraries</i>. For e.g, if your phone is not booting properly, you can still connect to it over iExplorer and remove the dylib and plist file for the tweak that you think screwed your application.</p></p>
+
+<p><p>So let&rsquo;s write a tweak. We will test our skills on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS Application</a>. We will solve the first challenge in the Runtime Manipulation section, where we have to bypass the login check on tapping <i>Login Method 1</i> as shown in the image below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/3.PNG" width="320" height="568" alt="3"></p>
+
+<p><p>Open theos and select the option to create a tweak. Let&rsquo;s name the project as DVIABypass. It will also ask you to specify the bundle identifier. Since we only want the tweak to hook into DVIA, we will specify the bundle identifier for DVIA only. In case you don&rsquo;t know how to find out the bundle identifier for a particular application, you can always find it out by inspecting the Info.plist file in the application folder for a particular app using iExplorer. You will see that this bundle identifier will automatically get added in the plist file for your tweak created by Theos.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/8.png" width="876" height="302" alt="8"></p>
+
+<p><p>As we can see, the project folder has been created. Let&rsquo;s navigate inside it.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/5.png" width="483" height="59" alt="5"></p>
+
+<p><p>Here you can see some weird files. The plist file is the one that we discussed about previously. This file is copied over to your device along with the generated dynamic library. The Tweak.xm file is where all your hooking code will go. The Makefile is where you will add all the needed frameworks and other global variables.</p></p>
+
+<p><p>In order to write a tweak for a particular application or library method, we must know the header file information of the classes we want to hook into. The header file information can easily be dumped by using class-dump-z. In this case, since we are only dealing with the application DVIA, we need to just dump the class methods for that particular application. However, if you want to hook into any method of Springboard, you need to have the entire class information of it. One option is to either dump the entire content yourself using class-dump-z. Another option is to get it from some other people&rsquo;s repositories. For e.g, <a href="https://github.com/thomasfinch/iOS-7-SpringBoard-Headers">here</a> is a Github repository that contains the headers dumped for Springboard in iOS 7.</p></p>
+
+<p><p>By looking at the class information for DVIA, we can figure out that we want to hook into the method <i>isLoginValidated</i> in the view controller <i>RuntimeManipulationDetailsVC</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/6.png" width="900" height="289" alt="6"></p>
+
+<p><p>Now lets look at the Tweak.xm file. Just reading it will tell you a lot about how to go ahead and write and your own tweak. I am not going to explain what is already written here, it will be very easy to understand it anyways.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/7.png" width="925" height="663" alt="7"></p>
+
+<p><p>Replace your Tweak.xm file with the following lines of code. As you can clearly note here, this patch hooks into the class RuntimeManipulationDetailsVC, hijacks the implementation of the method isLoginValidated, and replaces it with our own implementation which returns TRUE every time.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/9.png" width="372" height="169" alt="9"></p>
+
+<p><p>Now make sure you have all the proper variables set. Make sure your computer and device are connected to the same wifi network. The first time you make a package and install it on the device, you will be prompted for the ssh password.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/10.png" width="623" height="64" alt="10"></p>
+
+<p><p>Now build the package and install it by using the command <i>make package install</i></p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/11.png" width="1237" height="200" alt="11"></p>
+
+<p><p>And now everytime you tap on the button that says <i>Login Method 1</i> in <a href="http://damnvulnerableiosapp.com">DVIA</a>, you will notice that the login will be bypassed.</p></p>
+
+<p><p>You can also double check whether the package has been installed on your device by looking for the dylib file for your package in the directory <i>/Library/MobileSubstrate/DynamicLibraries</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios33/12.png" width="307" height="336" alt="12"></p>
+
+<p><p>And if you feel that you have screwed up with your tweak, just remove the dylib and plist files from this folder and restart your device.</p></p>
+
+<p><p>The important thing to note about creating a tweak or a patch while doing security assessment of iOS applications is that the change is permanent and the whole process is also not as tough as patching an entire method by modifying the diassembly. While we didn&rsquo;t cover some of the basic stuff regarding developing for jailbroken devices, i would recommend you to to read <a href="http://brandontreb.com/beginning-jailbroken-ios-development-your-first-tweak">this</a> article as it explains things in much more depth.</p></p>
+
+<p><p>If you have any questions, comments or suggestions, feel free to write them down in the comments section below and i will get back to you.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 32 - Automating tasks with iOS Reverse Engineering Toolkit (iRET)]]></title>
+    <link href="http://prateek147.github.io/2014/03/25/ios-application-security-part-32-automating-tasks-with-ios-reverse-engineering-toolkit-iret"/>
+    <updated>2014-03-25T21:59:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/03/25/ios-application-security-part-32-automating-tasks-with-ios-reverse-engineering-toolkit-iret</id>
+    <content type="html"><![CDATA[<p>While doing security audit of iOS apps, there are a lot of tasks that we have to repeat every time. This includes finding out the class information for the app, checking if the application stores any important data in plist files, analyzing the content in the database files etc. These tasks can be a little time consuming every time and so it doesn&#8217;t make quite a lot of sense to repeat them over and over again for every app. We have also looked at some tools like <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">Snoop-it</a> and <a href="http://highaltitudehacks.com/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer">iNalyzer</a> that make our job easier by automating some of these tasks. In this article, we will talk about a new tool named iOS Reverse Engineering Toolkit (iRET) that has just been released to assist penetration testers in automating most of the tasks involved in a iOS penetration test. The project is developed and maintained by @S3Jensen.</p>
+
+
+
+
+<p>In the author&#8217;s own words, here is what the toolkit does.</p>
+
+
+
+
+<p><i>It&#8217;s a toolkit that allows you to automate many of the manual tasks an iOS penetration tester would need to perform in order to analyze and reverse engineering iOS applications. And the bonus is this can all be performed right on the device.</i></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Also, please note that iRET is a static analysis tool rather than a dynamic analysis tool.</p>
+
+
+
+
+<p>So let&#8217;s jump right into it. You can download the toolkit from <a href="https://www.veracode.com/sites/default/files/Resources/Tools/iRETTool.zip">here</a>. So download this zip file on your device and unzip it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/1.png" width="974" height="360" alt="1"></p>
+
+<p>Inside it, there will be a .deb file. You can install it using the dpkg command. Also make sure to install python on your device otherwise iRET won&#8217;t work.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/2.png" width="567" height="77" alt="2"></p>
+
+<p>Now respring or reboot your device (in my case, i had to reboot the device) and you will see a new icon with the name iRET. Tap on it to launch the app. As you can see, we can start the server and then connect to it via our browser. So let&#8217;s tap on start and navigate our browser to the mentioned address.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/3.PNG" width="320" height="568" alt="3">
+<img src="http://prateek147.github.io/images/posts/ios32/4.PNG" width="320" height="568" alt="4"></p>
+
+<p>We are provided the interface as shown in the image below. Please note that the first time you navigate browser to this address, it takes a little bit of time, so be a little patient.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/5.png" width="1297" height="636" alt="5"></p>
+
+<p>On the left hand side, i can see whether the tools needed by iRET to perform its tasks are installed or not. It looks like i have almost all the tools that i need except a few like <i>file</i> and <i>dumpdecrypted</i>. Installing file is very straightforward as you can download it just by searching via Cydia. However, installing dumpdecrypted on the iOS device could be a bit tricky for beginners so i am going to cover it here. Make sure you have all these tools installed otherwise iRET won&#8217;t be able to perform some of its functions.</p>
+
+
+
+
+<p>To install dumpdecrypted, you need to download the zip file from its <a href="https://github.com/stefanesser/dumpdecrypted">github</a> url on your computer, compile it and then upload the resulting .dylib file on your device. So download the zip file and use the <i>make</i> command to compile the application. As you can see, this will create a .dylib file.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/6_x.png" width="874" height="169" alt="6 X"></p>
+
+<p>So now let&#8217;s move this dylib file to our device. In my case, i just did a drag and drop inside the folder /Library using iExplorer. So now when we refresh the interface, we can see that we have all the tools installed.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/7.png" width="1258" height="549" alt="7"></p>
+
+<p>From the right side, we can select the application that we want to analyze. In this case, let me select the <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS App (DVIA)</a>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/8.png" width="610" height="282" alt="8"></p>
+
+<p>Once the application is selected, iRET gives us this info in the binary analysis tab. iRET uses otool to analyze the binary and gives information such as whether PIE is enable, whether stack smashing protection and automatic referencing counting (ARC) is enabled or not.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/9.png" width="1187" height="568" alt="9"></p>
+
+<p>The next tab shows info that the application has stored in the keychain. iRET uses Keychain_dumper tool to figure this out. Normally, i would be running keychain_dumper using the command line. Using iRET makes it much more easy to find out this information. For me, this feature didn&#8217;t work though.</p>
+
+
+
+
+<p>The next tab is database analysis. iRET searches for all the database files (.db or .sqlite) in the application sandbox and dumps out all the content from these database files for us to analyze.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/11.png" width="1438" height="647" alt="11"></p>
+
+<p>The log files tab searches for all the log and text files and allows us to monitor the contents of it. For me, iRET wasn&#8217;t able to find out the system log file though.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/12.png" width="1279" height="562" alt="12"></p>
+
+<p>The next tab is the plist viewer. The application looks for all the .plist files in the application sandbox and displays us the list so we can analyze the contents of each of the files. This feature could be very useful in quickly analyzing the contents stored by the application in NSUserDefaults, the main plist file that can give us information like the url scheme for the app or any other plist file that might contain some important information.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/13.png" width="1275" height="532" alt="13">
+<img src="http://prateek147.github.io/images/posts/ios32/14.png" width="1119" height="643" alt="14"></p>
+
+<p>The next tab which is Header files does the following. If the application is encrypted, iRET will decrypt the application. It then dumps the class information for this file and dumps them into seperate header files that are displayed in the dropdown as shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/16.png" width="1108" height="704" alt="16"></p>
+
+<p>Once you select a header file, the content of the header is converted into a theos logify format, which the user can use in the theos tab for quick theos tweak creation. For me, this feature didn&#8217;t work and after a brief discussion with the author on twitter we still were not able to figure out the problem. However, here is the screenshot from the author&#8217;s blog that shows the contents of the header file being converted into logify format.</p>
+
+
+<p><img src="http://blog.veracode.com/wp-content/uploads/2014/03/Figure8.png"width="1292" height="656" /></p>
+
+<p>The Theos tab allows us to create, build and deploy a theos tweak for the application in just a few minutes. Once you enter the information for your tweak, it can allow you to edit the theos files (Tweak.xm, Makefile) , build and deploy the tweak. Please note in order to build and deploy the tweak, you will need to have alteast one SDK installed in the folder /var/theos/sdks on your device. You can find the sdk installed on your Mac (if you have Xcode installed) in the location <i>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk</i> We will cover writing tweaks using Theos later in this series.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/17.png" width="1033" height="267" alt="17"></p>
+
+<p>The screenshot tab shows the application snapshot taken by iOS when the application enters into the background. These snapshots are stored in the application sandbox without any encryption and might reveal some confidential informaiton.</p>
+
+
+<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios32/15.png" width="1087" height="584" alt="15"></p>
+
+<p>iRET is a very handy tool for analyzing the security of iOS apps and can really save you a lot of time with some of its features. The tool has just been released and hence contain a few bugs but i can clearly see this becoming into a very handy tool in the near future. The purpose of this article was to just give you an introduction with this tool. This article will be updated as iRET receives more features and bug fixes.</p>
+
+
+<p>You can find the blog post regarding the tool from the author <a href="https://blog.veracode.com/2014/03/introducing-the-ios-reverse-engineering-toolkit/">here</a>.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 31 - The problem with using third party libraries for securing your apps]]></title>
+    <link href="http://prateek147.github.io/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps"/>
+    <updated>2014-03-18T17:40:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps</id>
+    <content type="html"><![CDATA[<p>In this article, we will talk about why we shouldn&rsquo;t completely rely on using third party libraries for securing our apps. Usually, some of the things we try to do in our application are adding checks to detect piracy, jailbroken device etc. It is such a pain to write all the code from scratch which is why we usually resort to using third party libraries that can get the job done for us. In this example, we will be looking at a library named <i>AntiPiracy</i> which can be found on <a href="https://github.com/Shmoopi/AntiPiracy">this</a> url that aims to solve our problem.</p>
+
+<p>On a first glance, it looks amazing .. here is a snippet of the description from it&rsquo;s github page</p>
+
+<p><i>The Full Shmoopi Anti-Piracy Library utilizes over a dozen algorithms to detect piracy, (not just four) including:</p>
+
+<p><em>Signer Identity Checks </em>Process ID Checks <em>Plist Checks </em>Bundled Item Checks (CodeRules, Resources, Etc) <em>Encryption Checks </em>Anti-Debugging <em>Encryption Checks </em>Anti-Tampering <em>Binary Checks </em>Integrity Checks <em>CRC Checks </em>MD5/SHA1 Hashing Checks *And much, much more…</p>
+
+<p></i></p>
+
+<p>Looks great. Here is a screenshot from its Github page that explains the implementation.</p>
+
+<!-- more -->
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios31/1.png" width="787" height="424" alt="1"></p>
+
+<p>Well well ! This looks so simple to bypass. If you have read my <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">previous</a> tutorials on Cycript, you will know that we can simply swizzle the complete implementation for the methods <i>isJailbroken</i> and <i>isPirated</i> by using cycript as shown in the image below.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios31/2.png" width="808" height="136" alt="2"></p>
+
+<p>I think the author has done a great job of building such a comprenhensive list of checks in one method. The mistake is on our side, we shouldn&rsquo;t just blindly use third party libraries and rely on them for protecting our apps.</p>
+
+<p>So how do me fix this ? Well, honestly there is not way to fix it. But here is one way that will make the job for the attacker much more difficult.</p>
+
+<ol>
+    <li>Change the class name SFAntiPiracy to UIColorAdditions or something similar that might not look important at a first glance.</li>
+    <li>Change the method names isJailbroken and isPirated to something like isDefaultColor.</li>
+</ol>
+
+
+<p>This will make the attacker believe that these methods are not of much significance when he is checking our the class-dump output of our application. Consequently, he will move on to some other classes or view controllers that he thinks are much more important.</p>
+
+<p>So here you go, there is definitely a problem with using third party applications as is without any modification. The things that make the code easily understandable (using proper naming conventions) can actually be the reason for the failure of the application.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to distribute IPA file for jailbroken devices]]></title>
+    <link href="http://prateek147.github.io/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices"/>
+    <updated>2014-03-12T11:53:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices</id>
+    <content type="html"><![CDATA[<p>So i have been getting a few queries on how to create an IPA file from Xcode and distribute it for jailbroken devices. Here is how i did it for <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS App</a>.</p>
+
+<p>First we need to run the application using Xcode on the device. This requires a valid provisioning profile. I am doing this on Xcode 5.x but on the previous versions of Xcode, it was possible to run the application on the device without a valid provisioning profile.</p>
+
+<p>Once the application is installed on the device, copy the .app folder from the device on your system.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/distribute/1.png" width="525" height="320" alt="2"></p>
+
+<!-- more -->
+
+
+<p>Navigate inside this directory on your system and self sign the application binary using ldid. Make sure you have a proper working version of ldid installed.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/distribute/2.png" width="681" height="64" alt="2"></p>
+
+<p>Now create a new folder and name it Payload. Put the .app folder inside it and compress the Payload folder. It will be named Payload.zip. Rename Payload.zip to [APP_NAME].ipa, for e.g DamnVulnerableiOSApp.ipa. Once this is done, you can install the application using similar techniques as mentioned in the youtube video below.</p>
+
+<iframe width="560" height="315" src="http://prateek147.github.io//www.youtube.com/embed/PwES8Sk00wk" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 30 - Attacking URL schemes]]></title>
+    <link href="http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes"/>
+    <updated>2014-03-07T01:25:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at how we can use a feature in iOS named url schemes to exploit an application. URL schemes are used by applications to communicate with each other. Every application can register for a particular url scheme. For e.g, the <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a> registers for the url scheme <i>dvia</i>. This means that any url starting with dvia:// protocol will open up the dvia application. Depending on the parameters and the endpoint in this url, the dvia application can decide what to do it. Another example is the phone application in iOS. It registers for the url scheme <i>tel</i> and a url like tel://1-393-222-2222 will invoke the phone application and call a number. The problem arises when the url is not validated or the user is not prompted for confirmation in the application before making a particular decision. </p>
+
+
+
+
+<p>The first step is to find the actual url scheme an application is registered to. This information can be found by looking at the info.plist file in the application sandbox folder using any file explorer utility like iExplorer.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios30/2.png" width="502" height="372" alt="2"></p>
+
+<!-- more -->
+
+
+
+
+<p>In this case, we can see that the url scheme for the <a href="http://damnvulnerableiosapp.com">DVIA</a> application is dvia.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios30/1.png" width="603" height="141" alt="1"></p>
+
+<p>An application can register for more than 1 url scheme. For e.g, in the image below, we can see that the Facebook iOS application registers for about 8 url schemes.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios30/3.png" width="600" height="260" alt="3"></p>
+
+<p>The next step is to find the actual url structure the application is looking for in order to perform some action. There are a couple of ways of doing it and these steps may or may not work in all the cases. One of the very simple ways is to look for any string in the application starting with that url scheme. This can be done using the strings commands or a utility like Hopper. Note that you will first have to decrypt the application binary using clutch in case the application was downloaded from the App store as all app store binaries are encrypted.So let me copy the decrypted Whatsapp app binary to desktop and open it using Hopper. I know that it&#8217;s url scheme is whatsapp, so let me search for the string whatsapp://</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios30/4.png" width="458" height="362" alt="4"></p>
+
+<p>This can give you some information about the endpoints the application is expecting. For e.g, over here you can open a url like whatsapp://image/xyz to see how the application reacts to it. By supplying a url, i mean just going to safari and typing in the url and see how the whatsapp application reacts to it.</p>
+
+
+
+
+<p>One of the other ways to find out how the url scheme is being handled is to reverse engineer a particular method in the App delegate file. If you are familiar with a bit of iOS development, you will also know that the method that is called to handle an incoming url is</p>
+
+
+<p><code>
+&ndash; (BOOL)application:(UIApplication <em>)application openURL:(NSURL </em>)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+</code></p>
+
+<p>in the App Delegate class.</p>
+
+
+
+
+<p>So it&#8217;s a good idea to search for this method&#8217;s implementation using Hopper and try to look at its Pseudo code to find out what is happening. </p>
+
+
+
+
+<p>In order to prevent vulnerabilities related to url schemes, proper validation should also be performed inside this method. For e.g, the <i>sourceApplication</i> parameter can be used to find out the application calling this url scheme. You can have a whitelist of the applications that you want to call this url scheme and compare it against this source application. If this calling application is not in the list of whitelisted applications, you should not perform any action. Another important validation step could be to prompt an alert to the user and ask him to confirm the action. This will mostly protect against all url scheme related issues.</p>
+
+
+
+
+<p>One of the very famous vulnerabilities related to URL schemes was found in the Skype iOS application. The skype application didn&#8217;t perform any validation when a url like skype://14085555555?cal was called and made the call to the appropriate number without validation. More details about this vulnerability can be found <a href="http://software-security.sans.org/blog/2010/11/08/insecure-handling-url-schemes-apples-ios/">here</a>.</p>
+
+
+
+
+<p>In case you are wondering how the attacker will force the user to call that particular url with the url scheme for the application, it can be done in many ways. The attacker can lure the user into viewing a webpage that can contain some javascript like</p>
+
+
+<p><code>&lt;script&gt;document.location=&lsquo;tel://1123456789&rsquo;&lt;script&gt;</code></p>
+
+<p>or iframe like </p>
+
+
+<p><code>&lt;iframe src=&ldquo;tel://1123456789&rdquo;&gt;&lt;/iframe&gt;</code></p>
+
+<p>So as we can see, if an application doesn&#8217;t validate an incoming url properly, it might lead to a security vulnerability. If you have any questions, please ask them in the comments section below and i will get back to you.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GDB segmentation fault issue fix with jailbroken device]]></title>
+    <link href="http://prateek147.github.io/2014/03/06/gdb-issue"/>
+    <updated>2014-03-06T15:15:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/03/06/gdb-issue</id>
+    <content type="html"><![CDATA[<p>If you have been experiencing segmentation fault issues with GDB while attaching to a process on a jailbroken iOS device, it is because the GDB that comes with Cydia is broken and you need to install a proper version.</p>
+
+<p>You can download a proper working version of GDB from <a href="https://dl.dropboxusercontent.com/u/34557464/gdb">here</a>.</p>
+
+<p>You need to copy this executable into <i>/usr/bin</i> on your jailbroken iOS device and give it executable permissions.</p>
+
+<p>If it still doesn&rsquo;t work, let me know what issue you are facing by writing a comment below.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 29 - Insecure or Broken Cryptography]]></title>
+    <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography"/>
+    <updated>2014-01-17T21:41:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography</id>
+    <content type="html"><![CDATA[<p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most IOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
+
+
+
+
+<p>I would recommend you have a look at <a href="https://developer.apple.com/library/mac/documentation/security/conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html">Apple&#8217;s documentation</a> on Encrypting and hashing data.</p>
+
+
+
+
+<p>In this article, we will look at an example of how we can spot and break an incorrectly implemented encrytion technique. For this article, we will be testing on the application <a href="https://github.com/prateek147/InsecureCryptography-Demo">InsecureCryptography-Demo</a> that you can download from my Github profile. Download it and run on the simulator or on the device. Let&#8217;s look at what this application does. Once you start the application for the first time, it asks you to set up a new password to get started.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/1.png" width="328" height="396" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>Once you have set up the password, it will prompt you to log in with same password.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/2.png" width="334" height="349" alt="2"></p>
+
+<p>So lets assume i open this application once the password has already been set. Our task is to bypass this login check. Some of the things that are clear are that this password is being stored locally on the device as no network activity was noted. You can use a proxy like Burpsuite to observe the traffic and see that there is no network traffic, so everything is being done locally.</p>
+
+
+
+
+<p>Let&#8217;s try and open the application in Hopper. Please check article 28 in this series to know more about Hopper. Go to Hopper and go to File->Read Executable to Disassemble.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/3.png" width="399" height="353" alt="3"></p>
+
+<p>If you have successfully run the application using Xcode, it will install the application in the IOS simulator. Now our task is to find the location of the application binary on our system so we can provide it to Hopper. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 7.0.3/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command ls -al will give you the created date of these folders. The latest one would be our application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/4.png" width="907" height="346" alt="4"></p>
+
+<p>Open this folder in Finder using the command <i>open $directoryName</i> and right click on the .app package and click on <i>Show Package Contents</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/5.png" width="915" height="311" alt="5"></p>
+
+<p>Provide this executable to Hopper to disassemble.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/6.png" width="766" height="187" alt="6"></p>
+
+<p>Once Hopper has analyzed the executable and produced the dissassembly, here is what you get.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/7.png" width="1440" height="801" alt="7"></p>
+
+<p>On the left hand side, you can see stuff like RNEncryptor etc. Looks like this class is being used to encrypt data.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/8.png" width="406" height="577" alt="8"></p>
+
+<p>On google searching <i>RNEncryptor</i>, we find that it is a open source Github class used for encrypting data. Anyways, our task is to bypass the login. So lets search for the method that gets called to perform the authentication check. Let&#8217;s go back to the app. If you look at the image below, there is no login button to tap. The login check happens once you tap on the <i>return</i> button in the text field.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/9.png" width="338" height="586" alt="9"></p>
+
+<p>And if you are a bit familiar with IOS development you should know that if the current view controller is a delegate of this text field, then the method that will be called is <i>-(BOOL)textFieldShouldReturn:(UITextField *)textField</i>. So lets search for this method in the labels section.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/10.png" width="1440" height="811" alt="10"></p>
+
+<p>Ok, we can see the disassembly. That&#8217;s pretty cool. But you know what&#8217;s more cool ? Checking out the pseudo code for this function. Let&#8217;s click on the <i>Pseudo Code</i> button on the top right to check out the Pseudo code for this function.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/11.png" width="866" height="752" alt="11"></p>
+
+<p>Well, this pretty much gives everything away. And this is why i love Hopper so much. Here is the pseudo code generated for this method.</p>
+
+
+
+
+<pre>
+    function methImpl_ViewController_textFieldShouldReturn_ {
+        var_372 = arg_0;
+        var_368 = arg_4;
+        var_364 = 0x0;
+        _PIC_register_ = eax;
+        objc_storeStrong(&var_364, arg_8);
+        var_312 = 0x9;
+        var_308 = 0x1;
+        eax = NSSearchPathForDirectoriesInDomains(0x9, 0x1, 0x1);
+        eax = [eax retain];
+        var_304 = 0x0;
+        var_300 = eax;
+        eax = [eax objectAtIndex:0x0];
+        eax = [eax retain];
+        var_296 = eax;
+        eax = [eax stringByAppendingPathComponent:@"/secret-data"];
+        eax = [eax retain];
+        var_360 = eax;
+        [var_296 release];
+        [var_300 release];
+        var_292 = var_364;
+        eax = [var_372 passwordTextField];
+        eax = [eax retain];
+        var_288 = eax;
+        [eax release];
+        if (var_292 != var_288) goto loc_4fab;
+        goto loc_4b74;
+
+    loc_4fab:
+        var_172 = var_364;
+        eax = [var_372 returningUserTextField];
+        eax = [eax retain];
+        var_168 = eax;
+        [eax release];
+        if (var_172 != var_168) goto loc_53a5;
+        goto loc_4ff8;
+
+    loc_53a5:
+        var_379 = 0x0;
+        var_356 = 0x1;
+
+    loc_53b0:
+        var_104 = 0x0;
+        objc_storeStrong(&var_360, 0x0);
+        var_100 = 0x0;
+        objc_storeStrong(&var_364, 0x0);
+        eax = SIGN_EXTEND(var_379);
+        return eax;
+
+    loc_4ff8:
+        eax = [var_372 returningUserTextField];
+        eax = [eax retain];
+        var_164 = eax;
+        eax = [eax text];
+        eax = [eax retain];
+        var_160 = 0x4;
+        var_156 = eax;
+        eax = [eax dataUsingEncoding:0x4];
+        eax = [eax retain];
+        var_336 = eax;
+        [var_156 release];
+        [var_164 release];
+        var_332 = 0x0;
+        eax = [NSData dataWithContentsOfFile:var_360];
+        eax = [eax retain];
+        var_328 = eax;
+        var_320 = var_332;
+        eax = [RNDecryptor decryptData:var_328 withPassword:@"Secret-Key" error:&var_320];
+        eax = [eax retain];
+        var_152 = eax;
+        objc_storeStrong(&var_332, var_320);
+        var_324 = var_152;
+        eax = [var_336 isEqualToData:var_324];
+        if (eax != 0x0) {
+                eax = [var_372 loggedInLabel];
+                eax = [eax retain];
+                var_148 = 0x0;
+                var_144 = eax;
+                [eax setHidden:0x0];
+                [var_144 release];
+                eax = [var_372 returningUserTextField];
+                eax = [eax retain];
+                var_140 = 0x1;
+                var_136 = eax;
+                [eax setHidden:0x1];
+                [var_136 release];
+                eax = [var_372 returningUserLabel];
+                eax = [eax retain];
+                var_132 = 0x1;
+                var_128 = eax;
+                [eax setHidden:0x1];
+                [var_128 release];
+                var_356 = 0x0;
+        }
+        else {
+                var_124 = @"OK";
+                var_120 = @"Oops";
+                var_116 = @"Password is incorrect";
+                var_112 = 0x0;
+                eax = [UIAlertView alloc];
+                eax = [eax initWithTitle:var_120 message:var_116 delegate:0x0 cancelButtonTitle:var_124 otherButtonTitles:0x0];
+                var_108 = eax;
+                [eax show];
+                [var_108 release];
+                var_379 = 0x0;
+                var_356 = 0x1;
+        }
+        ecx = esp;
+        *ecx = &var_324;
+        *(ecx + 0x4) = 0x0;
+        objc_storeStrong();
+        ecx = esp;
+        *ecx = &var_328;
+        *(ecx + 0x4) = 0x0;
+        objc_storeStrong();
+        ecx = esp;
+        *ecx = &var_332;
+        *(ecx + 0x4) = 0x0;
+        objc_storeStrong();
+        ecx = esp;
+        *ecx = &var_336;
+        *(ecx + 0x4) = 0x0;
+        objc_storeStrong();
+        if (var_356 != 0x0) goto loc_53b0;
+        goto loc_53a5;
+
+    loc_4b74:
+        eax = [var_364 resignFirstResponder];
+        var_287 = eax;
+        eax = [var_364 text];
+        eax = [eax retain];
+        var_280 = eax;
+        eax = [eax length];
+        var_276 = eax;
+        [var_280 release];
+        if (var_276 != 0x0) goto loc_4c9b;
+        goto loc_4be5;
+
+    loc_4c9b:
+        eax = [var_372 passwordTextField];
+        eax = [eax retain];
+        var_252 = eax;
+        eax = [eax text];
+        eax = [eax retain];
+        var_248 = 0x4;
+        var_244 = eax;
+        eax = [eax dataUsingEncoding:0x4];
+        eax = [eax retain];
+        var_352 = eax;
+        [var_244 release];
+        [var_252 release];
+        var_348 = 0x0;
+        var_340 = var_348;
+        edi = esp;
+        var_240 = 0x12;
+        var_236 = _kRNCryptorAES256Settings;
+        var_232 = *0x158b0;
+        var_228 = edi;
+        var_224 = *0x157bc;
+        *(edi + 0xc) = *var_236;
+        esi = var_228;
+        *(esi + 0x58) = &var_340;
+        *(esi + 0x54) = @"Secret-Key";
+        *(esi + 0x8) = var_352;
+        *(esi + 0x4) = var_224;
+        *esi = var_232;
+        eax = objc_msgSend();
+        eax = [eax retain];
+        var_220 = eax;
+        objc_storeStrong(&var_348, var_340);
+        var_344 = var_220;
+        var_216 = 0x1;
+        eax = [var_344 writeToFile:var_360 atomically:0x1];
+        var_215 = eax;
+        eax = [NSUserDefaults standardUserDefaults];
+        eax = [eax retain];
+        var_208 = eax;
+        var_204 = 0x1;
+        [eax setBool:0x1 forKey:@"loggedIn"];
+        [var_208 release];
+        eax = [NSUserDefaults standardUserDefaults];
+        eax = [eax retain];
+        var_200 = eax;
+        eax = [eax synchronize];
+        var_199 = eax;
+        [var_200 release];
+        eax = [var_372 firstUserView];
+        eax = [eax retain];
+        var_192 = 0x1;
+        var_188 = eax;
+        [eax setHidden:0x1];
+        [var_188 release];
+        var_184 = 0x0;
+        objc_storeStrong(&var_344, 0x0);
+        var_180 = 0x0;
+        objc_storeStrong(&var_348, 0x0);
+        var_176 = 0x0;
+        objc_storeStrong(&var_352, 0x0);
+        goto loc_53a5;
+
+    loc_4be5:
+        var_272 = @"OK";
+        var_268 = @"Oops";
+        var_264 = @"Please enter a password";
+        var_260 = 0x0;
+        eax = [UIAlertView alloc];
+        eax = [eax initWithTitle:var_268 message:var_264 delegate:0x0 cancelButtonTitle:var_272 otherButtonTitles:0x0];
+        var_256 = eax;
+        [eax show];
+        [var_256 release];
+        var_379 = 0x0;
+        var_356 = 0x1;
+        goto loc_53b0;
+    }
+    
+</pre>
+
+
+
+
+<p>Some things that we can interpret from this Pseudo code.</p>
+
+
+
+
+<ol>
+    
+    <li><pre>eax = [eax text];
+        eax = [eax retain];
+        var_160 = 0x4;
+        var_156 = eax;
+        eax = [eax dataUsingEncoding:0x4];</pre>
+        <p>The text from the text field is being converted into NSData using the method dataUsingEncoding.</p>
+    </li>
+    
+    <li>
+        <pre>eax = NSSearchPathForDirectoriesInDomains(0x9, 0x1, 0x1);
+        eax = [eax retain];
+        var_304 = 0x0;
+        var_300 = eax;
+        eax = [eax objectAtIndex:0x0];
+        eax = [eax retain];
+        var_296 = eax;
+        eax = [eax stringByAppendingPathComponent:@"/secret-data"];</pre>
+    
+        <p>This indicates a file with the name <i>secret-data</i>. If we scroll down a bit, we see this line</p>
+        
+        <pre> eax = [var_344 writeToFile:var_360 atomically:0x1];</pre>
+        
+        <p>Looks like something is being written to this file.</p>
+    
+    </li>
+    
+    
+    
+    
+<li>
+        <pre>
+        var_332 = 0x0;
+                eax = [NSData dataWithContentsOfFile:var_360];
+                eax = [eax retain];
+                var_328 = eax;
+                var_320 = var_332;
+                eax = [RNDecryptor decryptData:var_328 withPassword:@"Secret-Key" error:&var_320];
+            </pre>
+            <p>The contents of the file with the name <i>Secret-data</i> is being read and decrypted with a password.</p>
+</li>
+    
+<li><pre>eax = [RNDecryptor decryptData:var_328 withPassword:@"Secret-Key" error:&var_320];</pre>
+        <p>It looks like the key used for enryption and decryption is a hardcoded string <i>Secret-Key</i>.</p> 
+        
+</li>
+    
+<li><pre>eax = [var_336 isEqualToData:var_324];</pre>
+        <p>There is a comparison between two kinds of data. The boolean value result is stored in the eax register.</p>
+</li>
+        
+<li><pre>if (eax != 0x0) {
+                eax = [var_372 loggedInLabel];
+                eax = [eax retain];
+                var_148 = 0x0;
+                var_144 = eax;
+                [eax setHidden:0x0];
+                [var_144 release];
+                eax = [var_372 returningUserTextField];
+                eax = [eax retain];
+                var_140 = 0x1;
+                var_136 = eax;
+                [eax setHidden:0x1];
+                [var_136 release];
+                eax = [var_372 returningUserLabel];
+                eax = [eax retain];
+                var_132 = 0x1;
+                var_128 = eax;
+                [eax setHidden:0x1];
+                [var_128 release];
+                var_356 = 0x0;
+        }
+        else {
+                var_124 = @"OK";
+                var_120 = @"Oops";
+                var_116 = @"Password is incorrect";
+                var_112 = 0x0;
+                eax = [UIAlertView alloc];
+                eax = [eax initWithTitle:var_120 message:var_116 delegate:0x0 cancelButtonTitle:var_124 otherButtonTitles:0x0];
+                var_108 = eax;
+                [eax show];
+                [var_108 release];
+                var_379 = 0x0;
+                var_356 = 0x1;
+        }</pre>
+    
+        <p>Depending on the value of eax, the flow can go to different places. If the value is 0, user will be shown an alert that the password is incorrect. Otherwise, as you might be guessing, the user is logged in.</p>   
+</li>
+        
+</ol>
+
+
+
+
+<p>Well, lets see if we can find the file <i>secret-data</i> in the application sandbox. On searching just a little bit, we see that this file is present in the Documents folder. On opening it, we find that it contains some data. and the content looks encrypted.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/12.png" width="814" height="628" alt="12"/></p>
+
+<p>Also, on googling a bit on RNEncryptor and RNDecryptor, we see that they are part of an open source library available on Github that can be found <a href="https://github.com/RNCryptor/RNCryptor">here</a></p>
+
+
+
+
+<p>So from all this information, we can interpret that.</p>
+
+
+
+
+<ul>
+        <li>When the user enters the password, the text is converted into NSData using the method dataUsingEncoding with the param 0x4. The parameter 0x4 corresponds to NSUTF8StringEncoding.</li>
+        <li>Data is read from the file secret-data and decrypted using a hardcoded key</li>
+        <li>The two values found from the above two steps are compared against each other. If they match, the user is logged in.</li>
+</ul>
+
+
+
+
+<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let&#8217;s write a simple IOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application&#8217;s sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
+
+
+
+
+<p>We add this method in the new project.</p>
+
+
+
+
+<pre>NSString *dataPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"/secret-data"];
+      NSError *error;
+      NSData *encryptedData = [NSData dataWithContentsOfFile:dataPath];
+      NSData *decryptedData = [RNDecryptor decryptData:encryptedData
+                                        withPassword:@"Secret-Key"
+                                               error:&error];
+     NSString *password = [[NSString alloc] initWithData:decryptedData
+                                               encoding:NSUTF8StringEncoding];
+    
+    
+    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(140.0, 160.0, 100.0, 100.0)];
+    [self.view addSubview:newLabel];
+    [newLabel setText:password];
+</pre>
+
+
+
+
+<p>As you can clearly note, this method decrypts the data using the hardcoded password, and shows the value in a label that is displayed on the view.</p>
+
+
+
+
+<p>After running this application, we can easily see the decrypted password.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios29/13.png" width="344" height="384" alt="13"></p>
+
+<p>In this article, we looked at how one can exploit a weakness in the encryption being used to find sensitive information from an application. In this case, the weakness was using a hardcoded key. It is essential for developers to make sure that they enforce proper encryption in their applications to prevent them from being compromised.</p>
+
+
+
+
+<p>In the next article, we will look at Client Side Injection in IOS Applications.</p>
+
+
+<p>*</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 28 - Patching IOS Application with Hopper]]></title>
+    <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper"/>
+    <updated>2014-01-17T21:41:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper</id>
+    <content type="html"><![CDATA[<p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an IOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn&#8217;t have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
+
+
+
+
+<p>According to Hopperapp.com ..</p>
+
+
+
+
+<p><i>Hopper is a reverse engineering tool for OS X, Linux and Windows, that lets you disassemble, decompile and debug (OS X only) your 32/64bits Intel Mac, Windows and iOS (ARM) executables! Take a look at the feature list below! </i></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>And&#8230;</p>
+
+
+
+
+<p><i>Even if Hopper can disassemble any kind of Intel executable, it does not forget its main platform. Hopper is specialized in retrieving Objective-C information in the files you analyze, like selectors, strings and messages sent.</i></p>
+
+
+
+
+<p>In this article, i am using a paid version of Hopper which cost about $60. I think it is an incredible price given the things we can do with this application. I would recommend you check out the demo version which lets you perform some tasks to get a feel of Hopper. Anyways, once you download the Hopper app, this is the interface we are looking at.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/1.png" width="1440" height="846" alt="1"></p>
+
+<p>In this article also, we will use the same demo application that we used in <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a>, the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application that you can download from my github profile. I highly recommend that you read Part 26 before you proceeed with this article. Just to quickly recap, the GDB-Demo had a login form like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/2.png" width="316" height="484" alt="2"></p>
+
+<p>It accepts a certain username/password combination in order to allow us to login. Our task is to patch this application in such a way that the application allows us to login even if the username/password combination is not correct. Please note that in this article, we will be debugging and patching the application which is x86 architecture on a laptop , however you can do the same patching with ARM executable as well by copying the binary from the device.</p>
+
+
+
+
+<p>Once you have downloaded the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application, run it using Xcode. This will install the application in the IOS simulator. Now our task is to find the location of the application binary on our system. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the created date of these folders. The latest one would be our application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/4.png" width="1145" height="239" alt="4"></p>
+
+<p>Use the command <i>open DirectoryName</i> and this will open the directory in Finder.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/5.png" width="992" height="360" alt="5"></p>
+
+<p>Go inside the folder GDB-Demo.app (this is the application bundle) by right clicking on it and choosing the option <i>Show Package contents</i>. Inside this folder, you will find the application binary with the name GDB-Demo. This is the binary that we will provide to Hopper.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/6.png" width="770" height="303" alt="6"></p>
+
+<p>Now open Hopper app and go to File->Read Executable To Disassemble. Give the location of the GDB-Demo binary. Also make sure to quit Xcode but keep the simulator open.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/2.png" width="316" height="484" alt="2"></p>
+
+<p>Hopper will now start dissasembling the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/7.png" width="1437" height="805" alt="7"></p>
+
+<p>On the left hand side, if you select the <i>Strings</i> section, you will see all the constant strings that Hopper was able to dump from the binary. If you have read part 26 on this series, you will note that the password is also present in this list ;-).</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/8.png" width="381" height="576" alt="8"></p>
+
+<p>If you select the labels section on the left, it will give you all the labels it was able to dump from the application. This includes labels to method implementations, constant strings, classes etc..</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/9.png" width="389" height="582" alt="9"></p>
+
+<p>We know that the method that is important is loginButtonTapped. So lets search for it in the labels section. Once we find the method, tap on it and it will take you to its disassembly.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/10.png" width="1437" height="653" alt="10"></p>
+
+<p>One kickass feature of Hopper is that it can provide Pseudo code for a function. To check out the Pseudo code for this function, click on Pseudo Code on the top right.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/11.png" width="336" height="94" alt="11"></p>
+
+<p>As you can see, Hopper provides you with a Pseudo code for this function.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/12.png" width="868" height="748" alt="12"></p>
+
+<p>This is such an amazing feature. It helps us so much in figuring out what this method is supposed to do. In this case, it just gives away the password. Another awesome feature of this application is Show CFG which helps you find the flow of the application. Just click on <i>Show CFG</i> next to the Pseudo code button.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/13.png" width="737" height="813" alt="13"></p>
+
+<p>If we scroll down a bit in this function, we get to the point shown in the image below. We can see that the left flow takes us to a point where we see the text <i>Incorrect Username or Password</i>, whereas the right flow has some text <i>admin page</i>. Obviously, i would like the flow to go to the right side.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/14.png" width="1434" height="819" alt="14"></p>
+
+<p>Now lets check the condition that decides which way the flow goes. As we can see from the image below, the assembly instruction is <i>jne 0xcbc</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/15.png" width="527" height="384" alt="15"></p>
+
+<p>0x2cbc is a label that corresponds to the right hand side. So if we can modify the instruction in such a way that the flow is always taken towards the right hand side, then our task will be accomplished.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/16.png" width="429" height="145" alt="16"></p>
+
+<p>Well, its pretty simple to do this. Just replace <i>jne 0xcbc</i> by <i>jmp 0xcbc</i>. To do this, click on this specific instruction in the dissassembly and click on Modify->Assemble instruction</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/17.png" width="1217" height="425" alt="17"></p>
+
+<p>Then we write down the instruction that we want and click on Assemble and Go Next. That&#8217;s it, this is the only change we want to do.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/18.png" width="720" height="250" alt="18"></p>
+
+<p>Now lets save this executable and overwrite the previous one. Go to File -> Produce New Executable and overwrite the original executable.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/19.png" width="608" height="396" alt="19"></p>
+
+<p>Now go the simulator application, quit any running instance of GDB-Demo application and restart the application. Tap on Login and you will see that the login has been bypassed.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios28/20.png" width="336" height="509" alt="20"></p>
+
+<p>Congratulations, we just patched an application using Hopper. This was just a small feature of Hopper. Hopper lets us do many more things. I would recommend you check them out and no, i am not associated with Hopper nor do i know the author personally. I just think its a cool app and for $60, its an extremely good deal !</p>
+
+
+
+
+<p>In the next article, we will learn about Insecure or Broken Cryptography.</p>
+
+
+<pre><code>&lt;/body&gt;
+</code></pre>
+
+<p></html></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 27 - Setting up a mobile pentesting environment with IOS 7 Jailbreak]]></title>
+    <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak"/>
+    <updated>2014-01-17T21:35:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak</id>
+    <content type="html"><![CDATA[<p>In this article we will look at how we can set up a mobile pentesting platform on our device with the new IOS 7 jailbreak. There has been quite a lot of discussion on the web about whether it is safe for a user to jailbreak their devices yet. However, if you are really interested in IOS pentesting then there is no absolutely no reason now why you shouldn&#8217;t jailbreak your device. Since this jailbreak was launched by the evasi0n team without any prior notice to the developers, most of the tweaks didn&#8217;t work with IOS 7 when the jailbreak was first made public. One of the most critical pieces of software Mobile Substrate which is used in many tweaks initially didn&#8217;t work on IOS 7. However, things have settled down since then. An update for Mobile Substrate (named Cydia Substrate) was released a few weeks back and many tweaks were also updated for IOS 7. Some things however don&#8217;t work well on IOS 7 devices. In this article, we will look at all those things which we need to do to set up a proper pentesting platform on a device running IOS 7. </p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h3>How to Jailbreak</h3>
+
+
+
+
+<p>You can jailbreak your device by downloading the evasi0n software from evasi0n.com . The current jailbreak supports devices upto the latest IOS version, which is 7.0.4. Once it is downloaded on your computer, just connect your device to your computer through USB, open evasi0n and click on Jailbreak to start the jailbreak process. In my case, the device is already jailbroken so i don&#8217;t need to jailbreak it again.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/1.png" width="480" height="361" alt="1"></p>
+
+<p>Follow the instructions given by the software. Once the jailbreak is finished, you will see a new application named Cydia installed on your device. The very first thing you need to do is to install new version of Mobile Substrate for IOS 7 (called the Cydia Substrate) and Substrate safe mode. Mobile Substrate is a very important piece of software as most of the tweaks depend on it to function properly. Substrate safe mode allows a device to reboot in a safe mode without any of the tweaks for a situation where tweaks may cause problems for your device and the device starts disfunctioning.</p>
+
+
+
+
+<p>Searching for Cydia will give you <i>Cydia Substrate</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/2.PNG" width="320" height="568" alt="2"></p>
+
+<p>And searching for Substrate will give you  <i>Substrate Safe Mode</i>. Install both of these by tapping on them and then tapping on Install.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/3.PNG" width="320" height="568" alt="3"></p>
+
+<p>Once this is installed, the next thing you need to do is to install OpenSSH on your device. This will help you connect to your device using ssh. Just searching for OpenSSH will give you the desired result.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/4.PNG" width="320" height="568" alt="4"></p>
+
+<p>Tap on it and then tap on Install. This will install OpenSSH on your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/5.PNG" width="320" height="568" alt="5"></p>
+
+<p>Now the next thing to do is to change your SSH password. You can find the IP of your device by going to the Settings app, selecting Wifi, and then tapping on the info button on the network you are connected to. By default, the password for both <i>mobile</i> and <i>root</i> user is <i>alpine</i>. We must change this password.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/6.png" width="567" height="122" alt="6"></p>
+
+<p>Now, install the Big boss recommended tools package from Cydia. It contains most of the essential tools that you need to work in a jailbroken environment.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/7.PNG" width="320" height="568" alt="7"></p>
+
+<p>Now you need to install some other essential tools. Let&#8217;s start with clutch. Clutch can be used to decrypt the applications that are downloaded from the App Store. You can download clutch from <a href="http://dl.dropboxusercontent.com/u/34557464/clutch">this</a> url. Then move it to /usr/bin and make sure to give it executable permissions.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/8.png" width="834" height="226" alt="8"></p>
+
+<p>Note - If you ever get an error like this while running a command that requires root privileges&#8230;</p>
+
+
+<p><i>E: Could not get lock /var/lib/dpkg/lock &ndash; open (35: Resource temporarily unavailable)
+E: Unable to lock the administration directory (/var/lib/dpkg/), is another process using it?</i></p>
+
+<p>This means that the Cydia app is running on your device and is in foreground. Cydia runs with root privileges and hence if you try to run another process with root privileges, it is not able to get a lock on it. Press the home button on your device to take the Cydia app to background. Now you can run the terminal command that requires root privileges. </p>
+
+
+
+
+<p>Another imporant tool is class-dump-z. As of today (Jan 10, 2014), the original class-dump-z doesn&#8217;t work with IOS 7 devices. However, you can see the class information using the old tool class-dump.</p>
+
+
+<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios27/9.png" width="835" height="315" alt="9"></p>
+
+<p>As far as cycript is concerned, it also gives a Segmentation fault when run against IOS 7 devices. However, if you install an older version, i.e 0.9.458
+    or previous, it does seem to work but with limited functionality.So assuming there was some issue with Mobile Substrate not working properly, i jailbreaked my device again. After this, i was able to successfully run cycript properly with complete functionality.</p>
+
+
+
+
+<p>You can download Cycript from <a href="http://cycript.org/debs/">here</a> and then use the <i>dpkg -i packageName</i> command to install Cycript.</p>
+
+
+
+
+<p>You might also want to install gdb on your device. A proper version of GDB can be found <a href="https://dl.dropboxusercontent.com/u/34557464/gdb">here</a></p>
+
+
+
+
+<p>So these are all the things that you need to setup a Mobile Pentesting platform on IOS 7. If you have any suggestions, please add it in the comments and i will include it in the article. In the next article, we will learn about Application Patching using a pretty awesome tool called Hopper.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 26 – Patching IOS Applications using IDA Pro and Hex Fiend]]></title>
+    <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend"/>
+    <updated>2013-12-17T13:08:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend</id>
+    <content type="html"><![CDATA[<p>In the <a href="http://highaltitudehacks.com/security">previous</a> applications we have looked at how we can hijack method implementations during runtime using Cycript, and even change the logic of the code rather than changing the complete implementation using GDB. All of these things have been done to serve a purpose, which is to make the application do what we want. However, using Cycript or GDB is a bit of a pain as one has to do repeat the same process everytime after you restart the application. This is where patching the application is useful. Once a change has been made in the application&#8217;s binary, its permanent. So you don&#8217;t have to repeat the same process over and over again. Once the binary is patched, you can then run it on a jailbroken device with the changed logic.</p>
+
+
+
+
+<p>In this article, we will be using the same application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> that we had used in <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">Part 22</a> of this series. If you remember, we had found a way to change the logic of the method that gets called when Login was tapped and hence bypassed the login authentication check. In this article, we are going to permanently patch this check so we are always authenticated.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>The first thing you need to do is install the demo version of IDA Pro from their <a href="https://hex-rays.com/products/ida/index.shtml">website</a>. IDA Pro is a pretty awesome multi-processor disassembler and debugger. Once it is downloaded, open it up and choose the option <i>Go</i> which just opens up IDA without any preselected binary.  Please note that when you run an application on the simulator using Xcode, the code is compiled for the i386 architecture, whereas when you run the application on a device using Xcode, it is compiled for the ARM architecture. The demo version of IDA Pro supports both these architectures, however in this tutorial we are going to compile the application on i386 architecture (i.e on a simulator) to save the effort of copying the application binary from the device to our computer.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/1.png" style="width: 90%; height: 90%"/ ></p>
+
+<p>Now open Xcode and run the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application that you had just downloaded using simulator.  ake sure the application builds successfully and that it installs propery on the simulator. This will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the last modified date of these folders. The latest one would be our application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/2.png" style="width: 90%; height: 90%"/></p>
+
+<p>Use the command <i>open DirectoryName</i> and this will open the directory in Finder.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/3.png" style="width: 50%; height: 50%"/></p>
+
+<p>Go inside the folder GDB-Demo.app (this is the application bundle) by right clicking on it and choosing the option <i>Show Package contents</i>. Inside this folder, you will find the application binary with the name GDB-Demo. This is the binary that we will provide to IDA Pro.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/4.png" style="width: 50%; height: 50%"/></p>
+
+<p>Now drag and drop the application binary on the IDA pro icon. Click on Ok and proceed.</p>
+
+
+
+
+<p>You will see the disassembled code like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/6.png" style="width: 80%; height: 80%"/></p>
+
+<p>Coming back to the application, we know that the application has a login page like the one shown below. We had already modified the logic of this application using GDB in <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">Part 22</a>. We also know that the method whose logic was changed was <i>-(IBAction)loginButtonTapped:(id)sender</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/7.png" style="width: 20%; height: 20%"/></p>
+
+<p>In IDA Pro, you can see a functions window on the left. Choose any function from the list of functions and press <i>Ctrl+F</i>. Now search for the function loginButtonTapped. Once you have found it, double click on it. You will be shown the dissassembly for this function on the right side.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/8.png" style="width: 80%; height: 80%"/></p>
+
+<p>To view this in sort of a graphical format, double click on the function name in the functions window and press <i>Space</i>. The view will change to something like this. This is a better way of examining the disassembly as it also helps us in understanding the flow of the function. If you want to switch to the previous view, you can press <i>Space</i> again.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/9.png" style="width: 80%; height: 80%"/></p>
+
+<p>Scroll down in the function disassembly on the right side. You can see that the flow of the function can lead to different blocks of code depending on specific conditions. It is obvious that somewhere within this function there is a check for whether the username and password are correct or not and authenticate or disallow the user. After scrolling down for a bit, we arrive at this block. This looks very interesting. On the right side, i can see <i>UIAlertView</i> in the code section whereas the left section shows a string named <i>adminPage</i>. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/10.png" style="width: 80%; height: 80%"/></p>
+
+<p>I would really like the flow to go to the left hand side, where it says <i>adminPage</i>. The instruction that decides which block of code the execution will jump to is just one instruction before.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/11.png" style="width: 50%; height: 50%"/></p>
+
+<p>It says <i>jnz loc_2CBC</i>, where <i>loc_2CBC</i> is a label and jnz stands for <i>Jump if not zero</i> instruction. We can see that the code block on the left contains this label.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/12.png" style="width: 50%; height: 50%"/></p>
+
+<p>This means execution will jump to left if the zero flag is not set. If i can modify the instruction <i>jnz</i> to <i>jz</i>, then my purpose would be solved as the logic would be reversed and i will be authenticated. So what do i need to convert this from jnz to jz.</p>
+
+
+
+
+<p>MORE MONEY !</p>
+
+
+
+
+<p>Well, that was a bit of humour. A licensed version of IDA Pro will get the job done for you and you can simply modify this instruction. However, we are going to do this the free way, even though it requires a bit of extra effort and calculation but its worth it and we will also learn a few new things on the way. In the next article, we will also discuss an alternative named Hopper that is not as expensive as IDA but very good in terms of functionality. For that first we need to find the address of the <i>jnz</i> instruction. To do that, double click on this instruction so that it gets yellow&#8230;</p>
+
+
+<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/13.png" style="width: 50%; height: 50%"/></p>
+
+<p>Now press Space..</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/14.png" style="width: 90%; height: 90%"/></p>
+
+<p>As we can clearly see, the address of this instruction is <i>00002CB1</i>. However, we cannot just go ahead and change the address at this instruction, This is because this address is the absolute address of this instruction and it will be different every time the application is launched. What we need to find out is the offset of this instruction relative to the Mach-O binary. This instruction has to be modified in the code section of the assembly. Hence the offset of this instruction relative to the binary can be calculated as ..</p>
+
+
+
+
+<p><b>(Offset of code section relative to binary) + (Absolute address of the instruction to be changed - Starting address of the code section)</b></p>
+
+
+
+
+<p>Right now we just know the Absolute address of the instruction to be changed. We can find the other two things using otool. Browse to the application directory <i>/Users/Prateek/Library/Application Support/iPhone Simulator/6.1/Applications/1804F89F-AD44-4782-BB29-47F5C521D10D/GDB-Demo.app</i> and use the following command as shown in the image below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/15.png" style="width: 80%; height: 80%"/></p>
+
+<p>Look for the text section.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/16.png" style="width: 50%; height: 50%"/></p>
+
+<p>As you can see, the starting address is 0x000026f0(Hex) and the offset is 5872(Decimal). Please note that these things may be different in your case.</p>
+
+
+
+
+<p>Hence, using these values and the above equation we can find the offset as ..</p>
+
+
+
+
+<p><b>5872(Decimal) + (0x00002CB1(Hex)- 0x000026f0(Hex)) =  0x1cb1</b></p>
+
+
+
+
+<p>Now, as we discussed earlier, we need to replace the jnz instruction with a jz instruction. You can see from <a href="http://www.unixwiz.net/techtips/x86-jumps.html">this</a> link that the opcode for the JNZ instruction is <i>OF 85</i> whereas the opcode for the JZ instruction is <i>OF 84</i>.</p>
+
+
+
+
+<p>Now download the application <i>Hex Fiend</i> and open it up. Drag and drop the application binary to it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/17.png" style="width: 90%; height: 90%"/"></p>
+
+<p>Now click on Edit &#8211;> Jump to Offset and type the offset as 0x1cb1. This will take you to the line with the jnz instruction. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/18.png" style="width: 90%; height: 90%"/></p>
+
+<p>Now look for the opcode OF 85. Change it to 0F 84 as shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/19.png" style="width: 90%; height: 90%"/></p>
+
+<p>Now save your changes and exit Hexfiend. As you remember, we had installed the app previously in the simulator. So fire up the IOS simulator, quit the GDB-Demo app if it is running and open it again. Now just tap on Login without entering anything in the username and password. It will direct you to the admin page.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios26/20.png" style="width: 20%; height: 20%"/></p>
+
+<p>Perfect, we just patched a binary using old school techniques. In the next article, we will look at a tool named Hopper and learn how to patch IOS applications using it. </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 25 – Secure Coding Practices for IOS Development]]></title>
+    <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development"/>
+    <updated>2013-12-17T13:07:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at some of the best practices an IOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
+
+
+
+
+<h3>Local Data Storage</h3>
+
+
+
+
+<p>It is extremely important for developers to know what kind of data they should be storing locally in their application. Frankly speaking, no data is secure when stored locally in the application. In <a href="http://highaltitudehacks.com/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults">part 20</a> of this series, we have looked at Local Data Storage in great detail.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<ul>
+    <li>Important data like Passwords, Session ID&#8217;s etc should never be stored locally on the device. If there is no other option, it should be stored on the keychain. This is because you can be assured that the hacker won&#8217;t be able to find out the data in your keychain as long as the user&#8217;s device is not jailbroken. Since more than 70% people have upgraded their IOS devices to IOS 7 and since there is no public jailbreak for IOS 7 yet, you can be assured that the hacker won&#8217;t be able to get the information stored in your keychain (yet). Some people might say that the process of storing data in the keychain isn&#8217;t as simple as saving data in NSUserDefaults. But we can always use third-party wrappers that can make the job extremely simple for us. For e.g, <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">here</a> is an article that demonstrates the use of a wrapper named PDKeychainBindings and show how simple it is to save data in the keychain. Here is a snippet of code for saving data in the keychain using this wrapper.</li>
+    
+<pre>
+PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
+[[[Model sharedModel] currentUser] setAuthToken:[bindings objectForKey:@"authToken"]];
+</pre>
+
+<p>However, please note that on a jailbroken device, keychain information is not secure. It is also advisable to use your own encryption methods to encrypt the string that needs to be protected and then save on the keychain. This adds an extra layer of security because even though the attacker can get the encrypted string from the keychain, he will still have to decrypt this encrypted string.</p>
+
+
+    <li>NSUserDefaults should never be used to store confidential information like passwords, authentication tokens etc. This is because all the information saved by NSUserDefaults is present in an unencrypted format in a plist file that can be found in the location <i>Library -> Preferences -> $AppBundleId.plist</i> inside your application bundle. Any one can use a tool iExplorer to get a peek inside the application bundle and get the plist file even if the device is not jailbroken.</li> 
+    
+    <li>Plist files should also be never used to store confidential information like passwords etc because they can also be fetched very easily from inside the application bundle even on a non-jailbroken device. All the content inside a plist file is stored in unencrypted format.</li> 
+    
+    <li>Core Data files are also stored as unencrypted database files in your application bundle.The Core Data framework internally uses Sql queries to store its data and hence all the files are stored as .db files. One can easily copy these files to their computer and use a tool like sqlite3 to examine all the content in these database files.</li> 
+    
+    
+</ul>
+
+
+
+
+<h3>Transport Layer Security</h3>
+
+
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;Do not allow self signed certificates to be used when releasing the application. Most developers allows self signed certificates in debug mode but the same shouldn't be done when releasing the application.&lt;/li&gt;
+    &lt;li&gt;Do not use a parameter unique to the device (MAC address, IP, UDID) to determine things like the Session ID, authentication token etc.&lt;/li&gt;
+    &lt;li&gt;Important decisions like Authentication and Authorization should be taken on the backend. Remember that a hacker has the ability to manipulate the runtime of your application.&lt;/li&gt;
+    &lt;li&gt;Proper input validation should occur both on the client side as well as the server side. A malicious hacker can always modify the request using Burpsuite. It is important to validate the parameters being sent to the backend to avoid any kind of injection attacks.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Use Encryption&lt;/h3&gt;
+</code></pre>
+
+<ul>
+    <li>Encrypt important files before saving them locally. Again, you don&#8217;t have to be an Cryptography guru to encrypt those files. There are a lot of third party libraries that can get the job done for you. I have written an <a href="http://highaltitudehacks.com/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox">article</a> on <i>Encrypting images and saving them in App Sandbox </i> that uses the <a href="https://github.com/rnapier/RNCryptor">RNCryptor</a> library available on Github. The same technique can be used to encrypt any kind of file. Here is a snippet that shows how easy it is to encrypt a file.</li>
+    
+<code>
+    UIImage *imageToEncrypt = [UIImage imageNamed:@"SomeImage"];
+    NSString  *imagePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/encryptedImage.png"];
+
+    NSData *data = UIImagePNGRepresentation(fetchedImage);
+    NSError *error;
+    NSData *encryptedData = [RNEncryptor encryptData:data
+                                        withSettings:kRNCryptorAES256Settings
+                                            password:@"ABC123"
+                                               error:&error];
+   [encryptedData writeToFile:imagePath atomically:YES];
+</code>
+        
+<p>To encrypt SQlite files, you should also consider using <a href="http://sqlcipher.net/">SQLCipher</a>.</p>
+        
+</ul>
+
+
+
+
+<h3>Add checks to prevent Runtime Analysis</h3>
+
+
+
+
+<ul>
+    <li>Remember that with a copy of your application binary, a hacker is in complete control. It is therefore important to make his job as difficult as possible. One of the ways to do that is to block debuggers to attach to the application. We have already learnt how to do that in <a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">Part 23</a></li> of this series. Your main.m file should look something like this&#8230;</a>
+    
+<img src="http://prateek147.github.io/images/posts/ios25/3.png" width="844" height="338" alt="3">
+    
+    <p>This will block debuggers from attaching to this application. We have already learnt how we were able to trace calls using <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">Snoop-it</a>. Here is a screenshot from the same article.</p>
+    
+    <img src="http://prateek147.github.io/images/posts/ios25/1.png" width="717" height="309" alt="1">
+    
+    <p>With the line of code added above in main.m file, we wouldn&#8217;t be able to do this now. This is because Snoop-it traces calls by attaching a debugger to the application when it starts, and now with the above check, it won&#8217;t be able to do that and the application will crash. Please note that this will not prevent the application from tools like Cycript because they do not trace the application.</p>
+    
+</ul>
+
+
+
+
+<h3>Some other minor things</h3>
+
+
+
+
+<ul>
+    <li>TextFields that have inputs as passwords should be used with <i>Secure</i> option. This is because IOS usually caches all the things that you enter in textfields, provided it doesn&#8217;t have the <i>Secure</i> tag. Also disable <i>AutoCorrection</i> for those text fields. In the image below, you can see that the  textfield has <i>AutoCorrection</i> set to NO and the <i>Secure</i> tag is being enabled.</li>
+    
+    <img src="http://prateek147.github.io/images/posts/ios25/2.png" width="674" height="192" alt="2">
+    
+<li>Clear the Pasteboard once the application enters background. You can do this by adding the following line in the method <i>- (void)applicationDidEnterBackground:(UIApplication *)application</i> in AppDelegate. Ify you are using a custom Pasteboard, replace <i>[UIPasteboard generalPasteboard]</i> with your custom pasteboard.</li>
+
+<pre>
+    - (void)applicationDidEnterBackground:(UIApplication *)application
+    {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        [UIPasteboard generalPasteboard].items = nil;
+    }
+    
+</pre>    
+<li>Add a prompt or validate input before doing anything critical using URL schemes. We know that any application can register for a URL scheme. For e.g, the Skype app can register for the URL scheme skype:// and any application can call this url with a particular parameter. This allows for a little bit of communication between applications. Previously, there was a vulnerability in Skype where any user can make a call to anyone by using the following url.
+
+<pre>
+    skype://123123123?call
+</pre>
+
+Since the skype app didn&#8217;t prompt the user before making the call, the calls were directly sent. It would have been better to prompt the user befor actually making the call. The input to the URL scheme should also be validated. You can add validation in the method <i>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url</i> in AppDelegate</li>
+
+<pre>
+    - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+        //Validate input from the url
+        return YES;
+    }
+</pre>
+
+<li>Some applications use UIWebViews that can be used to display content from a URL. There have been <a href="https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&ved=0CEcQFjAB&url=https%3A%2F%2Fsuperevr.com%2Fblog%2F2011%2Fxss-in-skype-for-ios%2F&ei=nfCOUpLNHsq8rAfUwoGQCg&usg=AFQjCNGLyriyo0tNWE9nfO4vdxWHb7KoFw&sig2=gNsCv0PGojvQGfW6YojWVQ&bvm=bv.57084495,d.bmk">vulnerabilities</a> discovered previously in UIWebviews in popular applications.UIWebviews also support javascript and currently there is no public API available to disable javascript in a UIWebview. Therefore if any user controlled input is used to populate content in a UIWebview, it can be manipulated during runtime to execute javascript code on the UIWebview. Even if the input is not user controlled, the attacker can manipulate the content being added to the UIWebview druring runtime and hence execute any javascript code he wants. Since there is not much a developer can do about it due to the restrictions imposed by Apple, a developer should make sure that the content he loads into the UIWebview is not malicious by a) Making sure the data is loaded over HTTPs b) Making sure the content in the UIWebview does not depend on user input and c) validate the contents of the URL by using the function <i>dataWithContentsOfURL</i> present in the NSData class.</li>
+
+
+
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 24 – Jailbreak Detection and Evasion]]></title>
+    <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion"/>
+    <updated>2013-12-17T12:33:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at the checks a developer can incorporate in his application to check whether the device on which the application is running is jailbroken or not. Checking whether a device is jailbroken or not can have many advantages for your application. As we have already seen, an attacker can run tools like Cycript, GDB, Snoop-it etc to perform runtime analysis and steal sensitive data from within your application. If you are really looking to add an extra layer of security for your application, you should not allow your application to be run on a jailbroken device. Please note that millions of users jailbreak their devices and hence not allowing an application to be run on a jailbroken device could have a significant impact on your user base. Another thing you can do is instead block some of the features in your application rather than disabing it entirely. We will also look at how hackers can bypass the check for jailbreak detection in your application using Cycript.</p>
+
+
+<p></p>
+
+<p>Once a device is jailbroken, a lot of other files and applications are installed on the devcice. Checking for these files in the filesystem can help us identify whether the device is jailbroken or not. For e.g, most of the jailbreak softwares install Cydia on the device after jailbreaking. Hence just a simple check for the file path of Cydia can determine whether the device is jailbroken or not.</p>
+
+
+<!-- more -->
+
+
+
+
+<pre>
+    NSString *filePath = @"/Applications/Cydia.app";
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        //Device is jailbroken
+    }
+</pre>
+
+
+
+
+<p>However, not all devices that are jailbreaked have Cydia installed on them. In fact, most hackers can just change the location of the Cydia App. Checking for many other files related to Jailbroken devices can make this method much more efficient. For e.g, one can check if Mobile Substrate is installed on the device or not, which many applications require to run on a jailbroken device. One can also check for the location of the SSH Daemon, or the shell interpreter. Combining all these checks, we get a method like this.</p>
+
+
+
+
+<pre>
+    +(BOOL)isJailbroken{
+  
+      if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
+          return YES;
+        }
+      return NO;
+    }
+</pre>
+
+
+
+
+<p>We have also learnt from the previous articles that applications that run as a mobile user run in a sandboxed environment and go inside the directory <i>/var/mobile/Applications</i> whereas applications that run with the root user (e.g Apple&#8217;s preloaded applications) aren&#8217;t subject to any sandbox environment and go inside the directory <i>/Applications</i>. A user running a jailbroken device can install your application in the /Applications folder thereby giving it root privileges. Hence, adding a check to see whether the application follows sandboxing rules can help the user identify whether the application is jailbroken or not. A good way to check for it would be to see if we can modify a file in some other location outside the application bundle.</p>
+
+
+
+
+<pre>
+    NSError *error;
+    NSString *stringToBeWritten = @"This is a test.";
+    [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
+             encoding:NSUTF8StringEncoding error:&error];
+    if(error==nil){
+       //Device is jailbroken
+       return YES;
+     } else {
+       //Device is not jailbroken
+       [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
+     }
+   
+</pre>
+
+
+
+
+<p>We know that a skilled hacker can just modify the location of the application. However, we know that 80% or more of the devices that are jailbroken have Cydia installed on them, and even if the hacker can change the location of the Cydia app, he most probably won&#8217;t change the URL scheme with which the Cydia app is registered. If calling the Cydia&#8217;s URL scheme (cydia://) from your application gives a success, you can be sure that the device is jailbroken.</p>
+
+
+
+
+<pre>
+    if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
+      //Device is jailbroken
+    }
+</pre>
+
+
+
+
+<p>Let&#8217;s also add a condition to make sure this code does not execute if we are testing our application on a simulator and not an actual device. After combining all the above techniques, our method looks like this.</p>
+
+
+
+
+<pre>
+
+    +(BOOL)isJailbroken{
+  
+    #if !(TARGET_IPHONE_SIMULATOR)
+  
+       if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/MobileSubstrate.dylib"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/bin/bash"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/sbin/sshd"]){
+          return YES;
+        }else if([[NSFileManager defaultManager] fileExistsAtPath:@"/etc/apt"]){
+          return YES;
+        }
+  
+      NSError *error;
+        NSString *stringToBeWritten = @"This is a test.";
+        [stringToBeWritten writeToFile:@"/private/jailbreak.txt" atomically:YES
+              encoding:NSUTF8StringEncoding error:&error];
+        if(error==nil){
+        //Device is jailbroken
+        return YES;
+      } else {
+        [[NSFileManager defaultManager] removeItemAtPath:@"/private/jailbreak.txt" error:nil];
+      }
+ 
+      if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]){
+        //Device is jailbroken
+        return YES;
+      }
+    #endif
+  
+      //All checks have failed. Most probably, the device is not jailbroken
+      return NO;
+    }
+</pre>
+
+
+
+
+<p>Honestly speaking, there is no foolproof method of detecting jailbroken devices. A skilled hacker will always find a way to bypass these checks. He can simply find the instructions in the binary and replace all instructions with No-op. He can also swizzle your method implementation with his own using Cycript.</p>
+
+
+
+
+<p>He can first find the class information of the application using Class-dump-z. Over here, he can see a method named +(BOOL)isJailbroken in the JailbreakDetector class. Note that it is a class method as it begins with positive sign. It obviously means this method checks whether a device is jailbroken or not and returns YES if the device is jailbroken. If you are not getting any of this, you should consider reading <a href="http://highaltitudehacks.com/security">previous</a> articles.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios24/1.png" width="990" height="436" alt="1"></p>
+
+<p>He can then hook into this application using Cycript.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios24/2.png" width="1339" height="119" alt="2"></p>
+
+<p>And then print out all the methods for the JailbreakDetector class. Please note that we are using JailbreakDetector->isa.messages because isJailbroken is a class method. To find the instance methods, just using JailbreakDetector.messages would have worked for us.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios24/3.png" width="1437" height="519" alt="3"></p>
+
+<p>And then he can swizzle the method implementation with his own that always returns a NO. If you are not getting this, i suggest that you read the article on <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">Method Swizzling</a>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios24/4.png" width="641" height="101" alt="4"></p>
+
+<p>As a developer, what we can do is change the method name to something that doesn&#8217;t look quite appealing to the hacker. For e.g, the className JailbreakDetector could be renamed as ColorAdditions and the method +(BOOL)isJailbroken could be replaced by +(BOOL)didChangeColor with the implementation being the same. Something like this wouldn&#8217;t attract the attention of the hacker. He can always look at the calls that are being made inside this method using Snoop-it, GDB etc, but a small change like this can surely help in confusing him.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 23 – Defending against runtime analysis and manipulation]]></title>
+    <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation"/>
+    <updated>2013-12-17T10:37:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation</id>
+    <content type="html"><![CDATA[<p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of IOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application&#8217;s binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
+
+
+
+
+<p>In Xcode, there are certain checks that an attacker can use to determine whether an application is being debugged or not. In Xcode, use the following piece of code wherever you want to put a check for a debugger.</p>
+
+
+
+
+<pre>
+    #ifndef DEBUG
+        SEC_IS_BEING_DEBUGGED_RETURN_NIL();
+    #endif
+</pre>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>As the name specifies, this macro returns <i>nil</i> if the application is being debugged. You can put this check in important places in your application where you think important data is being accessed or returned in a function. If the application is being debugged at that moment, then this macro will return nil and hence your application wont function normally thereby causing problems for the attacker. Or you can simply call this macro with a timer and whenever you find that your application is being debugged, you delete all the important information stored in the app, remove all the important files etc. But please note that the attacker can just hijack your method implementation using Cycript, hence it is advisable to just use a macro instead of using this macro inside a method. Please note that this macro only works in release mode. To test it on your device, you will have to enable release mode on your build. To do that, select your scheme and click on <i>Edit Scheme</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios23/1.png" width="575" height="281" alt="1"></p>
+
+<p>Then under Info, set the Build configuration to <i>Release</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios23/2.png" width="706" height="483" alt="2"></p>
+
+<p>Now, you can just run this application on your device using Xcode and you will see that the check for debugger will succeed. This is because Xcode attaches a debugger while running an application.</p>
+
+
+
+
+<p>Again, this does not guarantee that your application will not be debugged. A skilled attacker can just patch out all the assembly instructions for this macro from the application binary. As a developer, you should put this check in multiple places in the application to make the job difficult for the hacker.</p>
+
+
+
+
+<p>Another technique to prevent these debuggers from attaching to your application is by using the ptrace function. Using this function with a specific parameter, you can just deny any other debugger the ablity to attach to your application. The ptrace function is used by the debuggers like GDB and LLDB to attach to a process. Using the ptrace command with the parameter PT_DENY_ATTACH will tell the function to not allow this application to be traced. Here is a screenshot that tells about the PT_DENY_ATTACH parameter from <a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man2/ptrace.2.html">Apple&#8217;s documentation</a>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios23/3.png" width="891" height="142" alt="3"></p>
+
+<p>Lets try this out. Create a new Project in Xcode. Click File->New->Project->Single View Application. Then run it in the simulator. You will see an empty view this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios23/4.png" width="357" height="661" alt="4"></p>
+
+<p>Now go to the main.m file and modify it by adding the following code.</p>
+
+
+
+
+<p>Import the ptrace.h file and add the following code inside the main function.</p>
+
+
+
+
+<pre>
+#ifndef DEBUG
+    ptrace(PT_DENY_ATTACH, 0, 0, 0);
+#endif
+</pre>
+
+
+
+
+<p>Your main.m file should look like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios23/5.png" width="881" height="338" alt="5"></p>
+
+<p>Now run the application. You will see that the application fails to launch. This is because when Xcode launches this application, it tries to attach a debugger (LLDB or GDB) to the application. Because of the code that we just wrote in the main.m file, it is unable to do so and hence it quits the application.</p>
+
+
+
+
+<p>To make sure this is exactly what is happening, double tap the home button in the simulator and kill the Test application. Now launch it again. It will launch properly this time. This is because it was not launched via Xcode this time and hence a debugger wasn&#8217;t attached to it.</p>
+
+
+
+
+<p>Ofcourse, this method also doesn&#8217;t guarantee that your application will be secure. A skilled attacker can just patch this call out from your binary after decrypting it. As a developer, you should try and use this method in multiple places in the app which would further complicate the attacker&#8217;s job.</p>
+
+
+
+
+<p><p>It is important that even though both the techniques mentioned above will try and prevent debuggers from attaching to your application, it won&rsquo;t protect from tools like Cycript which do not trace the application. As a developer, you can make the following checks in your application to make the hacker&rsquo;s job as difficult as possible. For e.g, you can add false methods in your application, something that would get the attention of a hacker. For e.g a method with the name <i>userDidLogin:(BOOL)didLogin;</i> will surely attrack the attacker&rsquo;s attention. Ofcourse, he will try to execute it using Cycript. In this method&rsquo;s implementation, you can clear all the important information in the app, and maybe even report to the server that this application is being breaked into. For banking apps that require special security, you can also check whether the device is jailbreaked or not. If it is, then deny all access to the server and remove all the important information stored locally in the app. We will look at how to check for a jailbroken device in the next article. Another thing you can do is check if your application is cracked or not and if it is, perform all the necessary steps to stop the attacker from gaining any further information from your application. There is a very simple class on <a href="https://github.com/itruf/crackify">github</a> that can get the job done for you. Ofcourse, the attacker can always hijack this method&rsquo;s implementation, so name it to something that doesn&rsquo;t look suspicious.</li></p>
+
+<p><p>For methods that check for the security of the application, you can also change their names so they don&rsquo;t look important. For e.g a method that checks whether the application is being debugged shouldn&rsquo;t be named as <i>&ndash;(BOOL)isAppBeingDebugged</i>. This is because it will definitely attract the attention of the attacker and he can just swap this method&rsquo;s implementation. Instead, it would have been good to change this method&rsquo;s name to something like <i>&ndash;(BOOL)didChangeColor</i> or <i>&ndash;(BOOL)didSetFont</i>. In this case, this function will look much less important to the attacker.</p></p>
+
+<p><p>If you have detected any suspicious activity and think that it would be best to just exit the application, you can do that with the following command.</p></p>
+
+<p><pre>exit(-1);</pre></p>
+
+<p><p>This will exit the application.</p></p>
+
+<p><p>Finally, it is very important to note that no application is secure in the hands of a skilled attacker. With a copy of your application&rsquo;s binary and will tools like Cycript, GDB in their hands, a hacker is in complete control. What we can do as a developer is use as many checks as we can to prevent the application from being comprised so that the attacker can just give up and move on to some other application that is more easily exploitable.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB]]></title>
+    <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb"/>
+    <updated>2013-12-17T10:11:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at how we can use GDB to perform runtime analysis of IOS applications. In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use Cycript to analyze and manipulate the runtime behaviour of IOS applications. We have learnt how we can perform method <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzling</a> and have our own methods being called instead of the original implementations. So why we do need GDB ? Well, what Cycript doesn&#8217;t allow us to do yet is set breakpoints and alter the values of variables and registers after a particular instruction. With GDB, we can dive deep into the application, observe the low level assembly instructions, manipulate the values in the registers and hence change the application flow completely.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>For this demo, you can download the sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Then make sure to install and run it on the device. If you don&#8217;t have a registered developer account to run this on your device, you can follow the instruction 
+    mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a>. I would also recommend that you have a look at the previous article on GDB in this series before going ahead with this one. This application is just a single view application that prompts for a username/password combination to log you in. It then validates the credentials entered locally and logs you in if the username/password combination is correct.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/device 1.PNG" width="320" height="480" alt="Device 1"></p>
+
+<p>Once the application is installed on your device, ssh into it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/1.png" width="573" height="137" alt="1"></p>
+
+<p>Then start the GDB-Demo application on your device. In GDB, attach to the running process by using the command <i>attach GDB-Demo.PID</i>. Here PID is the process ID of the GDB-Demo app. It can be different in your case. Just type <i>attach GDB-Demo</i> and hit TAB. This will give you the correct process along with its PID appended to it. Once you hit enter, GDB will hook into the running process.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/2.png" width="569" height="396" alt="2"></p>
+
+<p>From the previous article, we already know about the class information about this app. We know it has a method named loginButtonTapped. So we set a breakpoint for it and press <i>c</i> to continue the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/3.png" width="422" height="90" alt="3"></p>
+
+<p> Now, lets enter any username/password combination and press Login. This will trigger the breakpoint.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/4.png" width="571" height="152" alt="4"></p>
+
+<p>Use the <i>disas</i> to print the disassembly for this function. Now we know that the validation is happening inside this function as we couldn&#8217;t see any other relevant method name from the class information of this application that would be of interest.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/5.png" width="903" height="690" alt="5"></p>
+
+<p> From the previous article, we also learnt that whenever an external method is called or a property is accessed, the objc_msgSend function is called. But there are thousands of objc_msgSend calls called in any application. We should only be concerned with the objc_msgSend calls related to this function. So we find out the addresses of all the instructions that call objc_msgSend and set a breakpoint for it. A very simple way to do it is to look for the blx instruction, note its address and set a breakpoint for it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/7.png" width="353" height="207" alt="7"></p>
+
+<p>Alright, i have set the breakpoint for some of the coming objc_msgSend calls in this function. Now we move through every objc_msgSend instruction one by one, print out the registers and see if there is anything of interest. We are printing out the value of r1 with every objc_msgSend call here. Then if there is nothing of interest, we just type <i>c</i> to continue until the next breakpoint is hit.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/8.png" width="737" height="497" alt="8"></p>
+
+<p>Ok, here is something of interest. If we look at the very bottom, we see that the method isEqualToString: gets called. Hence there is a comparison with a particular string. And from the knowledge gained in the previous articles we know that the r2 register will contain the argument to this function. Also, if you have some experience of writing Objective-C code, you will know that every object in Objective-C is a pointer. And this function isEqualToString: will also accept a string pointer as argment, which will be inside the r2 register. To find out the actual value of the object, GDB has a specific command <i>po</i> that can print the value of the pointer contained in the register.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/9.png" width="594" height="39" alt="9"></p>
+
+<p>Ok, so the string being compared is Admin. This looks like the username. Looks like half the job is done. Optionally, you could also have printed out the value of r2 in this way.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/10.png" width="714" height="88" alt="10"></p>
+
+<p>Now a wise thing to do here would be enter the username as <i>Admin</i> in the app again. This is because the flow may not reach a point where the password is being checked. So now lets enter the username as <i>Admin</i> and enter anything as password. Now lets sets the breakpoints again and see if we can figure out the password as well. After some time doing the same process, we hit another breakpoint where the method isEqualToString: is being called. On printing the value of r2, we can see that the password is <i>HELLOIOSAPPLICATIONEXPERTS</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/11.png" width="698" height="94" alt="11"></p>
+
+<p>So now lets enter the username/password combination that we just found out and we can see that we will be authenticated.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/device 2.PNG" width="320" height="480" alt="Device 2"></p>
+
+<p>Another way to achieve the same thing would have been to manipulate the values in the registers. In the disassembly code, we can see that there are 2 <i>cmp</i> instructions. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/13.png" width="904" height="122" alt="13">
+<img src="http://prateek147.github.io/images/posts/ios22/14.png" width="910" height="118" alt="14"></p>
+
+<p>In both the cases, the value of the r0 register is checked against the value 0 and a decision is made after that. Lets set a breakpoint for both these instructions and continue the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/15.png" width="617" height="141" alt="15"></p>
+
+<p>Once the breakpoint is hit, set the value of r0 register to 1. You can do this by using the command <i>set $r0 = 1</i>. Repeat this for the other breakpoint as well and continue the application. You will see that you are logged in again without even entering the correct username/password combination.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios22/16.png" width="904" height="227" alt="16">
+<img src="http://prateek147.github.io/images/posts/ios22/device3.PNG" width="320" height="480" alt="Device3"></p>
+
+<p>And BTW, here is the code for the function loginButtonTapped: that we just busted.</p>
+
+
+
+
+<pre>
+    - (IBAction)loginButtonTapped:(id)sender {
+      if([_usernameTextField.text isEqualToString:@"Admin"] && [_passwordTextField.text isEqualToString:@"HELLOIOSAPPLICATIONEXPERTS"]){
+        [self performSegueWithIdentifier:@"adminPage" sender:self];
+      }else{
+        [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Username or password" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+      }
+    }
+    
+</pre>
+
+
+
+
+<p>In this article, we looked at how we can use GDB to manipulate the application flow during runtime. Knowledege of GDB is beneficial specially in cases like these where the whole logic is contained inside one function and we cannot use method swizzling techniques using Cycript. With good knowledege of ARM assembly and GDB, the ability to modify the application behaviour and manipulate the application flow is just upto your imagination.</p>
+
+
+<p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 21 – ARM and GDB Basics]]></title>
+    <link href="http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics"/>
+    <updated>2013-11-08T14:50:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics</id>
+    <content type="html"><![CDATA[<p>All the IOS devices released uptil now are based on the ARM architecture. All the Objective-C code that we write while developing IOS applications is first converted into ARM assembly before being converted to machine code (1s and 0s). With good understanding of the ARM assembly language and with good knowledge of debugging using GDB, it is possible for a hacker to decipher the Objective-C code during runtime and even modify it.</p>
+
+
+
+
+<p>For this article, we will be using a sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Make sure to install and run it on your IOS device. If you don&#8217;t have a registered developer account to run this on your device, you can follow the instructions mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a></p>
+
+
+<p>.</p>
+
+<p>Now let&#8217;s SSH into the device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/1.png" width="465" height="108" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>Now lets start GDB and ask GDB to hook into our application as soon as it is started. This is done by using the command <i>attach &#8211;waitfor Appname</i>. Optionally, you can also start the application on your device and hook into the running process using the <i>attach</i> command as shown below.</p>
+
+
+<p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/2.png" width="1059" height="422" alt="2"></p>
+
+<p>Now once GDB has hooked into the application, you will notice that the application is in a paused state. You can resume the application by just using the <i>c</i> command. But let&#8217;s do some investigation before that. Just like any other architecture, the memory in ARM is divided into registers. All these registers are 32 bit in size (except in IOS 7 which is 64 bit) and their purpose is to hold and move data between each other. You can find information about these registers  by just using the <i>info registers</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/3.png" width="1089" height="358" alt="3"></p>
+
+<p>Please note that this command does not print out all the registers in ARM. To print all the registers, use the command <i>info all-registers</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/4.png" width="882" height="590" alt="4"></p>
+
+<pre><code>&lt;p&gt;To dump the diassembly, just use the &lt;i&gt;disassemble&lt;/i&gt; or &lt;i&gt;disas&lt;/i&gt; command. This will give us the assembly dump for the next few instructions. We can also dump the assembly of a particular function by specifying the function name after the &lt;i&gt;disas&lt;/i&gt; command. For e.g, to dump the assembly for the main function, use the &lt;i&gt;disas main&lt;/i&gt; command.&lt;/p&gt;
+</code></pre>
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/5.png" width="642" height="364" alt="5"></p>
+
+<p>If we look at the application that we just installed on our device, we will see that it is just a simple application that prompts for a username and password.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/IMG_0099.PNG" width="320" height="480" alt="IMG 0099"></p>
+
+<p>We can also see from the class-dump-z output of the application that there is a class named <i>ViewController</i> and a method named <i>-(void)loginButtonTapped:(id)tapped;</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/6.png" width="724" height="237" alt="6"></p>
+
+<p>With GDB, we can also set breakpoints in the application. You can type the method names to set breakpoints to. Just use the command <i>b functionName</i>. You can also specify the method signature without the class if you are unsure and GDB will ask you which class you want to set the breakpoint on.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/7.png" width="546" height="228" alt="7"></p>
+
+<p>Please note that instance methods are prefixed with a minus sign <i>-</i> whereas class methods are prefixed with a plus sign <i>+</i> as shown below. For e.g, <i>sharedInstance</i> is a class method that returns the shared instance of a singleton class.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/8.png" width="622" height="564" alt="8"></p>
+
+<pre><code>&lt;p&gt;You can see all your breakpoints using the command &lt;i&gt;info breakpoints&lt;/i&gt;.&lt;/p&gt;
+</code></pre>
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/9.png" width="774" height="89" alt="9"></p>
+
+<p>You can remove any breakpoint by using the command <i>delete</i> followed by the ID of the breakpoint.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/10.png" width="767" height="89" alt="10"></p>
+
+<p>Anyways, lets set a breakpoint for the method <i>loginButtonTapped:</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/11.png" width="314" height="44" alt="11"></p>
+
+<p>We can then resume the app by using the <i>continue</i> or the <i>c</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/12.png" width="213" height="38" alt="12"></p>
+
+<p>Lets tap on the login button in the app. This will trigger our breakpoint.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/13.png" width="648" height="96" alt="13"></p>
+
+<pre><code>&lt;p&gt;We can then find some of the next instruction by using the disassemble command.&lt;/p&gt;
+</code></pre>
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/14.png" width="712" height="468" alt="14"></p>
+
+<p>To set breakpoint any particular instruction, add the asterix sign before the address for that instruction.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/15.png" width="275" height="40" alt="15"></p>
+
+<p>In <a href="http://highaltitudehacks.com/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime/">part 3</a> of this article series, we also learnt about the function objc_msgSend. Objective-C is based on messaging and whenever a message is being sent, the objc_msgSend fucntion gets called. In the disassembly code for the function <i>loginButtonTapped:</i> that we printed out, there are a lot of objc_msgSend calls. A good way to find this out is to look for the <i>blx</i> instruction. Wherever you see a blx instruction, you can be sure that an objc_msgSend call is happening.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/16.png" width="818" height="193" alt="16"></p>
+
+<p>Whenever a new method is called or a property is accessed, the objc_msgSend function gets called. So if we can set a breakpoint for the objc_msgSend call and find a way to print out the method being called and the object that calls this method, then this will give us a very good insight into the flow of the app. We had already looked at how Snoop-it was able to find out all the traced calls in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">part 9</a> of this series. To find out the methods being called, first we need to look at calling convention for ARM. Here is a screenshot of the ARM calling convention from <a href="http://en.wikipedia.org/wiki/Calling_convention">Wikipedia</a>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/17.png" width="1262" height="482" alt="17"></p>
+
+<p>The important line to note here is this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/18.png" width="794" height="24" alt="18"></p>
+
+<p>So we can set a breakpoint for every objc_msgSend call and find the parameters passed to this function by using the values of r0-r3 registers. Let&#8217;s have a look at the signature for objc_msgSend call. Here is a screenshot taken from Apple&#8217;s <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html#//apple_ref/c/func/objc_msgSend">documentation</a>.</p>
+
+
+<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/19.png" width="1212" height="459" alt="19"></p>
+
+<p>So the first two arguments to the function are <i>self - A pointer that points to the instance of the class that is to receive the message</i> and <i>op -
+The selector of the method that handles the message.</i>. The selector is nothing but the signature for the message. For e.g if a method has the prototype <i>-(void)addOjectsToArray:(NSArray *)array</i> then the signature for it would be <i>addOjectsToArray:</i>. And we also know that r0 to r3 are used to hold argument values passed to a subroutine, hence we can conclude that <i>r0 will contain self</i> and <i>r1 will contain op</i>.</p>
+
+
+
+
+<p>Let&#8217;s understand this through an example. Set up a breakpoint for the objc_msgSend call and continue until the breakpoint is hit.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/20.png" width="429" height="122" alt="20"></p>
+
+<p>As we learnt, r0 should contain a pointer to the instance of the class that is to receive the message, r1 should contain the selector and after that starting from r2 should be the arguments for the method. But first we should learn about the <i>x</i> command. x stands for examine and helps us to examine memory in many different formats. So we can specify the format in which we want to examine the memory. To find out all the options available with this command, use the <i>help x</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/21.png" width="641" height="243" alt="21"></p>
+
+<p>Let&#8217;s start by examining r0. We know it will contain a pointer to the instance of the class that will receive the message. Hence the format is address and we use x/a. We use $ before r0 because we want to examine the memory, and hence the $ sign.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/22.png" width="553" height="56" alt="22"></p>
+
+<p>We can see that the receiver is an instance of the UIRoundedRectButton class. Now lets try to examine the value in r1 register. We know that it contains the selector, i.e the signature of the method. This is a string and hence we use x/s. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/23.png" width="390" height="63" alt="23"></p>
+
+<p>Now, we have to find out the arguments to this method. This can be tricky as we don&#8217;t know what format is r2. But looking at the selector which is <i>respondsToSelector:</i> and using some common sense, we can assume that the argument will be a selector, and hence we again use x/s to examine the memory in string format.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/24.png" width="369" height="61" alt="24"></p>
+
+<p>Alright, so the argument is <i>debugDescription</i>. From the method selector, we can see that there is only one argument to this function, hence we don&#8217;t worry about examining further registers. So now, we can say that the method being called must be something like this.</p>
+
+
+
+
+<p>-[UIRoundedRectButton respondsToSelector:@selector(debugDescription)];</p>
+
+
+
+
+<p>But there are so many objc_msgSend calls and examining all of these calls one by one is such a pain. So lets try and automate this process. In <a href="http://highaltitudehacks.com/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime/">part 3</a> of this series, we learnt how to use the commands option in gdb to print something whenever a breakpint is hit. Let&#8217;s use it here as well.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/25.png" width="543" height="137" alt="25"></p>
+
+<p>Now press <i>c</i> to continue. You will see all the methods being called. This tells us so much about what is happening in the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/26.png" width="762" height="665" alt="26"></p>
+
+<p>Now let&#8217;s try and print this in Objective-C like syntax. We are going to use the function class_getName mentioned in Apple&#8217;s <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html#//apple_ref/c/func/objc_msgSend">documentation</a>. As you can see, it requires an argument which is the class object, hence we will pass it r0.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/27.png" width="512" height="295" alt="27"></p>
+
+<p>Now rewrite the calls in commands like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/28.png" width="674" height="152" alt="28"></p>
+
+<p>Type c to continue and now as you can see, the information is in a much more readable format.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios21/29.png" width="825" height="531" alt="29"></p>
+
+<p>This tells us so much about what is happening inside an application. In the next article, we will take our knowledge gained from this article and learn how to perform runtime manipulation with GDB.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Application Security Part 20 – Local Data Storage (NSUserDefaults]]></title>
+    <link href="http://prateek147.github.io/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults"/>
+    <updated>2013-10-26T23:39:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at the different ways in which applicatons can store data locally on the device and look at how secure these methods are.</p>
+
+
+
+
+<p>We will be performing some of these demonstrations in a sample app that you can download from my <a href="https://github.com/prateek147/localDataStorageDemo">github</a> account. For the CoreData example, you can download the sample app from <a href="https://github.com/ChrisDrit/Core-Data-Example-Code">here</a></p>
+
+
+
+
+<p>One of the other things that we will doing different in this example is that we will be running the application on the IOS simulator using Xcode rather than on the device and hence will be analyzing the application on our computer rather than on the device. This is just to demonstrate that you can perform all the steps performed before in <a href="http://highaltitudehacks.com/security/">previous</a> articles on your system as well by running the application via Xcode. Optionally, you can simply run the application on your device using the steps mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a>.</p>
+
+
+
+
+<h2>NSUserDefaults</h2>
+
+
+
+
+<p>One of the most common ways of saving user preferences and properties in an application is by using NSUserDefaults. <!-- more --> The information stored in NSUserDefaults persists even if you close the application and start it again. One of the examples of saving information in NSUserDefaults is the logged in state of the user. We can save the logged in state of the user (YES or NO) in NSUserDefaults so that when the user closes the application and starts it again, the application can fetch data from NSUserDefaults and display different UI to the user depending on whether he is logged in or not. Some applications also use this feature to save confidential information like the user&#8217;s access token so that the next time the application launches, they can just use that access token to authenticate the user again.</p>
+
+
+
+
+<p>Download the sample application from my <a href="https://github.com/prateek147/localDataStorageDemo">github</a> page and run it. You will get this view. Now enter some info in the text field related to NSUserDefaults and tap the button that says <i>Save in NSUserDefaults</i>. This will save the data to NSUserDefaults.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/1.png" width="320" height="591" alt="1"></p>
+
+<p>What most people do not realize is that the data saved by NSUserDefaults is not encrypted and can be easily viewed from the application bundle. It is stored in a plist file with the name as the <i>bundle Id</i> of the application. First of all, we must find the application bundle for our application. Since we are running the application on our system, we can find our applications on the path /Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/. In my case, the location is &#8220;Users/prateekgianchandani/Library/Application Support/iPhone Simulator/6.1/Applications&#8221; </p>
+
+
+
+
+<p>Once we go to that directory, we can see a bunch of applications. These are all the application that we run via Xcode for that particular IOS version. We can find our application by the date modified tag as it would have the latest modified date.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/2.png" width="945" height="287" alt="2"></p>
+
+<p>Go inside the app bundle. All the contents saved by NSUserDefaults is saved inside a plist file that can be found under Library -> Preferences -> $AppBundleId.plist as shown in the image below. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/3.png" width="815" height="185" alt="3"></p>
+
+<p>Open up the plist file and you can easily view the contents of the file.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/4.png" width="602" height="624" alt="4"></p>
+
+<p>Sometimes, the plist files can be in binary format and hence not easily viewable at first. You can either convert it into xml format using the <i>plutil</i> utility or just view the application in a device using the tool <i>iExplorer</i>.</p>
+
+
+
+
+<h2>Plist Files</h2>
+
+
+
+
+<p>Another common way of storing data is in the plist files. Plist files should always be used for saving information that is not confidential as they are unencrypted and can be easily be fetched even from a non-jailbroken device. There have been <a href="http://garethwright.com/facebook-mobile-security-hole-allows-identity-theft/">vulnerabilities</a> reported where big companies have been found to store condifential data like Access tokens, Usernames and passwords in plist files. In the demo app, lets enter the information for plist and tap on <i>Save in plist file</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/5.png" width="325" height="598" alt="5"></p>
+
+<p>Here is the code for saving data to the plist file.</p>
+
+
+
+
+<pre>
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingString:@"/userInfo.plist"];
+    NSMutableDictionary* plist = [[NSMutableDictionary alloc] init];
+    [plist setValue:self.usernameTextField.text forKey:@"username"];
+    [plist setValue:self.passwordTextField.text forKey:@"passwprd"];
+    [plist writeToFile:filePath atomically:YES];
+    
+</pre>
+
+
+
+
+<p>As you can see from the code, you can always specify a custom path for the plist file. We can then search the entire application bundle for all plist files. In this case, we find a file named userinfo.plist inside the application bundle.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/6.png" width="618" height="282" alt="6"></p>
+
+<p>As we can see, it contains the user/pass combination that we had entered in the fields before.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/7.png" width="602" height="190" alt="7"></p>
+
+<h2>CoreData and Sqlite files</h2>
+
+
+
+
+<p>Since CoreData basically uses Sqlite internally to save information, we are only going to cover CoreData here. If you don&#8217;t know what CoreData is , here is a screenshot from Apple&#8217;s documentation about CoreData.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/8.png" width="1210" height="552" alt="8">
+<img src="http://prateek147.github.io/images/posts/ios20/9.png" width="1211" height="122" alt="9"></p>
+
+<p>So basically, CoreData can be used to create a model, manage relationships between different types of objects, save the data locally, and fetch them from the local cache whenever you want with queries. In this tutorial, we will be using a sample application from <a href="https://github.com/ChrisDrit/Core-Data-Example-Code">github</a>. Once you run it you will see that is is just a simple RSS feed.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/10.png" width="322" height="590" alt="10"></p>
+
+<p>This application uses Core Data to save its information. It is important to note that the Core Data framework internally uses Sql queries to store its data and hence all the files are stored as .db files. Let&#8217;s go to the app bundle for this app and look at where this information is stored. In the app bundle for this application, you can see that there is a file named MyCoreData.sqlite.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/11.png" width="1012" height="283" alt="11"></p>
+
+<p> Let&#8217;s analyze it using sqlite3. In my case, the location of the sqlite file is at <i>~/Library/Application Support/iPhone Simulator/6.1/Applications/51038055-3CEC-4D90-98B8-A70BF12C7E9D/Documents</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/12.png" width="786" height="157" alt="12"></p>
+
+<p>As we can see, there is a table named <i>ZSTORIES</i>. In Core Data, every table name is appended with Z at the beginning. This means that the entity name is actually STORIES as we can clearly see from the source files in the project.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/13.png" width="882" height="523" alt="13"></p>
+
+<p>We can easily dump all the values from this table. Make sure the headers are on.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios20/14.png" width="1037" height="546" alt="14"></p>
+
+<p>As we can see, by default, all the data stored in CoreData is unencrypted and can be easily fetched out. Therefore, we should not use CoreData for saving confidential information ever. There are libraries available that act as a wrapper over CoreData and claim to save encrypted dat. There are other implementations as well that store encrypted data on the device without using CoreData. For e.g the Salesforce Mobile SDK use a feature known as <a href="http://www.modelmetrics.com/tomgersic/storing-data-offline-with-salesforce-mobile-sdk-smartstore/">SmartStore</a> that can store encrypted data on the device in the form of Soups.</p>
+
+
+
+
+<h2>Keychain</h2>
+
+
+
+
+<p>Some developers don&#8217;t prefer to save data in the Keychain because it is not that straightforward to implement . However, saving info in the Keychain is probably the most secure way of storing data on a non-jailbroken device. On a jailbroken device however, <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-12-dumping-keychain-data">nothing</a> is secure. <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax">Here</a> is an article that demonstrates how easy it can be to save data in the keychain using simple wrapper classes. Basically, the code for saving data in the keychain is just like saving data with NSUserDefaults with this wrapper. Here is a snippet of code that saves a string to the keychain. Notice that the syntax looks very similar to using NSUserDefaults.</p>
+
+
+
+
+<pre>
+    PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
+    [bindings setObject:@"XYZ" forKey:@"authToken"];
+</pre>
+
+
+
+
+<p>And here is a small snippet for fetching data from the keychain.</p>
+
+
+
+
+<pre>
+    PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
+    NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
+</pre>
+
+
+
+
+<h2>Small Tricks</h2>
+
+
+
+
+<p>As we discussed before, no information is safe on a jailbroken device. The attacker can get info from Plist files, dump your entire keychain, <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">replace</a> method implementations and can pretty much do anything he wants. But the developer can surely use some small tricks to make sure that the script kiddies find it difficult to get the information they want from the application. It is possible to encrypt files while saving them locally on the device. <a href="http://highaltitudehacks.com/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox">Here</a> is an article that talks about that in good detail. Or you can just make it difficult for them to figure out the correct information. For e.g let&#8217;s consider the example of saving the authentication token for a particular user on the keychain. A script kiddie will just try and use the auth token dumped from the keychain and try to hijack the session of the user. If we can just reverse the auth token before saving it on the keychain, the attacker wouldn&#8217;t know that the actual auth token is actually reverese of the one stored in the keychain. He can surely trace every call in your application and figure it out, but such simple techniques will help keep the script kiddies guessing for enough time that they will start looking for vulnerabilites in other applications. Another such example of these small tricks could be appending a constant string to the actual value before saving it.</p>
+
+
+
+
+<p>In the next article, we will look at runtime analysis using GDB.</p>
+
+]]></content>
+  </entry>
+  
+</feed>

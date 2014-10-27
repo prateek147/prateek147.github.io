@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>IOS Application Security Part 15 – Static Analysis of IOS Applications using iNalyzer - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="IOS Application Security Part 15 – Static Analysis of IOS Applications Using iNalyzer Sep 17th, 2013 Posted by Prateek Gianchandani In the previous &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    IOS Application Security Part 15 – Static Analysis of IOS Applications Using iNalyzer
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-17T13:11:00+04:00" pubdate data-updated="true">Sep 17<span>th</span>, 2013</time></h5>
+  <h4>
+  
+
+<p>Posted by <a href="http://highaltitudehacks.com/about/">Prateek Gianchandani</a></p>
+<h4>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>In the previous article, we looked at how we can use Sogeti Data protection tools to boot an iDevice using a custom ramdisk with the help of a bootrom exploit. In this article, we will look at a tool named iNalyzer than we can use for black box assessment of IOS applications. iNalyzer allows us to view the class information, perform runtime analysis and many other things. Basically it automates the efforts of decrypting the application, dumping class information and presents it in a much more presentable way. We can also hook into a running process just like Cycript and invoke methods during runtime. iNalyzer is developed and maintained by <a href="https://appsec-labs.com">AppSec Labs</a> and its offical page can be found <a href="https://appsec-labs.com/iNalyzer">here</a>. iNalyzer is also made available open source and its github page can be found <a href="https://github.com/appsec-labs/iNalyzer">here</a>.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>iNalyzer require some dependencies to be installed before use. Please make sure to install <a href="http://www.graphviz.org/download..php">Graphviz</a> and <a href="http://www.stack.nl/~dimitri/doxygen/download.html#srcbin">Doxygen</a> as iNalyzer won&#8217;t function without these. Also, please note that while performing my tests on a Mac OS X Mountain Lion 10.8.4, i had problems with the latest version of Graphviz and it used to hang every time. Hence i downloaded an older version of Graphviz (v 2.30.1) and it worked fine for me. You can find older versions of Graphviz for Mac OS <a href="http://www.graphviz.org/pub/graphviz/stable/macos/">here</a>.</p>
+
+
+
+
+<p>The first step is to install iNalyzer on your jailbroken iDevice. To do that, go to Cydia &#8211;> Manage and make sure the source http://appsec-labs.com/cydia/ is added as shown in the image below.</p>
+
+
+<p><img src="/images/posts/ios15/1.PNG" width="320" height="480" alt="1"></p>
+
+<p>Then go to Search and search for <i>iNalyzer</i>. Depending on the IOS version that you are running, you should download the corresponding version of iNalyzer.</p>
+
+
+<p><img src="/images/posts/ios15/2.PNG" width="320" height="480" alt="2"></p>
+
+<p>As you can see, i have already installed iNalyzer.</p>
+
+
+<p><img src="/images/posts/ios15/3.PNG" width="320" height="480" alt="3"></p>
+
+<p>Now ssh into the device and navigate inside the iNalyzer application directory. iNalyzer is installed in the <i>/Applications</i> directory because it needs to run as a root user. If you don&#8217;t understand this concept, please make sure to read the previous articles in this series.</p>
+
+
+<p><img src="/images/posts/ios15/4.png" width="569" height="91" alt="4"></p>
+
+<p>Run ./iNalyzer to start iNalyzer.</p>
+
+
+<p><img src="/images/posts/ios15/5.png" width="573" height="247" alt="5"></p>
+
+<p>Now if you go to your homescreen and look at the iNalyzer app icon, you will see a badge icon number on top of it. This indicates that the app can be remotely accessed via a web interface and the port number is the badge icon number represented here. If you run ./iNalyzer again, it will stop iNalyzer. Hence, make sure to remember that running ./iNalyzer starts and closes the application alternatively.</p>
+
+
+<p><img src="/images/posts/ios15/6.png" width="255" height="160" alt="6"></p>
+
+<p>Now find the ip address of your iDevice and open the url ip:port from your browser. In my case the port number is 5544 and the ip address of the device is 10.0.1.23 . Hence the url is http://10.0.1.23:5544/ . Once you go there, you will be presented with an interface as shown in the figure below. You can then select an application and iNalyzer will prepare a zip file and download it on your system for analysis.</p>
+
+
+<p><img src="/images/posts/ios15/7.png" width="598" height="498" alt="7"></p>
+
+<p>However, i had some problems while performing this. Hence, we will also be looking at an alternative solution to do the same step. To do that, first of all make sure iNalyzer is running. Then navigate inside the iNalyzer directory and run <i>iNalyzer5</i> without any arguments.</p>
+
+
+<p><img src="/images/posts/ios15/8.png" width="542" height="163" alt="8"></p>
+
+<p>You will see all the list of apps available for analysis. In this case, let&#8217;s select the Defcon App for analysis.</p>
+
+
+<p><img src="/images/posts/ios15/9.png" width="834" height="162" alt="9"></p>
+
+<p>You will see that iNalyzer begins its work. It decrypts the app, finds out the class information and other things. As you can see from the figure below, once iNalyzer has finished its job, it will create an ipa file and store it at the location as highlighted in the image below.</p>
+
+
+<p><img src="/images/posts/ios15/10.png" width="860" height="170" alt="10"></p>
+
+<p>So now we need to get this ipa file and download it on our system. We can do that via sftp.</p>
+
+
+<p><img src="/images/posts/ios15/11.png" width="859" height="106" alt="11"></p>
+
+<p>Once we have the ipa file, change its extension to zip. Then unzip the file.</p>
+
+
+<p><img src="/images/posts/ios15/12.png" width="824" height="237" alt="12"></p>
+
+<p>Now with a terminal, navigate inside the folder Payload&#8211;>Doxygen.</p>
+
+
+<p><img src="/images/posts/ios15/13.png" width="862" height="108" alt="13"></p>
+
+<p>You will see a shell script named doxMe.sh. If you look inside it, you will notice that it automates the task of running Doxygen for us. Doxygen also runs Graphviz for generating graphs and the results are stored inside a folder with the name <i>html</i>. Basically, iNalyzer has already stored all the class information for us inside a folder named <i>Reversing Files</i> and it uses Doxygen and Graphviz to display the information in a much more presentable format.This shell script also opens up the <i>index.html</i> file inside the created <i>html</i> folder.</p>
+
+
+<p><img src="/images/posts/ios15/14.png" width="860" height="136" alt="14"></p>
+
+<p>So lets run this shell script and let iNalyzer do all the things for us.</p>
+
+
+<p><img src="/images/posts/ios15/15.png" width="859" height="358" alt="15">
+<img src="/images/posts/ios15/16.png" width="450" height="358" alt="16"></p>
+
+<p>Once this is done, iNalyzer will automatically open up the index.html file stored inside the html folder that was created. Here is what it looks like. In this case, i am using chrome. However, the developer of this tool personally recommended me to use firefox browser for runtime analysis as the other browsers may be buggy. As you can see from the image below, the first page gives a strings analysis of the entire app. It divides the strings into SQL and URL strings.</p>
+
+
+<p><img src="/images/posts/ios15/17.png" width="1440" height="722" alt="17"></p>
+
+<p>You can also have a look at all the view controller classes used in the app.</p>
+
+
+<p><img src="/images/posts/ios15/18.png" width="1439" height="718" alt="18"></p>
+
+<p>Tapping on any of the view controllers will show you its methods and properties.</p>
+
+
+<p><img src="/images/posts/ios15/19.png" width="1440" height="729" alt="19"></p>
+
+<p>You can also look at the contents of the Info.plist file.</p>
+
+
+<p><img src="/images/posts/ios15/20.png" width="774" height="629" alt="20"></p>
+
+<p>If you go under the Classes Tab and under <i>Class Index</i> you will see a list of all the classes being used in the app. Some of them are Apple&#8217;s own classes while some are created by the developer of this app.</p>
+
+
+<p><img src="/images/posts/ios15/21.png" width="1440" height="685" alt="21"></p>
+
+<p>If you go under the <i>Class Hierarchy</i> tab, you will see the class information and relationships being represented in a graphical format. This gives us a fair amount of knowledge on how this application works. These graphs are generated by the Graphviz tool.</p>
+
+
+<p><img src="/images/posts/ios15/22.png" width="1440" height="719" alt="22"></p>
+
+<p>If you go to the files tab, you can have a look at all the interface files that iNalyzer generated.</p>
+
+
+<p><img src="/images/posts/ios15/23.png" width="1438" height="721" alt="23"></p>
+
+<p><b>Conclusion</b></p>
+
+<p>In this article, we looked at static analysis of IOS applications using iNalyzer and how easy it makes our job. In the next article, we will look at how we can use iNalyzer further for runtime analysis of IOS applications.</p>
+
+
+<p><b>References</b></p>
+
+<ul>
+     <li><p>iNalyzer</br><a href ="https://appsec-labs.com/iNalyzer">https://appsec-labs.com/iNalyzer</a></p>
+     </li>
+    
+</ul>
+
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="//categories/security/"><span class="badge">security</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2013/09/17/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools" title="Previous Post: IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools">&laquo; IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools</a>
+          
+          
+            <a class="basic-alignment right" href="/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer" title="Next Post: IOS Application Security Part 16 – Runtime Analysis of IOS Applications using iNalyzer">IOS Application Security Part 16 – Runtime Analysis of IOS Applications using iNalyzer &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://prateek147.github.io/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer';
+        var disqus_url = 'http://prateek147.github.io/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
