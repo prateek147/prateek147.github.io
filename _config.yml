@@ -71,7 +71,7 @@ navigation:
   url: /index.html
 - text: Security
   url: /security/
-- text: IOS Development
+- text: iOS Development
   url: /ios/
 - text: Everest
   url: /everest/
@@ -81,6 +81,8 @@ navigation:
   url: http://damnvulnerableiosapp.com
 - text: About Me
   url: /about/
+- text: Hire Me
+  url: /hire-me/
 
 # Github repositories
 github_user: prateek147

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "IOS Application Security Part 28 - Patching IOS Application with Hopper"
-date: 2014-01-17 21:40
+date: 2014-01-17 21:41
 comments: true
 categories: [security]
 ---
@@ -12,11 +12,12 @@ categories: [security]
 
 <p><i>Hopper is a reverse engineering tool for OS X, Linux and Windows, that lets you disassemble, decompile and debug (OS X only) your 32/64bits Intel Mac, Windows and iOS (ARM) executables! Take a look at the feature list below! </i></p>
 
+<!-- more -->
+
+
 <p>And...</p>
 
 <p><i>Even if Hopper can disassemble any kind of Intel executable, it does not forget its main platform. Hopper is specialized in retrieving Objective-C information in the files you analyze, like selectors, strings and messages sent.</i></p>
-
-<!-- more -->
 
 
 <p>In this article, i am using a paid version of Hopper which cost about $60. I think it is an incredible price given the things we can do with this application. I would recommend you check out the demo version which lets you perform some tasks to get a feel of Hopper. Anyways, once you download the Hopper app, this is the interface we are looking at.</p>
@@ -112,3 +113,6 @@ categories: [security]
 <p>Congratulations, we just patched an application using Hopper. This was just a small feature of Hopper. Hopper lets us do many more things. I would recommend you check them out and no, i am not associated with Hopper nor do i know the author personally. I just think its a cool app and for $60, its an extremely good deal !</p>
 
 <p>In the next article, we will learn about Insecure or Broken Cryptography.</p>
+
+	</body>
+</html>

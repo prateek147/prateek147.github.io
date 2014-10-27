@@ -14,11 +14,13 @@ categories: [security]
 
 <img src="/images/posts/ios29/1.png" width="328" height="396" alt="1">
 
+<!-- more -->
+
 <p>Once you have set up the password, it will prompt you to log in with same password.</p>
 
 <img src="/images/posts/ios29/2.png" width="334" height="349" alt="2">
 
-<!-- more -->
+
 
 <p>So lets assume i open this application once the password has already been set. Our task is to bypass this login check. Some of the things that are clear are that this password is being stored locally on the device as no network activity was noted. You can use a proxy like Burpsuite to observe the traffic and see that there is no network traffic, so everything is being done locally.</p>
 
@@ -311,7 +313,7 @@ categories: [security]
 	
 	
 	
-	<li>
+<li>
 		<pre>
 		var_332 = 0x0;
 			    eax = [NSData dataWithContentsOfFile:var_360];
@@ -321,17 +323,18 @@ categories: [security]
 			    eax = [RNDecryptor decryptData:var_328 withPassword:@"Secret-Key" error:&var_320];
 			</pre>
 			<p>The contents of the file with the name <i>Secret-data</i> is being read and decrypted with a password.</p>
-	</li>
+</li>
 	
-	<li><pre>eax = [RNDecryptor decryptData:var_328 withPassword:@"Secret-Key" error:&var_320];</pre>
+<li><pre>eax = [RNDecryptor decryptData:var_328 withPassword:@"Secret-Key" error:&var_320];</pre>
 		<p>It looks like the key used for enryption and decryption is a hardcoded string <i>Secret-Key</i>.</p> 
 		
-	</li>
+</li>
 	
-	<li><pre>eax = [var_336 isEqualToData:var_324];</pre>
-		<p>There is a comparison between two kinds of data. The boolean value result is stored in the eax register.</p></li>
+<li><pre>eax = [var_336 isEqualToData:var_324];</pre>
+		<p>There is a comparison between two kinds of data. The boolean value result is stored in the eax register.</p>
+</li>
 		
-		<li><pre>if (eax != 0x0) {
+<li><pre>if (eax != 0x0) {
 	            eax = [var_372 loggedInLabel];
 	            eax = [eax retain];
 	            var_148 = 0x0;
@@ -366,30 +369,31 @@ categories: [security]
 	            var_356 = 0x1;
 	    }</pre>
 	
-		<p>Depending on the value of eax, the flow can go to different places. If the value is 0, user will be shown an alert that the password is incorrect. Otherwise, as you might be guessing, the user is logged in.</p>	</li>
+		<p>Depending on the value of eax, the flow can go to different places. If the value is 0, user will be shown an alert that the password is incorrect. Otherwise, as you might be guessing, the user is logged in.</p>	
+</li>
 		
-	</ol>
+</ol>
 	
-	<p>Well, lets see if we can find the file <i>secret-data</i> in the application sandbox. On searching just a little bit, we see that this file is present in the Documents folder. On opening it, we find that it contains some data. and the content looks encrypted.</p>
+<p>Well, lets see if we can find the file <i>secret-data</i> in the application sandbox. On searching just a little bit, we see that this file is present in the Documents folder. On opening it, we find that it contains some data. and the content looks encrypted.</p>
 	
-<img src="/images/posts/ios29/12.png" width="814" height="628" alt="12">
+<img src="/images/posts/ios29/12.png" width="814" height="628" alt="12"/>
 	
-	<p>Also, on googling a bit on RNEncryptor and RNDecryptor, we see that they are part of an open source library available on Github that can be found <a href="https://github.com/RNCryptor/RNCryptor">here</a></p>
+<p>Also, on googling a bit on RNEncryptor and RNDecryptor, we see that they are part of an open source library available on Github that can be found <a href="https://github.com/RNCryptor/RNCryptor">here</a></p>
 	
-	<p>So from all this information, we can interpret that.</p>
+<p>So from all this information, we can interpret that.</p>
 	
-	<ul>
+<ul>
 		<li>When the user enters the password, the text is converted into NSData using the method dataUsingEncoding with the param 0x4. The parameter 0x4 corresponds to NSUTF8StringEncoding.</li>
 		<li>Data is read from the file secret-data and decrypted using a hardcoded key</li>
 		<li>The two values found from the above two steps are compared against each other. If they match, the user is logged in.</li>
-	</ul>
+</ul>
 	
 	
-	<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let's write a simple IOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application's sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
+<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let's write a simple IOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application's sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
 	
-	<p>We add this method in the new project.</p>
+<p>We add this method in the new project.</p>
 	
-	<pre> NSString *dataPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"/secret-data"];
+<pre>NSString *dataPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"/secret-data"];
       NSError *error;
       NSData *encryptedData = [NSData dataWithContentsOfFile:dataPath];
       NSData *decryptedData = [RNDecryptor decryptData:encryptedData
@@ -412,4 +416,4 @@ categories: [security]
 
 <p>In this article, we looked at how one can exploit a weakness in the encryption being used to find sensitive information from an application. In this case, the weakness was using a hardcoded key. It is essential for developers to make sure that they enforce proper encryption in their applications to prevent them from being compromised.</p>
 
-<p>In the next article, we will look at Client Side Injection in IOS Applications.</p>
+<p>In the next article, we will look at Client Side Injection in IOS Applications.</p>*
