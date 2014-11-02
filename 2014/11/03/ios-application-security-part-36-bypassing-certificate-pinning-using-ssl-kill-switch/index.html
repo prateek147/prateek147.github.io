@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Wifite Walkthrough part 2: Cracking WPA access points - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Wifite Walkthrough Part 2: Cracking WPA Access Points Oct 27th, 2014 Posted by Prateek Gianchandani In this article, we will look at cracking access &hellip;">
+  <meta name="description" content="iOS Application Security Part 36 – Bypassing Certificate Pinning Using SSL Kill Switch Nov 3rd, 2014 Posted by Prateek Gianchandani In this article &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points">
+  <link rel="canonical" href="http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    Wifite Walkthrough Part 2: Cracking WPA Access Points
+    iOS Application Security Part 36 – Bypassing Certificate Pinning Using SSL Kill Switch
 	<h5>
 
 
@@ -123,7 +123,7 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-10-27T01:43:00+04:00" pubdate data-updated="true">Oct 27<span>th</span>, 2014</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-11-03T01:00:00+04:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time></h5>
   <h4>
   
 
@@ -133,17 +133,22 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article, we will look at cracking access points using WPA-PSK or WPA2-PSK using Wifite.</p>
+      <p>In this article, we will look at how we can analyze network traffic for applications that use certificate pinning. One of the best definitions i found of certificate pinning is mentioned below. It is taken directly from <a href="https://www.infinum.co/the-capsized-eight/articles/securing-mobile-banking-on-android-with-ssl-certificate-pinning">this</a> url.</p>
 
 
 
 
-<p>If you have used tools like airodump-ng, aircrack-ng etc to crack WPA access points before, you would know that the required thing to successfully crack a WPA-PSK network is a captured WPA four-way handshake. More details about the WPA four-way handshake can be found on <a href="http://en.wikipedia.org/wiki/IEEE_802.11i-2004">this</a> wikipedia page.</p>
+<p>
+By default, when making an SSL connection, the client checks that the server’s certificate:</p>
 
 
 
 
-<p>As mentioned in the previous article, there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn&#8217;t aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = [&#8216;aireplay-ng&#8217;,</i> with <i>cmd = [&#8216;aireplay-ng&#8217;,&#8217;&#8211;ignore-negative-one&#8217;,</i></p>
+<ul>
+<li>has a verifiable chain of trust back to a trusted (root) certificate</li>
+<li>matches the requested hostname</li>
+<li>What it doesn&#8217;t do is check if the certificate in question is a specific certificate, namely the one you know your server is using.</li>
+</ul>
 
 
 
@@ -151,61 +156,68 @@
 <!-- more -->
 
 
+<p>Relying on matching certificates between the device&rsquo;s trust store and the remote server opens up a security hole. The device’s trust store can easily be compromised &ndash; the user can install unsafe certificates, thus allowing potential man-in-the-middle attacks.</p>
 
+<p>Certificate pinning is the solution to this problem. It means hard-coding the certificate known to be used by the server in the mobile application. The app can then ignore the device’s trust store and rely on its own, and allow only SSL connections to hosts signed with certificates stored inside the application.</p>
 
-<p>To start wifite for cracking a WPA access point, give it the option <i>-wpa</i> to only target WPA networks. Also, give it a dictionary file as an input for cracking the WPA passphrase with the <i>-dict</i> option. In kali linux, the wordlists are stored at the location <i>/usr/share/wordlists</i>. Wifite will now start scanning for WPA access points.</p>
+<p>This also gives a possibility of trusting a host with a self-signed certificate without the need to install additional certificates on the device.
+</p></p>
 
-
-<p><img src="/images/posts/wifite2/1.png" width="947" height="316" alt="1"></p>
-
-<p>Press Ctrl+C to give a target number. In my case, the target number is 2 which is an access point i have configured for testing purposes. The access point uses WPA2-PSK encryption with the key as &#8220;password&#8221;.</p>
-
-
-<p><img src="/images/posts/wifite2/2.png" width="741" height="443" alt="2"></p>
-
-<p>Wifite will now start listening for the handshake. Once it has found it, it will automatically start cracking the passphrase using the dictionary file that we supplied.</p>
-
-
-<p><img src="/images/posts/wifite2/4.png" width="834" height="358" alt="4"></p>
-
-<p>And as you can see, Wifite has successfully found the passphrase for the access point.</p>
+<p>Certificate pinning is used by many popular applications for e.g Twitter, Square etc. So the question that arises is, how do you bypass this certificate validation that is happening on the client side ? The important thing to note here is all that all the validation is happening on the client side. And since there are frameworks like Mobile Substrate that allow us to patch any method during runtime and modify its implementation, it is possible to disable the certificate validation that is happening in the application.</p>
 
 
 
 
-<p>Sometimes, things may not work as smoothly. In order to capture a WPA handshake between the client and the access point, the client has to connect to the wireless network during that period when we are monitoring the network. If the client is already connected, there will be no handshake that is captured. Wifite does this by automatically sending deauthentication packets to a particular client or a broadcast deauthentication packet if it is required. You can specify the time between deauthentication packets using the -wpadt flag. Hence, when the client tries to reconnect to the access point, the handshake is captured.</p>
+<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn&#8217;t able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-ios/">here</a> and it&#8217;s quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don&#8217;t need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
 
 
 
 
-<p>You can also specify which tool you want to use to crack the passphrase once the four-way handshake has been successfully captured. By default, aircrack-ng is selected. You can also use cowpatty, pyrit or tshark to crack the passphrase.</p>
-
-
-<p><img src="/images/posts/wifite2/5.png" width="622" height="92" alt="5"></p>
-
-<p>Another cool option in Wifite is to anonymize your MAC address using the <i>-mac</i> option. Even though it is quite trivial using simple commands or <i>macchanger</i> utility to change the MAC address for a specific interface, it is good to have this feature in the tool itself. However, in order to make this work, you first have to take that specific interface for which you want to change the MAC address down to managed mode if it is in monitor mode previously. You can use the command <i>iwconfig</i> to check all the interfaces that are in monitor mode and then take them down using the command <i>airmon-ng stop interface-name</i> command. As we can see from the image below, the mon0 interface is in monitor mode.</p>
-
-
-<p><img src="/images/posts/wifite2/6.png" width="698" height="287" alt="6"></p>
-
-<p>Hence, lets take it down using the command <i>airmon-ng stop mon0</i></p>
-
-
-<p>.</p>
-
-<p><img src="/images/posts/wifite2/7.png" width="678" height="351" alt="7"></p>
-
-<p>Now we can add the <i>-mac</i> option to anonymize the MAC address. As you can see, Wifite is intelligent enough to change the MAC address to something that is similar the existing MAC address of the interface and not to something ridiculous (for e.g AA:BB:CC:DD:EE:FF) which is a giveaway.</p>
-
-
-<p><img src="/images/posts/wifite2/8.png" width="895" height="378" alt="8"></p>
-
-<p>And when you stop the capture, Wifite is nice enough to change the MAC address back to the original one.</p>
+<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
 
 
 
 
-<p>In this article, we looked at how we can use Wifite to crack networks using WPA-PSK or WPA2-PSK. Wifite is great at its job and automates almost everything, however it is important to understand how it uses the tools like airodump-ng, aircrack-ng etc under the hood to perform its task. I would recommend that you go through the source code of Wifite and figure out how this is done.</p>
+<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it&#8217;s <a href="https://github.com/iSECPartners/ios-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
+
+
+
+
+<ul>
+<li>dpkg</li>
+<li>MobileSubstrate</li>
+<li>PreferenceLoader</li>
+</ul>
+
+
+
+
+<p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
+
+
+<p><img src="/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
+
+<p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
+
+
+
+
+<p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
+
+
+<p><img src="/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
+
+<p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
+
+
+<p><img src="/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
+
+<p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
+
+
+<p><img src="/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
+
+<p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
 
 
     </div>
@@ -257,10 +269,8 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points" title="Previous Post: Wifite Walkthrough part 1: Cracking WEP access points">&laquo; Wifite Walkthrough part 1: Cracking WEP access points</a>
+            <a class="basic-alignment left" href="/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points" title="Previous Post: Wifite Walkthrough part 2: Cracking WPA access points">&laquo; Wifite Walkthrough part 2: Cracking WPA access points</a>
           
-          
-            <a class="basic-alignment right" href="/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch" title="Next Post: iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch">iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch &raquo;</a>
           
         </p>
       </div>
@@ -326,8 +336,8 @@ alt="web analytics"></a></div></noscript>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points';
-        var disqus_url = 'http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points';
+        var disqus_identifier = 'http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch';
+        var disqus_url = 'http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-10-27T13:12:58+04:00</updated>
+  <updated>2014-11-03T01:12:27+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch]]></title>
+    <link href="http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch"/>
+    <updated>2014-11-03T01:00:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at how we can analyze network traffic for applications that use certificate pinning. One of the best definitions i found of certificate pinning is mentioned below. It is taken directly from <a href="https://www.infinum.co/the-capsized-eight/articles/securing-mobile-banking-on-android-with-ssl-certificate-pinning">this</a> url.</p>
+
+
+
+
+<p>
+By default, when making an SSL connection, the client checks that the server’s certificate:</p>
+
+
+
+
+<ul>
+<li>has a verifiable chain of trust back to a trusted (root) certificate</li>
+<li>matches the requested hostname</li>
+<li>What it doesn't do is check if the certificate in question is a specific certificate, namely the one you know your server is using.</li>
+</ul>
+
+
+
+
+<!-- more -->
+
+
+<p>Relying on matching certificates between the device&rsquo;s trust store and the remote server opens up a security hole. The device’s trust store can easily be compromised &ndash; the user can install unsafe certificates, thus allowing potential man-in-the-middle attacks.</p>
+
+<p>Certificate pinning is the solution to this problem. It means hard-coding the certificate known to be used by the server in the mobile application. The app can then ignore the device’s trust store and rely on its own, and allow only SSL connections to hosts signed with certificates stored inside the application.</p>
+
+<p>This also gives a possibility of trusting a host with a self-signed certificate without the need to install additional certificates on the device.
+</p></p>
+
+<p>Certificate pinning is used by many popular applications for e.g Twitter, Square etc. So the question that arises is, how do you bypass this certificate validation that is happening on the client side ? The important thing to note here is all that all the validation is happening on the client side. And since there are frameworks like Mobile Substrate that allow us to patch any method during runtime and modify its implementation, it is possible to disable the certificate validation that is happening in the application.</p>
+
+
+
+
+<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn't able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-ios/">here</a> and it's quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don't need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
+
+
+
+
+<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
+
+
+
+
+<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it's <a href="https://github.com/iSECPartners/ios-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
+
+
+
+
+<ul>
+<li>dpkg</li>
+<li>MobileSubstrate</li>
+<li>PreferenceLoader</li>
+</ul>
+
+
+
+
+<p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
+
+<p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
+
+
+
+
+<p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
+
+<p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
+
+<p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
+
+<p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Wifite Walkthrough part 2: Cracking WPA access points]]></title>
@@ -362,87 +456,6 @@
 
 
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 33 - Writing tweaks using Theos (Cydia Substrate)]]></title>
-    <link href="http://prateek147.github.io/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate"/>
-    <updated>2014-04-18T11:59:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate</id>
-    <content type="html"><![CDATA[<p>In some of the <a href="http://highaltitudehacks.com/security">previous</a> articles in this series, we have looked at how we can modify the behaviour of an application by patching it using IDA Pro, Hopper etc. However, doing this hasn't been quite straightforward always. We can also use Cycript to modify the behaviour of an application by changing some of the method implementations, but the change isn't permanent. This is where writing tweaks for an application comes in handy. A tweak is nothing but a run-time patch to an application using the Cydia Substrate framework. Cydia Substrate consists of 3 major components: MobileHooker, MobileLoader and safe mode. You can read about these 3 major components <a href="http://iphonedevwiki.net/index.php/MobileSubstrate">here</a>. Saurik has also written a complete series of documentation <a href="http://www.cydiasubstrate.com/">here</a>. Our main focus here would be not to go in depth and learn how to write tweaks for jailbroken devices but to understand there relevance to application security so we can quickly write our own tweaks when necessary.</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p><p>By default, on compiling and building a tweak, it gets converted into the .dylib format and is stored in the location <i>/Library/MobileSubstrate/DynamicLibraries</i> on the device. There is a plist file with the same name but the extension .plist with every .dylib file that determines certain configuration settings for the tweak. For e.g, one of the most popular configuration settings is <i>Filter</i>. You can use this configuration to filter the library or process you want to inject the code into. You can read more about filters and configurations <a href="http://www.cydiasubstrate.com/inject/darwin/">here</a>.</p>
-
-<p><p>If you have a jailbroken device and have installed tweaks before from Cydia, you can clearly see these tweaks being injected into different applications during runtime by simply looking at the logs. Go to Xcode &ndash;> Window &ndash;> Organizer &ndash;> Devices &amp; select your device and click on Console. Make sure your device is connected to your computer. You will see the tweaks being loaded into your application as you open applications on your device.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/1.png" width="1265" height="269" alt="1"></p>
-
-<p><p>It is also a good idea to check the folder <i>/Library/MobileSubstrate/DynamicLibraries</i> on your device and see all the tweaks you have installed on your device. You can do this by using a simple utility like iExplorer. Also, it is recommended to check the plist files for these installed extensions to see how they impose their restrictions on specific libraries and applications.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/2.png" width="899" height="742" alt="2"></p>
-
-<p><p>By far, the most preferred way of creating tweaks for iOS is by using Theos. To set up theos on your device, you can follow the instructions mentioned <a href="http://iphonedevwiki.net/index.php/Theos/Getting_Started">here</a>. It&rsquo;s pretty straightforward but make sure that the path where you are creating tweaks doesn&rsquo;t include some directories that have spaces in them. It has caused problems for me in the past and hence i would recommend you to avoid it.</p></p>
-
-<p><p>For help, you can always go to the IRC channel where most of the big names hang out and are willing to help. There is a channel for Substrate (#substrate) and Cycript (#cycript) on the server irc.saurik.com. Apart from this, there is also a channel for theos (#theos) and channels for specific jailbreak questions such as #jailbreakqa on irc.freenode.net.</p></p>
-
-<p><p>Please note that if something goes wrong once you build and deploy a tweak then you should immediately remove the tweak from <i>/Library/MobileSubstrate/DynamicLibraries</i>. For e.g, if your phone is not booting properly, you can still connect to it over iExplorer and remove the dylib and plist file for the tweak that you think screwed your application.</p></p>
-
-<p><p>So let&rsquo;s write a tweak. We will test our skills on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS Application</a>. We will solve the first challenge in the Runtime Manipulation section, where we have to bypass the login check on tapping <i>Login Method 1</i> as shown in the image below.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/3.PNG" width="320" height="568" alt="3"></p>
-
-<p><p>Open theos and select the option to create a tweak. Let&rsquo;s name the project as DVIABypass. It will also ask you to specify the bundle identifier. Since we only want the tweak to hook into DVIA, we will specify the bundle identifier for DVIA only. In case you don&rsquo;t know how to find out the bundle identifier for a particular application, you can always find it out by inspecting the Info.plist file in the application folder for a particular app using iExplorer. You will see that this bundle identifier will automatically get added in the plist file for your tweak created by Theos.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/8.png" width="876" height="302" alt="8"></p>
-
-<p><p>As we can see, the project folder has been created. Let&rsquo;s navigate inside it.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/5.png" width="483" height="59" alt="5"></p>
-
-<p><p>Here you can see some weird files. The plist file is the one that we discussed about previously. This file is copied over to your device along with the generated dynamic library. The Tweak.xm file is where all your hooking code will go. The Makefile is where you will add all the needed frameworks and other global variables.</p></p>
-
-<p><p>In order to write a tweak for a particular application or library method, we must know the header file information of the classes we want to hook into. The header file information can easily be dumped by using class-dump-z. In this case, since we are only dealing with the application DVIA, we need to just dump the class methods for that particular application. However, if you want to hook into any method of Springboard, you need to have the entire class information of it. One option is to either dump the entire content yourself using class-dump-z. Another option is to get it from some other people&rsquo;s repositories. For e.g, <a href="https://github.com/thomasfinch/iOS-7-SpringBoard-Headers">here</a> is a Github repository that contains the headers dumped for Springboard in iOS 7.</p></p>
-
-<p><p>By looking at the class information for DVIA, we can figure out that we want to hook into the method <i>isLoginValidated</i> in the view controller <i>RuntimeManipulationDetailsVC</i>.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/6.png" width="900" height="289" alt="6"></p>
-
-<p><p>Now lets look at the Tweak.xm file. Just reading it will tell you a lot about how to go ahead and write and your own tweak. I am not going to explain what is already written here, it will be very easy to understand it anyways.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/7.png" width="925" height="663" alt="7"></p>
-
-<p><p>Replace your Tweak.xm file with the following lines of code. As you can clearly note here, this patch hooks into the class RuntimeManipulationDetailsVC, hijacks the implementation of the method isLoginValidated, and replaces it with our own implementation which returns TRUE every time.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/9.png" width="372" height="169" alt="9"></p>
-
-<p><p>Now make sure you have all the proper variables set. Make sure your computer and device are connected to the same wifi network. The first time you make a package and install it on the device, you will be prompted for the ssh password.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/10.png" width="623" height="64" alt="10"></p>
-
-<p><p>Now build the package and install it by using the command <i>make package install</i></p>.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/11.png" width="1237" height="200" alt="11"></p>
-
-<p><p>And now everytime you tap on the button that says <i>Login Method 1</i> in <a href="http://damnvulnerableiosapp.com">DVIA</a>, you will notice that the login will be bypassed.</p></p>
-
-<p><p>You can also double check whether the package has been installed on your device by looking for the dylib file for your package in the directory <i>/Library/MobileSubstrate/DynamicLibraries</i>.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios33/12.png" width="307" height="336" alt="12"></p>
-
-<p><p>And if you feel that you have screwed up with your tweak, just remove the dylib and plist files from this folder and restart your device.</p></p>
-
-<p><p>The important thing to note about creating a tweak or a patch while doing security assessment of iOS applications is that the change is permanent and the whole process is also not as tough as patching an entire method by modifying the diassembly. While we didn&rsquo;t cover some of the basic stuff regarding developing for jailbroken devices, i would recommend you to to read <a href="http://brandontreb.com/beginning-jailbroken-ios-development-your-first-tweak">this</a> article as it explains things in much more depth.</p></p>
-
-<p><p>If you have any questions, comments or suggestions, feel free to write them down in the comments section below and i will get back to you.</p></p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Jul 2nd, 2013 Comments security IOS Appllication Security Part 4 – &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Jul 2nd, 2013 Comments ios security IOS Application security Part 5 – &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,75 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-02T17:26:00+04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)</a></h1>
+      <p>In the previous article, we learnt how to setup Cycript on your idevice, hook into a running process and obtain information about its properties in runtime. In this article, we will look at some advanced runtime analysis techniques. We will look at how we can obtain information about a particular class (methods, instance variables) and modify them at runtime.</p>
+
+
+
+
+<h2>Finding methods for a particular class</h2>
+
+
+
+
+<p>Let&#8217;s say we are analyzing the flow of an app during its runtime. It would be really good to know what are the methods being called in a particular view controller or in a particular class. Since Cycript is a blend of Objective-C and Javascript, we can write a function that has both Objective-C and Javscript syntax. We can define functions in the interpreter and use them anytime we want to find out some particular information. A good source for finding such code snippets is available <a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">here</a> and we will be using most of the code snippets from here for this article.</p>
+
+
+
+
+<p>First of all, lets make sure we are hooked into the running process.</p>
+
+
+<p><img src="/images/posts/ios5/1.png" width="892" height="186" alt="1"></p>
+
+
+      
+       <a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -1184,60 +1253,6 @@
 
       
        <a href="/2013/06/13/abusing-social-networking-sites-to-perform-content-forgery">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2013-06-13T22:35:00+04:00" pubdate data-updated="true">Jun 13<span>th</span>, 2013</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2013/06/13/circumventing-nat-using-udp-hole-punching#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/networking/"><span class="badge">networking</span></a>
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2013/06/13/circumventing-nat-using-udp-hole-punching">Circumventing NAT using UDP hole punching</a></h1>
-      <p>A lot of the networks use NAT (Network Address Translation) these days. This allows the systems on the same network to have a single global IP address. This also assures enhanced security but at the same time adds complications specially while connecting to P2P (Peer to Peer) networks. This is because at the time of initiating a connection in a Peer to Peer network, it is not possible to determine which packet coming from the peer is intended for which host on the network simply because they have one global IP address. Also, most of the networks with NAT may drop incoming packets simply because it cannot figure out which client on the NAT the packet is directed to, or may recognize it as an unauthorized packet etc. Some of the common Peer to Peer applications are Skype, Spotify etc.</p>
-
-
-<p></p>
-
-
-      
-       <a href="/2013/06/13/circumventing-nat-using-udp-hole-punching">Read on &rarr;</a> 
     </div>
   </div>
 

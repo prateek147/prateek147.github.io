@@ -396,13 +396,19 @@
         <loc>
             http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points
         </loc>
-        <lastmod>2014-10-27T01:47:01+04:00</lastmod>
+        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points
         </loc>
-        <lastmod>2014-10-27T01:48:16+04:00</lastmod>
+        <lastmod>2014-11-03T01:11:42+04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch
+        </loc>
+        <lastmod>2014-11-03T01:11:35+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/about/</loc>
@@ -410,11 +416,11 @@
     </url>
     <url>
         <loc>http://prateek147.github.io/archives/</loc>
-        <lastmod>2014-10-27T01:48:16+04:00</lastmod>
+        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/</loc>
-        <lastmod>2014-10-27T01:48:16+04:00</lastmod>
+        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/security.html</loc>
@@ -430,7 +436,7 @@
     </url>
     <url>
         <loc>http://prateek147.github.io/</loc>
-        <lastmod>2014-10-27T01:48:16+04:00</lastmod>
+        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/ios/</loc>

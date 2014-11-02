@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-10-27T13:12:58+04:00</updated>
+  <updated>2014-11-03T01:12:27+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,100 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch]]></title>
+    <link href="http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch"/>
+    <updated>2014-11-03T01:00:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at how we can analyze network traffic for applications that use certificate pinning. One of the best definitions i found of certificate pinning is mentioned below. It is taken directly from <a href="https://www.infinum.co/the-capsized-eight/articles/securing-mobile-banking-on-android-with-ssl-certificate-pinning">this</a> url.</p>
+
+
+
+
+<p>
+By default, when making an SSL connection, the client checks that the server’s certificate:</p>
+
+
+
+
+<ul>
+<li>has a verifiable chain of trust back to a trusted (root) certificate</li>
+<li>matches the requested hostname</li>
+<li>What it doesn&#8217;t do is check if the certificate in question is a specific certificate, namely the one you know your server is using.</li>
+</ul>
+
+
+
+
+<!-- more -->
+
+
+<p>Relying on matching certificates between the device&rsquo;s trust store and the remote server opens up a security hole. The device’s trust store can easily be compromised &ndash; the user can install unsafe certificates, thus allowing potential man-in-the-middle attacks.</p>
+
+<p>Certificate pinning is the solution to this problem. It means hard-coding the certificate known to be used by the server in the mobile application. The app can then ignore the device’s trust store and rely on its own, and allow only SSL connections to hosts signed with certificates stored inside the application.</p>
+
+<p>This also gives a possibility of trusting a host with a self-signed certificate without the need to install additional certificates on the device.
+</p></p>
+
+<p>Certificate pinning is used by many popular applications for e.g Twitter, Square etc. So the question that arises is, how do you bypass this certificate validation that is happening on the client side ? The important thing to note here is all that all the validation is happening on the client side. And since there are frameworks like Mobile Substrate that allow us to patch any method during runtime and modify its implementation, it is possible to disable the certificate validation that is happening in the application.</p>
+
+
+
+
+<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn&#8217;t able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-ios/">here</a> and it&#8217;s quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don&#8217;t need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
+
+
+
+
+<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
+
+
+
+
+<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it&#8217;s <a href="https://github.com/iSECPartners/ios-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
+
+
+
+
+<ul>
+<li>dpkg</li>
+<li>MobileSubstrate</li>
+<li>PreferenceLoader</li>
+</ul>
+
+
+
+
+<p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
+
+<p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
+
+
+
+
+<p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
+
+<p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
+
+<p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
+
+<p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Wifite Walkthrough part 2: Cracking WPA access points]]></title>
@@ -2389,192 +2483,6 @@ The selector of the method that handles the message.</i>. The selector is nothin
 <p>This tells us so much about what is happening inside an application. In the next article, we will take our knowledge gained from this article and learn how to perform runtime manipulation with GDB.</p>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 20 – Local Data Storage (NSUserDefaults]]></title>
-    <link href="http://prateek147.github.io/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults"/>
-    <updated>2013-10-26T23:39:00+04:00</updated>
-    <id>http://prateek147.github.io/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at the different ways in which applicatons can store data locally on the device and look at how secure these methods are.</p>
-
-
-
-
-<p>We will be performing some of these demonstrations in a sample app that you can download from my <a href="https://github.com/prateek147/localDataStorageDemo">github</a> account. For the CoreData example, you can download the sample app from <a href="https://github.com/ChrisDrit/Core-Data-Example-Code">here</a></p>
-
-
-
-
-<p>One of the other things that we will doing different in this example is that we will be running the application on the IOS simulator using Xcode rather than on the device and hence will be analyzing the application on our computer rather than on the device. This is just to demonstrate that you can perform all the steps performed before in <a href="http://highaltitudehacks.com/security/">previous</a> articles on your system as well by running the application via Xcode. Optionally, you can simply run the application on your device using the steps mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a>.</p>
-
-
-
-
-<h2>NSUserDefaults</h2>
-
-
-
-
-<p>One of the most common ways of saving user preferences and properties in an application is by using NSUserDefaults. <!-- more --> The information stored in NSUserDefaults persists even if you close the application and start it again. One of the examples of saving information in NSUserDefaults is the logged in state of the user. We can save the logged in state of the user (YES or NO) in NSUserDefaults so that when the user closes the application and starts it again, the application can fetch data from NSUserDefaults and display different UI to the user depending on whether he is logged in or not. Some applications also use this feature to save confidential information like the user&#8217;s access token so that the next time the application launches, they can just use that access token to authenticate the user again.</p>
-
-
-
-
-<p>Download the sample application from my <a href="https://github.com/prateek147/localDataStorageDemo">github</a> page and run it. You will get this view. Now enter some info in the text field related to NSUserDefaults and tap the button that says <i>Save in NSUserDefaults</i>. This will save the data to NSUserDefaults.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/1.png" width="320" height="591" alt="1"></p>
-
-<p>What most people do not realize is that the data saved by NSUserDefaults is not encrypted and can be easily viewed from the application bundle. It is stored in a plist file with the name as the <i>bundle Id</i> of the application. First of all, we must find the application bundle for our application. Since we are running the application on our system, we can find our applications on the path /Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/. In my case, the location is &#8220;Users/prateekgianchandani/Library/Application Support/iPhone Simulator/6.1/Applications&#8221; </p>
-
-
-
-
-<p>Once we go to that directory, we can see a bunch of applications. These are all the application that we run via Xcode for that particular IOS version. We can find our application by the date modified tag as it would have the latest modified date.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/2.png" width="945" height="287" alt="2"></p>
-
-<p>Go inside the app bundle. All the contents saved by NSUserDefaults is saved inside a plist file that can be found under Library -> Preferences -> $AppBundleId.plist as shown in the image below. </p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/3.png" width="815" height="185" alt="3"></p>
-
-<p>Open up the plist file and you can easily view the contents of the file.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/4.png" width="602" height="624" alt="4"></p>
-
-<p>Sometimes, the plist files can be in binary format and hence not easily viewable at first. You can either convert it into xml format using the <i>plutil</i> utility or just view the application in a device using the tool <i>iExplorer</i>.</p>
-
-
-
-
-<h2>Plist Files</h2>
-
-
-
-
-<p>Another common way of storing data is in the plist files. Plist files should always be used for saving information that is not confidential as they are unencrypted and can be easily be fetched even from a non-jailbroken device. There have been <a href="http://garethwright.com/facebook-mobile-security-hole-allows-identity-theft/">vulnerabilities</a> reported where big companies have been found to store condifential data like Access tokens, Usernames and passwords in plist files. In the demo app, lets enter the information for plist and tap on <i>Save in plist file</i>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/5.png" width="325" height="598" alt="5"></p>
-
-<p>Here is the code for saving data to the plist file.</p>
-
-
-
-
-<pre>
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingString:@"/userInfo.plist"];
-    NSMutableDictionary* plist = [[NSMutableDictionary alloc] init];
-    [plist setValue:self.usernameTextField.text forKey:@"username"];
-    [plist setValue:self.passwordTextField.text forKey:@"passwprd"];
-    [plist writeToFile:filePath atomically:YES];
-    
-</pre>
-
-
-
-
-<p>As you can see from the code, you can always specify a custom path for the plist file. We can then search the entire application bundle for all plist files. In this case, we find a file named userinfo.plist inside the application bundle.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/6.png" width="618" height="282" alt="6"></p>
-
-<p>As we can see, it contains the user/pass combination that we had entered in the fields before.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/7.png" width="602" height="190" alt="7"></p>
-
-<h2>CoreData and Sqlite files</h2>
-
-
-
-
-<p>Since CoreData basically uses Sqlite internally to save information, we are only going to cover CoreData here. If you don&#8217;t know what CoreData is , here is a screenshot from Apple&#8217;s documentation about CoreData.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/8.png" width="1210" height="552" alt="8">
-<img src="http://prateek147.github.io/images/posts/ios20/9.png" width="1211" height="122" alt="9"></p>
-
-<p>So basically, CoreData can be used to create a model, manage relationships between different types of objects, save the data locally, and fetch them from the local cache whenever you want with queries. In this tutorial, we will be using a sample application from <a href="https://github.com/ChrisDrit/Core-Data-Example-Code">github</a>. Once you run it you will see that is is just a simple RSS feed.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/10.png" width="322" height="590" alt="10"></p>
-
-<p>This application uses Core Data to save its information. It is important to note that the Core Data framework internally uses Sql queries to store its data and hence all the files are stored as .db files. Let&#8217;s go to the app bundle for this app and look at where this information is stored. In the app bundle for this application, you can see that there is a file named MyCoreData.sqlite.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/11.png" width="1012" height="283" alt="11"></p>
-
-<p> Let&#8217;s analyze it using sqlite3. In my case, the location of the sqlite file is at <i>~/Library/Application Support/iPhone Simulator/6.1/Applications/51038055-3CEC-4D90-98B8-A70BF12C7E9D/Documents</i>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/12.png" width="786" height="157" alt="12"></p>
-
-<p>As we can see, there is a table named <i>ZSTORIES</i>. In Core Data, every table name is appended with Z at the beginning. This means that the entity name is actually STORIES as we can clearly see from the source files in the project.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/13.png" width="882" height="523" alt="13"></p>
-
-<p>We can easily dump all the values from this table. Make sure the headers are on.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios20/14.png" width="1037" height="546" alt="14"></p>
-
-<p>As we can see, by default, all the data stored in CoreData is unencrypted and can be easily fetched out. Therefore, we should not use CoreData for saving confidential information ever. There are libraries available that act as a wrapper over CoreData and claim to save encrypted dat. There are other implementations as well that store encrypted data on the device without using CoreData. For e.g the Salesforce Mobile SDK use a feature known as <a href="http://www.modelmetrics.com/tomgersic/storing-data-offline-with-salesforce-mobile-sdk-smartstore/">SmartStore</a> that can store encrypted data on the device in the form of Soups.</p>
-
-
-
-
-<h2>Keychain</h2>
-
-
-
-
-<p>Some developers don&#8217;t prefer to save data in the Keychain because it is not that straightforward to implement . However, saving info in the Keychain is probably the most secure way of storing data on a non-jailbroken device. On a jailbroken device however, <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-12-dumping-keychain-data">nothing</a> is secure. <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax">Here</a> is an article that demonstrates how easy it can be to save data in the keychain using simple wrapper classes. Basically, the code for saving data in the keychain is just like saving data with NSUserDefaults with this wrapper. Here is a snippet of code that saves a string to the keychain. Notice that the syntax looks very similar to using NSUserDefaults.</p>
-
-
-
-
-<pre>
-    PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-    [bindings setObject:@"XYZ" forKey:@"authToken"];
-</pre>
-
-
-
-
-<p>And here is a small snippet for fetching data from the keychain.</p>
-
-
-
-
-<pre>
-    PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-    NSLog(@"Auth token is %@",[bindings objectForKey:@"authToken"]]);
-</pre>
-
-
-
-
-<h2>Small Tricks</h2>
-
-
-
-
-<p>As we discussed before, no information is safe on a jailbroken device. The attacker can get info from Plist files, dump your entire keychain, <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">replace</a> method implementations and can pretty much do anything he wants. But the developer can surely use some small tricks to make sure that the script kiddies find it difficult to get the information they want from the application. It is possible to encrypt files while saving them locally on the device. <a href="http://highaltitudehacks.com/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox">Here</a> is an article that talks about that in good detail. Or you can just make it difficult for them to figure out the correct information. For e.g let&#8217;s consider the example of saving the authentication token for a particular user on the keychain. A script kiddie will just try and use the auth token dumped from the keychain and try to hijack the session of the user. If we can just reverse the auth token before saving it on the keychain, the attacker wouldn&#8217;t know that the actual auth token is actually reverese of the one stored in the keychain. He can surely trace every call in your application and figure it out, but such simple techniques will help keep the script kiddies guessing for enough time that they will start looking for vulnerabilites in other applications. Another such example of these small tricks could be appending a constant string to the actual value before saving it.</p>
-
-
-
-
-<p>In the next article, we will look at runtime analysis using GDB.</p>
 
 ]]></content>
   </entry>
