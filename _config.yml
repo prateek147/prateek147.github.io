@@ -2,13 +2,13 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://highaltitudehacks.com
+url: http://prateek147.github.io
 title: Prateek Gianchandani
 subtitle: A blogging framework for hackers.
 author: Prateek Gianchandani
 simple_search: http://google.com/search
 keywords: ios,application security,ios security,restkit,web application security,udp, tcp,dns,backtrack
-description: IOS Development and Security tutorials
+description: Security tutorials
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
