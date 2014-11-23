@@ -2,460 +2,466 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://prateek147.github.io/2013/06/09/dns-hacking-beginner-to-advanced</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/12/abusing-ip-protocols-to-create-covert-channels-when-penetration-testing
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/12/karmetasploit</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-1</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-2</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/12/timing-analysis-attacks-in-anonymous-systems
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/13/defending-the-internet-with-project-meshent
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/13/w3af-walkthrough-part-1</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-2-discovery-and-audit-plugins
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-3-remaining-plugins
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/13/inserting-vulnerabilities-in-web-applications
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/13/scanning-the-web-with-ammonite</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/13/circumventing-nat-using-udp-hole-punching
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/13/abusing-social-networking-sites-to-perform-content-forgery
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/15/a-new-dns-exploitation-technique-ghost-domain-names
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/15/defcon-20-day-1-review</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/15/defcon-20-day-2-review</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/15/defcon-20-day-3-review</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-1</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-2</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-3</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-4</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/15/ghost-usb-honeypot-part-1-interview-with-project-leader-sebastian-poeplau
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/15/ghost-usb-honeypot-part-2-installing-and-running-the-honeypot
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/16/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/16/ios-application-security-part-2-getting-class-information-of-ios-apps
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/18/everything-about-mount-everest-1-slash-50-george-mallory-and-andrew-irvine
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/19/burpsuite-walkthrough</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/21/pagination-in-restkit-0-dot-2-using-rkpaginator-ios-development
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/06/30/octopress-category-pages-with-preview-and-pagination
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/07/02/ios-aios-appllication-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/08/20/ios-application-security-part-10-ios-filesystem-and-forensics
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/08/20/ios-application-security-part-12-dumping-keychain-data
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/08/23/what-to-expect-from-iphone-5s-slash-5c</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/08/29/mind-over-body-stok-kangri-summit-day-16</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/17/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/17/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/23/ios-application-security-part-17-black-box-assessment-of-ios-applications-using-introspy
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/26/ios-application-security-part-18-detecting-custom-signatures-with-introspy
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/10/26/ios-application-security-part-19-programmatical-usage-of-introspy
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/2014/03/06/gdb-issue</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/03/25/ios-application-security-part-32-automating-tasks-with-ios-reverse-engineering-toolkit-iret
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify
         </loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/10/18/ios-application-security-part-35-auditing-ios-applications-with-idb
         </loc>
-        <lastmod>2014-10-27T01:37:14+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points
         </loc>
-        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points
         </loc>
-        <lastmod>2014-11-03T01:11:42+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch
         </loc>
-        <lastmod>2014-11-03T01:11:35+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1
+        </loc>
+        <lastmod>2014-11-24T01:25:57+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/about/</loc>
-        <lastmod>2014-10-27T01:40:33+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/archives/</loc>
-        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
+        <lastmod>2014-11-24T01:25:57+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/</loc>
-        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
+        <lastmod>2014-11-24T01:25:57+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/security.html</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/everest/</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/hire-me/</loc>
-        <lastmod>2014-10-14T19:29:58+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/</loc>
-        <lastmod>2014-11-03T01:11:46+04:00</lastmod>
+        <lastmod>2014-11-24T01:25:57+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/ios/</loc>
-        <lastmod>2014-10-14T19:30:00+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:54+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/robots.txt</loc>
-        <lastmod>2014-10-14T19:30:00+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:55+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/security/</loc>
-        <lastmod>2014-10-14T19:30:00+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:55+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/security.xml</loc>
-        <lastmod>2014-10-14T19:30:00+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:55+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/travel/</loc>
-        <lastmod>2014-10-14T19:30:00+04:00</lastmod>
+        <lastmod>2014-11-24T00:31:55+04:00</lastmod>
     </url>
 </urlset>
