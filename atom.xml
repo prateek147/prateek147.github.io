@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-11-03T01:12:27+04:00</updated>
+  <updated>2014-11-24T01:37:27+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,130 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 1]]></title>
+    <link href="http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1"/>
+    <updated>2014-11-24T00:52:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1</id>
+    <content type="html"><![CDATA[<p>In this article series, we will learn at various concepts of Android application security while exploiting a vulnerable app InsecureBankv2. We will be looking at all the concepts from a noob&#8217;s perspective and hence i would recommend this blog series to beginners as well.</p>
+
+
+
+
+<p>However, the first thing to do is set up a proper mobile pentesting platform for android application testing.</p>
+
+
+
+
+<p>The first thing to do is download the Eclipse ADT bundle. You can then follow the instructions <a href="https://developer.android.com/sdk/installing/index.html?pkg=adt">here</a> to install the ADT bundle. Once this is done, make sure you install the necessary sdk packages and libraries by following the instructions <a href="https://developer.android.com/sdk/installing/adding-packages.html">here</a>.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Inside the adt bundle folder and inside the sdk folder, there will be two folders, one with the name <i>tools</i> and the other with the name <i>platform-tools</i>. It&#8217;s important to add the location of your SDK platform tools and tools folder to the PATH environment variable. This is because you will be using most of the command line tools included in these directories and its good to have them added in the path environment variable. The command to add any path as an environment variable is <i>export PATH=/path/to/dir:$PATH</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/1.png" width="725" height="146" alt="1"></p>
+
+<p>Do this for both the tools and the platform-tools folder. Once this is done, you can access all the command line tools without actually browsing over to their directory. To check if this is working, type the command <i>adb</i> and see if you are able to get an output like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/2.png" width="728" height="417" alt="2"></p>
+
+<p>To run the application on your computer, it is important to have a good emulator. Now the android virtual device manager utility in Eclipse allows you to create your own emulators. To know how to create these virtual devices, i would recommend you check <a href="https://developer.android.com/tools/devices/index.html">this</a> article out. However, for this series, i am going to be using Genymotion to create my own emulators. There are many reasons for this. First of all, it is lightning fast and not as slow as the android emulators. Secondly, it is a rooted emulator unlike the android emulators. This means you have much more freedom of installing your own custom applications that can be used for auditing other android apps. </p>
+
+
+
+
+<p>Once you install genymotion, you should sign up for a new account (it&#8217;s free) and create different emulators based on your need. Here is what my emulators look like.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/3.png" width="798" height="427" alt="3"></p>
+
+<p>Now get the latest code for the InsecureBankv2 application from <a href="https://github.com/dineshshetty/Android-InsecureBankv2">here</a>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/4.png" width="1046" height="137" alt="4"></p>
+
+<p>Start one of your genymotion emulators and see if you are able to get them running. Starting an emulator is as simple as clicking on the play button.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/5.png" width="1070" height="618" alt="5"></p>
+
+<p>Inside the folder that you just cloned from github, there will be an apk file. You can install that application onto your emulator using the command <i>adb install InsecureBankv2.apk</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/6.png" width="939" height="134" alt="6"></p>
+
+<p>You will see that it successfully installed. And you can see the same on the emulator as well. But sometimes you might want to compile the application rather than run it with an apk file. To do that, open Eclipse and go to <i>File -> Switch Workspace</i>, and choose the Insecure bank folder that you just created. Now go to <i>File -> Import</i> and select <i>Existing Android code into workspace</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/7.png" width="525" height="551" alt="7"></p>
+
+<p>Select your application folder and you will see that Eclipse will import the application into your workspace. Now click on the play button on the top to run your application. Make sure your genymotion emulator is running as well. Select to run it as an android application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/8.png" width="851" height="586" alt="8"></p>
+
+<p>You will see that the application starts successfully on the genymotion emulator.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/9.png" width="1066" height="574" alt="9"></p>
+
+<p>Also start the backend python server that the android application communicates with using the command <i>python app.py &#8211;port 8888</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/10.png" width="726" height="81" alt="10"></p>
+
+<p>In the application, go to Preferences and enter the IP address and port number of your system.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/11.png" width="612" height="472" alt="11"></p>
+
+<p>And now you can login to the application using the default credentials.</p>
+
+
+
+
+<ul>
+<li>dinesh/Dinesh@123$</li>
+<li>jack/Jack@123$</li>
+</ul>
+
+
+
+
+<p>Also make sure that you install the following utilities. We will cover them in detail as and when they are required.</p>
+
+
+
+
+<ol>
+    <li><a href="https://www.mwrinfosecurity.com/products/drozer/">Drozer</a></li>
+    <li><a href="https://github.com/swdunlop/AndBug">Andbug</a></li>
+    <li><a href="https://github.com/iSECPartners/Introspy-Android">Introspy</a></li>
+    <li><a href="https://code.google.com/p/dex2jar/">dex2jar</a></li>
+    <li><a href="https://code.google.com/p/android-apktool/">apktool</a></li>
+</ol>
+
+
+
+
+<p>Also, connect to your emulator using the command <i>adb shell</i> and see what are the things you can do. I would really recommend you to have a look <a href="http://developer.android.com/tools/help/adb.html">here</a> and try out all the commands possible with the Android debug bridge.</p>
+
+
+
+
+<p>Another thing that you can read up is what you can do with all the command line tools available in Android. You can read it from <a href="http://developer.android.com/tools/projects/projects-cmdline.html">here</a>. In the next article, we will start at actual exploitation of the InsecureBankv2 application.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch]]></title>
@@ -2287,203 +2411,6 @@ Since the skype app didn&#8217;t prompt the user before making the call, the cal
 
 
 <p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 21 – ARM and GDB Basics]]></title>
-    <link href="http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics"/>
-    <updated>2013-11-08T14:50:00+04:00</updated>
-    <id>http://prateek147.github.io/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics</id>
-    <content type="html"><![CDATA[<p>All the IOS devices released uptil now are based on the ARM architecture. All the Objective-C code that we write while developing IOS applications is first converted into ARM assembly before being converted to machine code (1s and 0s). With good understanding of the ARM assembly language and with good knowledge of debugging using GDB, it is possible for a hacker to decipher the Objective-C code during runtime and even modify it.</p>
-
-
-
-
-<p>For this article, we will be using a sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Make sure to install and run it on your IOS device. If you don&#8217;t have a registered developer account to run this on your device, you can follow the instructions mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a></p>
-
-
-<p>.</p>
-
-<p>Now let&#8217;s SSH into the device.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/1.png" width="465" height="108" alt="1"></p>
-
-<!-- more -->
-
-
-
-
-<p>Now lets start GDB and ask GDB to hook into our application as soon as it is started. This is done by using the command <i>attach &#8211;waitfor Appname</i>. Optionally, you can also start the application on your device and hook into the running process using the <i>attach</i> command as shown below.</p>
-
-
-<p>.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/2.png" width="1059" height="422" alt="2"></p>
-
-<p>Now once GDB has hooked into the application, you will notice that the application is in a paused state. You can resume the application by just using the <i>c</i> command. But let&#8217;s do some investigation before that. Just like any other architecture, the memory in ARM is divided into registers. All these registers are 32 bit in size (except in IOS 7 which is 64 bit) and their purpose is to hold and move data between each other. You can find information about these registers  by just using the <i>info registers</i> command.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/3.png" width="1089" height="358" alt="3"></p>
-
-<p>Please note that this command does not print out all the registers in ARM. To print all the registers, use the command <i>info all-registers</i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/4.png" width="882" height="590" alt="4"></p>
-
-<pre><code>&lt;p&gt;To dump the diassembly, just use the &lt;i&gt;disassemble&lt;/i&gt; or &lt;i&gt;disas&lt;/i&gt; command. This will give us the assembly dump for the next few instructions. We can also dump the assembly of a particular function by specifying the function name after the &lt;i&gt;disas&lt;/i&gt; command. For e.g, to dump the assembly for the main function, use the &lt;i&gt;disas main&lt;/i&gt; command.&lt;/p&gt;
-</code></pre>
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/5.png" width="642" height="364" alt="5"></p>
-
-<p>If we look at the application that we just installed on our device, we will see that it is just a simple application that prompts for a username and password.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/IMG_0099.PNG" width="320" height="480" alt="IMG 0099"></p>
-
-<p>We can also see from the class-dump-z output of the application that there is a class named <i>ViewController</i> and a method named <i>-(void)loginButtonTapped:(id)tapped;</i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/6.png" width="724" height="237" alt="6"></p>
-
-<p>With GDB, we can also set breakpoints in the application. You can type the method names to set breakpoints to. Just use the command <i>b functionName</i>. You can also specify the method signature without the class if you are unsure and GDB will ask you which class you want to set the breakpoint on.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/7.png" width="546" height="228" alt="7"></p>
-
-<p>Please note that instance methods are prefixed with a minus sign <i>-</i> whereas class methods are prefixed with a plus sign <i>+</i> as shown below. For e.g, <i>sharedInstance</i> is a class method that returns the shared instance of a singleton class.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/8.png" width="622" height="564" alt="8"></p>
-
-<pre><code>&lt;p&gt;You can see all your breakpoints using the command &lt;i&gt;info breakpoints&lt;/i&gt;.&lt;/p&gt;
-</code></pre>
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/9.png" width="774" height="89" alt="9"></p>
-
-<p>You can remove any breakpoint by using the command <i>delete</i> followed by the ID of the breakpoint.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/10.png" width="767" height="89" alt="10"></p>
-
-<p>Anyways, lets set a breakpoint for the method <i>loginButtonTapped:</i>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/11.png" width="314" height="44" alt="11"></p>
-
-<p>We can then resume the app by using the <i>continue</i> or the <i>c</i> command.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/12.png" width="213" height="38" alt="12"></p>
-
-<p>Lets tap on the login button in the app. This will trigger our breakpoint.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/13.png" width="648" height="96" alt="13"></p>
-
-<pre><code>&lt;p&gt;We can then find some of the next instruction by using the disassemble command.&lt;/p&gt;
-</code></pre>
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/14.png" width="712" height="468" alt="14"></p>
-
-<p>To set breakpoint any particular instruction, add the asterix sign before the address for that instruction.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/15.png" width="275" height="40" alt="15"></p>
-
-<p>In <a href="http://highaltitudehacks.com/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime/">part 3</a> of this article series, we also learnt about the function objc_msgSend. Objective-C is based on messaging and whenever a message is being sent, the objc_msgSend fucntion gets called. In the disassembly code for the function <i>loginButtonTapped:</i> that we printed out, there are a lot of objc_msgSend calls. A good way to find this out is to look for the <i>blx</i> instruction. Wherever you see a blx instruction, you can be sure that an objc_msgSend call is happening.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/16.png" width="818" height="193" alt="16"></p>
-
-<p>Whenever a new method is called or a property is accessed, the objc_msgSend function gets called. So if we can set a breakpoint for the objc_msgSend call and find a way to print out the method being called and the object that calls this method, then this will give us a very good insight into the flow of the app. We had already looked at how Snoop-it was able to find out all the traced calls in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">part 9</a> of this series. To find out the methods being called, first we need to look at calling convention for ARM. Here is a screenshot of the ARM calling convention from <a href="http://en.wikipedia.org/wiki/Calling_convention">Wikipedia</a>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/17.png" width="1262" height="482" alt="17"></p>
-
-<p>The important line to note here is this.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/18.png" width="794" height="24" alt="18"></p>
-
-<p>So we can set a breakpoint for every objc_msgSend call and find the parameters passed to this function by using the values of r0-r3 registers. Let&#8217;s have a look at the signature for objc_msgSend call. Here is a screenshot taken from Apple&#8217;s <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html#//apple_ref/c/func/objc_msgSend">documentation</a>.</p>
-
-
-<p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/19.png" width="1212" height="459" alt="19"></p>
-
-<p>So the first two arguments to the function are <i>self - A pointer that points to the instance of the class that is to receive the message</i> and <i>op -
-The selector of the method that handles the message.</i>. The selector is nothing but the signature for the message. For e.g if a method has the prototype <i>-(void)addOjectsToArray:(NSArray *)array</i> then the signature for it would be <i>addOjectsToArray:</i>. And we also know that r0 to r3 are used to hold argument values passed to a subroutine, hence we can conclude that <i>r0 will contain self</i> and <i>r1 will contain op</i>.</p>
-
-
-
-
-<p>Let&#8217;s understand this through an example. Set up a breakpoint for the objc_msgSend call and continue until the breakpoint is hit.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/20.png" width="429" height="122" alt="20"></p>
-
-<p>As we learnt, r0 should contain a pointer to the instance of the class that is to receive the message, r1 should contain the selector and after that starting from r2 should be the arguments for the method. But first we should learn about the <i>x</i> command. x stands for examine and helps us to examine memory in many different formats. So we can specify the format in which we want to examine the memory. To find out all the options available with this command, use the <i>help x</i> command.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/21.png" width="641" height="243" alt="21"></p>
-
-<p>Let&#8217;s start by examining r0. We know it will contain a pointer to the instance of the class that will receive the message. Hence the format is address and we use x/a. We use $ before r0 because we want to examine the memory, and hence the $ sign.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/22.png" width="553" height="56" alt="22"></p>
-
-<p>We can see that the receiver is an instance of the UIRoundedRectButton class. Now lets try to examine the value in r1 register. We know that it contains the selector, i.e the signature of the method. This is a string and hence we use x/s. </p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/23.png" width="390" height="63" alt="23"></p>
-
-<p>Now, we have to find out the arguments to this method. This can be tricky as we don&#8217;t know what format is r2. But looking at the selector which is <i>respondsToSelector:</i> and using some common sense, we can assume that the argument will be a selector, and hence we again use x/s to examine the memory in string format.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/24.png" width="369" height="61" alt="24"></p>
-
-<p>Alright, so the argument is <i>debugDescription</i>. From the method selector, we can see that there is only one argument to this function, hence we don&#8217;t worry about examining further registers. So now, we can say that the method being called must be something like this.</p>
-
-
-
-
-<p>-[UIRoundedRectButton respondsToSelector:@selector(debugDescription)];</p>
-
-
-
-
-<p>But there are so many objc_msgSend calls and examining all of these calls one by one is such a pain. So lets try and automate this process. In <a href="http://highaltitudehacks.com/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime/">part 3</a> of this series, we learnt how to use the commands option in gdb to print something whenever a breakpint is hit. Let&#8217;s use it here as well.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/25.png" width="543" height="137" alt="25"></p>
-
-<p>Now press <i>c</i> to continue. You will see all the methods being called. This tells us so much about what is happening in the application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/26.png" width="762" height="665" alt="26"></p>
-
-<p>Now let&#8217;s try and print this in Objective-C like syntax. We are going to use the function class_getName mentioned in Apple&#8217;s <a href="https://developer.apple.com/library/mac/documentation/cocoa/reference/objcruntimeref/Reference/reference.html#//apple_ref/c/func/objc_msgSend">documentation</a>. As you can see, it requires an argument which is the class object, hence we will pass it r0.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/27.png" width="512" height="295" alt="27"></p>
-
-<p>Now rewrite the calls in commands like this.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/28.png" width="674" height="152" alt="28"></p>
-
-<p>Type c to continue and now as you can see, the information is in a much more readable format.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios21/29.png" width="825" height="531" alt="29"></p>
-
-<p>This tells us so much about what is happening inside an application. In the next article, we will take our knowledge gained from this article and learn how to perform runtime manipulation with GDB.</p>
-
-
-
 ]]></content>
   </entry>
   

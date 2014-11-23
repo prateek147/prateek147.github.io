@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch - Prateek Gianchandani</title>
+  <title>Android Application hacking with Insecure Bank Part 1 - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="iOS Application Security Part 36 – Bypassing Certificate Pinning Using SSL Kill Switch Nov 3rd, 2014 Posted by Prateek Gianchandani In this article &hellip;">
+  <meta name="description" content="Android Application Hacking With Insecure Bank Part 1 Nov 24th, 2014 Posted by Prateek Gianchandani In this article series, we will learn at various &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch">
+  <link rel="canonical" href="http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    iOS Application Security Part 36 – Bypassing Certificate Pinning Using SSL Kill Switch
+    Android Application Hacking With Insecure Bank Part 1
 	<h5>
 
 
@@ -123,7 +123,7 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-11-03T01:00:00+04:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-11-24T00:52:00+04:00" pubdate data-updated="true">Nov 24<span>th</span>, 2014</time></h5>
   <h4>
   
 
@@ -133,22 +133,17 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article, we will look at how we can analyze network traffic for applications that use certificate pinning. One of the best definitions i found of certificate pinning is mentioned below. It is taken directly from <a href="https://www.infinum.co/the-capsized-eight/articles/securing-mobile-banking-on-android-with-ssl-certificate-pinning">this</a> url.</p>
+      <p>In this article series, we will learn at various concepts of Android application security while exploiting a vulnerable app InsecureBankv2. We will be looking at all the concepts from a noob&#8217;s perspective and hence i would recommend this blog series to beginners as well.</p>
 
 
 
 
-<p>
-By default, when making an SSL connection, the client checks that the server’s certificate:</p>
+<p>However, the first thing to do is set up a proper mobile pentesting platform for android application testing.</p>
 
 
 
 
-<ul>
-<li>has a verifiable chain of trust back to a trusted (root) certificate</li>
-<li>matches the requested hostname</li>
-<li>What it doesn&#8217;t do is check if the certificate in question is a specific certificate, namely the one you know your server is using.</li>
-</ul>
+<p>The first thing to do is download the Eclipse ADT bundle. You can then follow the instructions <a href="https://developer.android.com/sdk/installing/index.html?pkg=adt">here</a> to install the ADT bundle. Once this is done, make sure you install the necessary sdk packages and libraries by following the instructions <a href="https://developer.android.com/sdk/installing/adding-packages.html">here</a>.</p>
 
 
 
@@ -156,68 +151,103 @@ By default, when making an SSL connection, the client checks that the server’s
 <!-- more -->
 
 
-<p>Relying on matching certificates between the device&rsquo;s trust store and the remote server opens up a security hole. The device’s trust store can easily be compromised &ndash; the user can install unsafe certificates, thus allowing potential man-in-the-middle attacks.</p>
-
-<p>Certificate pinning is the solution to this problem. It means hard-coding the certificate known to be used by the server in the mobile application. The app can then ignore the device’s trust store and rely on its own, and allow only SSL connections to hosts signed with certificates stored inside the application.</p>
-
-<p>This also gives a possibility of trusting a host with a self-signed certificate without the need to install additional certificates on the device.
-</p></p>
-
-<p>Certificate pinning is used by many popular applications for e.g Twitter, Square etc. So the question that arises is, how do you bypass this certificate validation that is happening on the client side ? The important thing to note here is all that all the validation is happening on the client side. And since there are frameworks like Mobile Substrate that allow us to patch any method during runtime and modify its implementation, it is possible to disable the certificate validation that is happening in the application.</p>
 
 
+<p>Inside the adt bundle folder and inside the sdk folder, there will be two folders, one with the name <i>tools</i> and the other with the name <i>platform-tools</i>. It&#8217;s important to add the location of your SDK platform tools and tools folder to the PATH environment variable. This is because you will be using most of the command line tools included in these directories and its good to have them added in the path environment variable. The command to add any path as an environment variable is <i>export PATH=/path/to/dir:$PATH</i>.</p>
 
 
-<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn&#8217;t able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-ios/">here</a> and it&#8217;s quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don&#8217;t need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
+<p><img src="/images/posts/ib1/1.png" width="725" height="146" alt="1"></p>
+
+<p>Do this for both the tools and the platform-tools folder. Once this is done, you can access all the command line tools without actually browsing over to their directory. To check if this is working, type the command <i>adb</i> and see if you are able to get an output like this.</p>
 
 
+<p><img src="/images/posts/ib1/2.png" width="728" height="417" alt="2"></p>
 
-
-<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
+<p>To run the application on your computer, it is important to have a good emulator. Now the android virtual device manager utility in Eclipse allows you to create your own emulators. To know how to create these virtual devices, i would recommend you check <a href="https://developer.android.com/tools/devices/index.html">this</a> article out. However, for this series, i am going to be using Genymotion to create my own emulators. There are many reasons for this. First of all, it is lightning fast and not as slow as the android emulators. Secondly, it is a rooted emulator unlike the android emulators. This means you have much more freedom of installing your own custom applications that can be used for auditing other android apps. </p>
 
 
 
 
-<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it&#8217;s <a href="https://github.com/iSECPartners/ios-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
+<p>Once you install genymotion, you should sign up for a new account (it&#8217;s free) and create different emulators based on your need. Here is what my emulators look like.</p>
+
+
+<p><img src="/images/posts/ib1/3.png" width="798" height="427" alt="3"></p>
+
+<p>Now get the latest code for the InsecureBankv2 application from <a href="https://github.com/dineshshetty/Android-InsecureBankv2">here</a>.</p>
+
+
+<p><img src="/images/posts/ib1/4.png" width="1046" height="137" alt="4"></p>
+
+<p>Start one of your genymotion emulators and see if you are able to get them running. Starting an emulator is as simple as clicking on the play button.</p>
+
+
+<p><img src="/images/posts/ib1/5.png" width="1070" height="618" alt="5"></p>
+
+<p>Inside the folder that you just cloned from github, there will be an apk file. You can install that application onto your emulator using the command <i>adb install InsecureBankv2.apk</i></p>
+
+
+<p><img src="/images/posts/ib1/6.png" width="939" height="134" alt="6"></p>
+
+<p>You will see that it successfully installed. And you can see the same on the emulator as well. But sometimes you might want to compile the application rather than run it with an apk file. To do that, open Eclipse and go to <i>File -> Switch Workspace</i>, and choose the Insecure bank folder that you just created. Now go to <i>File -> Import</i> and select <i>Existing Android code into workspace</i>.</p>
+
+
+<p><img src="/images/posts/ib1/7.png" width="525" height="551" alt="7"></p>
+
+<p>Select your application folder and you will see that Eclipse will import the application into your workspace. Now click on the play button on the top to run your application. Make sure your genymotion emulator is running as well. Select to run it as an android application.</p>
+
+
+<p><img src="/images/posts/ib1/8.png" width="851" height="586" alt="8"></p>
+
+<p>You will see that the application starts successfully on the genymotion emulator.</p>
+
+
+<p><img src="/images/posts/ib1/9.png" width="1066" height="574" alt="9"></p>
+
+<p>Also start the backend python server that the android application communicates with using the command <i>python app.py &#8211;port 8888</i></p>
+
+
+<p><img src="/images/posts/ib1/10.png" width="726" height="81" alt="10"></p>
+
+<p>In the application, go to Preferences and enter the IP address and port number of your system.</p>
+
+
+<p><img src="/images/posts/ib1/11.png" width="612" height="472" alt="11"></p>
+
+<p>And now you can login to the application using the default credentials.</p>
 
 
 
 
 <ul>
-<li>dpkg</li>
-<li>MobileSubstrate</li>
-<li>PreferenceLoader</li>
+<li>dinesh/Dinesh@123$</li>
+<li>jack/Jack@123$</li>
 </ul>
 
 
 
 
-<p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
-
-
-<p><img src="/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
-
-<p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
+<p>Also make sure that you install the following utilities. We will cover them in detail as and when they are required.</p>
 
 
 
 
-<p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
+<ol>
+    <li><a href="https://www.mwrinfosecurity.com/products/drozer/">Drozer</a></li>
+    <li><a href="https://github.com/swdunlop/AndBug">Andbug</a></li>
+    <li><a href="https://github.com/iSECPartners/Introspy-Android">Introspy</a></li>
+    <li><a href="https://code.google.com/p/dex2jar/">dex2jar</a></li>
+    <li><a href="https://code.google.com/p/android-apktool/">apktool</a></li>
+</ol>
 
 
-<p><img src="/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
-
-<p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
 
 
-<p><img src="/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
-
-<p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
+<p>Also, connect to your emulator using the command <i>adb shell</i> and see what are the things you can do. I would really recommend you to have a look <a href="http://developer.android.com/tools/help/adb.html">here</a> and try out all the commands possible with the Android debug bridge.</p>
 
 
-<p><img src="/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
 
-<p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
+
+<p>Another thing that you can read up is what you can do with all the command line tools available in Android. You can read it from <a href="http://developer.android.com/tools/projects/projects-cmdline.html">here</a>. In the next article, we will start at actual exploitation of the InsecureBankv2 application.</p>
 
 
     </div>
@@ -236,6 +266,8 @@ By default, when making an SSL connection, the client checks that the server’s
         
 
 
+
+  <a href="//categories/android/"><span class="badge">android</span></a>
 
   <a href="//categories/security/"><span class="badge">security</span></a>
 
@@ -269,10 +301,8 @@ By default, when making an SSL connection, the client checks that the server’s
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points" title="Previous Post: Wifite Walkthrough part 2: Cracking WPA access points">&laquo; Wifite Walkthrough part 2: Cracking WPA access points</a>
+            <a class="basic-alignment left" href="/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch" title="Previous Post: iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch">&laquo; iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch</a>
           
-          
-            <a class="basic-alignment right" href="/2014/11/24/android-application-hacking-with-insecure-bank-part-1" title="Next Post: Android Application hacking with Insecure Bank Part 1">Android Application hacking with Insecure Bank Part 1 &raquo;</a>
           
         </p>
       </div>
@@ -338,8 +368,8 @@ alt="web analytics"></a></div></noscript>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch';
-        var disqus_url = 'http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch';
+        var disqus_identifier = 'http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1';
+        var disqus_url = 'http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1';
         var disqus_script = 'embed.js';
       
     (function () {

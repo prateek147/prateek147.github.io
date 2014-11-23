@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-11-03T01:12:27+04:00</updated>
+  <updated>2014-11-24T01:37:27+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,130 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 1]]></title>
+    <link href="http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1"/>
+    <updated>2014-11-24T00:52:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1</id>
+    <content type="html"><![CDATA[<p>In this article series, we will learn at various concepts of Android application security while exploiting a vulnerable app InsecureBankv2. We will be looking at all the concepts from a noob's perspective and hence i would recommend this blog series to beginners as well.</p>
+
+
+
+
+<p>However, the first thing to do is set up a proper mobile pentesting platform for android application testing.</p>
+
+
+
+
+<p>The first thing to do is download the Eclipse ADT bundle. You can then follow the instructions <a href="https://developer.android.com/sdk/installing/index.html?pkg=adt">here</a> to install the ADT bundle. Once this is done, make sure you install the necessary sdk packages and libraries by following the instructions <a href="https://developer.android.com/sdk/installing/adding-packages.html">here</a>.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Inside the adt bundle folder and inside the sdk folder, there will be two folders, one with the name <i>tools</i> and the other with the name <i>platform-tools</i>. It's important to add the location of your SDK platform tools and tools folder to the PATH environment variable. This is because you will be using most of the command line tools included in these directories and its good to have them added in the path environment variable. The command to add any path as an environment variable is <i>export PATH=/path/to/dir:$PATH</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/1.png" width="725" height="146" alt="1"></p>
+
+<p>Do this for both the tools and the platform-tools folder. Once this is done, you can access all the command line tools without actually browsing over to their directory. To check if this is working, type the command <i>adb</i> and see if you are able to get an output like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/2.png" width="728" height="417" alt="2"></p>
+
+<p>To run the application on your computer, it is important to have a good emulator. Now the android virtual device manager utility in Eclipse allows you to create your own emulators. To know how to create these virtual devices, i would recommend you check <a href="https://developer.android.com/tools/devices/index.html">this</a> article out. However, for this series, i am going to be using Genymotion to create my own emulators. There are many reasons for this. First of all, it is lightning fast and not as slow as the android emulators. Secondly, it is a rooted emulator unlike the android emulators. This means you have much more freedom of installing your own custom applications that can be used for auditing other android apps. </p>
+
+
+
+
+<p>Once you install genymotion, you should sign up for a new account (it's free) and create different emulators based on your need. Here is what my emulators look like.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/3.png" width="798" height="427" alt="3"></p>
+
+<p>Now get the latest code for the InsecureBankv2 application from <a href="https://github.com/dineshshetty/Android-InsecureBankv2">here</a>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/4.png" width="1046" height="137" alt="4"></p>
+
+<p>Start one of your genymotion emulators and see if you are able to get them running. Starting an emulator is as simple as clicking on the play button.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/5.png" width="1070" height="618" alt="5"></p>
+
+<p>Inside the folder that you just cloned from github, there will be an apk file. You can install that application onto your emulator using the command <i>adb install InsecureBankv2.apk</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/6.png" width="939" height="134" alt="6"></p>
+
+<p>You will see that it successfully installed. And you can see the same on the emulator as well. But sometimes you might want to compile the application rather than run it with an apk file. To do that, open Eclipse and go to <i>File -> Switch Workspace</i>, and choose the Insecure bank folder that you just created. Now go to <i>File -> Import</i> and select <i>Existing Android code into workspace</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/7.png" width="525" height="551" alt="7"></p>
+
+<p>Select your application folder and you will see that Eclipse will import the application into your workspace. Now click on the play button on the top to run your application. Make sure your genymotion emulator is running as well. Select to run it as an android application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/8.png" width="851" height="586" alt="8"></p>
+
+<p>You will see that the application starts successfully on the genymotion emulator.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/9.png" width="1066" height="574" alt="9"></p>
+
+<p>Also start the backend python server that the android application communicates with using the command <i>python app.py --port 8888</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/10.png" width="726" height="81" alt="10"></p>
+
+<p>In the application, go to Preferences and enter the IP address and port number of your system.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib1/11.png" width="612" height="472" alt="11"></p>
+
+<p>And now you can login to the application using the default credentials.</p>
+
+
+
+
+<ul>
+<li>dinesh/Dinesh@123$</li>
+<li>jack/Jack@123$</li>
+</ul>
+
+
+
+
+<p>Also make sure that you install the following utilities. We will cover them in detail as and when they are required.</p>
+
+
+
+
+<ol>
+    <li><a href="https://www.mwrinfosecurity.com/products/drozer/">Drozer</a></li>
+    <li><a href="https://github.com/swdunlop/AndBug">Andbug</a></li>
+    <li><a href="https://github.com/iSECPartners/Introspy-Android">Introspy</a></li>
+    <li><a href="https://code.google.com/p/dex2jar/">dex2jar</a></li>
+    <li><a href="https://code.google.com/p/android-apktool/">apktool</a></li>
+</ol>
+
+
+
+
+<p>Also, connect to your emulator using the command <i>adb shell</i> and see what are the things you can do. I would really recommend you to have a look <a href="http://developer.android.com/tools/help/adb.html">here</a> and try out all the commands possible with the Android debug bridge.</p>
+
+
+
+
+<p>Another thing that you can read up is what you can do with all the command line tools available in Android. You can read it from <a href="http://developer.android.com/tools/projects/projects-cmdline.html">here</a>. In the next article, we will start at actual exploitation of the InsecureBankv2 application.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch]]></title>
@@ -394,68 +518,6 @@ By default, when making an SSL connection, the client checks that the server’s
 </code></pre>
 
 <p></html></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 34 - Tracing Method calls using Logify]]></title>
-    <link href="http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify"/>
-    <updated>2014-04-18T16:59:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify</id>
-    <content type="html"><![CDATA[<p>In the previous articles, we have seen how applications like Snoop-it can trace method calls specific to the application at runtime. This is very important in deducing the flow of the application. The same process can be performed by using a perl script named Logify.pl that comes installed with Theos. The script takes input as a header file and generates the hooking code that we can add in our tweak. We can also specify the classes we want to check. Once the tweak is installed on the device, whenever a method for that particular class is called, the tweak logs out the method along with the arguments to syslog. The first step here is to get the header files for a particular application. You can get the header files by using the -H option in class-dump-z. Once the headers folder is generated, you can copy it to your system.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/1.png" width="1389" height="315" alt="1"></p>
-
-<!-- more -->
-
-
-
-
-<p>Now we can use the Logify.pl script on these header files to generate our tweak. In this case, we are testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a>. Let's add all the classes for which we want to log the method calls. In our case, we select three classes for which we want to trace the method calls, ClientSideInjectionVC, JailbreakDetectionVC and DamnVulnerableAppUtilities.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/2.png" width="773" height="65" alt="2"></p>
-
-<p>This is how our Tweak.xm file looks like.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/3.png" width="883" height="458" alt="3"></p>
-
-<p>Now let's create a tweak and replace its Tweak.xm file with our own. Also, give the filter as the bundle identifier for DVIA, as we only want to trace calls for DVIA. Have a look at the <a href="http://highaltitudehacks.com/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate">previous</a> article if you are new to writing tweaks.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/4.png" width="867" height="392" alt="4"></p>
-
-<p>Build the package.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/5.png" width="1251" height="103" alt="5"></p>
-
-<p>Now install it on your device and respring your device.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/6.png" width="1069" height="238" alt="6"></p>
-
-<p>Now check the folder <i>/Library/MobileSubstrate/DynamicLibraries</i> on your device to see whether the tweak was installed, and sure enough, we can see that it has been installed.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/7.png" width="309" height="388" alt="7"></p>
-
-<p>Now run the DVIA app. Make sure your device is connected to your computer and go to Xcode –> Window –> Organizer –> Devices & select your device and click on Console. You will see the DVIAMethodTracer tweak being loaded into your application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/8.png" width="1146" height="250" alt="8"></p>
-
-<p>And now as you browse around in the application and invoke methods for the particular classes that we have set up Logify for, you will see that these methods are logged along with the value of their arguments.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/9.png" width="1263" height="358" alt="9"></p>
-
-<p>Logify can be a very useful tool in figuring out the order in which methods are called and hence deducing a lot about the flow of the application.</p>
-
-
-
 ]]></content>
   </entry>
   
