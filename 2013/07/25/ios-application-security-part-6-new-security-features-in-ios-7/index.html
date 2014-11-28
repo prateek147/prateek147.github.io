@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>IOS Application Security Part 6 - New Security Features in IOS 7 - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 6 - New Security Features in iOS 7 - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="IOS Application Security Part 6 - New Security Features in IOS 7 Jul 25th, 2013 Posted by Prateek Gianchandani As we all know, Apple recently &hellip;">
+  <meta name="description" content="iOS Application Security Part 6 - New Security Features in iOS 7 Jul 25th, 2013 Posted by Prateek Gianchandani As we all know, Apple recently &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    IOS Application Security Part 6 - New Security Features in IOS 7
+    iOS Application Security Part 6 - New Security Features in iOS 7
 	<h5>
 
 
@@ -133,7 +133,7 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>As we all know, Apple recently introducted its new version of IOS at WWDC 2013 with a completely redesinged User Interface. If you haven&#8217;t seen it yet, check out this video from WWDC 2013.</p>
+      <p>As we all know, Apple recently introducted its new version of iOS at WWDC 2013 with a completely redesinged User Interface. If you haven&#8217;t seen it yet, check out this video from WWDC 2013.</p>
 
 
 
@@ -143,7 +143,7 @@
 
 
 
-<p>This article will be a small deviation from the other parts in this series. In this articles, we  will discuss about the latest security features introduced in IOS 7.</p>
+<p>This article will be a small deviation from the other parts in this series. In this articles, we  will discuss about the latest security features introduced in iOS 7.</p>
 
 
 
@@ -153,17 +153,17 @@
 
 
 
-<h2>Getting IOS 7.</h2>
+<h2>Getting iOS 7.</h2>
 
 
 
 
-<p>To get IOS 7 beta, you have to be a registered apple developer. Go to http://developer.apple.com  , log in with your registered Apple ID, and go to <a href="https://developer.apple.com/devcenter/ios/index.action#betadownloads">this</a> url. Then click on the IOS 7 SDK tab on the top and click on Downloads. You can then download the latest build of IOS 7 beta.</p>
+<p>To get iOS 7 beta, you have to be a registered apple developer. Go to http://developer.apple.com  , log in with your registered Apple ID, and go to <a href="https://developer.apple.com/devcenter/ios/index.action#betadownloads">this</a> url. Then click on the iOS 7 SDK tab on the top and click on Downloads. You can then download the latest build of iOS 7 beta.</p>
 
 
 <p><img src="/images/posts/ios6/Screen Shot 2013-06-25 at 5.35.32 AM.png" width="1158" height="674" alt="Screen Shot 2013 06 25 At 5.35.32 AM"></p>
 
-<p>Here are some of the new security features introduced with IOS 7.</p>
+<p>Here are some of the new security features introduced with iOS 7.</p>
 
 
 
@@ -203,7 +203,7 @@
 
 
 
-<p>Airdrop lets you share files with anyone around you with just a tap. Airdrop was introduced for IOS with IOS 7. The good thing about this is that the files are encrypted. By default, this service only lets you be visible to only your contacts. But you can change this setting as well.</p>
+<p>Airdrop lets you share files with anyone around you with just a tap. Airdrop was introduced for iOS with iOS 7. The good thing about this is that the files are encrypted. By default, this service only lets you be visible to only your contacts. But you can change this setting as well.</p>
 
 
 <p><img src="/images/posts/ios6/photo0.PNG" width="640" height="1136" alt="Photo0"></p>
@@ -218,12 +218,12 @@
 
 <p><code>Data protection enhances the built-in hardware encryption by protecting the hardware encryption keys with your passcode. This provides an additional layer of protection for your email messages and attachments. Third-party applications can use the data protection APIs in iOS 4 and later to further protect application data.</code></p>
 
-<p>Uptil IOS 6, if you go to <code>Settings -> General -> Passcode</code> and choose a passcode, you will see at the bottom that there is a text saying <code>Data Protection is Enabled</code>. This meant that data protection was enabled for the default Apple apps that come with IOS 6.</p>
+<p>Uptil iOS 6, if you go to <code>Settings -> General -> Passcode</code> and choose a passcode, you will see at the bottom that there is a text saying <code>Data Protection is Enabled</code>. This meant that data protection was enabled for the default Apple apps that come with iOS 6.</p>
 
 
 <p><img src="/images/posts/ios6/photo.PNG" width="480" height="640" alt="Photo"></p>
 
-<p>Previously, the developers had to use the Data protection API to make the data in their apps secure. Now, with IOS 7, all the third-party apps have data protection enabled automatically, which means that the information contained within them is secure until the user unlocks the device. As we know, by default, Apple allows for a 4 digit passcode that can easily be bruteforced. Hence it is advisable to use better passcodes for enhanced security.</p>
+<p>Previously, the developers had to use the Data protection API to make the data in their apps secure. Now, with iOS 7, all the third-party apps have data protection enabled automatically, which means that the information contained within them is secure until the user unlocks the device. As we know, by default, Apple allows for a 4 digit passcode that can easily be bruteforced. Hence it is advisable to use better passcodes for enhanced security.</p>
 
 
 
@@ -233,7 +233,7 @@
 
 
 
-<p>If you play games regularly on IOS and regularly use Game Center to challenge friends for a game or just check out some scores, you might have noticed some exceptionally high scores for some particular games. Usually, these are not legitimate scores but are scores that have been tampered with.Hackers exploit vulnerabilities in the api or sometimes modify variables in the app during runtime to create such high scores. With IOS 7, Apple has now allowed developers to make sure such tampering with the scores doesn&#8217;t happen. Now, developers can set a maximum score for every game. This way, the people with unusually high scores will not show up in the leaderboard but will still be saved on the server. The developers can later allow these unusually high scores to show up if they want. Apple has also added some tools for developers to spy on any suspicious activity by a user, and in such a case, block that user. Apple is also integrating signed submissions into Game Center which means that Apple can reject scores that it believes have been tampered with. It isn&#8217;t sure how they do it though.</p>
+<p>If you play games regularly on iOS and regularly use Game Center to challenge friends for a game or just check out some scores, you might have noticed some exceptionally high scores for some particular games. Usually, these are not legitimate scores but are scores that have been tampered with.Hackers exploit vulnerabilities in the api or sometimes modify variables in the app during runtime to create such high scores. With iOS 7, Apple has now allowed developers to make sure such tampering with the scores doesn&#8217;t happen. Now, developers can set a maximum score for every game. This way, the people with unusually high scores will not show up in the leaderboard but will still be saved on the server. The developers can later allow these unusually high scores to show up if they want. Apple has also added some tools for developers to spy on any suspicious activity by a user, and in such a case, block that user. Apple is also integrating signed submissions into Game Center which means that Apple can reject scores that it believes have been tampered with. It isn&#8217;t sure how they do it though.</p>
 
 
 
@@ -243,7 +243,7 @@
 
 
 
-<p>Most of us might have used the Safari AutoFill feature. With IOS 7, Safari now remembers much more information like username, password, credit card numbers etc and saves it in the keychain. It then automatically fills that info whenever a user visits a website. All this information is encrypted using 256-bit AES encryption. This keychain can also be synced via iCloud. Also, creating a new password for every new site that you sign in for may be a bit irritating and also tough to remember. Safari comes with a built in password generator that creates a unique password for every site that you sign in and then remembers it so you don&#8217;t have to remember it yourself.</p>
+<p>Most of us might have used the Safari AutoFill feature. With iOS 7, Safari now remembers much more information like username, password, credit card numbers etc and saves it in the keychain. It then automatically fills that info whenever a user visits a website. All this information is encrypted using 256-bit AES encryption. This keychain can also be synced via iCloud. Also, creating a new password for every new site that you sign in for may be a bit irritating and also tough to remember. Safari comes with a built in password generator that creates a unique password for every site that you sign in and then remembers it so you don&#8217;t have to remember it yourself.</p>
 
 
 
@@ -253,12 +253,12 @@
 
 
 
-<p>Sometimes, users want to access confidential information over a secure channel, and hence they use a VPN. With IOS 7, Apple allows users to use different VPN&#8217;s for every app. This is really useful when you want to access your office related information through a VPN provided by your office but for other apps, you are better off using another VPN. This feature will also be useful for government employees who want to acccess confidential data through their mobile apps.</p>
+<p>Sometimes, users want to access confidential information over a secure channel, and hence they use a VPN. With iOS 7, Apple allows users to use different VPN&#8217;s for every app. This is really useful when you want to access your office related information through a VPN provided by your office but for other apps, you are better off using another VPN. This feature will also be useful for government employees who want to acccess confidential data through their mobile apps.</p>
 
 
 <p></p>
 
-<p>If you are an IOS developer and want to learn about the new things introduced with IOS 7, you can check out the WWDC 2013 videos here https://developer.apple.com/wwdc/videos/ </p>
+<p>If you are an iOS developer and want to learn about the new things introduced with iOS 7, you can check out the WWDC 2013 videos here https://developer.apple.com/wwdc/videos/ </p>
 
 
 <p><b>References:</b></p>
@@ -324,7 +324,7 @@
             <a class="basic-alignment left" href="/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix" title="Previous Post: IOS 7 Beta 3 : Some bugs that i want Apple to Fix !">&laquo; IOS 7 Beta 3 : Some bugs that i want Apple to Fix !</a>
           
           
-            <a class="basic-alignment right" href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account" title="Next Post: IOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account">IOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account &raquo;</a>
+            <a class="basic-alignment right" href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account" title="Next Post: iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account">iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account &raquo;</a>
           
         </p>
       </div>

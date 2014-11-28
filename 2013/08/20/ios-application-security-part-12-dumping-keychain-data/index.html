@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>IOS Application Security Part 12 – Dumping Keychain Data - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 12 – Dumping Keychain Data - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="IOS Application Security Part 12 – Dumping Keychain Data Aug 20th, 2013 Posted by Prateek Gianchandani In the previous article, we looked at the &hellip;">
+  <meta name="description" content="iOS Application Security Part 12 – Dumping Keychain Data Aug 20th, 2013 Posted by Prateek Gianchandani In the previous article, we looked at the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    IOS Application Security Part 12 – Dumping Keychain Data
+    iOS Application Security Part 12 – Dumping Keychain Data
 	<h5>
 
 
@@ -133,7 +133,7 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In the previous article, we looked at the different ways in which we could analyze the network traffic and the api calls being made through an IOS application. In this article, we will look at how we can dump the contents of the Keychain from an IOS device.</p>
+      <p>In the previous article, we looked at the different ways in which we could analyze the network traffic and the api calls being made through an iOS application. In this article, we will look at how we can dump the contents of the Keychain from an iOS device.</p>
 
 
 
@@ -143,7 +143,7 @@
 
 
 
-<p>According to Apple, a Keychain in an IOS device is a secure storage container that can be used to store sensitive infromation like usernames, passwords,network passwords, authentication tokens for different applications. Apple itself uses the Keychain to store Wi-fi network passwords, VPN credentials etc. It&#8217;s a sqlite database file located at <i>/private/var/Keychains/keychain-2.db</i> and all the data stored in it is encrypted. Developers usually want to leverage this feature of the operating system to store credentials rather than storing it themseleves in NSUserDefaults, plist files etc. The reason for this could be that the developer may not want the user to log in everytime and hence store the authentication information somewhere in the device and use it to log in the user automatically whenver the user opens up the app again. The keychain information for every app is stored outside of its sandbox.</p>
+<p>According to Apple, a Keychain in an iOS device is a secure storage container that can be used to store sensitive infromation like usernames, passwords,network passwords, authentication tokens for different applications. Apple itself uses the Keychain to store Wi-fi network passwords, VPN credentials etc. It&#8217;s a sqlite database file located at <i>/private/var/Keychains/keychain-2.db</i> and all the data stored in it is encrypted. Developers usually want to leverage this feature of the operating system to store credentials rather than storing it themseleves in NSUserDefaults, plist files etc. The reason for this could be that the developer may not want the user to log in everytime and hence store the authentication information somewhere in the device and use it to log in the user automatically whenver the user opens up the app again. The keychain information for every app is stored outside of its sandbox.</p>
 
 
 
@@ -271,12 +271,12 @@
 
 <p><img src="/images/posts/ios12/5.png" width="679" height="475" alt="5"></p>
 
-<p>One of the things that could make the information in the keychain more secure is using a strong passcode. This is because the passcode is used to encrypt the data in the keychain for specific protection attributes and hence having a strong passcode would enforce better security. IOS by default allows for a 4 digit passcode which could range from 0-9999 and hence could be bruteforced in a few minutes. We will look at bruteforcing passcodes later in this series. But there is also another option to set alphanumeric passwords which would take significantly more time to be  bruteforced. A combination of a proper protection attribute combined with a strong passcode will help in keeping the data in the keychain much more difficult to be fetched out.</p>
+<p>One of the things that could make the information in the keychain more secure is using a strong passcode. This is because the passcode is used to encrypt the data in the keychain for specific protection attributes and hence having a strong passcode would enforce better security. iOS by default allows for a 4 digit passcode which could range from 0-9999 and hence could be bruteforced in a few minutes. We will look at bruteforcing passcodes later in this series. But there is also another option to set alphanumeric passwords which would take significantly more time to be  bruteforced. A combination of a proper protection attribute combined with a strong passcode will help in keeping the data in the keychain much more difficult to be fetched out.</p>
 
 
 <p><b>Conclusion</b></p>
 
-<p>In this article, we looked at how easy it is to dump information from the Keychain of an IOS device. Even though keychain is a much better place of storing credentials and sensitive information than something like NSUserDefaults or plist files, it is however not difficult to break into it either.</p>
+<p>In this article, we looked at how easy it is to dump information from the Keychain of an iOS device. Even though keychain is a much better place of storing credentials and sensitive information than something like NSUserDefaults or plist files, it is however not difficult to break into it either.</p>
 
 
 <p><b>References</b></p>
@@ -336,7 +336,7 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https" title="Previous Post: IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS">&laquo; IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS</a>
+            <a class="basic-alignment left" href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https" title="Previous Post: iOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS">&laquo; iOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS</a>
           
           
             <a class="basic-alignment right" href="/2013/08/23/what-to-expect-from-iphone-5s-slash-5c" title="Next Post: What to expect from the new iPhone (5S/5C) - Rumor roundup">What to expect from the new iPhone (5S/5C) - Rumor roundup &raquo;</a>

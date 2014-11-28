@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-11-25T01:24:07+04:00</updated>
+  <updated>2014-11-28T18:03:09+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -177,17 +177,17 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 
-<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn&#8217;t able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-ios/">here</a> and it&#8217;s quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don&#8217;t need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
+<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn&#8217;t able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-iOS/">here</a> and it&#8217;s quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don&#8217;t need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
 
 
 
 
-<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
+<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/iOS-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
 
 
 
 
-<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it&#8217;s <a href="https://github.com/iSECPartners/ios-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
+<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it&#8217;s <a href="https://github.com/iSECPartners/iOS-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
 
 
 
@@ -204,7 +204,7 @@ By default, when making an SSL connection, the client checks that the server’s
 <p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
+<p><img src="http://prateek147.github.io/images/posts/iOS36/1.png" width="967" height="134" alt="1"></p>
 
 <p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
 
@@ -214,17 +214,17 @@ By default, when making an SSL connection, the client checks that the server’s
 <p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
+<p><img src="http://prateek147.github.io/images/posts/iOS36/2.png" width="832" height="254" alt="2"></p>
 
 <p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
+<p><img src="http://prateek147.github.io/images/posts/iOS36/3.png" width="1045" height="451" alt="3"></p>
 
 <p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
+<p><img src="http://prateek147.github.io/images/posts/iOS36/4.png" width="598" height="123" alt="4"></p>
 
 <p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
 
@@ -792,7 +792,7 @@ By default, when making an SSL connection, the client checks that the server’s
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 31 - The problem with using third party libraries for securing your apps]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 31 - The problem with using third party libraries for securing your apps]]></title>
     <link href="http://prateek147.github.io/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps"/>
     <updated>2014-03-18T17:40:00+04:00</updated>
     <id>http://prateek147.github.io/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps</id>
@@ -861,7 +861,7 @@ By default, when making an SSL connection, the client checks that the server’s
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 30 - Attacking URL schemes]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 30 - Attacking URL schemes]]></title>
     <link href="http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes"/>
     <updated>2014-03-07T01:25:00+04:00</updated>
     <id>http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes</id>
@@ -958,11 +958,11 @@ By default, when making an SSL connection, the client checks that the server’s
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 29 - Insecure or Broken Cryptography]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 29 - Insecure or Broken Cryptography]]></title>
     <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography"/>
     <updated>2014-01-17T21:41:00+04:00</updated>
     <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography</id>
-    <content type="html"><![CDATA[<p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most IOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
+    <content type="html"><![CDATA[<p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most iOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
 
 
 
@@ -997,7 +997,7 @@ By default, when making an SSL connection, the client checks that the server’s
 
 <p><img src="http://prateek147.github.io/images/posts/ios29/3.png" width="399" height="353" alt="3"></p>
 
-<p>If you have successfully run the application using Xcode, it will install the application in the IOS simulator. Now our task is to find the location of the application binary on our system so we can provide it to Hopper. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 7.0.3/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command ls -al will give you the created date of these folders. The latest one would be our application.</p>
+<p>If you have successfully run the application using Xcode, it will install the application in the iOS simulator. Now our task is to find the location of the application binary on our system so we can provide it to Hopper. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 7.0.3/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command ls -al will give you the created date of these folders. The latest one would be our application.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios29/4.png" width="907" height="346" alt="4"></p>
@@ -1027,7 +1027,7 @@ By default, when making an SSL connection, the client checks that the server’s
 
 <p><img src="http://prateek147.github.io/images/posts/ios29/9.png" width="338" height="586" alt="9"></p>
 
-<p>And if you are a bit familiar with IOS development you should know that if the current view controller is a delegate of this text field, then the method that will be called is <i>-(BOOL)textFieldShouldReturn:(UITextField *)textField</i>. So lets search for this method in the labels section.</p>
+<p>And if you are a bit familiar with iOS development you should know that if the current view controller is a delegate of this text field, then the method that will be called is <i>-(BOOL)textFieldShouldReturn:(UITextField *)textField</i>. So lets search for this method in the labels section.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios29/10.png" width="1440" height="811" alt="10"></p>
@@ -1387,7 +1387,7 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 
-<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let&#8217;s write a simple IOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application&#8217;s sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
+<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let&#8217;s write a simple iOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application&#8217;s sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
 
 
 
@@ -1430,7 +1430,7 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 
-<p>In the next article, we will look at Client Side Injection in IOS Applications.</p>
+<p>In the next article, we will look at Client Side Injection in iOS Applications.</p>
 
 
 <p>*</p>
@@ -1438,11 +1438,11 @@ By default, when making an SSL connection, the client checks that the server’s
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 28 - Patching IOS Application with Hopper]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 28 - Patching iOS Application with Hopper]]></title>
     <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper"/>
     <updated>2014-01-17T21:41:00+04:00</updated>
     <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper</id>
-    <content type="html"><![CDATA[<p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an IOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn&#8217;t have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
+    <content type="html"><![CDATA[<p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an iOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn&#8217;t have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
 
 
 
@@ -1487,7 +1487,7 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 
-<p>Once you have downloaded the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application, run it using Xcode. This will install the application in the IOS simulator. Now our task is to find the location of the application binary on our system. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the created date of these folders. The latest one would be our application.</p>
+<p>Once you have downloaded the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application, run it using Xcode. This will install the application in the iOS simulator. Now our task is to find the location of the application binary on our system. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the created date of these folders. The latest one would be our application.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios28/4.png" width="1145" height="239" alt="4"></p>
@@ -1593,11 +1593,11 @@ By default, when making an SSL connection, the client checks that the server’s
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 27 - Setting up a mobile pentesting environment with IOS 7 Jailbreak]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 27 - Setting up a mobile pentesting environment with iOS 7 Jailbreak]]></title>
     <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak"/>
     <updated>2014-01-17T21:35:00+04:00</updated>
     <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak</id>
-    <content type="html"><![CDATA[<p>In this article we will look at how we can set up a mobile pentesting platform on our device with the new IOS 7 jailbreak. There has been quite a lot of discussion on the web about whether it is safe for a user to jailbreak their devices yet. However, if you are really interested in IOS pentesting then there is no absolutely no reason now why you shouldn&#8217;t jailbreak your device. Since this jailbreak was launched by the evasi0n team without any prior notice to the developers, most of the tweaks didn&#8217;t work with IOS 7 when the jailbreak was first made public. One of the most critical pieces of software Mobile Substrate which is used in many tweaks initially didn&#8217;t work on IOS 7. However, things have settled down since then. An update for Mobile Substrate (named Cydia Substrate) was released a few weeks back and many tweaks were also updated for IOS 7. Some things however don&#8217;t work well on IOS 7 devices. In this article, we will look at all those things which we need to do to set up a proper pentesting platform on a device running IOS 7. </p>
+    <content type="html"><![CDATA[<p>In this article we will look at how we can set up a mobile pentesting platform on our device with the new iOS 7 jailbreak. There has been quite a lot of discussion on the web about whether it is safe for a user to jailbreak their devices yet. However, if you are really interested in iOS pentesting then there is no absolutely no reason now why you shouldn&#8217;t jailbreak your device. Since this jailbreak was launched by the evasi0n team without any prior notice to the developers, most of the tweaks didn&#8217;t work with iOS 7 when the jailbreak was first made public. One of the most critical pieces of software Mobile Substrate which is used in many tweaks initially didn&#8217;t work on iOS 7. However, things have settled down since then. An update for Mobile Substrate (named Cydia Substrate) was released a few weeks back and many tweaks were also updated for iOS 7. Some things however don&#8217;t work well on iOS 7 devices. In this article, we will look at all those things which we need to do to set up a proper pentesting platform on a device running iOS 7. </p>
 
 
 
@@ -1612,12 +1612,12 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 
-<p>You can jailbreak your device by downloading the evasi0n software from evasi0n.com . The current jailbreak supports devices upto the latest IOS version, which is 7.0.4. Once it is downloaded on your computer, just connect your device to your computer through USB, open evasi0n and click on Jailbreak to start the jailbreak process. In my case, the device is already jailbroken so i don&#8217;t need to jailbreak it again.</p>
+<p>You can jailbreak your device by downloading the evasi0n software from evasi0n.com . The current jailbreak supports devices upto the latest iOS version, which is 7.0.4. Once it is downloaded on your computer, just connect your device to your computer through USB, open evasi0n and click on Jailbreak to start the jailbreak process. In my case, the device is already jailbroken so i don&#8217;t need to jailbreak it again.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios27/1.png" width="480" height="361" alt="1"></p>
 
-<p>Follow the instructions given by the software. Once the jailbreak is finished, you will see a new application named Cydia installed on your device. The very first thing you need to do is to install new version of Mobile Substrate for IOS 7 (called the Cydia Substrate) and Substrate safe mode. Mobile Substrate is a very important piece of software as most of the tweaks depend on it to function properly. Substrate safe mode allows a device to reboot in a safe mode without any of the tweaks for a situation where tweaks may cause problems for your device and the device starts disfunctioning.</p>
+<p>Follow the instructions given by the software. Once the jailbreak is finished, you will see a new application named Cydia installed on your device. The very first thing you need to do is to install new version of Mobile Substrate for iOS 7 (called the Cydia Substrate) and Substrate safe mode. Mobile Substrate is a very important piece of software as most of the tweaks depend on it to function properly. Substrate safe mode allows a device to reboot in a safe mode without any of the tweaks for a situation where tweaks may cause problems for your device and the device starts disfunctioning.</p>
 
 
 
@@ -1668,14 +1668,14 @@ E: Unable to lock the administration directory (/var/lib/dpkg/), is another proc
 
 
 
-<p>Another imporant tool is class-dump-z. As of today (Jan 10, 2014), the original class-dump-z doesn&#8217;t work with IOS 7 devices. However, you can see the class information using the old tool class-dump.</p>
+<p>Another imporant tool is class-dump-z. As of today (Jan 10, 2014), the original class-dump-z doesn&#8217;t work with iOS 7 devices. However, you can see the class information using the old tool class-dump.</p>
 
 
 <p></p>
 
 <p><img src="http://prateek147.github.io/images/posts/ios27/9.png" width="835" height="315" alt="9"></p>
 
-<p>As far as cycript is concerned, it also gives a Segmentation fault when run against IOS 7 devices. However, if you install an older version, i.e 0.9.458
+<p>As far as cycript is concerned, it also gives a Segmentation fault when run against iOS 7 devices. However, if you install an older version, i.e 0.9.458
     or previous, it does seem to work but with limited functionality.So assuming there was some issue with Mobile Substrate not working properly, i jailbreaked my device again. After this, i was able to successfully run cycript properly with complete functionality.</p>
 
 
@@ -1691,13 +1691,13 @@ E: Unable to lock the administration directory (/var/lib/dpkg/), is another proc
 
 
 
-<p>So these are all the things that you need to setup a Mobile Pentesting platform on IOS 7. If you have any suggestions, please add it in the comments and i will include it in the article. In the next article, we will learn about Application Patching using a pretty awesome tool called Hopper.</p>
+<p>So these are all the things that you need to setup a Mobile Pentesting platform on iOS 7. If you have any suggestions, please add it in the comments and i will include it in the article. In the next article, we will learn about Application Patching using a pretty awesome tool called Hopper.</p>
 
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 26 – Patching IOS Applications using IDA Pro and Hex Fiend]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 26 – Patching iOS Applications using IDA Pro and Hex Fiend]]></title>
     <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend"/>
     <updated>2013-12-17T13:08:00+04:00</updated>
     <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend</id>
@@ -1853,22 +1853,22 @@ E: Unable to lock the administration directory (/var/lib/dpkg/), is another proc
 
 <p><img src="http://prateek147.github.io/images/posts/ios26/19.png" style="width: 90%; height: 90%"/></p>
 
-<p>Now save your changes and exit Hexfiend. As you remember, we had installed the app previously in the simulator. So fire up the IOS simulator, quit the GDB-Demo app if it is running and open it again. Now just tap on Login without entering anything in the username and password. It will direct you to the admin page.</p>
+<p>Now save your changes and exit Hexfiend. As you remember, we had installed the app previously in the simulator. So fire up the iOS simulator, quit the GDB-Demo app if it is running and open it again. Now just tap on Login without entering anything in the username and password. It will direct you to the admin page.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios26/20.png" style="width: 20%; height: 20%"/></p>
 
-<p>Perfect, we just patched a binary using old school techniques. In the next article, we will look at a tool named Hopper and learn how to patch IOS applications using it. </p>
+<p>Perfect, we just patched a binary using old school techniques. In the next article, we will look at a tool named Hopper and learn how to patch iOS applications using it. </p>
 
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 25 – Secure Coding Practices for IOS Development]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 25 – Secure Coding Practices for iOS Development]]></title>
     <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development"/>
     <updated>2013-12-17T13:07:00+04:00</updated>
     <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at some of the best practices an IOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
+    <content type="html"><![CDATA[<p>In this article, we will look at some of the best practices an iOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
 
 
 
@@ -1889,7 +1889,7 @@ E: Unable to lock the administration directory (/var/lib/dpkg/), is another proc
 
 
 <ul>
-    <li>Important data like Passwords, Session ID&#8217;s etc should never be stored locally on the device. If there is no other option, it should be stored on the keychain. This is because you can be assured that the hacker won&#8217;t be able to find out the data in your keychain as long as the user&#8217;s device is not jailbroken. Since more than 70% people have upgraded their IOS devices to IOS 7 and since there is no public jailbreak for IOS 7 yet, you can be assured that the hacker won&#8217;t be able to get the information stored in your keychain (yet). Some people might say that the process of storing data in the keychain isn&#8217;t as simple as saving data in NSUserDefaults. But we can always use third-party wrappers that can make the job extremely simple for us. For e.g, <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">here</a> is an article that demonstrates the use of a wrapper named PDKeychainBindings and show how simple it is to save data in the keychain. Here is a snippet of code for saving data in the keychain using this wrapper.</li>
+    <li>Important data like Passwords, Session ID&#8217;s etc should never be stored locally on the device. If there is no other option, it should be stored on the keychain. This is because you can be assured that the hacker won&#8217;t be able to find out the data in your keychain as long as the user&#8217;s device is not jailbroken. Since more than 70% people have upgraded their iOS devices to iOS 7 and since there is no public jailbreak for iOS 7 yet, you can be assured that the hacker won&#8217;t be able to get the information stored in your keychain (yet). Some people might say that the process of storing data in the keychain isn&#8217;t as simple as saving data in NSUserDefaults. But we can always use third-party wrappers that can make the job extremely simple for us. For e.g, <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">here</a> is an article that demonstrates the use of a wrapper named PDKeychainBindings and show how simple it is to save data in the keychain. Here is a snippet of code for saving data in the keychain using this wrapper.</li>
     
 <pre>
 PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
@@ -1974,7 +1974,7 @@ PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
 
 
 <ul>
-    <li>TextFields that have inputs as passwords should be used with <i>Secure</i> option. This is because IOS usually caches all the things that you enter in textfields, provided it doesn&#8217;t have the <i>Secure</i> tag. Also disable <i>AutoCorrection</i> for those text fields. In the image below, you can see that the  textfield has <i>AutoCorrection</i> set to NO and the <i>Secure</i> tag is being enabled.</li>
+    <li>TextFields that have inputs as passwords should be used with <i>Secure</i> option. This is because iOS usually caches all the things that you enter in textfields, provided it doesn&#8217;t have the <i>Secure</i> tag. Also disable <i>AutoCorrection</i> for those text fields. In the image below, you can see that the  textfield has <i>AutoCorrection</i> set to NO and the <i>Secure</i> tag is being enabled.</li>
     
     <img src="http://prateek147.github.io/images/posts/ios25/2.png" width="674" height="192" alt="2">
     
@@ -2014,7 +2014,7 @@ Since the skype app didn&#8217;t prompt the user before making the call, the cal
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 24 – Jailbreak Detection and Evasion]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 24 – Jailbreak Detection and Evasion]]></title>
     <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion"/>
     <updated>2013-12-17T12:33:00+04:00</updated>
     <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion</id>
@@ -2184,11 +2184,11 @@ Since the skype app didn&#8217;t prompt the user before making the call, the cal
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 23 – Defending against runtime analysis and manipulation]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 23 – Defending against runtime analysis and manipulation]]></title>
     <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation"/>
     <updated>2013-12-17T10:37:00+04:00</updated>
     <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation</id>
-    <content type="html"><![CDATA[<p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of IOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application&#8217;s binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
+    <content type="html"><![CDATA[<p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of iOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application&#8217;s binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
 
 
 
@@ -2296,11 +2296,11 @@ Since the skype app didn&#8217;t prompt the user before making the call, the cal
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB]]></title>
+    <title type="html"><![CDATA[iOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB]]></title>
     <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb"/>
     <updated>2013-12-17T10:11:00+04:00</updated>
     <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at how we can use GDB to perform runtime analysis of IOS applications. In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use Cycript to analyze and manipulate the runtime behaviour of IOS applications. We have learnt how we can perform method <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzling</a> and have our own methods being called instead of the original implementations. So why we do need GDB ? Well, what Cycript doesn&#8217;t allow us to do yet is set breakpoints and alter the values of variables and registers after a particular instruction. With GDB, we can dive deep into the application, observe the low level assembly instructions, manipulate the values in the registers and hence change the application flow completely.</p>
+    <content type="html"><![CDATA[<p>In this article, we will look at how we can use GDB to perform runtime analysis of iOS applications. In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use Cycript to analyze and manipulate the runtime behaviour of iOS applications. We have learnt how we can perform method <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzling</a> and have our own methods being called instead of the original implementations. So why we do need GDB ? Well, what Cycript doesn&#8217;t allow us to do yet is set breakpoints and alter the values of variables and registers after a particular instruction. With GDB, we can dive deep into the application, observe the low level assembly instructions, manipulate the values in the registers and hence change the application flow completely.</p>
 
 
 
@@ -2361,7 +2361,7 @@ Since the skype app didn&#8217;t prompt the user before making the call, the cal
 
 <p><img src="http://prateek147.github.io/images/posts/ios22/10.png" width="714" height="88" alt="10"></p>
 
-<p>Now a wise thing to do here would be enter the username as <i>Admin</i> in the app again. This is because the flow may not reach a point where the password is being checked. So now lets enter the username as <i>Admin</i> and enter anything as password. Now lets sets the breakpoints again and see if we can figure out the password as well. After some time doing the same process, we hit another breakpoint where the method isEqualToString: is being called. On printing the value of r2, we can see that the password is <i>HELLOIOSAPPLICATIONEXPERTS</i>.</p>
+<p>Now a wise thing to do here would be enter the username as <i>Admin</i> in the app again. This is because the flow may not reach a point where the password is being checked. So now lets enter the username as <i>Admin</i> and enter anything as password. Now lets sets the breakpoints again and see if we can figure out the password as well. After some time doing the same process, we hit another breakpoint where the method isEqualToString: is being called. On printing the value of r2, we can see that the password is <i>HELLOiOSAPPLICATIONEXPERTS</i>.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios22/11.png" width="698" height="94" alt="11"></p>
@@ -2395,7 +2395,7 @@ Since the skype app didn&#8217;t prompt the user before making the call, the cal
 
 <pre>
     - (IBAction)loginButtonTapped:(id)sender {
-      if([_usernameTextField.text isEqualToString:@"Admin"] && [_passwordTextField.text isEqualToString:@"HELLOIOSAPPLICATIONEXPERTS"]){
+      if([_usernameTextField.text isEqualToString:@"Admin"] && [_passwordTextField.text isEqualToString:@"HELLOiOSAPPLICATIONEXPERTS"]){
         [self performSegueWithIdentifier:@"adminPage" sender:self];
       }else{
         [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Username or password" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];

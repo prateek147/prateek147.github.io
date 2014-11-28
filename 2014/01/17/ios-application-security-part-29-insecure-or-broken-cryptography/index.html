@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>IOS Application Security Part 29 - Insecure or Broken Cryptography - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 29 - Insecure or Broken Cryptography - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="IOS Application Security Part 29 - Insecure or Broken Cryptography Jan 17th, 2014 Posted by Prateek Gianchandani In this article we will look at an &hellip;">
+  <meta name="description" content="iOS Application Security Part 29 - Insecure or Broken Cryptography Jan 17th, 2014 Posted by Prateek Gianchandani In this article we will look at an &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    IOS Application Security Part 29 - Insecure or Broken Cryptography
+    iOS Application Security Part 29 - Insecure or Broken Cryptography
 	<h5>
 
 
@@ -133,7 +133,7 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most IOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
+      <p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most iOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
 
 
 
@@ -168,7 +168,7 @@
 
 <p><img src="/images/posts/ios29/3.png" width="399" height="353" alt="3"></p>
 
-<p>If you have successfully run the application using Xcode, it will install the application in the IOS simulator. Now our task is to find the location of the application binary on our system so we can provide it to Hopper. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 7.0.3/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command ls -al will give you the created date of these folders. The latest one would be our application.</p>
+<p>If you have successfully run the application using Xcode, it will install the application in the iOS simulator. Now our task is to find the location of the application binary on our system so we can provide it to Hopper. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 7.0.3/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command ls -al will give you the created date of these folders. The latest one would be our application.</p>
 
 
 <p><img src="/images/posts/ios29/4.png" width="907" height="346" alt="4"></p>
@@ -198,7 +198,7 @@
 
 <p><img src="/images/posts/ios29/9.png" width="338" height="586" alt="9"></p>
 
-<p>And if you are a bit familiar with IOS development you should know that if the current view controller is a delegate of this text field, then the method that will be called is <i>-(BOOL)textFieldShouldReturn:(UITextField *)textField</i>. So lets search for this method in the labels section.</p>
+<p>And if you are a bit familiar with iOS development you should know that if the current view controller is a delegate of this text field, then the method that will be called is <i>-(BOOL)textFieldShouldReturn:(UITextField *)textField</i>. So lets search for this method in the labels section.</p>
 
 
 <p><img src="/images/posts/ios29/10.png" width="1440" height="811" alt="10"></p>
@@ -558,7 +558,7 @@
 
 
 
-<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let&#8217;s write a simple IOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application&#8217;s sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
+<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let&#8217;s write a simple iOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application&#8217;s sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
 
 
 
@@ -601,7 +601,7 @@
 
 
 
-<p>In the next article, we will look at Client Side Injection in IOS Applications.</p>
+<p>In the next article, we will look at Client Side Injection in iOS Applications.</p>
 
 
 <p>*</p>
@@ -655,7 +655,7 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper" title="Previous Post: IOS Application Security Part 28 - Patching IOS Application with Hopper">&laquo; IOS Application Security Part 28 - Patching IOS Application with Hopper</a>
+            <a class="basic-alignment left" href="/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper" title="Previous Post: iOS Application Security Part 28 - Patching iOS Application with Hopper">&laquo; iOS Application Security Part 28 - Patching iOS Application with Hopper</a>
           
           
             <a class="basic-alignment right" href="/2014/03/06/gdb-issue" title="Next Post: GDB segmentation fault issue fix with jailbroken device">GDB segmentation fault issue fix with jailbroken device &raquo;</a>

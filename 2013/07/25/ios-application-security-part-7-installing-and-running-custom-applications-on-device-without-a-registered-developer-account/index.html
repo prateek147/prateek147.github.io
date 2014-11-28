@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>IOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="IOS Application Security Part 7 - Installing and Running Custom Applications on Device Without a Registered Developer Account Jul 25th, 2013 Posted &hellip;">
+  <meta name="description" content="iOS Application Security Part 7 - Installing and Running Custom Applications on Device Without a Registered Developer Account Jul 25th, 2013 Posted &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    IOS Application Security Part 7 - Installing and Running Custom Applications on Device Without a Registered Developer Account
+    iOS Application Security Part 7 - Installing and Running Custom Applications on Device Without a Registered Developer Account
 	<h5>
 
 
@@ -133,7 +133,7 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn IOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
+      <p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn iOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
 
 
 
@@ -143,7 +143,7 @@
 
 
 
-<p>This article will focus on running custom apps on device using Xcode 4.5.2 on IOS 5.1 . This same technique might or might not work on other versions of IOS or Xcode. If you face some problems running the application on device, please drop a comment and i will respond to that asap.</p>
+<p>This article will focus on running custom apps on device using Xcode 4.5.2 on iOS 5.1 . This same technique might or might not work on other versions of iOS or Xcode. If you face some problems running the application on device, please drop a comment and i will respond to that asap.</p>
 
 
 
@@ -202,12 +202,12 @@
 
 <p><img src="/images/posts/ios7/10.png" width="734" height="492" alt="10"></p>
 
-<p>Since we will be running this app on a device running IOS 5.1, we need to make sure the deployment target matches that. Tap on the project name in the <code>Project Navigator</code> on the top left, select the project and then inside <code>Info</code>, set the Deployment target to <code>5.1</code> as shown in the figure below. You can choose your deployment target depending on the operating system you are running your device on.</p>
+<p>Since we will be running this app on a device running iOS 5.1, we need to make sure the deployment target matches that. Tap on the project name in the <code>Project Navigator</code> on the top left, select the project and then inside <code>Info</code>, set the Deployment target to <code>5.1</code> as shown in the figure below. You can choose your deployment target depending on the operating system you are running your device on.</p>
 
 
 <p><img src="/images/posts/ios7/11.png" width="883" height="382" alt="11"></p>
 
-<p>For cases where we are running the app on IOS 5.1, since we have a storyboard in this app, and because IOS 5.1 does not support the Autolayout feature in Storyboards, the app will crash. Hence make sure that the <code>Use Autolayout</code> option is not selected on the storyboard.</p>
+<p>For cases where we are running the app on iOS 5.1, since we have a storyboard in this app, and because iOS 5.1 does not support the Autolayout feature in Storyboards, the app will crash. Hence make sure that the <code>Use Autolayout</code> option is not selected on the storyboard.</p>
 
 
 <p><img src="/images/posts/ios7/12.png" width="256" height="112" alt="12"></p>
@@ -248,7 +248,7 @@
 <p><img src="/images/posts/ios7/17.png" width="1019" height="94" alt="17">
 <img src="/images/posts/ios7/18.png" width="299" height="27" alt="18"></p>
 
-<p>Now create a folder named Payload, put the SelfSigned.app file under it, compress that folder (it will be initially named as Payload.zip) and name it SelfSigned.ipa .As we saw in part 2 of this series, this is the bundle in which IOS applications are stored.</p>
+<p>Now create a folder named Payload, put the SelfSigned.app file under it, compress that folder (it will be initially named as Payload.zip) and name it SelfSigned.ipa .As we saw in part 2 of this series, this is the bundle in which iOS applications are stored.</p>
 
 
 
@@ -337,10 +337,10 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7" title="Previous Post: IOS Application Security Part 6 - New Security Features in IOS 7">&laquo; IOS Application Security Part 6 - New Security Features in IOS 7</a>
+            <a class="basic-alignment left" href="/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7" title="Previous Post: iOS Application Security Part 6 - New Security Features in iOS 7">&laquo; iOS Application Security Part 6 - New Security Features in iOS 7</a>
           
           
-            <a class="basic-alignment right" href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript" title="Next Post: IOS Application Security Part 8 -  Method Swizzling using Cycript">IOS Application Security Part 8 -  Method Swizzling using Cycript &raquo;</a>
+            <a class="basic-alignment right" href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript" title="Next Post: iOS Application Security Part 8 -  Method Swizzling using Cycript">iOS Application Security Part 8 -  Method Swizzling using Cycript &raquo;</a>
           
         </p>
       </div>

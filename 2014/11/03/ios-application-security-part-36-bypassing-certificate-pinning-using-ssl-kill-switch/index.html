@@ -168,17 +168,17 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 
-<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn&#8217;t able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-ios/">here</a> and it&#8217;s quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don&#8217;t need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
+<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn&#8217;t able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-iOS/">here</a> and it&#8217;s quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don&#8217;t need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
 
 
 
 
-<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
+<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/iOS-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
 
 
 
 
-<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it&#8217;s <a href="https://github.com/iSECPartners/ios-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
+<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it&#8217;s <a href="https://github.com/iSECPartners/iOS-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
 
 
 
@@ -195,7 +195,7 @@ By default, when making an SSL connection, the client checks that the server’s
 <p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
 
 
-<p><img src="/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
+<p><img src="/images/posts/iOS36/1.png" width="967" height="134" alt="1"></p>
 
 <p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
 
@@ -205,17 +205,17 @@ By default, when making an SSL connection, the client checks that the server’s
 <p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
 
 
-<p><img src="/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
+<p><img src="/images/posts/iOS36/2.png" width="832" height="254" alt="2"></p>
 
 <p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
 
 
-<p><img src="/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
+<p><img src="/images/posts/iOS36/3.png" width="1045" height="451" alt="3"></p>
 
 <p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
 
 
-<p><img src="/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
+<p><img src="/images/posts/iOS36/4.png" width="598" height="123" alt="4"></p>
 
 <p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
 

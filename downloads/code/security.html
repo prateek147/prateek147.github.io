@@ -625,7 +625,7 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps">IOS Application Security Part 31 - The problem with using third party libraries for securing your apps</a></h1>
+      <h1 class="link"><a href="/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps">iOS Application Security Part 31 - The problem with using third party libraries for securing your apps</a></h1>
       <p>In this article, we will talk about why we shouldn&rsquo;t completely rely on using third party libraries for securing our apps. Usually, some of the things we try to do in our application are adding checks to detect piracy, jailbroken device etc. It is such a pain to write all the code from scratch which is why we usually resort to using third party libraries that can get the job done for us. In this example, we will be looking at a library named <i>AntiPiracy</i> which can be found on <a href="https://github.com/Shmoopi/AntiPiracy">this</a> url that aims to solve our problem.</p>
 
 <p>On a first glance, it looks amazing .. here is a snippet of the description from it&rsquo;s github page</p>
@@ -737,7 +737,7 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2014/03/07/ios-application-security-part-30-attacking-url-schemes">IOS Application Security Part 30 - Attacking URL schemes</a></h1>
+      <h1 class="link"><a href="/2014/03/07/ios-application-security-part-30-attacking-url-schemes">iOS Application Security Part 30 - Attacking URL schemes</a></h1>
       <p>In this article, we will look at how we can use a feature in iOS named url schemes to exploit an application. URL schemes are used by applications to communicate with each other. Every application can register for a particular url scheme. For e.g, the <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a> registers for the url scheme <i>dvia</i>. This means that any url starting with dvia:// protocol will open up the dvia application. Depending on the parameters and the endpoint in this url, the dvia application can decide what to do it. Another example is the phone application in iOS. It registers for the url scheme <i>tel</i> and a url like tel://1-393-222-2222 will invoke the phone application and call a number. The problem arises when the url is not validated or the user is not prompted for confirmation in the application before making a particular decision. </p>
 
 
@@ -844,8 +844,8 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography">IOS Application Security Part 29 - Insecure or Broken Cryptography</a></h1>
-      <p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most IOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
+      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography">iOS Application Security Part 29 - Insecure or Broken Cryptography</a></h1>
+      <p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most iOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
 
 
 
@@ -904,8 +904,8 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper">IOS Application Security Part 28 - Patching IOS Application with Hopper</a></h1>
-      <p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an IOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn&#8217;t have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
+      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper">iOS Application Security Part 28 - Patching iOS Application with Hopper</a></h1>
+      <p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an iOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn&#8217;t have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
 
 
 
@@ -964,8 +964,8 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak">IOS Application Security Part 27 - Setting up a mobile pentesting environment with IOS 7 Jailbreak</a></h1>
-      <p>In this article we will look at how we can set up a mobile pentesting platform on our device with the new IOS 7 jailbreak. There has been quite a lot of discussion on the web about whether it is safe for a user to jailbreak their devices yet. However, if you are really interested in IOS pentesting then there is no absolutely no reason now why you shouldn&#8217;t jailbreak your device. Since this jailbreak was launched by the evasi0n team without any prior notice to the developers, most of the tweaks didn&#8217;t work with IOS 7 when the jailbreak was first made public. One of the most critical pieces of software Mobile Substrate which is used in many tweaks initially didn&#8217;t work on IOS 7. However, things have settled down since then. An update for Mobile Substrate (named Cydia Substrate) was released a few weeks back and many tweaks were also updated for IOS 7. Some things however don&#8217;t work well on IOS 7 devices. In this article, we will look at all those things which we need to do to set up a proper pentesting platform on a device running IOS 7. </p>
+      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak">iOS Application Security Part 27 - Setting up a mobile pentesting environment with iOS 7 Jailbreak</a></h1>
+      <p>In this article we will look at how we can set up a mobile pentesting platform on our device with the new iOS 7 jailbreak. There has been quite a lot of discussion on the web about whether it is safe for a user to jailbreak their devices yet. However, if you are really interested in iOS pentesting then there is no absolutely no reason now why you shouldn&#8217;t jailbreak your device. Since this jailbreak was launched by the evasi0n team without any prior notice to the developers, most of the tweaks didn&#8217;t work with iOS 7 when the jailbreak was first made public. One of the most critical pieces of software Mobile Substrate which is used in many tweaks initially didn&#8217;t work on iOS 7. However, things have settled down since then. An update for Mobile Substrate (named Cydia Substrate) was released a few weeks back and many tweaks were also updated for iOS 7. Some things however don&#8217;t work well on iOS 7 devices. In this article, we will look at all those things which we need to do to set up a proper pentesting platform on a device running iOS 7. </p>
 
 
 
@@ -1014,7 +1014,7 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IOS Application Security Part 26 – Patching IOS Applications using IDA Pro and Hex Fiend</a></h1>
+      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">iOS Application Security Part 26 – Patching iOS Applications using IDA Pro and Hex Fiend</a></h1>
       <p>In the <a href="http://highaltitudehacks.com/security">previous</a> applications we have looked at how we can hijack method implementations during runtime using Cycript, and even change the logic of the code rather than changing the complete implementation using GDB. All of these things have been done to serve a purpose, which is to make the application do what we want. However, using Cycript or GDB is a bit of a pain as one has to do repeat the same process everytime after you restart the application. This is where patching the application is useful. Once a change has been made in the application&#8217;s binary, its permanent. So you don&#8217;t have to repeat the same process over and over again. Once the binary is patched, you can then run it on a jailbroken device with the changed logic.</p>
 
 
@@ -1069,8 +1069,8 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development">IOS Application Security Part 25 – Secure Coding Practices for IOS Development</a></h1>
-      <p>In this article, we will look at some of the best practices an IOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
+      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development">iOS Application Security Part 25 – Secure Coding Practices for iOS Development</a></h1>
+      <p>In this article, we will look at some of the best practices an iOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
 
 
 
@@ -1129,7 +1129,7 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion">IOS Application Security Part 24 – Jailbreak Detection and Evasion</a></h1>
+      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion">iOS Application Security Part 24 – Jailbreak Detection and Evasion</a></h1>
       <p>In this article, we will look at the checks a developer can incorporate in his application to check whether the device on which the application is running is jailbroken or not. Checking whether a device is jailbroken or not can have many advantages for your application. As we have already seen, an attacker can run tools like Cycript, GDB, Snoop-it etc to perform runtime analysis and steal sensitive data from within your application. If you are really looking to add an extra layer of security for your application, you should not allow your application to be run on a jailbroken device. Please note that millions of users jailbreak their devices and hence not allowing an application to be run on a jailbroken device could have a significant impact on your user base. Another thing you can do is instead block some of the features in your application rather than disabing it entirely. We will also look at how hackers can bypass the check for jailbreak detection in your application using Cycript.</p>
 
 
@@ -1182,8 +1182,8 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation">IOS Application Security Part 23 – Defending against runtime analysis and manipulation</a></h1>
-      <p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of IOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application&#8217;s binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
+      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation">iOS Application Security Part 23 – Defending against runtime analysis and manipulation</a></h1>
+      <p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of iOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application&#8217;s binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
 
 
 
@@ -1246,8 +1246,8 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb">IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB</a></h1>
-      <p>In this article, we will look at how we can use GDB to perform runtime analysis of IOS applications. In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use Cycript to analyze and manipulate the runtime behaviour of IOS applications. We have learnt how we can perform method <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzling</a> and have our own methods being called instead of the original implementations. So why we do need GDB ? Well, what Cycript doesn&#8217;t allow us to do yet is set breakpoints and alter the values of variables and registers after a particular instruction. With GDB, we can dive deep into the application, observe the low level assembly instructions, manipulate the values in the registers and hence change the application flow completely.</p>
+      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-22-runtime-analysis-and-manipulation-using-gdb">iOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB</a></h1>
+      <p>In this article, we will look at how we can use GDB to perform runtime analysis of iOS applications. In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use Cycript to analyze and manipulate the runtime behaviour of iOS applications. We have learnt how we can perform method <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzling</a> and have our own methods being called instead of the original implementations. So why we do need GDB ? Well, what Cycript doesn&#8217;t allow us to do yet is set breakpoints and alter the values of variables and registers after a particular instruction. With GDB, we can dive deep into the application, observe the low level assembly instructions, manipulate the values in the registers and hence change the application flow completely.</p>
 
 
 
@@ -1296,13 +1296,13 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics">IOS Application Security Part 21 – ARM and GDB Basics</a></h1>
-      <p>All the IOS devices released uptil now are based on the ARM architecture. All the Objective-C code that we write while developing IOS applications is first converted into ARM assembly before being converted to machine code (1s and 0s). With good understanding of the ARM assembly language and with good knowledge of debugging using GDB, it is possible for a hacker to decipher the Objective-C code during runtime and even modify it.</p>
+      <h1 class="link"><a href="/2013/11/08/ios-application-security-part-21-arm-and-gdb-basics">iOS Application Security Part 21 – ARM and GDB Basics</a></h1>
+      <p>All the iOS devices released uptil now are based on the ARM architecture. All the Objective-C code that we write while developing iOS applications is first converted into ARM assembly before being converted to machine code (1s and 0s). With good understanding of the ARM assembly language and with good knowledge of debugging using GDB, it is possible for a hacker to decipher the Objective-C code during runtime and even modify it.</p>
 
 
 
 
-<p>For this article, we will be using a sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Make sure to install and run it on your IOS device. If you don&#8217;t have a registered developer account to run this on your device, you can follow the instructions mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a></p>
+<p>For this article, we will be using a sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Make sure to install and run it on your iOS device. If you don&#8217;t have a registered developer account to run this on your device, you can follow the instructions mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a></p>
 
 
 <p>.</p>
@@ -1356,7 +1356,7 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults">IOS Application Security Part 20 – Local Data Storage (NSUserDefaults</a></h1>
+      <h1 class="link"><a href="/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults">iOS Application Security Part 20 – Local Data Storage (NSUserDefaults</a></h1>
       <p>In this article, we will look at the different ways in which applicatons can store data locally on the device and look at how secure these methods are.</p>
 
 
@@ -1367,7 +1367,7 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 
-<p>One of the other things that we will doing different in this example is that we will be running the application on the IOS simulator using Xcode rather than on the device and hence will be analyzing the application on our computer rather than on the device. This is just to demonstrate that you can perform all the steps performed before in <a href="http://highaltitudehacks.com/security/">previous</a> articles on your system as well by running the application via Xcode. Optionally, you can simply run the application on your device using the steps mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a>.</p>
+<p>One of the other things that we will doing different in this example is that we will be running the application on the iOS simulator using Xcode rather than on the device and hence will be analyzing the application on our computer rather than on the device. This is just to demonstrate that you can perform all the steps performed before in <a href="http://highaltitudehacks.com/security/">previous</a> articles on your system as well by running the application via Xcode. Optionally, you can simply run the application on your device using the steps mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a>.</p>
 
 
 
@@ -1421,7 +1421,7 @@ By default, when making an SSL connection, the client checks that the server’s
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/10/26/ios-application-security-part-19-programmatical-usage-of-introspy">IOS Application Security Part 19 – Programmatical Usage of Introspy</a></h1>
+      <h1 class="link"><a href="/2013/10/26/ios-application-security-part-19-programmatical-usage-of-introspy">iOS Application Security Part 19 – Programmatical Usage of Introspy</a></h1>
       <p>In this article, we will look at how we can Introspy as a python module in our scripts.</p>
 
 
@@ -1482,8 +1482,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/09/26/ios-application-security-part-18-detecting-custom-signatures-with-introspy">IOS Application Security Part 18 – Detecting custom signatures with Introspy</a></h1>
-      <p>In the previous article, we looked at how we can use Introspy for Black-box assessment of IOS applications. In this article, we will look at how we can use Introspy to set up our own custom signatures and detect them in an application trace. Setting up our own predefined signatures could be useful for cases where you have a found a method in a particular application that seems of particular interest to you and you want to know when it is being called. Introspy already has a list of predefined signatures that it uses to flag vulnerabilities or insecure configurations. However, it also allows us to add our own signatures.</p>
+      <h1 class="link"><a href="/2013/09/26/ios-application-security-part-18-detecting-custom-signatures-with-introspy">iOS Application Security Part 18 – Detecting custom signatures with Introspy</a></h1>
+      <p>In the previous article, we looked at how we can use Introspy for Black-box assessment of iOS applications. In this article, we will look at how we can use Introspy to set up our own custom signatures and detect them in an application trace. Setting up our own predefined signatures could be useful for cases where you have a found a method in a particular application that seems of particular interest to you and you want to know when it is being called. Introspy already has a list of predefined signatures that it uses to flag vulnerabilities or insecure configurations. However, it also allows us to add our own signatures.</p>
 
 
 
@@ -1537,8 +1537,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/09/23/ios-application-security-part-17-black-box-assessment-of-ios-applications-using-introspy">IOS Application Security Part 17 – Black-Box Assessment of IOS Applications using INTROSPY</a></h1>
-      <p>In this article, we will look at how we can use Introspy for Black-box assessment of IOS applications. Introspy is developed by <a href="https://www.isecpartners.com/">ISEC partners</a> and its github page can be found <a href="https://github.com/iSECPartners/introspy">here</a>. Introspy consists of two seperate modules, a tracer and an analyzer. It is undoubtedly one of the most powerful tools for analyzing the security of IOS applications.</p>
+      <h1 class="link"><a href="/2013/09/23/ios-application-security-part-17-black-box-assessment-of-ios-applications-using-introspy">iOS Application Security Part 17 – Black-Box Assessment of iOS Applications using INTROSPY</a></h1>
+      <p>In this article, we will look at how we can use Introspy for Black-box assessment of iOS applications. Introspy is developed by <a href="https://www.isecpartners.com/">ISEC partners</a> and its github page can be found <a href="https://github.com/iSECPartners/introspy">here</a>. Introspy consists of two seperate modules, a tracer and an analyzer. It is undoubtedly one of the most powerful tools for analyzing the security of iOS applications.</p>
 
 
 
@@ -1592,8 +1592,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer">IOS Application Security Part 16 – Runtime Analysis of IOS Applications using iNalyzer</a></h1>
-      <p>In the previous article, we looked at how we can perform static analysis of IOS Applications using iNalyzer. In this article, we will look at how we can use iNalyzer to perform runtime analysis of IOS applications. We can invoke methods during runtime, find the value of a particular instance variable at a particular time in the app, and basically do anything that we can do with Cycript.</p>
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-16-runtime-analysis-of-ios-applications-using-inalyzer">iOS Application Security Part 16 – Runtime Analysis of iOS Applications using iNalyzer</a></h1>
+      <p>In the previous article, we looked at how we can perform static analysis of iOS Applications using iNalyzer. In this article, we will look at how we can use iNalyzer to perform runtime analysis of iOS applications. We can invoke methods during runtime, find the value of a particular instance variable at a particular time in the app, and basically do anything that we can do with Cycript.</p>
 
 
 
@@ -1647,8 +1647,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer">IOS Application Security Part 15 – Static Analysis of IOS Applications using iNalyzer</a></h1>
-      <p>In the previous article, we looked at how we can use Sogeti Data protection tools to boot an iDevice using a custom ramdisk with the help of a bootrom exploit. In this article, we will look at a tool named iNalyzer than we can use for black box assessment of IOS applications. iNalyzer allows us to view the class information, perform runtime analysis and many other things. Basically it automates the efforts of decrypting the application, dumping class information and presents it in a much more presentable way. We can also hook into a running process just like Cycript and invoke methods during runtime. iNalyzer is developed and maintained by <a href="https://appsec-labs.com">AppSec Labs</a> and its offical page can be found <a href="https://appsec-labs.com/iNalyzer">here</a>. iNalyzer is also made available open source and its github page can be found <a href="https://github.com/appsec-labs/iNalyzer">here</a>.</p>
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-15-static-analysis-of-ios-applications-using-inalyzer">iOS Application Security Part 15 – Static Analysis of iOS Applications using iNalyzer</a></h1>
+      <p>In the previous article, we looked at how we can use Sogeti Data protection tools to boot an iDevice using a custom ramdisk with the help of a bootrom exploit. In this article, we will look at a tool named iNalyzer than we can use for black box assessment of iOS applications. iNalyzer allows us to view the class information, perform runtime analysis and many other things. Basically it automates the efforts of decrypting the application, dumping class information and presents it in a much more presentable way. We can also hook into a running process just like Cycript and invoke methods during runtime. iNalyzer is developed and maintained by <a href="https://appsec-labs.com">AppSec Labs</a> and its offical page can be found <a href="https://appsec-labs.com/iNalyzer">here</a>. iNalyzer is also made available open source and its github page can be found <a href="https://github.com/appsec-labs/iNalyzer">here</a>.</p>
 
 
 
@@ -1697,7 +1697,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools">IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools</a></h1>
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-14-gathering-information-using-sogeti-data-protection-tools">iOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools</a></h1>
       <p>In the previous article, we looked at how we can boot a device using a custom ramdisk using Sogeti Data protection tools. In this article, we will look at how we can use some of their tools to gather information from the device like fetching the keychain information, dumping the entire filesystem or even bruteforcing the passcode.</p>
 
 
@@ -1752,8 +1752,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools">IOS Application Security Part 13 – Booting a custom Ramdisk using Sogeti Data Protection tools</a></h1>
-      <p>In the previous article, we looked at how we can use Keychain-Dumper and Snoop-it to analyze and dump the contents of the Keychain from an IOS device. In this article, we will look at how we can boot a non-jailbroken device using a custom ramdisk and analyze the contents of the device.</p>
+      <h1 class="link"><a href="/2013/09/17/ios-application-security-part-13-booting-a-custom-ramdisk-using-sogeti-data-protection-tools">iOS Application Security Part 13 – Booting a custom Ramdisk using Sogeti Data Protection tools</a></h1>
+      <p>In the previous article, we looked at how we can use Keychain-Dumper and Snoop-it to analyze and dump the contents of the Keychain from an iOS device. In this article, we will look at how we can boot a non-jailbroken device using a custom ramdisk and analyze the contents of the device.</p>
 
 
 
@@ -1802,8 +1802,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-12-dumping-keychain-data">IOS Application Security Part 12 – Dumping Keychain Data</a></h1>
-      <p>In the previous article, we looked at the different ways in which we could analyze the network traffic and the api calls being made through an IOS application. In this article, we will look at how we can dump the contents of the Keychain from an IOS device.</p>
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-12-dumping-keychain-data">iOS Application Security Part 12 – Dumping Keychain Data</a></h1>
+      <p>In the previous article, we looked at the different ways in which we could analyze the network traffic and the api calls being made through an iOS application. In this article, we will look at how we can dump the contents of the Keychain from an iOS device.</p>
 
 
 
@@ -1813,7 +1813,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 
 
 
-<p>According to Apple, a Keychain in an IOS device is a secure storage container that can be used to store sensitive infromation like usernames, passwords,network passwords, authentication tokens for different applications. Apple itself uses the Keychain to store Wi-fi network passwords, VPN credentials etc. It&#8217;s a sqlite database file located at <i>/private/var/Keychains/keychain-2.db</i> and all the data stored in it is encrypted. Developers usually want to leverage this feature of the operating system to store credentials rather than storing it themseleves in NSUserDefaults, plist files etc. The reason for this could be that the developer may not want the user to log in everytime and hence store the authentication information somewhere in the device and use it to log in the user automatically whenver the user opens up the app again. The keychain information for every app is stored outside of its sandbox.</p>
+<p>According to Apple, a Keychain in an iOS device is a secure storage container that can be used to store sensitive infromation like usernames, passwords,network passwords, authentication tokens for different applications. Apple itself uses the Keychain to store Wi-fi network passwords, VPN credentials etc. It&#8217;s a sqlite database file located at <i>/private/var/Keychains/keychain-2.db</i> and all the data stored in it is encrypted. Developers usually want to leverage this feature of the operating system to store credentials rather than storing it themseleves in NSUserDefaults, plist files etc. The reason for this could be that the developer may not want the user to log in everytime and hence store the authentication information somewhere in the device and use it to log in the user automatically whenver the user opens up the app again. The keychain information for every app is stored outside of its sandbox.</p>
 
 
 
@@ -1862,13 +1862,13 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS</a></h1>
-      <p>In the previous article, we looked at IOS filesystem and forensics. In this article, we will be looking at how we can analyze the network traffic flowing across an IOS device. Analyzing the network traffic for an application could be helpful in many ways. It could help us deduce how the application is managing the session of its users, the endpoints to which the application makes the call, how the application works internally etc. We will also look at how we can analyze network traffic over SSL.</p>
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https">iOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS</a></h1>
+      <p>In the previous article, we looked at iOS filesystem and forensics. In this article, we will be looking at how we can analyze the network traffic flowing across an iOS device. Analyzing the network traffic for an application could be helpful in many ways. It could help us deduce how the application is managing the session of its users, the endpoints to which the application makes the call, how the application works internally etc. We will also look at how we can analyze network traffic over SSL.</p>
 
 
 
 
-<p>There are both active and passive ways of sniffing traffic on a network. In case you are interested in analyzing the traffic for a particular device over a network remotely, wireshark is the tool to go for. Just open up Wireshark, start sniffing over the network and add a filter  (for e.g ip.addr == 192.168.1.2) so that it shows only the traffic sent or received from your IOS device. It is possible that you may lose some packets if you don&#8217;t have a good wireless card. </p>
+<p>There are both active and passive ways of sniffing traffic on a network. In case you are interested in analyzing the traffic for a particular device over a network remotely, wireshark is the tool to go for. Just open up Wireshark, start sniffing over the network and add a filter  (for e.g ip.addr == 192.168.1.2) so that it shows only the traffic sent or received from your iOS device. It is possible that you may lose some packets if you don&#8217;t have a good wireless card. </p>
 
 
 
@@ -1917,8 +1917,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-10-ios-filesystem-and-forensics">IOS Application Security Part 10 – IOS Filesystem and Forensics</a></h1>
-      <p>In this article, we will be looking at the IOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-10-ios-filesystem-and-forensics">iOS Application Security Part 10 – iOS Filesystem and Forensics</a></h1>
+      <p>In this article, we will be looking at the iOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>
 
 
 
@@ -1972,13 +1972,13 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">IOS Application Security Part 9 – Analyzing Security of IOS Applications using Snoop-it</a></h1>
-      <p>In some of the previous articles, we have looked at how we can dump class information of IOS apps using class-dump-z, hook into the runtime using Cycript and perform runtime manipulation and method swizzling, analyze the flow of the app using gdb etc. However, there could be a much better way of doing these things. We shouldn&#8217;t be using seperate tools for all these tasks. It would be great if a tool could perform all these tasks and at the same time display the information in a much more presentable way.</p>
+      <h1 class="link"><a href="/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">iOS Application Security Part 9 – Analyzing Security of iOS Applications using Snoop-it</a></h1>
+      <p>In some of the previous articles, we have looked at how we can dump class information of iOS apps using class-dump-z, hook into the runtime using Cycript and perform runtime manipulation and method swizzling, analyze the flow of the app using gdb etc. However, there could be a much better way of doing these things. We shouldn&#8217;t be using seperate tools for all these tasks. It would be great if a tool could perform all these tasks and at the same time display the information in a much more presentable way.</p>
 
 
 
 
-<p>Snoop-it is a tool that solves these problems. It allows for runtime analysis and blackbox security assessment of IOS apps by retrofitting existing apps with debugging and runtime tracing capabilities. It also provides a very neat web interface. At the time of writing of this article, Snoop-it is not released yet but is a couple of weeks away from launch. I mailed the authors and they were nice enough to provide me with a beta version for testing. You can check out its official page <a href="https://code.google.com/p/snoop-it/">here</a> or you can follow the author on <a href="http://twitter.com/aykay/">Twitter</a></p>
+<p>Snoop-it is a tool that solves these problems. It allows for runtime analysis and blackbox security assessment of iOS apps by retrofitting existing apps with debugging and runtime tracing capabilities. It also provides a very neat web interface. At the time of writing of this article, Snoop-it is not released yet but is a couple of weeks away from launch. I mailed the authors and they were nice enough to provide me with a beta version for testing. You can check out its official page <a href="https://code.google.com/p/snoop-it/">here</a> or you can follow the author on <a href="http://twitter.com/aykay/">Twitter</a></p>
 
 
 <p>.</p>
@@ -2027,7 +2027,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">IOS Application Security Part 8 -  Method Swizzling using Cycript</a></h1>
+      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">iOS Application Security Part 8 -  Method Swizzling using Cycript</a></h1>
       <p>In the previous article, we looked at how we can install custom apps on our device without a developer certificate. In this article, we will look at how we can perform method Swizzling using Cycript on a sample application.</p>
 
 
@@ -2082,8 +2082,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">IOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account</a></h1>
-      <p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn IOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
+      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account</a></h1>
+      <p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn iOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
 
 
 
@@ -2132,8 +2132,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7">IOS Application Security Part 6 - New Security Features in IOS 7</a></h1>
-      <p>As we all know, Apple recently introducted its new version of IOS at WWDC 2013 with a completely redesinged User Interface. If you haven&#8217;t seen it yet, check out this video from WWDC 2013.</p>
+      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-6-new-security-features-in-ios-7">iOS Application Security Part 6 - New Security Features in iOS 7</a></h1>
+      <p>As we all know, Apple recently introducted its new version of iOS at WWDC 2013 with a completely redesinged User Interface. If you haven&#8217;t seen it yet, check out this video from WWDC 2013.</p>
 
 
 
@@ -2143,7 +2143,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 
 
 
-<p>This article will be a small deviation from the other parts in this series. In this articles, we  will discuss about the latest security features introduced in IOS 7.</p>
+<p>This article will be a small deviation from the other parts in this series. In this articles, we  will discuss about the latest security features introduced in iOS 7.</p>
 
 
 
@@ -2194,7 +2194,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)</a></h1>
+      <h1 class="link"><a href="/2013/07/02/ios-application-security-part-5-advanced-runtime-analysis-and-manipulation-using-cycript-yahoo-weather-app">iOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)</a></h1>
       <p>In the previous article, we learnt how to setup Cycript on your idevice, hook into a running process and obtain information about its properties in runtime. In this article, we will look at some advanced runtime analysis techniques. We will look at how we can obtain information about a particular class (methods, instance variables) and modify them at runtime.</p>
 
 
@@ -2259,8 +2259,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/07/02/ios-aios-appllication-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app">IOS Appllication Security Part 4 – Runtime Analysis Using Cycript (Yahoo Weather App)</a></h1>
-      <p>In the previous article, we learnt about the runtime capabilities of an IOS App written in Objective-C which uses the Cocoa framework. In this article,  we will look at how we can use a very essential tool named Cycript to analyze and modify the runtime of an IOS application. In this article, we will be performing our analysis on the Yahoo Weather IOS app.</p>
+      <h1 class="link"><a href="/2013/07/02/ios-aios-appllication-security-part-4-runtime-analysis-using-cycript-yahoo-weather-app">iOS Appllication Security Part 4 – Runtime Analysis Using Cycript (Yahoo Weather App)</a></h1>
+      <p>In the previous article, we learnt about the runtime capabilities of an iOS App written in Objective-C which uses the Cocoa framework. In this article,  we will look at how we can use a very essential tool named Cycript to analyze and modify the runtime of an iOS application. In this article, we will be performing our analysis on the Yahoo Weather iOS app.</p>
 
 
 
@@ -2270,7 +2270,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 
 
 
-<p>Cycript is a javascript interpreter which also understands Objective-C syntax, meaning we can write either Objective-C or javascript or even both in a particular command. It can also hook into a running process and help us to modify a lot of the things in the application during runtime. As far as its application to IOS application is concerned, here are some of the advantages of using Cycript.</p>
+<p>Cycript is a javascript interpreter which also understands Objective-C syntax, meaning we can write either Objective-C or javascript or even both in a particular command. It can also hook into a running process and help us to modify a lot of the things in the application during runtime. As far as its application to iOS application is concerned, here are some of the advantages of using Cycript.</p>
 
 
 
@@ -2379,8 +2379,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime">IOS Application security Part 3 - Understanding the Objective-C Runtime</a></h1>
-      <p>Almost all the native IOS applications are written in Objective-C. All these apps use Cocoa which is a library that sits on top on Objc-C and provides high level APIs that make development for Mac and IOS much easier. Cocoa also adds a runtime environment for the applications. In this article, we will focus on understanding the Objective-C runtime and all the intricate details about how the language functions internally. This will help us get a much deeper understanding of its applications to IOS application security.</p>
+      <h1 class="link"><a href="/2013/06/16/ios-application-security-part-3-understanding-the-objective-c-runtime">iOS Application security Part 3 - Understanding the Objective-C Runtime</a></h1>
+      <p>Almost all the native iOS applications are written in Objective-C. All these apps use Cocoa which is a library that sits on top on Objc-C and provides high level APIs that make development for Mac and iOS much easier. Cocoa also adds a runtime environment for the applications. In this article, we will focus on understanding the Objective-C runtime and all the intricate details about how the language functions internally. This will help us get a much deeper understanding of its applications to iOS application security.</p>
 
 
 
@@ -2434,8 +2434,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/06/16/ios-application-security-part-2-getting-class-information-of-ios-apps">IOS Application security Part 2 - Getting class information of IOS apps</a></h1>
-      <p>Have you ever checked out an IOS app and thought it was cool, and wondered if you could find some information about the source code of the app, the third-party libraries it uses, or how the code is designed internally ? Have you ever wondered if it was possible to dump all the images, plist files used in any app either preinstalled on your device or downloaded from the App store? If the answer is Yes, then you have come to the right place.</p>
+      <h1 class="link"><a href="/2013/06/16/ios-application-security-part-2-getting-class-information-of-ios-apps">iOS Application security Part 2 - Getting class information of iOS apps</a></h1>
+      <p>Have you ever checked out an iOS app and thought it was cool, and wondered if you could find some information about the source code of the app, the third-party libraries it uses, or how the code is designed internally ? Have you ever wondered if it was possible to dump all the images, plist files used in any app either preinstalled on your device or downloaded from the App store? If the answer is Yes, then you have come to the right place.</p>
 
 
 
@@ -2489,8 +2489,8 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2013/06/16/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform">IOS Application security Part 1 - Setting up a mobile pentesting platform</a></h1>
-      <p>In this article series, we will be learning about the tools and techniques required to perform penetration testing and Vulnerability assessment on IOS Applications.</p>
+      <h1 class="link"><a href="/2013/06/16/ios-application-security-part-1-setting-up-a-mobile-pentesting-platform">iOS Application security Part 1 - Setting up a mobile pentesting platform</a></h1>
+      <p>In this article series, we will be learning about the tools and techniques required to perform penetration testing and Vulnerability assessment on iOS Applications.</p>
 
 
 
@@ -2500,7 +2500,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 
 
 
-<p>If you are serious about IOS security, then having a jailbroken device is a must. In this section, we will look at how we can jailbreak an IOS device. Jailbreaking a device has many advantages. You can install tools like nmap, metasploit and even run your own custom python code on the device. Imagine having the power to run a vulnerability scan on a website from the palm of your hand. To know more about jailbreaking and the advantages of doing it, i recommend you have a look at <a href ="http://www.ibtimes.com/why-jailbreak-your-iphone-5-reasons-you-should-download-evasi0n-jailbreak-ios-6-1080412">this</a> article.</p>
+<p>If you are serious about iOS security, then having a jailbroken device is a must. In this section, we will look at how we can jailbreak an iOS device. Jailbreaking a device has many advantages. You can install tools like nmap, metasploit and even run your own custom python code on the device. Imagine having the power to run a vulnerability scan on a website from the palm of your hand. To know more about jailbreaking and the advantages of doing it, i recommend you have a look at <a href ="http://www.ibtimes.com/why-jailbreak-your-iphone-5-reasons-you-should-download-evasi0n-jailbreak-ios-6-1080412">this</a> article.</p>
 
 
 

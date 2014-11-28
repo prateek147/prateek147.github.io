@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>IOS Application Security Part 10 – IOS Filesystem and Forensics - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 10 – iOS Filesystem and Forensics - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="IOS Application Security Part 10 – IOS Filesystem and Forensics Aug 20th, 2013 Posted by Prateek Gianchandani In this article, we will be looking at &hellip;">
+  <meta name="description" content="iOS Application Security Part 10 – iOS Filesystem and Forensics Aug 20th, 2013 Posted by Prateek Gianchandani In this article, we will be looking at &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    IOS Application Security Part 10 – IOS Filesystem and Forensics
+    iOS Application Security Part 10 – iOS Filesystem and Forensics
 	<h5>
 
 
@@ -133,7 +133,7 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article, we will be looking at the IOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>
+      <p>In this article, we will be looking at the iOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>
 
 
 
@@ -153,7 +153,7 @@
 
 
 
-<p>Let&#8217;s ssh into the device. Go to /Applications. You can see some apps in this folder. Most of them are apps that come preinstalled with IOS, and then there are some apps installed via Cydia, for e.g the Terminal app. Please note that all the apps running inside /Applications folder don&#8217;t run in a sandboxed environment whereas all the applications in the location /var/mobile/Applications run in a sandboxed environment. We will discuss sandboxing later in this article. However, they still run with the user <i>mobile</i> by default unless specifically configured to run with the user <i>root</i>.</p>
+<p>Let&#8217;s ssh into the device. Go to /Applications. You can see some apps in this folder. Most of them are apps that come preinstalled with iOS, and then there are some apps installed via Cydia, for e.g the Terminal app. Please note that all the apps running inside /Applications folder don&#8217;t run in a sandboxed environment whereas all the applications in the location /var/mobile/Applications run in a sandboxed environment. We will discuss sandboxing later in this article. However, they still run with the user <i>mobile</i> by default unless specifically configured to run with the user <i>root</i>.</p>
 
 
 <p><img src="/images/posts/ios10/2.png" width="1279" height="150" alt="2"></p>
@@ -163,7 +163,7 @@
 
 <p><img src="/images/posts/ios10/3.png" width="1439" height="321" alt="3"></p>
 
-<p>Please note that from IOS 4 or later, every app resides in an environment called Sandbox. The main purpose of this is to ensure that the app is not allowed to access any data outside of its own sandbox. This ensures better security. It is however possible to access certain portions of the user data from within an application using proper permissions. This includes permission to fetch the user&#8217;s Contacts, photos etc. However, there has been certain debate about this as well. For e.g from IOS 6, an app can get access to a user&#8217;s contacts after taking proper permission from the user. Prior to this, an app could access a user&#8217;s contacts without taking any permission from the user and it caused quite a <a href="http://arstechnica.com/gadgets/2012/02/path-addresses-privacy-controversy-but-social-apps-remain-a-risk-to-users/">controversy</a> for the Path app.</p>
+<p>Please note that from iOS 4 or later, every app resides in an environment called Sandbox. The main purpose of this is to ensure that the app is not allowed to access any data outside of its own sandbox. This ensures better security. It is however possible to access certain portions of the user data from within an application using proper permissions. This includes permission to fetch the user&#8217;s Contacts, photos etc. However, there has been certain debate about this as well. For e.g from iOS 6, an app can get access to a user&#8217;s contacts after taking proper permission from the user. Prior to this, an app could access a user&#8217;s contacts without taking any permission from the user and it caused quite a <a href="http://arstechnica.com/gadgets/2012/02/path-addresses-privacy-controversy-but-social-apps-remain-a-risk-to-users/">controversy</a> for the Path app.</p>
 
 
 
@@ -275,7 +275,7 @@
 
 
 
-<p>Even on a non-jailbroken device, plist files can be extracted by using the tool iExplorer. You can also get a quick look at the plist file using iExplorer. For e.g, below is the information stored in a plist file on the Defcon IOS app.</p>
+<p>Even on a non-jailbroken device, plist files can be extracted by using the tool iExplorer. You can also get a quick look at the plist file using iExplorer. For e.g, below is the information stored in a plist file on the Defcon iOS app.</p>
 
 
 <p><img src="/images/posts/ios10/p.png" width="1409" height="793" alt="P"></p>
@@ -285,7 +285,7 @@
 
 <p><img src="/images/posts/ios10/33.png" width="702" height="302" alt="33"></p>
 
-<p><p>Plist files may also contain confidential information like usernames or passwords. The important thing to note is that is that anyone can extract a plist file from a device even if its not jailbroken. You can also extract plist files from itunes backup files. Developers over the last few years have stored confidential information in plist files which is not the correct way. A vulnerability was found in the Linkedin IOS app where the developer was storing user authentication information in plist files. You can find more information about it <a href="http://blog.scoopz.com/2012/04/07/linkedin-ios-app-also-vulnerable-to-plist-identity-theft/">here</a>.</p>
+<p><p>Plist files may also contain confidential information like usernames or passwords. The important thing to note is that is that anyone can extract a plist file from a device even if its not jailbroken. You can also extract plist files from itunes backup files. Developers over the last few years have stored confidential information in plist files which is not the correct way. A vulnerability was found in the Linkedin iOS app where the developer was storing user authentication information in plist files. You can find more information about it <a href="http://blog.scoopz.com/2012/04/07/linkedin-ios-app-also-vulnerable-to-plist-identity-theft/">here</a>.</p>
 
 <p><p>If you want to read the plist file from the terminal itself, you will first have to convert it into xml format using the tool <i>plutil</i>. The command is <i>plutil -covert xml1 [filename]</i>. First, lets search for all the plist files in the device by using the 2 commands as shown in the figure below.</p>.</p>
 
@@ -303,7 +303,7 @@
 
 <p><h2>Conclusion</h2></p>
 
-<p><p>In this article, we looked at the IOS filesystem, learnt how the directory structure is organized, looked at some important files and learnt how to extract information from database and plist files. In the next article, we will take a sample application and use all the techniques learnt in the previous articles to perfom a detailed security analysis of the app.</p></p>
+<p><p>In this article, we looked at the iOS filesystem, learnt how the directory structure is organized, looked at some important files and learnt how to extract information from database and plist files. In the next article, we will take a sample application and use all the techniques learnt in the previous articles to perfom a detailed security analysis of the app.</p></p>
 
     </div>
   </div>
@@ -354,10 +354,10 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it" title="Previous Post: IOS Application Security Part 9 – Analyzing Security of IOS Applications using Snoop-it">&laquo; IOS Application Security Part 9 – Analyzing Security of IOS Applications using Snoop-it</a>
+            <a class="basic-alignment left" href="/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it" title="Previous Post: iOS Application Security Part 9 – Analyzing Security of iOS Applications using Snoop-it">&laquo; iOS Application Security Part 9 – Analyzing Security of iOS Applications using Snoop-it</a>
           
           
-            <a class="basic-alignment right" href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https" title="Next Post: IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS">IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS &raquo;</a>
+            <a class="basic-alignment right" href="/2013/08/20/ios-application-security-part-11-analyzing-network-traffic-over-http-slash-https" title="Next Post: iOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS">iOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS &raquo;</a>
           
         </p>
       </div>
