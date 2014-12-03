@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Nov 24th, 2014 android security Android Application hacking with &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Dec 1st, 2014 security Damn Vulnerable iOS App v1.4 launched I am so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,6 +116,82 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2014-12-01T18:07:00+04:00" pubdate data-updated="true">Dec 1<span>st</span>, 2014</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched">Damn Vulnerable iOS App v1.4 launched</a></h1>
+      <p>I am so excited to release the latest version of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app.</a> Up till now, DVIA has been downloaded more than 75000 times and i can&rsquo;t wait for the count to reach 6 digits :&ndash;)</p>
+
+<p>Following vulnerabilities and challenges have been added in the latest version.</p>
+
+<p>a) Sensitive information in memory
+b) Webkit Caching (Insecure data storage)
+c) SSL pinning bypass</p>
+
+<p>You can download the latest version from <a href="http://damnvulnerableiosapp.com/#downloads">here</a>.
+The source code is available on the project&rsquo;s github page <a href="https://github.com/prateek147/DVIA">here</a>.</p>
+
+<h3>Manual Installation</h3>
+
+
+<p>Download the .ipa file from the <a href="http://damnvulnerableiosapp.com/#downloads">downloads</a> page, change its name from DamnVulnerableiOSApp.ipa to DamnVulnerableIOSApp.zip and unzip this file. This will unzip to a folder named Payload. Inside it, there will be a file named DamnVulnerableIOSApp.app. Then copy the .app file to the /Applications directory on the device using Scp. You can also use sftp or the utility iExplorer to upload this application.</p>
+
+<p><img src="/images/posts/dvia/1.png" width="1126" height="510" alt="1"></p>
+
+<p>Now login as the mobile user, use the command su to get root privileges and give the DVIA binary executable permissions. Then use the exit command to go back as the mobile user, and use the command uicache to install the application. If this doesn’t work, you can reboot the device or try this method again.</p>
+
+<p><img src="/images/posts/dvia/2.png" width="799" height="284" alt="2"></p>
+
+<p>To compile the application, you should follow the instructions mentioned <a href="http://damnvulnerableiosapp.com/2013/12/get-started/">here</a>.</p>
+
+<p>Any commits to the source code on Github or suggestions to improve the app are welcome.</p>
+
+<p>Special thanks to <a href="http://twitter.com/crylico">@crylico</a> to help test the application before release.</p>
+
+<p>Happy hacking !</p>
+
+<p>-Prateek</p>
+
+      
+      
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>

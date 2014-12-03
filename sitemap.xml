@@ -20,7 +20,7 @@
     </url>
     <url>
         <loc>http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-2</loc>
-        <lastmod>2014-11-24T00:31:47+04:00</lastmod>
+        <lastmod>2014-12-01T18:07:06+04:00</lastmod>
     </url>
     <url>
         <loc>
@@ -417,16 +417,22 @@
         <lastmod>2014-11-24T01:37:04+04:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched
+        </loc>
+        <lastmod>2014-12-03T18:04:08+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://prateek147.github.io/about/</loc>
         <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/archives/</loc>
-        <lastmod>2014-11-28T18:02:04+04:00</lastmod>
+        <lastmod>2014-12-03T18:04:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/</loc>
-        <lastmod>2014-11-28T18:02:04+04:00</lastmod>
+        <lastmod>2014-12-03T18:04:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/security.html</loc>
@@ -442,7 +448,7 @@
     </url>
     <url>
         <loc>http://prateek147.github.io/</loc>
-        <lastmod>2014-11-28T18:02:04+04:00</lastmod>
+        <lastmod>2014-12-03T18:04:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/ios/</loc>
