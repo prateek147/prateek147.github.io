@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-12-03T18:04:56+04:00</updated>
+  <updated>2014-12-03T18:06:16+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -243,7 +243,7 @@ By default, when making an SSL connection, the client checks that the server’s
 <p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/iOS36/1.png" width="967" height="134" alt="1"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
 
 <p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
 
@@ -253,17 +253,17 @@ By default, when making an SSL connection, the client checks that the server’s
 <p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/iOS36/2.png" width="832" height="254" alt="2"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
 
 <p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/iOS36/3.png" width="1045" height="451" alt="3"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
 
 <p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/iOS36/4.png" width="598" height="123" alt="4"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
 
 <p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
 
