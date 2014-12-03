@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-12-03T18:06:16+04:00</updated>
+  <updated>2014-12-03T18:07:46+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -28,6 +28,11 @@ c) SSL pinning bypass</p>
 
 <p>You can download the latest version from <a href="http://damnvulnerableiosapp.com/#downloads">here</a>.
 The source code is available on the project&rsquo;s github page <a href="https://github.com/prateek147/DVIA">here</a>.</p>
+
+<!-- more -->
+
+
+
 
 <h3>Manual Installation</h3>
 
