@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-12-03T18:11:24+04:00</updated>
+  <updated>2014-12-03T20:15:38+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -18,7 +18,7 @@
     <link href="http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched"/>
     <updated>2014-12-01T18:07:00+04:00</updated>
     <id>http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched</id>
-    <content type="html"><![CDATA[<p>I am so excited to release the latest version of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app.</a> Up till now, DVIA has been downloaded more than 75000 times and i can&rsquo;t wait for the count to reach 6 digits :&ndash;)</p>
+    <content type="html"><![CDATA[<p>I am so excited to release the latest version of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app for iOS 8.</a> Up till now, DVIA has been downloaded more than 75000 times and i can&rsquo;t wait for the count to reach 6 digits :&ndash;)</p>
 
 <p>Following vulnerabilities and challenges have been added in the latest version.</p>
 
