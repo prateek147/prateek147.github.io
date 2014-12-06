@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application Security Part 29 - Insecure or Broken Cryptography"
+title: "iOS Application Security Part 29 - Insecure or Broken Cryptography"
 date: 2014-01-17 21:41
 comments: true
 categories: [security]
 ---
 
-<p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most IOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
+<p>In this article we will look at an example of Insecure or Broken Cryptography which is a common vulnerability found in most iOS applications. This vulnerability occurs when the data stored on the device is not encrypted properly thereby allowing a malicious user to gain access to that information. There could be many reasons for an improper implementaion of encrytption, using hardcoded keys for encryption, bad algorithms etc can all be the cause for an implementation that is not secure.</p>
 
 <p>I would recommend you have a look at <a href="https://developer.apple.com/library/mac/documentation/security/conceptual/cryptoservices/GeneralPurposeCrypto/GeneralPurposeCrypto.html">Apple's documentation</a> on Encrypting and hashing data.</p>
 
@@ -28,7 +28,7 @@ categories: [security]
 
 <img src="/images/posts/ios29/3.png" width="399" height="353" alt="3">
 
-<p>If you have successfully run the application using Xcode, it will install the application in the IOS simulator. Now our task is to find the location of the application binary on our system so we can provide it to Hopper. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 7.0.3/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command ls -al will give you the created date of these folders. The latest one would be our application.</p>
+<p>If you have successfully run the application using Xcode, it will install the application in the iOS simulator. Now our task is to find the location of the application binary on our system so we can provide it to Hopper. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 7.0.3/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command ls -al will give you the created date of these folders. The latest one would be our application.</p>
 
 <img src="/images/posts/ios29/4.png" width="907" height="346" alt="4">
 	
@@ -52,7 +52,7 @@ categories: [security]
 
 <img src="/images/posts/ios29/9.png" width="338" height="586" alt="9">
 
-<p>And if you are a bit familiar with IOS development you should know that if the current view controller is a delegate of this text field, then the method that will be called is <i>-(BOOL)textFieldShouldReturn:(UITextField *)textField</i>. So lets search for this method in the labels section.</p>
+<p>And if you are a bit familiar with iOS development you should know that if the current view controller is a delegate of this text field, then the method that will be called is <i>-(BOOL)textFieldShouldReturn:(UITextField *)textField</i>. So lets search for this method in the labels section.</p>
 
 <img src="/images/posts/ios29/10.png" width="1440" height="811" alt="10">
 
@@ -389,7 +389,7 @@ categories: [security]
 </ul>
 	
 	
-<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let's write a simple IOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application's sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
+<p>Well, it is pretty much clear that we can find the password by decrypting the data from the file <i>secret-data</i> and converting it into a string with the encoding NSUTF8StringEncoding. Let's write a simple iOS Application to decrypt the data. For this, you will need to copy the file <i>secret-data</i> from the application sandbox and paste it into the documents folder of the application's sandbox of this new application. You can also download the complete code from <a href="https://github.com/prateek147/InsecureCryptographyDecryptor">here</a>.</p>
 	
 <p>We add this method in the new project.</p>
 	
@@ -416,4 +416,4 @@ categories: [security]
 
 <p>In this article, we looked at how one can exploit a weakness in the encryption being used to find sensitive information from an application. In this case, the weakness was using a hardcoded key. It is essential for developers to make sure that they enforce proper encryption in their applications to prevent them from being compromised.</p>
 
-<p>In the next article, we will look at Client Side Injection in IOS Applications.</p>*
+<p>In the next article, we will look at Client Side Injection in iOS Applications.</p>*

@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "IOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB"
+title: "iOS Application Security Part 22 – Runtime Analysis and Manipulation using GDB"
 date: 2013-12-17 10:11
 comments: true
 categories: [security]
 ---
 
 
-<p>In this article, we will look at how we can use GDB to perform runtime analysis of IOS applications. In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use Cycript to analyze and manipulate the runtime behaviour of IOS applications. We have learnt how we can perform method <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzling</a> and have our own methods being called instead of the original implementations. So why we do need GDB ? Well, what Cycript doesn't allow us to do yet is set breakpoints and alter the values of variables and registers after a particular instruction. With GDB, we can dive deep into the application, observe the low level assembly instructions, manipulate the values in the registers and hence change the application flow completely.</p>
+<p>In this article, we will look at how we can use GDB to perform runtime analysis of iOS applications. In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use Cycript to analyze and manipulate the runtime behaviour of iOS applications. We have learnt how we can perform method <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzling</a> and have our own methods being called instead of the original implementations. So why we do need GDB ? Well, what Cycript doesn't allow us to do yet is set breakpoints and alter the values of variables and registers after a particular instruction. With GDB, we can dive deep into the application, observe the low level assembly instructions, manipulate the values in the registers and hence change the application flow completely.</p>
 
 <!-- more -->
 
@@ -52,7 +52,7 @@ categories: [security]
 
 <img src="/images/posts/ios22/10.png" width="714" height="88" alt="10">
 
-<p>Now a wise thing to do here would be enter the username as <i>Admin</i> in the app again. This is because the flow may not reach a point where the password is being checked. So now lets enter the username as <i>Admin</i> and enter anything as password. Now lets sets the breakpoints again and see if we can figure out the password as well. After some time doing the same process, we hit another breakpoint where the method isEqualToString: is being called. On printing the value of r2, we can see that the password is <i>HELLOIOSAPPLICATIONEXPERTS</i>.</p>
+<p>Now a wise thing to do here would be enter the username as <i>Admin</i> in the app again. This is because the flow may not reach a point where the password is being checked. So now lets enter the username as <i>Admin</i> and enter anything as password. Now lets sets the breakpoints again and see if we can figure out the password as well. After some time doing the same process, we hit another breakpoint where the method isEqualToString: is being called. On printing the value of r2, we can see that the password is <i>HELLOiOSAPPLICATIONEXPERTS</i>.</p>
 
 <img src="/images/posts/ios22/11.png" width="698" height="94" alt="11">
 
@@ -76,7 +76,7 @@ categories: [security]
 
 <pre>
 	- (IBAction)loginButtonTapped:(id)sender {
-	  if([_usernameTextField.text isEqualToString:@"Admin"] && [_passwordTextField.text isEqualToString:@"HELLOIOSAPPLICATIONEXPERTS"]){
+	  if([_usernameTextField.text isEqualToString:@"Admin"] && [_passwordTextField.text isEqualToString:@"HELLOiOSAPPLICATIONEXPERTS"]){
 	    [self performSegueWithIdentifier:@"adminPage" sender:self];
 	  }else{
 	    [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Incorrect Username or password" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];

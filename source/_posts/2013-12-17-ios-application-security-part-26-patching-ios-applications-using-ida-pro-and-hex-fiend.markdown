@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 26 – Patching IOS Applications using IDA Pro and Hex Fiend"
+title: "iOS Application Security Part 26 – Patching iOS Applications using IDA Pro and Hex Fiend"
 date: 2013-12-17 13:08
 comments: true
 categories: [security]
@@ -103,8 +103,8 @@ categories: [security]
 
 <img src="/images/posts/ios26/19.png" style="width: 90%; height: 90%"/>
 
-<p>Now save your changes and exit Hexfiend. As you remember, we had installed the app previously in the simulator. So fire up the IOS simulator, quit the GDB-Demo app if it is running and open it again. Now just tap on Login without entering anything in the username and password. It will direct you to the admin page.</p>
+<p>Now save your changes and exit Hexfiend. As you remember, we had installed the app previously in the simulator. So fire up the iOS simulator, quit the GDB-Demo app if it is running and open it again. Now just tap on Login without entering anything in the username and password. It will direct you to the admin page.</p>
 	
 <img src="/images/posts/ios26/20.png" style="width: 20%; height: 20%"/>
 
-<p>Perfect, we just patched a binary using old school techniques. In the next article, we will look at a tool named Hopper and learn how to patch IOS applications using it. </p>
+<p>Perfect, we just patched a binary using old school techniques. In the next article, we will look at a tool named Hopper and learn how to patch iOS applications using it. </p>

@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application Security Part 18 – Detecting custom signatures with Introspy"
+title: "iOS Application Security Part 18 – Detecting custom signatures with Introspy"
 date: 2013-09-26 17:18
 comments: true
 categories: [security]
 ---
 
-<p>In the previous article, we looked at how we can use Introspy for Black-box assessment of IOS applications. In this article, we will look at how we can use Introspy to set up our own custom signatures and detect them in an application trace. Setting up our own predefined signatures could be useful for cases where you have a found a method in a particular application that seems of particular interest to you and you want to know when it is being called. Introspy already has a list of predefined signatures that it uses to flag vulnerabilities or insecure configurations. However, it also allows us to add our own signatures.</p>
+<p>In the previous article, we looked at how we can use Introspy for Black-box assessment of iOS applications. In this article, we will look at how we can use Introspy to set up our own custom signatures and detect them in an application trace. Setting up our own predefined signatures could be useful for cases where you have a found a method in a particular application that seems of particular interest to you and you want to know when it is being called. Introspy already has a list of predefined signatures that it uses to flag vulnerabilities or insecure configurations. However, it also allows us to add our own signatures.</p>
 
 <p>You can find the predefined signatures in Introspy in the signatures.py file inside the analyzer folder. </p>
 

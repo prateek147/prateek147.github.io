@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 30 - Attacking URL schemes"
+title: "iOS Application Security Part 30 - Attacking URL schemes"
 date: 2014-03-07 01:25
 comments: true
 categories: [security]

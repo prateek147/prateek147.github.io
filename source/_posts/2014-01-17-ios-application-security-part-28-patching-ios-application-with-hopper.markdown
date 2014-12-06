@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application Security Part 28 - Patching IOS Application with Hopper"
+title: "iOS Application Security Part 28 - Patching iOS Application with Hopper"
 date: 2014-01-17 21:41
 comments: true
 categories: [security]
 ---
 
-<p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an IOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn't have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
+<p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an iOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn't have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
 
 <p>According to Hopperapp.com ..</p>
 
@@ -33,7 +33,7 @@ categories: [security]
 <p>It accepts a certain username/password combination in order to allow us to login. Our task is to patch this application in such a way that the application allows us to login even if the username/password combination is not correct. Please note that in this article, we will be debugging and patching the application which is x86 architecture on a laptop , however you can do the same patching with ARM executable as well by copying the binary from the device.</p>
 
 
-<p>Once you have downloaded the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application, run it using Xcode. This will install the application in the IOS simulator. Now our task is to find the location of the application binary on our system. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the created date of these folders. The latest one would be our application.</p>
+<p>Once you have downloaded the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application, run it using Xcode. This will install the application in the iOS simulator. Now our task is to find the location of the application binary on our system. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the created date of these folders. The latest one would be our application.</p>
 	
 	
 <img src="/images/posts/ios28/4.png" width="1145" height="239" alt="4">

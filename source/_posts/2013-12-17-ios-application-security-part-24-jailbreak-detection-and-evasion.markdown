@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 24 – Jailbreak Detection and Evasion"
+title: "iOS Application Security Part 24 – Jailbreak Detection and Evasion"
 date: 2013-12-17 12:33
 comments: true
 categories: [security]

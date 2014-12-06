@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 8 -  Method Swizzling using Cycript"
+title: "iOS Application Security Part 8 -  Method Swizzling using Cycript"
 date: 2013-07-25 15:16
 comments: true
 categories: [security]

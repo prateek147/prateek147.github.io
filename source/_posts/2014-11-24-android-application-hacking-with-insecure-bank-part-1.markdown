@@ -1,0 +1,81 @@
+---
+layout: post
+title: "Android Application hacking with Insecure Bank Part 1"
+date: 2014-11-24 00:52
+comments: true
+categories: [security, android]
+---
+<p>In this article series, we will learn at various concepts of Android application security while exploiting a vulnerable app InsecureBankv2. We will be looking at all the concepts from a noob's perspective and hence i would recommend this blog series to beginners as well.</p>
+
+<p>However, the first thing to do is set up a proper mobile pentesting platform for android application testing.</p>
+
+<p>The first thing to do is download the Eclipse ADT bundle. You can then follow the instructions <a href="https://developer.android.com/sdk/installing/index.html?pkg=adt">here</a> to install the ADT bundle. Once this is done, make sure you install the necessary sdk packages and libraries by following the instructions <a href="https://developer.android.com/sdk/installing/adding-packages.html">here</a>.</p>
+
+<!-- more -->
+
+<p>Inside the adt bundle folder and inside the sdk folder, there will be two folders, one with the name <i>tools</i> and the other with the name <i>platform-tools</i>. It's important to add the location of your SDK platform tools and tools folder to the PATH environment variable. This is because you will be using most of the command line tools included in these directories and its good to have them added in the path environment variable. The command to add any path as an environment variable is <i>export PATH=/path/to/dir:$PATH</i>.</p>
+
+<img src="/images/posts/ib1/1.png" width="725" height="146" alt="1">
+
+<p>Do this for both the tools and the platform-tools folder. Once this is done, you can access all the command line tools without actually browsing over to their directory. To check if this is working, type the command <i>adb</i> and see if you are able to get an output like this.</p>
+
+<img src="/images/posts/ib1/2.png" width="728" height="417" alt="2">
+
+<p>To run the application on your computer, it is important to have a good emulator. Now the android virtual device manager utility in Eclipse allows you to create your own emulators. To know how to create these virtual devices, i would recommend you check <a href="https://developer.android.com/tools/devices/index.html">this</a> article out. However, for this series, i am going to be using Genymotion to create my own emulators. There are many reasons for this. First of all, it is lightning fast and not as slow as the android emulators. Secondly, it is a rooted emulator unlike the android emulators. This means you have much more freedom of installing your own custom applications that can be used for auditing other android apps. </p>
+
+<p>Once you install genymotion, you should sign up for a new account (it's free) and create different emulators based on your need. Here is what my emulators look like.</p>
+
+<img src="/images/posts/ib1/3.png" width="798" height="427" alt="3">
+
+<p>Now get the latest code for the InsecureBankv2 application from <a href="https://github.com/dineshshetty/Android-InsecureBankv2">here</a>.</p>
+
+<img src="/images/posts/ib1/4.png" width="1046" height="137" alt="4">
+
+<p>Start one of your genymotion emulators and see if you are able to get them running. Starting an emulator is as simple as clicking on the play button.</p>
+
+<img src="/images/posts/ib1/5.png" width="1070" height="618" alt="5">
+
+<p>Inside the folder that you just cloned from github, there will be an apk file. You can install that application onto your emulator using the command <i>adb install InsecureBankv2.apk</i></p>
+
+<img src="/images/posts/ib1/6.png" width="939" height="134" alt="6">
+
+<p>You will see that it successfully installed. And you can see the same on the emulator as well. But sometimes you might want to compile the application rather than run it with an apk file. To do that, open Eclipse and go to <i>File -> Switch Workspace</i>, and choose the Insecure bank folder that you just created. Now go to <i>File -> Import</i> and select <i>Existing Android code into workspace</i>.</p>
+
+<img src="/images/posts/ib1/7.png" width="525" height="551" alt="7">
+
+<p>Select your application folder and you will see that Eclipse will import the application into your workspace. Now click on the play button on the top to run your application. Make sure your genymotion emulator is running as well. Select to run it as an android application.</p>
+
+<img src="/images/posts/ib1/8.png" width="851" height="586" alt="8">
+
+<p>You will see that the application starts successfully on the genymotion emulator.</p>
+
+<img src="/images/posts/ib1/9.png" width="1066" height="574" alt="9">
+
+<p>Also start the backend python server that the android application communicates with using the command <i>python app.py --port 8888</i></p>
+
+<img src="/images/posts/ib1/10.png" width="726" height="81" alt="10">
+
+<p>In the application, go to Preferences and enter the IP address and port number of your system.</p>
+
+<img src="/images/posts/ib1/11.png" width="612" height="472" alt="11">
+
+<p>And now you can login to the application using the default credentials.</p>
+
+<ul>
+<li>dinesh/Dinesh@123$</li>
+<li>jack/Jack@123$</li>
+</ul>
+
+<p>Also make sure that you install the following utilities. We will cover them in detail as and when they are required.</p>
+
+<ol>
+	<li><a href="https://www.mwrinfosecurity.com/products/drozer/">Drozer</a></li>
+	<li><a href="https://github.com/swdunlop/AndBug">Andbug</a></li>
+	<li><a href="https://github.com/iSECPartners/Introspy-Android">Introspy</a></li>
+	<li><a href="https://code.google.com/p/dex2jar/">dex2jar</a></li>
+	<li><a href="https://code.google.com/p/android-apktool/">apktool</a></li>
+</ol>
+
+<p>Also, connect to your emulator using the command <i>adb shell</i> and see what are the things you can do. I would really recommend you to have a look <a href="http://developer.android.com/tools/help/adb.html">here</a> and try out all the commands possible with the Android debug bridge.</p>
+
+<p>Another thing that you can read up is what you can do with all the command line tools available in Android. You can read it from <a href="http://developer.android.com/tools/projects/projects-cmdline.html">here</a>. In the next article, we will start at actual exploitation of the InsecureBankv2 application.</p>

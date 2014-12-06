@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application Security Part 16 – Runtime Analysis of IOS Applications using iNalyzer"
+title: "iOS Application Security Part 16 – Runtime Analysis of iOS Applications using iNalyzer"
 date: 2013-09-17 13:12
 comments: true
 categories: [security]
 ---
 
-<p>In the previous article, we looked at how we can perform static analysis of IOS Applications using iNalyzer. In this article, we will look at how we can use iNalyzer to perform runtime analysis of IOS applications. We can invoke methods during runtime, find the value of a particular instance variable at a particular time in the app, and basically do anything that we can do with Cycript.</p>
+<p>In the previous article, we looked at how we can perform static analysis of iOS Applications using iNalyzer. In this article, we will look at how we can use iNalyzer to perform runtime analysis of iOS applications. We can invoke methods during runtime, find the value of a particular instance variable at a particular time in the app, and basically do anything that we can do with Cycript.</p>
 
 <p>In the last article, we were successfully able to generate the html files via Doxygen and open it up to view class information and other information about the app. For runtime analysis, we will be using the Firefox browser. The developer of this tool has personally recommended me to use Firefox as this may not work on other browsers. However, it seemed to be working fine for me on Chrome as well.</p>
 
@@ -68,7 +68,7 @@ categories: [security]
 
 <b>Conclusion</b>
 
-<p>In this article, we looked at looked at how we can leverage the power of iNalyzer to perform runtime analysis of IOS applications. iNalyzer is a great tool in the arsenal for anyone interested in learning IOS application security as it makes our task much more easier and efficient.</p>
+<p>In this article, we looked at looked at how we can leverage the power of iNalyzer to perform runtime analysis of iOS applications. iNalyzer is a great tool in the arsenal for anyone interested in learning iOS application security as it makes our task much more easier and efficient.</p>
 
 <b>References</b>
 

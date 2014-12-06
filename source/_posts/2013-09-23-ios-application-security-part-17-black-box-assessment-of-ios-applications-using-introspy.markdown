@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application Security Part 17 – Black-Box Assessment of IOS Applications using INTROSPY"
+title: "iOS Application Security Part 17 – Black-Box Assessment of iOS Applications using INTROSPY"
 date: 2013-09-23 13:21
 comments: true
 categories: [security]
 ---
 
-<p>In this article, we will look at how we can use Introspy for Black-box assessment of IOS applications. Introspy is developed by <a href="https://www.isecpartners.com/">ISEC partners</a> and its github page can be found <a href="https://github.com/iSECPartners/introspy">here</a>. Introspy consists of two seperate modules, a tracer and an analyzer. It is undoubtedly one of the most powerful tools for analyzing the security of IOS applications.</p>
+<p>In this article, we will look at how we can use Introspy for Black-box assessment of iOS applications. Introspy is developed by <a href="https://www.isecpartners.com/">ISEC partners</a> and its github page can be found <a href="https://github.com/iSECPartners/introspy">here</a>. Introspy consists of two seperate modules, a tracer and an analyzer. It is undoubtedly one of the most powerful tools for analyzing the security of iOS applications.</p>
 
 
 <p>The first step is to install the Introspy tracer on your device. You can download the debian package from <a href="https://www.dropbox.com/s/z5cwqk5wti3zsvd/com.isecpartners.introspy-v0.3-iOS_6.1.deb?dl=1">here</a>. Once it is downloaded, just upload it and install on your device. The image below shows how to perform all the above mentioned steps.</p>
@@ -82,7 +82,7 @@ categories: [security]
 
 <b>Conclusion</b>
 
-<p>In this article, we looked at how we can use Introspy to perform black-box assessment of IOS applications. Introspy consists of 2 modules, the Tracer and the Analyzer. We can use the Tracer to perform runtime analysis of the application. The tracer can then store the results in a sqlite file which can be later used by the analyzer for analysis, or it can also just log all the data to the device console. The Analyzer can also generate a well detailed HTML report from the database file.</p> 
+<p>In this article, we looked at how we can use Introspy to perform black-box assessment of iOS applications. Introspy consists of 2 modules, the Tracer and the Analyzer. We can use the Tracer to perform runtime analysis of the application. The tracer can then store the results in a sqlite file which can be later used by the analyzer for analysis, or it can also just log all the data to the device console. The Analyzer can also generate a well detailed HTML report from the database file.</p> 
 
 <b>References</b>
 <ul>

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 19 – Programmatical Usage of Introspy"
+title: "iOS Application Security Part 19 – Programmatical Usage of Introspy"
 date: 2013-10-26 23:38
 comments: true
 categories: [security]
@@ -66,7 +66,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 
 <b>Conclusion</b>
 
-<p>In this article, we looked at how we can import the introspy module in our own python scripts and fetch different kinds of information like signatures, tracedCalls etc from a generated database file and present them in whichever way we want. This could be used in preparing our own custom reports for the analysis of a particular IOS application. This information can also be fed into other python scripts that can be able to perform further tasks like runtime manipulation etc.</p>
+<p>In this article, we looked at how we can import the introspy module in our own python scripts and fetch different kinds of information like signatures, tracedCalls etc from a generated database file and present them in whichever way we want. This could be used in preparing our own custom reports for the analysis of a particular iOS application. This information can also be fed into other python scripts that can be able to perform further tasks like runtime manipulation etc.</p>
 
 <b>References</b>
 

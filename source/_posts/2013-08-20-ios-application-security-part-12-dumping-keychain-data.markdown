@@ -1,17 +1,17 @@
 ---
 layout: post
-title: "IOS Application Security Part 12 – Dumping Keychain Data"
+title: "iOS Application Security Part 12 – Dumping Keychain Data"
 date: 2013-08-20 07:32
 comments: true
 categories: [security]
 ---
 
 
-<p>In the previous article, we looked at the different ways in which we could analyze the network traffic and the api calls being made through an IOS application. In this article, we will look at how we can dump the contents of the Keychain from an IOS device.</p>
+<p>In the previous article, we looked at the different ways in which we could analyze the network traffic and the api calls being made through an iOS application. In this article, we will look at how we can dump the contents of the Keychain from an iOS device.</p>
 
 <h2>Keychain Basics</h2>
 
-<p>According to Apple, a Keychain in an IOS device is a secure storage container that can be used to store sensitive infromation like usernames, passwords,network passwords, authentication tokens for different applications. Apple itself uses the Keychain to store Wi-fi network passwords, VPN credentials etc. It's a sqlite database file located at <i>/private/var/Keychains/keychain-2.db</i> and all the data stored in it is encrypted. Developers usually want to leverage this feature of the operating system to store credentials rather than storing it themseleves in NSUserDefaults, plist files etc. The reason for this could be that the developer may not want the user to log in everytime and hence store the authentication information somewhere in the device and use it to log in the user automatically whenver the user opens up the app again. The keychain information for every app is stored outside of its sandbox.</p>
+<p>According to Apple, a Keychain in an iOS device is a secure storage container that can be used to store sensitive infromation like usernames, passwords,network passwords, authentication tokens for different applications. Apple itself uses the Keychain to store Wi-fi network passwords, VPN credentials etc. It's a sqlite database file located at <i>/private/var/Keychains/keychain-2.db</i> and all the data stored in it is encrypted. Developers usually want to leverage this feature of the operating system to store credentials rather than storing it themseleves in NSUserDefaults, plist files etc. The reason for this could be that the developer may not want the user to log in everytime and hence store the authentication information somewhere in the device and use it to log in the user automatically whenver the user opens up the app again. The keychain information for every app is stored outside of its sandbox.</p>
 
 <!-- more -->
 
@@ -103,11 +103,11 @@ categories: [security]
 
 <img src="/images/posts/ios12/5.png" width="679" height="475" alt="5">
 	
-<p>One of the things that could make the information in the keychain more secure is using a strong passcode. This is because the passcode is used to encrypt the data in the keychain for specific protection attributes and hence having a strong passcode would enforce better security. IOS by default allows for a 4 digit passcode which could range from 0-9999 and hence could be bruteforced in a few minutes. We will look at bruteforcing passcodes later in this series. But there is also another option to set alphanumeric passwords which would take significantly more time to be  bruteforced. A combination of a proper protection attribute combined with a strong passcode will help in keeping the data in the keychain much more difficult to be fetched out.</p>
+<p>One of the things that could make the information in the keychain more secure is using a strong passcode. This is because the passcode is used to encrypt the data in the keychain for specific protection attributes and hence having a strong passcode would enforce better security. iOS by default allows for a 4 digit passcode which could range from 0-9999 and hence could be bruteforced in a few minutes. We will look at bruteforcing passcodes later in this series. But there is also another option to set alphanumeric passwords which would take significantly more time to be  bruteforced. A combination of a proper protection attribute combined with a strong passcode will help in keeping the data in the keychain much more difficult to be fetched out.</p>
 
 <b>Conclusion</b>
 
-<p>In this article, we looked at how easy it is to dump information from the Keychain of an IOS device. Even though keychain is a much better place of storing credentials and sensitive information than something like NSUserDefaults or plist files, it is however not difficult to break into it either.</p>
+<p>In this article, we looked at how easy it is to dump information from the Keychain of an iOS device. Even though keychain is a much better place of storing credentials and sensitive information than something like NSUserDefaults or plist files, it is however not difficult to break into it either.</p>
 
 <b>References</b>
 <ul>

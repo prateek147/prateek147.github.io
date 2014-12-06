@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 31 - The problem with using third party libraries for securing your apps"
+title: "iOS Application Security Part 31 - The problem with using third party libraries for securing your apps"
 date: 2014-03-18 17:40
 comments: true
 categories: [security]

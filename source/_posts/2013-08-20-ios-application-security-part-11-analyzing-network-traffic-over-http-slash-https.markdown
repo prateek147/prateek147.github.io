@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "IOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS"
+title: "iOS Application Security Part 11 – Analyzing Network Traffic over HTTP/HTTPS"
 date: 2013-08-20 07:32
 comments: true
 categories: [security]
 ---
 
-<p>In the previous article, we looked at IOS filesystem and forensics. In this article, we will be looking at how we can analyze the network traffic flowing across an IOS device. Analyzing the network traffic for an application could be helpful in many ways. It could help us deduce how the application is managing the session of its users, the endpoints to which the application makes the call, how the application works internally etc. We will also look at how we can analyze network traffic over SSL.</p>
+<p>In the previous article, we looked at iOS filesystem and forensics. In this article, we will be looking at how we can analyze the network traffic flowing across an iOS device. Analyzing the network traffic for an application could be helpful in many ways. It could help us deduce how the application is managing the session of its users, the endpoints to which the application makes the call, how the application works internally etc. We will also look at how we can analyze network traffic over SSL.</p>
 
-<p>There are both active and passive ways of sniffing traffic on a network. In case you are interested in analyzing the traffic for a particular device over a network remotely, wireshark is the tool to go for. Just open up Wireshark, start sniffing over the network and add a filter  (for e.g ip.addr == 192.168.1.2) so that it shows only the traffic sent or received from your IOS device. It is possible that you may lose some packets if you don't have a good wireless card. </p>
+<p>There are both active and passive ways of sniffing traffic on a network. In case you are interested in analyzing the traffic for a particular device over a network remotely, wireshark is the tool to go for. Just open up Wireshark, start sniffing over the network and add a filter  (for e.g ip.addr == 192.168.1.2) so that it shows only the traffic sent or received from your iOS device. It is possible that you may lose some packets if you don't have a good wireless card. </p>
 
 <!-- more -->
 
@@ -63,7 +63,7 @@ categories: [security]
 
 <img src="/images/posts/ios11/7.png" width="1002" height="214" alt="7">
 
-<p>Now, you will have to tell your device to route traffic through this proxy. On your IOS device, go to the Settings App, click on <i>Wifi</i>, select the network that you are connected to and on its settings, scroll down and there will be an option to set its proxy. Set the proxy as your computers IP address which is currently running Burpsuite and the port as the port on which the proxy is running.</p>
+<p>Now, you will have to tell your device to route traffic through this proxy. On your iOS device, go to the Settings App, click on <i>Wifi</i>, select the network that you are connected to and on its settings, scroll down and there will be an option to set its proxy. Set the proxy as your computers IP address which is currently running Burpsuite and the port as the port on which the proxy is running.</p>
 
 <img src="/images/posts/ios11/i.png" width="245" height="247" alt="I">
 
@@ -136,7 +136,7 @@ categories: [security]
 
 <b>Conclusion</b>
 
-<p>In this article, we looked at the different ways in which we can figure out the network traffic flowing across an IOS device . Knowing what endpoints get called, what are the requests and response, what are the headers and params etc will help us a lot in figuring out how the application works internally.</p>
+<p>In this article, we looked at the different ways in which we can figure out the network traffic flowing across an iOS device . Knowing what endpoints get called, what are the requests and response, what are the headers and params etc will help us a lot in figuring out how the application works internally.</p>
 
 <b>References</b>
 <ul>

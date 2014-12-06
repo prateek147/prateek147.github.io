@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools"
+title: "iOS Application Security Part 14 – Gathering information using Sogeti Data Protection tools"
 date: 2013-09-17 13:10
 comments: true
 categories: [security]
@@ -89,7 +89,7 @@ categories: [security]
 <b>References</b>
 
 <ul>
-<li><p>Iphone-dataprotection - IOS Forensics tools</br><a href ="https://code.google.com/p/iphone-dataprotection/">https://code.google.com/p/iphone-dataprotection/</a></p>
+<li><p>Iphone-dataprotection - iOS Forensics tools</br><a href ="https://code.google.com/p/iphone-dataprotection/">https://code.google.com/p/iphone-dataprotection/</a></p>
 </li>
 	
 </ul>

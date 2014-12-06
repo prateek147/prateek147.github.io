@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)"
+title: "iOS Application security Part 5 – Advanced Runtime analysis and manipulation using Cycript (Yahoo Weather App)"
 date: 2013-07-02 17:26
 comments: true
 categories: [ios, security]

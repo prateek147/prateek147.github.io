@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application security Part 2 - Getting class information of IOS apps"
+title: "iOS Application security Part 2 - Getting class information of iOS apps"
 date: 2013-06-16 02:56
 comments: true
 categories: [security]
 ---
 
-<p>Have you ever checked out an IOS app and thought it was cool, and wondered if you could find some information about the source code of the app, the third-party libraries it uses, or how the code is designed internally ? Have you ever wondered if it was possible to dump all the images, plist files used in any app either preinstalled on your device or downloaded from the App store? If the answer is Yes, then you have come to the right place.</p>
+<p>Have you ever checked out an iOS app and thought it was cool, and wondered if you could find some information about the source code of the app, the third-party libraries it uses, or how the code is designed internally ? Have you ever wondered if it was possible to dump all the images, plist files used in any app either preinstalled on your device or downloaded from the App store? If the answer is Yes, then you have come to the right place.</p>
 
 <p>In this article, we will look at how we can analyze any preinstalled app on your device or any other app downloaded from App store and discover things about the source code of the app like the classes that it uses, the names of the view controllers it uses, the internal libraries, and even intricate details like the variables and methods names used in any particular class or view controller. We will then look at how we can decrypt the applications downloaded from the App store and dump all the images, plist files that the app uses.</p>
 
@@ -14,7 +14,7 @@ categories: [security]
 
 <h2>Dumping class information for Preinstalled apps on the device</h2>
 
-<p>Now we are at a stage that we can analyze apps for class information. So let's dump the class information for the Apple <em>Maps</em> app. The first step would be to locate the Apple <em>Maps</em> app executable. All IOS apps that come preinstalled with the device are stored in the directory <em>/Applications</em>. So let's navigate to that directory.</p>
+<p>Now we are at a stage that we can analyze apps for class information. So let's dump the class information for the Apple <em>Maps</em> app. The first step would be to locate the Apple <em>Maps</em> app executable. All iOS apps that come preinstalled with the device are stored in the directory <em>/Applications</em>. So let's navigate to that directory.</p>
 
 
 <img src="/images/posts/ios2/20.png" width="1026" height="328" alt="20">
@@ -24,7 +24,7 @@ categories: [security]
 	
 <img src="/images/posts/ios2/21.png" width="1025" height="540" alt="21">
 
-<p>As you can see, we can see all the images, plist files etc used by this app. We will discuss later how it is possible to fetch all the images and other files from a particular IOS app. Anyways, hidden in all this mess is an executable for the app with the name <em>Maps</em> as can be seen on the left side in the image below. Note that the name of the executable will be the same as the name of the app. Note that we can see some pdf's in the app bundle as well. I really don't see the need of including a pdf file in the bundle.</p>
+<p>As you can see, we can see all the images, plist files etc used by this app. We will discuss later how it is possible to fetch all the images and other files from a particular iOS app. Anyways, hidden in all this mess is an executable for the app with the name <em>Maps</em> as can be seen on the left side in the image below. Note that the name of the executable will be the same as the name of the app. Note that we can see some pdf's in the app bundle as well. I really don't see the need of including a pdf file in the bundle.</p>
 
 <img src="/images/posts/ios2/22.png" width="1025" height="397" alt="22">
 

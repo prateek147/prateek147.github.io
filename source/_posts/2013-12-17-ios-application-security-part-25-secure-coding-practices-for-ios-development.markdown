@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "IOS Application Security Part 25 – Secure Coding Practices for IOS Development"
+title: "iOS Application Security Part 25 – Secure Coding Practices for iOS Development"
 date: 2013-12-17 13:07
 comments: true
 categories: [security]
 ---
 
 
-<p>In this article, we will look at some of the best practices an IOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
+<p>In this article, we will look at some of the best practices an iOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
 
 <h3>Local Data Storage</h3>
 
@@ -17,7 +17,7 @@ categories: [security]
 
 
 <ul>
-	<li>Important data like Passwords, Session ID's etc should never be stored locally on the device. If there is no other option, it should be stored on the keychain. This is because you can be assured that the hacker won't be able to find out the data in your keychain as long as the user's device is not jailbroken. Since more than 70% people have upgraded their IOS devices to IOS 7 and since there is no public jailbreak for IOS 7 yet, you can be assured that the hacker won't be able to get the information stored in your keychain (yet). Some people might say that the process of storing data in the keychain isn't as simple as saving data in NSUserDefaults. But we can always use third-party wrappers that can make the job extremely simple for us. For e.g, <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">here</a> is an article that demonstrates the use of a wrapper named PDKeychainBindings and show how simple it is to save data in the keychain. Here is a snippet of code for saving data in the keychain using this wrapper.</li>
+	<li>Important data like Passwords, Session ID's etc should never be stored locally on the device. If there is no other option, it should be stored on the keychain. This is because you can be assured that the hacker won't be able to find out the data in your keychain as long as the user's device is not jailbroken. Since more than 70% people have upgraded their iOS devices to iOS 7 and since there is no public jailbreak for iOS 7 yet, you can be assured that the hacker won't be able to get the information stored in your keychain (yet). Some people might say that the process of storing data in the keychain isn't as simple as saving data in NSUserDefaults. But we can always use third-party wrappers that can make the job extremely simple for us. For e.g, <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">here</a> is an article that demonstrates the use of a wrapper named PDKeychainBindings and show how simple it is to save data in the keychain. Here is a snippet of code for saving data in the keychain using this wrapper.</li>
 	
 <pre>
 PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
@@ -85,7 +85,7 @@ PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
 <h3>Some other minor things</h3>
 
 <ul>
-	<li>TextFields that have inputs as passwords should be used with <i>Secure</i> option. This is because IOS usually caches all the things that you enter in textfields, provided it doesn't have the <i>Secure</i> tag. Also disable <i>AutoCorrection</i> for those text fields. In the image below, you can see that the  textfield has <i>AutoCorrection</i> set to NO and the <i>Secure</i> tag is being enabled.</li>
+	<li>TextFields that have inputs as passwords should be used with <i>Secure</i> option. This is because iOS usually caches all the things that you enter in textfields, provided it doesn't have the <i>Secure</i> tag. Also disable <i>AutoCorrection</i> for those text fields. In the image below, you can see that the  textfield has <i>AutoCorrection</i> set to NO and the <i>Secure</i> tag is being enabled.</li>
 	
 	<img src="/images/posts/ios25/2.png" width="674" height="192" alt="2">
 	

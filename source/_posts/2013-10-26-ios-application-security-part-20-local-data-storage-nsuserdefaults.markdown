@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 20 – Local Data Storage (NSUserDefaults"
+title: "iOS Application Security Part 20 – Local Data Storage (NSUserDefaults"
 date: 2013-10-26 23:39
 comments: true
 categories: [security]
@@ -10,7 +10,7 @@ categories: [security]
 
 <p>We will be performing some of these demonstrations in a sample app that you can download from my <a href="https://github.com/prateek147/localDataStorageDemo">github</a> account. For the CoreData example, you can download the sample app from <a href="https://github.com/ChrisDrit/Core-Data-Example-Code">here</a></p>
 
-<p>One of the other things that we will doing different in this example is that we will be running the application on the IOS simulator using Xcode rather than on the device and hence will be analyzing the application on our computer rather than on the device. This is just to demonstrate that you can perform all the steps performed before in <a href="http://highaltitudehacks.com/security/">previous</a> articles on your system as well by running the application via Xcode. Optionally, you can simply run the application on your device using the steps mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a>.</p>
+<p>One of the other things that we will doing different in this example is that we will be running the application on the iOS simulator using Xcode rather than on the device and hence will be analyzing the application on our computer rather than on the device. This is just to demonstrate that you can perform all the steps performed before in <a href="http://highaltitudehacks.com/security/">previous</a> articles on your system as well by running the application via Xcode. Optionally, you can simply run the application on your device using the steps mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a>.</p>
 
 <h2>NSUserDefaults</h2>
 
@@ -22,7 +22,7 @@ categories: [security]
 
 <p>What most people do not realize is that the data saved by NSUserDefaults is not encrypted and can be easily viewed from the application bundle. It is stored in a plist file with the name as the <i>bundle Id</i> of the application. First of all, we must find the application bundle for our application. Since we are running the application on our system, we can find our applications on the path /Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/. In my case, the location is "Users/prateekgianchandani/Library/Application Support/iPhone Simulator/6.1/Applications" </p>
 
-<p>Once we go to that directory, we can see a bunch of applications. These are all the application that we run via Xcode for that particular IOS version. We can find our application by the date modified tag as it would have the latest modified date.</p>
+<p>Once we go to that directory, we can see a bunch of applications. These are all the application that we run via Xcode for that particular iOS version. We can find our application by the date modified tag as it would have the latest modified date.</p>
 
 <img src="/images/posts/ios20/2.png" width="945" height="287" alt="2">
 

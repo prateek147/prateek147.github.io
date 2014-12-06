@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application Security Part 15 – Static Analysis of IOS Applications using iNalyzer"
+title: "iOS Application Security Part 15 – Static Analysis of iOS Applications using iNalyzer"
 date: 2013-09-17 13:11
 comments: true
 categories: [security]
 ---
 
-<p>In the previous article, we looked at how we can use Sogeti Data protection tools to boot an iDevice using a custom ramdisk with the help of a bootrom exploit. In this article, we will look at a tool named iNalyzer than we can use for black box assessment of IOS applications. iNalyzer allows us to view the class information, perform runtime analysis and many other things. Basically it automates the efforts of decrypting the application, dumping class information and presents it in a much more presentable way. We can also hook into a running process just like Cycript and invoke methods during runtime. iNalyzer is developed and maintained by <a href="https://appsec-labs.com">AppSec Labs</a> and its offical page can be found <a href="https://appsec-labs.com/iNalyzer">here</a>. iNalyzer is also made available open source and its github page can be found <a href="https://github.com/appsec-labs/iNalyzer">here</a>.</p>
+<p>In the previous article, we looked at how we can use Sogeti Data protection tools to boot an iDevice using a custom ramdisk with the help of a bootrom exploit. In this article, we will look at a tool named iNalyzer than we can use for black box assessment of iOS applications. iNalyzer allows us to view the class information, perform runtime analysis and many other things. Basically it automates the efforts of decrypting the application, dumping class information and presents it in a much more presentable way. We can also hook into a running process just like Cycript and invoke methods during runtime. iNalyzer is developed and maintained by <a href="https://appsec-labs.com">AppSec Labs</a> and its offical page can be found <a href="https://appsec-labs.com/iNalyzer">here</a>. iNalyzer is also made available open source and its github page can be found <a href="https://github.com/appsec-labs/iNalyzer">here</a>.</p>
 
 <!-- more -->
 
@@ -17,7 +17,7 @@ categories: [security]
 
 <img src="/images/posts/ios15/1.PNG" width="320" height="480" alt="1">
 
-<p>Then go to Search and search for <i>iNalyzer</i>. Depending on the IOS version that you are running, you should download the corresponding version of iNalyzer.</p>
+<p>Then go to Search and search for <i>iNalyzer</i>. Depending on the iOS version that you are running, you should download the corresponding version of iNalyzer.</p>
 
 <img src="/images/posts/ios15/2.PNG" width="320" height="480" alt="2">
 
@@ -104,7 +104,7 @@ categories: [security]
 
 <b>Conclusion</b>
 
-<p>In this article, we looked at static analysis of IOS applications using iNalyzer and how easy it makes our job. In the next article, we will look at how we can use iNalyzer further for runtime analysis of IOS applications.</p>
+<p>In this article, we looked at static analysis of iOS applications using iNalyzer and how easy it makes our job. In the next article, we will look at how we can use iNalyzer further for runtime analysis of iOS applications.</p>
 
 <b>References</b>
 

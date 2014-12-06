@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "IOS Application Security Part 21 – ARM and GDB Basics"
+title: "iOS Application Security Part 21 – ARM and GDB Basics"
 date: 2013-11-08 14:50
 comments: true
 categories: [security]
 ---
 
-<p>All the IOS devices released uptil now are based on the ARM architecture. All the Objective-C code that we write while developing IOS applications is first converted into ARM assembly before being converted to machine code (1s and 0s). With good understanding of the ARM assembly language and with good knowledge of debugging using GDB, it is possible for a hacker to decipher the Objective-C code during runtime and even modify it.</p>
+<p>All the iOS devices released uptil now are based on the ARM architecture. All the Objective-C code that we write while developing iOS applications is first converted into ARM assembly before being converted to machine code (1s and 0s). With good understanding of the ARM assembly language and with good knowledge of debugging using GDB, it is possible for a hacker to decipher the Objective-C code during runtime and even modify it.</p>
 
-<p>For this article, we will be using a sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Make sure to install and run it on your IOS device. If you don't have a registered developer account to run this on your device, you can follow the instructions mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a></p>.
+<p>For this article, we will be using a sample application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> from my github account. Make sure to install and run it on your iOS device. If you don't have a registered developer account to run this on your device, you can follow the instructions mentioned <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">here</a></p>.
 
 <p>Now let's SSH into the device.</p>
 	
@@ -20,7 +20,7 @@ categories: [security]
 	
 <img src="/images/posts/ios21/2.png" width="1059" height="422" alt="2">
 	
-<p>Now once GDB has hooked into the application, you will notice that the application is in a paused state. You can resume the application by just using the <i>c</i> command. But let's do some investigation before that. Just like any other architecture, the memory in ARM is divided into registers. All these registers are 32 bit in size (except in IOS 7 which is 64 bit) and their purpose is to hold and move data between each other. You can find information about these registers  by just using the <i>info registers</i> command.</p>
+<p>Now once GDB has hooked into the application, you will notice that the application is in a paused state. You can resume the application by just using the <i>c</i> command. But let's do some investigation before that. Just like any other architecture, the memory in ARM is divided into registers. All these registers are 32 bit in size (except in iOS 7 which is 64 bit) and their purpose is to hold and move data between each other. You can find information about these registers  by just using the <i>info registers</i> command.</p>
 	
 <img src="/images/posts/ios21/3.png" width="1089" height="358" alt="3">
 	

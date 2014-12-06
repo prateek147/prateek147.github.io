@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "IOS Application Security Part 10 – IOS Filesystem and Forensics"
+title: "iOS Application Security Part 10 – iOS Filesystem and Forensics"
 date: 2013-08-20 07:32
 comments: true
 categories: [security]
 ---
 
-<p>In this article, we will be looking at the IOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>
+<p>In this article, we will be looking at the iOS filesystem, understand how the directories are organized, look at some important files, and look at how we can extract data from database and plist files. We will look at how applications store their data in their specific directories (sandbox) and how we can extract them. </p>
 
 <p>One of the important things to note is that in all the previous articles, we have been logging in to the device as the user <i>root</i>. There is another kind of user with the username <i>mobile</i>. A mobile user has less privileges than a root user. All the applications run with the user <i>mobile</i>, with the exception of Cydia and some other applications which run with root privileges. Some of Apple's internal daemons or services also run with root privileges. A quick <i>ps aux</i> will make this very clear. On the extreme left, you will see the USER column. We can see that Cydia runs with root privileges, whereas all other applications run with mobile user, for e.g <i>/Applications/AppStore.app/AppStore</i> while some of the daemons for e.g <i>/usr/sbin/wifid</i> run with root privileges. Some other applications that you install via Cydia may also run with root privileges. By default, once you jailbreak the device, the password for both root and mobile user is <i>alpine</i>.</p>
 
@@ -17,7 +17,7 @@ categories: [security]
 
 <p>It is possible for you to configure an app to run with root privileges. For more details on it, check out <a href="http://stackoverflow.com/a/8796556/119114">this</a>  answer on Stack Overflow.</p>
 
-<p>Let's ssh into the device. Go to /Applications. You can see some apps in this folder. Most of them are apps that come preinstalled with IOS, and then there are some apps installed via Cydia, for e.g the Terminal app. Please note that all the apps running inside /Applications folder don't run in a sandboxed environment whereas all the applications in the location /var/mobile/Applications run in a sandboxed environment. We will discuss sandboxing later in this article. However, they still run with the user <i>mobile</i> by default unless specifically configured to run with the user <i>root</i>.</p>
+<p>Let's ssh into the device. Go to /Applications. You can see some apps in this folder. Most of them are apps that come preinstalled with iOS, and then there are some apps installed via Cydia, for e.g the Terminal app. Please note that all the apps running inside /Applications folder don't run in a sandboxed environment whereas all the applications in the location /var/mobile/Applications run in a sandboxed environment. We will discuss sandboxing later in this article. However, they still run with the user <i>mobile</i> by default unless specifically configured to run with the user <i>root</i>.</p>
 
 <img src="/images/posts/ios10/2.png" width="1279" height="150" alt="2">
 
@@ -25,7 +25,7 @@ categories: [security]
 
 <img src="/images/posts/ios10/3.png" width="1439" height="321" alt="3">
 
-<p>Please note that from IOS 4 or later, every app resides in an environment called Sandbox. The main purpose of this is to ensure that the app is not allowed to access any data outside of its own sandbox. This ensures better security. It is however possible to access certain portions of the user data from within an application using proper permissions. This includes permission to fetch the user's Contacts, photos etc. However, there has been certain debate about this as well. For e.g from IOS 6, an app can get access to a user's contacts after taking proper permission from the user. Prior to this, an app could access a user's contacts without taking any permission from the user and it caused quite a <a href="http://arstechnica.com/gadgets/2012/02/path-addresses-privacy-controversy-but-social-apps-remain-a-risk-to-users/">controversy</a> for the Path app.</p>
+<p>Please note that from iOS 4 or later, every app resides in an environment called Sandbox. The main purpose of this is to ensure that the app is not allowed to access any data outside of its own sandbox. This ensures better security. It is however possible to access certain portions of the user data from within an application using proper permissions. This includes permission to fetch the user's Contacts, photos etc. However, there has been certain debate about this as well. For e.g from iOS 6, an app can get access to a user's contacts after taking proper permission from the user. Prior to this, an app could access a user's contacts without taking any permission from the user and it caused quite a <a href="http://arstechnica.com/gadgets/2012/02/path-addresses-privacy-controversy-but-social-apps-remain-a-risk-to-users/">controversy</a> for the Path app.</p>
 
 <p>It is also possible to access many other things outside of an app's sandbox using Entitlements. You can read the complete documentation <a href="http://developer.apple.com/library/ios/#documentation/Miscellaneous/Reference/EntitlementKeyReference/Chapters/EnablingAppSandbox.html">here</a>. For e.g, to access read write permissions to the calendar of a user, the entitlements key <i>com.apple.security.personal-information.calendars</i> has to be marked as YES in the <i>.entitlements</i> file.</p>
 
@@ -97,14 +97,14 @@ categories: [security]
 
 <p>Plist files are structured text files that are used for storing various settings and configuration for a particular app. Since the information is stored in a structured way in a plist file in key-value pairs, it is very easy to change this information and hence developers sometimes end up storing more information in these files than it should actually be used for.</p>
 
-<p>Even on a non-jailbroken device, plist files can be extracted by using the tool iExplorer. You can also get a quick look at the plist file using iExplorer. For e.g, below is the information stored in a plist file on the Defcon IOS app.</p>
+<p>Even on a non-jailbroken device, plist files can be extracted by using the tool iExplorer. You can also get a quick look at the plist file using iExplorer. For e.g, below is the information stored in a plist file on the Defcon iOS app.</p>
 
 <img src="/images/posts/ios10/p.png" width="1409" height="793" alt="P">
 <p>And here is a screenshot from the User.plist file contained in the Snapchat app inside Documents folder. The first highlighted section is actually the authentication token for that particular user and the second highlighted section is the username for that Snapchat user.</p>
 
 <img src="/images/posts/ios10/33.png" width="702" height="302" alt="33">
 
-<p>Plist files may also contain confidential information like usernames or passwords. The important thing to note is that is that anyone can extract a plist file from a device even if its not jailbroken. You can also extract plist files from itunes backup files. Developers over the last few years have stored confidential information in plist files which is not the correct way. A vulnerability was found in the Linkedin IOS app where the developer was storing user authentication information in plist files. You can find more information about it <a href="http://blog.scoopz.com/2012/04/07/linkedin-ios-app-also-vulnerable-to-plist-identity-theft/">here</a>.
+<p>Plist files may also contain confidential information like usernames or passwords. The important thing to note is that is that anyone can extract a plist file from a device even if its not jailbroken. You can also extract plist files from itunes backup files. Developers over the last few years have stored confidential information in plist files which is not the correct way. A vulnerability was found in the Linkedin iOS app where the developer was storing user authentication information in plist files. You can find more information about it <a href="http://blog.scoopz.com/2012/04/07/linkedin-ios-app-also-vulnerable-to-plist-identity-theft/">here</a>.
 	
 <p>If you want to read the plist file from the terminal itself, you will first have to convert it into xml format using the tool <i>plutil</i>. The command is <i>plutil -covert xml1 [filename]</i>. First, lets search for all the plist files in the device by using the 2 commands as shown in the figure below.</p>.
 
@@ -122,5 +122,5 @@ categories: [security]
 
 <h2>Conclusion</h2>
 
-<p>In this article, we looked at the IOS filesystem, learnt how the directory structure is organized, looked at some important files and learnt how to extract information from database and plist files. In the next article, we will take a sample application and use all the techniques learnt in the previous articles to perfom a detailed security analysis of the app.</p>	
+<p>In this article, we looked at the iOS filesystem, learnt how the directory structure is organized, looked at some important files and learnt how to extract information from database and plist files. In the next article, we will take a sample application and use all the techniques learnt in the previous articles to perfom a detailed security analysis of the app.</p>	
 	

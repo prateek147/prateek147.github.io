@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "IOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account"
+title: "iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account"
 date: 2013-07-25 15:15
 comments: true
 categories: [security]
 ---
 
-<p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn IOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
+<p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn iOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
 
 <!-- more -->
 
-<p>This article will focus on running custom apps on device using Xcode 4.5.2 on IOS 5.1 . This same technique might or might not work on other versions of IOS or Xcode. If you face some problems running the application on device, please drop a comment and i will respond to that asap.</p>
+<p>This article will focus on running custom apps on device using Xcode 4.5.2 on iOS 5.1 . This same technique might or might not work on other versions of iOS or Xcode. If you face some problems running the application on device, please drop a comment and i will respond to that asap.</p>
 
 <p>The first step is to create a self signed certificate. We will use this certificate to sign thw apps that we want to run on the device.</p>
 
@@ -51,11 +51,11 @@ categories: [security]
 <img src="/images/posts/ios7/10.png" width="734" height="492" alt="10">
 
 
-<p>Since we will be running this app on a device running IOS 5.1, we need to make sure the deployment target matches that. Tap on the project name in the <code>Project Navigator</code> on the top left, select the project and then inside <code>Info</code>, set the Deployment target to <code>5.1</code> as shown in the figure below. You can choose your deployment target depending on the operating system you are running your device on.</p>
+<p>Since we will be running this app on a device running iOS 5.1, we need to make sure the deployment target matches that. Tap on the project name in the <code>Project Navigator</code> on the top left, select the project and then inside <code>Info</code>, set the Deployment target to <code>5.1</code> as shown in the figure below. You can choose your deployment target depending on the operating system you are running your device on.</p>
 
 <img src="/images/posts/ios7/11.png" width="883" height="382" alt="11">
 
-<p>For cases where we are running the app on IOS 5.1, since we have a storyboard in this app, and because IOS 5.1 does not support the Autolayout feature in Storyboards, the app will crash. Hence make sure that the <code>Use Autolayout</code> option is not selected on the storyboard.</p>
+<p>For cases where we are running the app on iOS 5.1, since we have a storyboard in this app, and because iOS 5.1 does not support the Autolayout feature in Storyboards, the app will crash. Hence make sure that the <code>Use Autolayout</code> option is not selected on the storyboard.</p>
 
 <img src="/images/posts/ios7/12.png" width="256" height="112" alt="12">
 
@@ -84,7 +84,7 @@ categories: [security]
 <img src="/images/posts/ios7/17.png" width="1019" height="94" alt="17">
 <img src="/images/posts/ios7/18.png" width="299" height="27" alt="18">
 
-<p>Now create a folder named Payload, put the SelfSigned.app file under it, compress that folder (it will be initially named as Payload.zip) and name it SelfSigned.ipa .As we saw in part 2 of this series, this is the bundle in which IOS applications are stored.</p>
+<p>Now create a folder named Payload, put the SelfSigned.app file under it, compress that folder (it will be initially named as Payload.zip) and name it SelfSigned.ipa .As we saw in part 2 of this series, this is the bundle in which iOS applications are stored.</p>
 
 <p>Once we have the ipa file, there are 2 ways to install it. One is to just drag and drop this ipa file into the apps section in iTunes, then use iTunes to install the app on the device.</p>
 

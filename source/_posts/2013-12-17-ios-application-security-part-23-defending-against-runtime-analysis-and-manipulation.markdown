@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "IOS Application Security Part 23 – Defending against runtime analysis and manipulation"
+title: "iOS Application Security Part 23 – Defending against runtime analysis and manipulation"
 date: 2013-12-17 10:37
 comments: true
 categories: [security]
@@ -8,7 +8,7 @@ categories: [security]
 
 
 
-<p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of IOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application's binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
+<p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of iOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application's binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
 
 
 <p>In Xcode, there are certain checks that an attacker can use to determine whether an application is being debugged or not. In Xcode, use the following piece of code wherever you want to put a check for a debugger.</p>
