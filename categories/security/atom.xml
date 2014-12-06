@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-12-04T01:43:16+04:00</updated>
+  <updated>2014-12-06T16:12:02+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -32,15 +32,21 @@
 <p>You can download the latest version from <a href="http://damnvulnerableiosapp.com/#downloads">here</a>.
 The source code is available on the project&rsquo;s github page <a href="https://github.com/prateek147/DVIA">here</a>.</p>
 
-<!-- more -->
-
-
-
-
 <h3>Manual Installation</h3>
 
 
-<p>Download the .ipa file from the <a href="http://damnvulnerableiosapp.com/#downloads">downloads</a> page, change its name from DamnVulnerableiOSApp.ipa to DamnVulnerableIOSApp.zip and unzip this file. This will unzip to a folder named Payload. Inside it, there will be a file named DamnVulnerableIOSApp.app. Then copy the .app file to the /Applications directory on the device using Scp. You can also use sftp or the utility iExplorer to upload this application.</p>
+<p>The easiest way is to install the application from Cydia. Add the source repo.kylelevin.com and search for DamnVulnerableiOSApp.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/dvia/3.PNG" width="320" height="568" alt="3"></p>
+
+<!-- more -->
+
+
+<p>You can directly download the deb file also on your device and use dpkg -i DamnVulnerableiOSApp.deb to install the application followed by the command <i>uicache</i></p>
+
+<p><img src="http://prateek147.github.io/images/posts/dvia/4.png" width="719" height="156" alt="4"></p>
+
+<p>Or you can download the .ipa file from the <a href="http://damnvulnerableiosapp.com/#downloads">downloads</a> page, change its name from DamnVulnerableiOSApp.ipa to DamnVulnerableIOSApp.zip and unzip this file. This will unzip to a folder named Payload. Inside it, there will be a file named DamnVulnerableIOSApp.app. Then copy the .app file to the /Applications directory on the device using Scp. You can also use sftp or the utility iExplorer to upload this application.</p>
 
 <p><img src="http://prateek147.github.io/images/posts/dvia/1.png" width="1126" height="510" alt="1"></p>
 
@@ -52,7 +58,7 @@ The source code is available on the project&rsquo;s github page <a href="https:/
 
 <p>Any commits to the source code on Github or suggestions to improve the app are welcome.</p>
 
-<p>Special thanks to <a href="http://twitter.com/crylico">@crylico</a> to help test the application before release.</p>
+<p>Special thanks to <a href="http://twitter.com/crylico">@crylico</a> to help test the application before release and hosting the application on his repo.</p>
 
 <p>Happy hacking !</p>
 
