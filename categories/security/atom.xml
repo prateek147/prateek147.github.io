@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-12-06T18:00:43+04:00</updated>
+  <updated>2014-12-21T00:16:24+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,114 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 37 - Adapting to iOS 8]]></title>
+    <link href="http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8"/>
+    <updated>2014-12-21T00:14:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8</id>
+    <content type="html"><![CDATA[<p>In this article we will look at all the things you need to do to set up a pentesting platform on iOS 8 and be comfortable with using all the tools.</p>
+
+
+
+
+<h3>Jailbreaking your device</h3>
+
+
+
+
+<p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is prerry straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
+
+
+
+
+<p><i>Note: I was getting an error with Pangu saying that there was not enough space on my device even though there was enough space. I tried by putting my device into Airplane mode and by turning off Wifi on my laptop and it worked for me.</i></p>
+
+
+
+
+<p>Once you jailbreak your device, you can install OpenSSH in your device using Cydia and get connectivity to your device.</p>
+
+
+
+
+<h3>Location of applications</h3>
+
+
+
+
+<p>One of the major changes within the file structure is that the user applications are no longer located at the location <i>/var/mobile/Applications</i>. The application bundle is stored in the location <i>/var/mobile/Containers/Bundle/Application</i> (Appname.app) whereas the application data (Documents, Library, tmp folder) is stored in the location <i>/var/mobile/Containers/Data/Application</i>. The name of the folder (a unique ID) will also be different for the same application. So while checking an application, it is recommended to look at both the locations.</p>
+
+
+
+
+<!-- more -->
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios37/location1.png" width="848" height="236" alt="Location1">
+<img src="http://prateek147.github.io/images/posts/ios37/location2.png" width="809" height="178" alt="Location2"></p>
+
+<p>However, the applications that are installed by default on your device with iOS are still located in the location <i>/Applications/</i>. For e.g, the App store application can be seen in the below image.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios37/appstore.png" width="593" height="297" alt="Appstore"></p>
+
+<h3>Decrypting applications</h3>
+
+
+
+
+<p>You can download the latest version of clutch to decrypt iOS 8 applications from <a href="https://github.com/KJCracks/Clutch/releases">here</a>. You can download the binary for 1.4.7-git2 as of now. Once you download it on your device, just run it once and then run it again and it will show you the list of downloaded applications on your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios37/1.png" width="494" height="496" alt="1"></p>
+
+<p>Simply type Clutch followed by the app name to start decrypting it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios37/2.png" width="683" height="428" alt="2"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios37/3.png" width="622" height="295" alt="3"></p>
+
+<h3>File explorer utilities</h3>
+
+
+
+
+<p>Because of the change in the location where applications store data, iExplorer now looks inside the folder <i>/var/mobile/Containers/Data/Application</i>. It however, doesn't look into the application bundle. The same goes for iFunbox, which is another good file explorer utility for iOS devices. It is however recommended that you also look inside the application bundle folder also while testing an iOS application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios37/iexplorer.png" width="435" height="245" alt="Iexplorer"></p>
+
+<h3>Cycript & class-dump-z</h3>
+
+
+
+
+<p>Cycript and class-dump-z both work well on iOS 8 devices. However, please make sure you are using the latest version of cycript (0.9.502 at the time of writing).</p>
+
+
+
+
+<h3>Dumping keychain</h3>
+
+
+
+
+<p><a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain dumper</a> works just fine and can still dump all your keychain items in your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios37/keychain.png" width="436" height="102" alt="Keychain"></p>
+
+<h3>Swift</h3>
+
+
+
+
+<p>According to Apple, Swift is a new programming language for iOS and OS X apps that builds on the best of C and Objective-C, without the constraints of C compatibility. Swift adopts safe programming patterns and adds modern features to make programming easier, more flexible, and more fun. Swift’s clean slate, backed by the mature and much-loved Cocoa and Cocoa Touch frameworks, is an opportunity to reimagine how software development works. In the future articles, we will learn how to use cycript to analyze swift objects. However, i recommend you to start learning swift. One of the best resources to learn it from apart from Apple's documentation is on <a href="http://www.raywenderlich.com/74438/swift-tutorial-a-quick-start">Ray Wenderlich's blog.</a> Also, i would like to point out that it might take some time for this language to catch up and be actually used for developing iOS applications. We will cover swift in later articles in this series.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Damn Vulnerable iOS App v1.4 launched]]></title>
@@ -363,92 +471,6 @@ By default, when making an SSL connection, the client checks that the server’s
 
 <p>In this article, we looked at how we can use Wifite to crack networks using WPA-PSK or WPA2-PSK. Wifite is great at its job and automates almost everything, however it is important to understand how it uses the tools like airodump-ng, aircrack-ng etc under the hood to perform its task. I would recommend that you go through the source code of Wifite and figure out how this is done.</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Wifite Walkthrough part 1: Cracking WEP access points]]></title>
-    <link href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points"/>
-    <updated>2014-10-27T01:41:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-1-cracking-wep-access-points</id>
-    <content type="html"><![CDATA[<p>In this article series, we will look at a tool named Wifite suitable for automated auditing of wireless networks. Most of you who have experience in wireless pentesting would use tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng to crack wireless networks. This would involve a sequence of steps, like capturing a specific numbers of IV's in case of WEP, capturing the WPA handshake in case of WPA etc, and then subsequently using aircrack-ng to crack the password required for authentication to the network. Wifite aims to ease this process by using a wrapper over all these tools and thus making it super easy to crack Wifi networks.</p>
-
-
-
-
-<p>Here is a list of features of Wifite as per its official <a href="https://code.google.com/p/wifite/">homepage</a>.</p>
-
-
-
-
-<ul>
-    <li>sorts targets by signal strength (in dB); cracks closest access points first</li>
-    <li>automatically de-authenticates clients of hidden networks to reveal SSIDs</li>
-    <li>numerous filters to specify exactly what to attack (wep/wpa/both, above certain signal strengths, channels, etc)</li>
-    <li>customizable settings (timeouts, packets/sec, etc)</li> 
-    <li>"anonymous" feature; changes MAC to a random address before attacking, then changes back when attacks are complete</li>
-    <li>all captured WPA handshakes are backed up to wifite.py's current directory</li>
-    <li>smart WPA de-authentication; cycles between all clients and broadcast deauths</li>
-    <li>stop any attack with Ctrl+C, with options to continue, move onto next target, skip to cracking, or exit</li>
-    <li>displays session summary at exit; shows any cracked keys</li>
-    <li>all passwords saved to cracked.txt</li>
-    <li>built-in updater: ./wifite.py -upgrade</li>
-</ul>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>Before we start using wifite, make sure you have a proper wireless card that supports packet injection. If you don't have one, i would suggest that you buy <a href="http://www.amazon.com/Alfa-AWUS036H-802-11b-Wireless-network/dp/B002WCEWU8">this</a> card.</p>
-
-
-
-
-<p><p>Note that there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn&rsquo;t aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = [&lsquo;aireplay-ng&rsquo;,</i> with <i>cmd = [&lsquo;aireplay-ng&rsquo;,&lsquo;&mdash;ignore-negative-one&rsquo;,</i></p>
-
-<p><p>Wifite can be found under <i>Applications &ndash;> Kali Linux &ndash;> Wireless Attacks &ndash;> 802.11 Wireless Tools</i>. Also, note that if you are running wifite in a different VM than Kali Linux, then you have to make sure that tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng are already installed on that system. This is because Wifite is nothing but a wrapper over all these tools. Before we even start using Wifite, it is better to update to the latest version.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/1.png" width="846" height="328" alt="1"></p>
-
-<p><p>In my case, i already have the latest version. In this tutorial, we will be targeting a simple Wifi network with WEP encryption. Just using the command <i>wifite -h</i> will give you a list of all the commands.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/2.png" width="962" height="596" alt="2"></p>
-
-<p><p>A very tempting option would be <i>-all</i> which tries to attack every network that it finds. We will try it in later articles in this series. However, first lets take a look at all the targets that we have. To do that, use the command <i>wifite -showb</i></p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/3.png" width="930" height="331" alt="3"></p>
-
-<p><p>Once this is done, we can see that wifite has put our network interface card into monitor mode (using airmon-ng) and started to look for clients. After a few more seconds, it will start displaying the list of access points.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/4.png" width="907" height="314" alt="4"></p>
-
-<p><p>Note that as it is mentioned in its feature list (automatically de-authenticates clients of hidden networks to reveal SSIDs), this list will also include hidden access points. Hence, wifite can also be used to find hidden access points. In this case we will attack an access point with the BSSID 00:26:75:02:EF:65 that i have set up for testing purposes. The access point has a simple WEP password <i>1234567890</i>.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/5.png" width="777" height="290" alt="5"></p>
-
-<p><p>To start attacking an access point, just press <i>Ctrl+C</i>. Wifite will now ask you to choose a target number from the list. The target number for my test network is 1, so let me enter that. Note that if you press <i>Ctrl+C</i> again, it will quit Wifite.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/6.png" width="750" height="80" alt="6"></p>
-
-<p><p>You can now see that Wifite will start attempting to crack the WEP access point using the different known techniques for cracking WEP encryption. After some unsuccessful tries, it has finally begun to start attacking the access points using different techniques for cracking WEP.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/11.png" width="744" height="160" alt="11"></p>
-
-<p><p>Once enough IV&rsquo;s are being captured, it will automatically start cracking the password.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/12.png" width="653" height="324" alt="12"></p>
-
-<p><p>As we can see, Wifite has successfully figured out the WEP key for the access point. Wifite is an extremely useful tool for cracking wireless networks. As i mentioned previously, you need to have all the tools like airmon-ng, aireplay-ng, airodump-ng, aircrack-ng already installed on your system. To further prove the point, let&rsquo;s dive into the source code of Wifite.</p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite1/10.png" width="545" height="297" alt="10"></p>
-
-<p><p>As we can see, the python code has mentions of calling aireplay-ng. Hence, it is recommended to run Wifite inside Kali linux.</p></p>
-
-<p><p>In the next article, we will look at some advanced usage options of Wifite.</p></p>
 ]]></content>
   </entry>
   

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Damn Vulnerable iOS App v1.4 launched - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 37 - Adapting to iOS 8 - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Damn Vulnerable iOS App v1.4 Launched Dec 1st, 2014 Posted by Prateek Gianchandani I am so excited to release the latest version of Damn Vulnerable &hellip;">
+  <meta name="description" content="iOS Application Security Part 37 - Adapting to iOS 8 Dec 21st, 2014 Posted by Prateek Gianchandani In this article we will look at all the things &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched">
+  <link rel="canonical" href="http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -110,7 +110,7 @@
 
   <header>
   <div class="jumbotron">
-    Damn Vulnerable iOS App v1.4 Launched
+    iOS Application Security Part 37 - Adapting to iOS 8
 	<h5>
 
 
@@ -123,7 +123,7 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-12-01T18:07:00+04:00" pubdate data-updated="true">Dec 1<span>st</span>, 2014</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-12-21T00:14:00+04:00" pubdate data-updated="true">Dec 21<span>st</span>, 2014</time></h5>
   <h4>
   
 
@@ -133,51 +133,106 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>I am so excited to release the latest version of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app for iOS 8.</a> Up till now, DVIA has been downloaded more than 75000 times and i can&rsquo;t wait for the count to reach 6 digits :&ndash;)</p>
-
-<p>Following vulnerabilities and challenges have been added in the latest version.</p>
-
-<ol>
-<li>Sensitive information in memory</li>
-<li> Webkit Caching (Insecure data storage)</li>
-<li>Certificate pinning bypass </li>
-</ol>
+      <p>In this article we will look at all the things you need to do to set up a pentesting platform on iOS 8 and be comfortable with using all the tools.</p>
 
 
-<p>You can download the latest version from <a href="http://damnvulnerableiosapp.com/#downloads">here</a>.
-The source code is available on the project&rsquo;s github page <a href="https://github.com/prateek147/DVIA">here</a>.</p>
-
-<h3>Manual Installation</h3>
 
 
-<p>The easiest way is to install the application from Cydia. Add the source repo.kylelevin.com and search for DamnVulnerableiOSApp.</p>
+<h3>Jailbreaking your device</h3>
 
-<p><img src="/images/posts/dvia/3.PNG" width="320" height="568" alt="3"></p>
+
+
+
+<p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is prerry straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
+
+
+
+
+<p><i>Note: I was getting an error with Pangu saying that there was not enough space on my device even though there was enough space. I tried by putting my device into Airplane mode and by turning off Wifi on my laptop and it worked for me.</i></p>
+
+
+
+
+<p>Once you jailbreak your device, you can install OpenSSH in your device using Cydia and get connectivity to your device.</p>
+
+
+
+
+<h3>Location of applications</h3>
+
+
+
+
+<p>One of the major changes within the file structure is that the user applications are no longer located at the location <i>/var/mobile/Applications</i>. The application bundle is stored in the location <i>/var/mobile/Containers/Bundle/Application</i> (Appname.app) whereas the application data (Documents, Library, tmp folder) is stored in the location <i>/var/mobile/Containers/Data/Application</i>. The name of the folder (a unique ID) will also be different for the same application. So while checking an application, it is recommended to look at both the locations.</p>
+
+
+
 
 <!-- more -->
 
 
-<p>You can directly download the deb file also on your device and use dpkg -i DamnVulnerableiOSApp.deb to install the application followed by the command <i>uicache</i></p>
+<p><img src="/images/posts/ios37/location1.png" width="848" height="236" alt="Location1">
+<img src="/images/posts/ios37/location2.png" width="809" height="178" alt="Location2"></p>
 
-<p><img src="/images/posts/dvia/4.png" width="719" height="156" alt="4"></p>
+<p>However, the applications that are installed by default on your device with iOS are still located in the location <i>/Applications/</i>. For e.g, the App store application can be seen in the below image.</p>
 
-<p>Or you can download the .ipa file from the <a href="http://damnvulnerableiosapp.com/#downloads">downloads</a> page, change its name from DamnVulnerableiOSApp.ipa to DamnVulnerableIOSApp.zip and unzip this file. This will unzip to a folder named Payload. Inside it, there will be a file named DamnVulnerableIOSApp.app. Then copy the .app file to the /Applications directory on the device using Scp. You can also use sftp or the utility iExplorer to upload this application.</p>
 
-<p><img src="/images/posts/dvia/1.png" width="1126" height="510" alt="1"></p>
+<p><img src="/images/posts/ios37/appstore.png" width="593" height="297" alt="Appstore"></p>
 
-<p>Now login as the mobile user, use the command su to get root privileges and give the DVIA binary executable permissions. Then use the exit command to go back as the mobile user, and use the command uicache to install the application. If this doesn’t work, you can reboot the device or try this method again.</p>
+<h3>Decrypting applications</h3>
 
-<p><img src="/images/posts/dvia/2.png" width="799" height="284" alt="2"></p>
 
-<p>To compile the application, you should follow the instructions mentioned <a href="http://damnvulnerableiosapp.com/2013/12/get-started/">here</a>.</p>
 
-<p>Any commits to the source code on Github or suggestions to improve the app are welcome.</p>
 
-<p>Special thanks to <a href="http://twitter.com/crylico">@crylico</a> to help test the application before release and hosting the application on his repo.</p>
+<p>You can download the latest version of clutch to decrypt iOS 8 applications from <a href="https://github.com/KJCracks/Clutch/releases">here</a>. You can download the binary for 1.4.7-git2 as of now. Once you download it on your device, just run it once and then run it again and it will show you the list of downloaded applications on your device.</p>
 
-<p>Happy hacking !</p>
 
-<p>-Prateek</p>
+<p><img src="/images/posts/ios37/1.png" width="494" height="496" alt="1"></p>
+
+<p>Simply type Clutch followed by the app name to start decrypting it.</p>
+
+
+<p><img src="/images/posts/ios37/2.png" width="683" height="428" alt="2"></p>
+
+<p><img src="/images/posts/ios37/3.png" width="622" height="295" alt="3"></p>
+
+<h3>File explorer utilities</h3>
+
+
+
+
+<p>Because of the change in the location where applications store data, iExplorer now looks inside the folder <i>/var/mobile/Containers/Data/Application</i>. It however, doesn&#8217;t look into the application bundle. The same goes for iFunbox, which is another good file explorer utility for iOS devices. It is however recommended that you also look inside the application bundle folder also while testing an iOS application.</p>
+
+
+<p><img src="/images/posts/ios37/iexplorer.png" width="435" height="245" alt="Iexplorer"></p>
+
+<h3>Cycript & class-dump-z</h3>
+
+
+
+
+<p>Cycript and class-dump-z both work well on iOS 8 devices. However, please make sure you are using the latest version of cycript (0.9.502 at the time of writing).</p>
+
+
+
+
+<h3>Dumping keychain</h3>
+
+
+
+
+<p><a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain dumper</a> works just fine and can still dump all your keychain items in your device.</p>
+
+
+<p><img src="/images/posts/ios37/keychain.png" width="436" height="102" alt="Keychain"></p>
+
+<h3>Swift</h3>
+
+
+
+
+<p>According to Apple, Swift is a new programming language for iOS and OS X apps that builds on the best of C and Objective-C, without the constraints of C compatibility. Swift adopts safe programming patterns and adds modern features to make programming easier, more flexible, and more fun. Swift’s clean slate, backed by the mature and much-loved Cocoa and Cocoa Touch frameworks, is an opportunity to reimagine how software development works. In the future articles, we will learn how to use cycript to analyze swift objects. However, i recommend you to start learning swift. One of the best resources to learn it from apart from Apple&#8217;s documentation is on <a href="http://www.raywenderlich.com/74438/swift-tutorial-a-quick-start">Ray Wenderlich&#8217;s blog.</a> Also, i would like to point out that it might take some time for this language to catch up and be actually used for developing iOS applications. We will cover swift in later articles in this series.</p>
+
 
     </div>
   </div>
@@ -228,10 +283,8 @@ The source code is available on the project&rsquo;s github page <a href="https:/
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2014/11/24/android-application-hacking-with-insecure-bank-part-1" title="Previous Post: Android Application hacking with Insecure Bank Part 1">&laquo; Android Application hacking with Insecure Bank Part 1</a>
+            <a class="basic-alignment left" href="/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched" title="Previous Post: Damn Vulnerable iOS App v1.4 launched">&laquo; Damn Vulnerable iOS App v1.4 launched</a>
           
-          
-            <a class="basic-alignment right" href="/2014/12/21/ios-application-security-part-37-adapting-to-ios-8" title="Next Post: iOS Application Security Part 37 - Adapting to iOS 8">iOS Application Security Part 37 - Adapting to iOS 8 &raquo;</a>
           
         </p>
       </div>
@@ -297,8 +350,8 @@ alt="web analytics"></a></div></noscript>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched';
-        var disqus_url = 'http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched';
+        var disqus_identifier = 'http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8';
+        var disqus_url = 'http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8';
         var disqus_script = 'embed.js';
       
     (function () {

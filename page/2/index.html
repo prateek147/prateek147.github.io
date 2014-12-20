@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Dec 17th, 2013 Comments security iOS Application Security Part 22 – &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Dec 17th, 2013 Comments security iOS Application Security Part 23 – &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,72 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-12-17T10:37:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation">iOS Application Security Part 23 – Defending against runtime analysis and manipulation</a></h1>
+      <p>In the <a href="http://highaltitudehacks.com/security/">previous</a> articles, we have looked at how we can use debuggers and tools like Cycript to do runtime analysis and manipulation of iOS Applications. We have looked at how we can modify the actual implementation of a method during runtime by changing the values in the registers using GDB, and also looked at how we can completely <a href="http://highaltitudehacks.com/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">swizzle</a> method implementations using tools like Cycript. With tools like Cycript and GDB in his arsenal and with a copy of your application&#8217;s binary, the attacker is is complete control. However, there are certain techniques a developer can use to make the job of the hacker much more difficult. In this article, we will look at the techniques a developer can use in his application to defend it against runtime analysis and manipulation.</p>
+
+
+
+
+<p>In Xcode, there are certain checks that an attacker can use to determine whether an application is being debugged or not. In Xcode, use the following piece of code wherever you want to put a check for a debugger.</p>
+
+
+
+
+<pre>
+    #ifndef DEBUG
+        SEC_IS_BEING_DEBUGGED_RETURN_NIL();
+    #endif
+</pre>
+
+
+
+
+
+      
+       <a href="/2013/12/17/ios-application-security-part-23-defending-against-runtime-analysis-and-manipulation">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -1235,58 +1301,6 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 
       
        <a href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2013-07-25T15:15:00+04:00" pubdate data-updated="true">Jul 25<span>th</span>, 2013</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account</a></h1>
-      <p>Usually, to test apps on a device, you need to be a registered developer which costs about $99/year. For people who want to learn iOS Application security, it is very important that they should be able to run applications on device so that they can perfom tests on them. For some people who do not want to publish any apps on the app store, it may not be worth it to pay the $99/year fees. In this article we will be looking at how we can build and install an application on a jailbroken idevice without having a registered developer account. Then in the next article we will look at how we can run our own applications on the device and use Cycript to perform method swizzling and other techniques.</p>
-
-
-
-
-
-      
-       <a href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account">Read on &rarr;</a> 
     </div>
   </div>
 

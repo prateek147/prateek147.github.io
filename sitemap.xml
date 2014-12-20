@@ -423,16 +423,22 @@
         <lastmod>2014-12-06T18:00:36+04:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8
+        </loc>
+        <lastmod>2014-12-21T00:16:08+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://prateek147.github.io/about/</loc>
         <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/archives/</loc>
-        <lastmod>2014-12-06T18:00:36+04:00</lastmod>
+        <lastmod>2014-12-21T00:16:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/</loc>
-        <lastmod>2014-12-06T18:00:36+04:00</lastmod>
+        <lastmod>2014-12-21T00:16:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/security.html</loc>
@@ -448,7 +454,7 @@
     </url>
     <url>
         <loc>http://prateek147.github.io/</loc>
-        <lastmod>2014-12-06T18:00:36+04:00</lastmod>
+        <lastmod>2014-12-21T00:16:08+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/ios/</loc>
