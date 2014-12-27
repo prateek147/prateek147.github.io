@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-12-21T00:26:59+04:00</updated>
+  <updated>2014-12-27T23:38:40+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -38,6 +38,11 @@
 
 
 
+<!-- more -->
+
+
+
+
 <p>Once you jailbreak your device, you can install OpenSSH in your device using Cydia and get connectivity to your device.</p>
 
 
@@ -49,11 +54,6 @@
 
 
 <p>One of the major changes within the file structure is that the user applications are no longer located at the location <i>/var/mobile/Applications</i>. The application bundle is stored in the location <i>/var/mobile/Containers/Bundle/Application</i> (Appname.app) whereas the application data (Documents, Library, tmp folder) is stored in the location <i>/var/mobile/Containers/Data/Application</i>. The name of the folder (a unique ID) will also be different for the same application. So while checking an application, it is recommended to look at both the locations.</p>
-
-
-
-
-<!-- more -->
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios37/location1.png" width="848" height="236" alt="Location1">

@@ -35,7 +35,15 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-
+<style>
+body {
+    -moz-transform: scale(0.9, 0.9); /* Moz-browsers */
+    zoom: 0.2; /* Other non-webkit browsers */
+    zoom: 20%; /* Webkit browsers */
+    transform: scale(1.9);
+    transform-origin: 90% 90%;
+}
+</style>
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -153,6 +161,11 @@
 
 
 
+<!-- more -->
+
+
+
+
 <p>Once you jailbreak your device, you can install OpenSSH in your device using Cydia and get connectivity to your device.</p>
 
 
@@ -164,11 +177,6 @@
 
 
 <p>One of the major changes within the file structure is that the user applications are no longer located at the location <i>/var/mobile/Applications</i>. The application bundle is stored in the location <i>/var/mobile/Containers/Bundle/Application</i> (Appname.app) whereas the application data (Documents, Library, tmp folder) is stored in the location <i>/var/mobile/Containers/Data/Application</i>. The name of the folder (a unique ID) will also be different for the same application. So while checking an application, it is recommended to look at both the locations.</p>
-
-
-
-
-<!-- more -->
 
 
 <p><img src="/images/posts/ios37/location1.png" width="848" height="236" alt="Location1">
