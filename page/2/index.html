@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Dec 17th, 2013 Comments security iOS Application Security Part 23 – &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Dec 17th, 2013 Comments security iOS Application Security Part 24 – &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -121,6 +121,61 @@ body {
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-12-17T12:33:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion">iOS Application Security Part 24 – Jailbreak Detection and Evasion</a></h1>
+      <p>In this article, we will look at the checks a developer can incorporate in his application to check whether the device on which the application is running is jailbroken or not. Checking whether a device is jailbroken or not can have many advantages for your application. As we have already seen, an attacker can run tools like Cycript, GDB, Snoop-it etc to perform runtime analysis and steal sensitive data from within your application. If you are really looking to add an extra layer of security for your application, you should not allow your application to be run on a jailbroken device. Please note that millions of users jailbreak their devices and hence not allowing an application to be run on a jailbroken device could have a significant impact on your user base. Another thing you can do is instead block some of the features in your application rather than disabing it entirely. We will also look at how hackers can bypass the check for jailbreak detection in your application using Cycript.</p>
+
+
+<p></p>
+
+<p>Once a device is jailbroken, a lot of other files and applications are installed on the devcice. Checking for these files in the filesystem can help us identify whether the device is jailbroken or not. For e.g, most of the jailbreak softwares install Cydia on the device after jailbreaking. Hence just a simple check for the file path of Cydia can determine whether the device is jailbroken or not.</p>
+
+
+
+      
+       <a href="/2013/12/17/ios-application-security-part-24-jailbreak-detection-and-evasion">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -1258,63 +1313,6 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
 
     </article>
     
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2013-07-25T15:16:00+04:00" pubdate data-updated="true">Jul 25<span>th</span>, 2013</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">iOS Application Security Part 8 -  Method Swizzling using Cycript</a></h1>
-      <p>In the previous article, we looked at how we can install custom apps on our device without a developer certificate. In this article, we will look at how we can perform method Swizzling using Cycript on a sample application.</p>
-
-
-
-
-<p>The first thing is to download the sample Xcode project. You can download the Xcode project from <a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.zip">here</a>. Or you can also just download the binary file on your device from <a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.ipa">here</a>. If you have installed the Xcode project, you will have to build the Xcode project using a self signed certificate.The previous article talks about this in great detail. If you have downloaded the binary, you can directly run it on a jailbroken device without any issues but to get a look at the source code, it is recommended to download the Xcode project.</p>
-
-
-
-
-
-      
-       <a href="/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
   
   <div class="pagination">
     
@@ -1334,7 +1332,7 @@ the group name, the subgroup name and the list. Now, for this case, lets provide
       <div class="row-fluid">
         <footer class="footer-page" role="contentinfo">
           <p>
-  Copyright &copy; 2014 - Prateek Gianchandani -
+  Copyright &copy; 2015 - Prateek Gianchandani -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
 </p>
 

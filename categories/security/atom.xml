@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2014-12-28T00:19:06+04:00</updated>
+  <updated>2015-01-24T23:59:18+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,219 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 38 - Attacking apps using Parse (Guest Lecture by Egor Tolstoy)]]></title>
+    <link href="http://prateek147.github.io/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse"/>
+    <updated>2015-01-24T23:39:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse</id>
+    <content type="html"><![CDATA[<p><b>This is a guest lecture by <a href="http://etolstoy.ru">Egor Tolstoy</a>. Egor is a full-time iOS developer working at Rambler&amp;Co and leaving with his lovely wife in Moscow, Russia. In his spare time he investigate iOS applications for different vulnerabilities and blogs about my research.</b></p>
+
+<div><a href="http://parse.com/">Parse</a> is a wonderful BaaS which helps with setting up backend infrastructure for your mobile application as fast as possible. Maybe just because of this simplicity many developers forget about a number of new security issues and vulnerabilities.</div>
+
+
+<div><br/></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/8822BC1A-FA0D-4BFF-8DC0-8CC103DFB92D.png" height="495" width="816"/><br/></div>
+
+
+<div><br/></div>
+
+
+<div>For those who don’t know what this service is, let’s make a brief introduction. Parse provides a lot of useful capabilities to mobile developer: cloud data storage, push notifications, usage statistics and crash logs gathering, code hosting, background jobs and a many other things. Within the boundaries of thes research we are interested in the cloud data storage, named <i>Cloud Core</i>.</div>
+
+
+<div>All the data in Cloud Core is stored in so called custom classes (ordinary database tables).</div>
+
+
+<div><br/></div>
+
+
+
+
+<!-- more -->
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/8879CA5B-B494-43CD-A136-1DB8059F5AC1.png" height="420" width="1043"/><br/></div>
+
+
+<div><br/></div>
+
+
+<div>You can set a number of different client permissions for each of these classes: <i>GET, FIND, UPDATE, CREATE, DELETE</i> and <i>ADD FIELDS</i>. All of them are <i>Public</i> by default. Of course, most of the developers forget about the need of setting client access permissions once they configure their tables.</div>
+
+
+<div><br/></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/FDF17B0E-CD2B-47AB-BB46-F0D0BE9BDE7E.png" height="535" width="403"/><br/></div>
+
+
+<div><br/></div>
+
+
+<div>I’ve closely faced Parse during one of my work projects and spent a lot of time configuring ACLs properly - so I became interested in how other developers maintain their Parse accounts. I’ve found the object for my little research right on <a href="https://parse.com/customers">parse.com/customers</a>. It was <a href="http://cubefreeapp.com/">Cubefree</a> - a service for locating cowering spaces.</div>
+
+
+<div><br/></div>
+
+
+<div>A pair of keys is used for connecting to Parse account from a mobile application: <i>Application ID</i> and <i>Client Key</i>. We’ve got to find out these strings in order to manipulate the data in Cloud Core. Let’s decrypt the application binary with the help of <a href="https://github.com/dmayer/idb">idb</a> - an awesome iOS pentesting utility. While the decryption process is going on, we can check <i>NSUserDefaults</i> - a rather common place for storing such kind of data (only for reckless developers, of course).</div>
+
+
+<div><br/></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/03B3C111-1C51-4330-899E-7E5873D94B7F.png" height="486" width="879"/><br/></div>
+
+
+<div><br/></div>
+
+
+<div>As you can see, nothing criminal was found - no signs of confidential data. Let’s get back to our decrypted application binary and feed it to <a href="http://www.hopperapp.com/">Hopper</a> - a well known disassembler, specialized in reverse-engineering Objective-C applications. Our quest for Parse keys will begin in <span style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255);"><i>application:didFinishLaunchingWithOptions method</i> of <i>App Delegate.</i> One of the noteworthy Hopper features is the ability to represent any procedure in pseudocode form, which flattens the reversed code understanding curve.</span></div>
+
+
+<div><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/AB772C3F-377A-4B02-BA39-946D0B54831C.png" height="602" width="667"/><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><font color="#222222">As expected, the connection to Parse is initiated right here. Now we’ll analyse the structure of Parse data and its client permissions.</font></div>
+
+
+<div><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><font color="#222222">The next step is identification of Parse tables names. Actually, we can see them on the same screenshot as client keys - there is a plenty of <i>registerSubclass</i> method calls. These classes are children of the root <i>PFObject</i> class. Each of them has a method </font><span style="color: rgb(34, 34, 34); font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; background-color: rgb(255, 255, 255);"><i>parseClassName, </i>which returns a corresponding Parse table name.</span></div>
+
+
+<div><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/FC415E09-109A-460B-9E04-763532556FDB.png" height="87" width="582"/><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><font color="#222222">Let’s inspect the structure of these tables:</font></div>
+
+
+<div><a href="https://gist.github.com/igrekde/cb8e2c12408715c9f739#file-parse-security-1">https://gist.github.com/igrekde/cb8e2c12408715c9f739#file-parse-security-1</a><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div><span style="color: rgb(34, 34, 34);"><br/></span></div>
+
+
+<div>The knowledge of classes organization, however, is not enough. We should try to inspect access permissions for all the Parse classes to determine how we can influence the application behaviour. It’s quite simple - all we have to do is to make a couple of queries to Parse and analyse their results. I’ve wrote a small utility - <a href="https://github.com/igrekde/ParseRevealer">Parse Revealer</a>, which simplifies these routine actions and automatically determines the access permissions for all known classes.</div>
+
+
+<div><br/></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/E171D146-358B-41FD-98E2-FBC293EBAFEF.png" height="694" width="592"/><br/></div>
+
+
+<div><br/></div>
+
+
+<div>We can create a table using all the derived data:</div>
+
+
+<div>(&lt;table&gt;&lt;tr&gt;&lt;th&gt;Class Name&lt;/th&gt;&lt;th&gt;Data Structure&lt;/th&gt;&lt;th&gt;Access Permissions&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ChatRoom&lt;/td&gt;&lt;td&gt;chatId (String) &lt;br&gt;user1 (User) &lt;br&gt;user2 (User)&lt;/td&gt;&lt;td&gt;GET: False &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Checkin&lt;/td&gt;&lt;td&gt;availableToShareTable (Bool) &lt;br&gt;date (Date) &lt;br&gt;invisible (Bool) &lt;br&gt;statusCheckin (String) &lt;br&gt;statusUser (String) &lt;br&gt;user (User) &lt;br&gt;workspace (Workspace)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: True &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ChatMessage&lt;/td&gt;&lt;td&gt;chatId (String) &lt;br&gt;Message (String) &lt;br&gt;sender (User) &lt;br&gt;unread (Bool)&lt;/td&gt;&lt;td&gt;GET: False &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Notification&lt;/td&gt;&lt;td&gt;date (Date) &lt;br&gt;sendUser (User) &lt;br&gt;chekin (Cheking) &lt;br&gt;status (Bool) &lt;br&gt;type (Number) &lt;br&gt;accepted (Bool)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Review&lt;/td&gt;&lt;td&gt;date (Date) &lt;br&gt;parkingStatus (Number) &lt;br&gt;powerStatus (Number) &lt;br&gt;soundStatus (Number) &lt;br&gt;user (PFUser) &lt;br&gt;wifiStatus (Number) &lt;br&gt;workspace (Workspace)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: False &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Workspace&lt;/td&gt;&lt;td&gt;address (String) &lt;br&gt;cc (String) &lt;br&gt;city (String) &lt;br&gt;country (String) &lt;br&gt;foursquareId (String) &lt;br&gt;lat (String) &lt;br&gt;lng (String) &lt;br&gt;location (PFGeoPoint) &lt;br&gt;name (String) &lt;br&gt;postalCode (String) &lt;br&gt;state (String)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;)</div>
+
+
+<div><br/></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/%D0%A1%D0%BA%D1%80%D0%B8%D0%BD%D1%88%D0%BE%D1%82%202015-01-24%2020.41.30.png" height="761" width="738"/><br/></div>
+
+
+<div><br/></div>
+
+
+<div><br/></div>
+
+
+<div>As we can see from the list of permissions, the developers tried to implement a security policy, but it wasn’t enough. Let’s show what we can achieve by manipulating the <i>ChatMessage</i> class.</div>
+
+
+<div><br/></div>
+
+
+<div>The most obvious vulnerability is that the attacker is able to modify the text of any message in any chatroom. After the execution of this code block the reasonable statement turns into a nonsense:</div>
+
+
+<div><a href="https://gist.github.com/igrekde/cb8e2c12408715c9f739#file-parse-security-2">https://gist.github.com/igrekde/cb8e2c12408715c9f739#file-parse-security-2</a><br/></div>
+
+
+<div><img src="http://prateek147.github.io/images/posts/ios38/cubefree-screen.png" height="1138" width="1284"/><br/></div>
+
+
+<div><br/></div>
+
+
+<div>We can also post new messages to any chat by providing a new <i>PFObject</i> with a correct chatId. But we are noble pentesters, so let’s pay attention to the fact that we aren’t able to delete any message due to developers paranoia :).</div>
+
+
+<div><br/></div>
+
+
+<div>A much more serious vulnerability consists in incorrect data mapping algorithm. When a <i>ChatMessage</i> object doesn’t have anything in the sender field, the Cubefree application crashes. So, it’s possible to loop through all the chatrooms, post an invalid <i>ChatMessage</i> - and the application will always crash when somebody opens the chat screen. It’s fraught with bad App Store ratings, users outflow and a complete project failure.</div>
+
+
+<div>There are same vulnerabilities in other classes - but they are not within the scope of current investigation.</div>
+
+
+<div><br/></div>
+
+
+<div>As for security of your own applications - everything is quite transparent, just follow these simple rules:</div>
+
+
+<ul>
+<li>Always configure client permissions for all of your Parse classes.</li>
+<li>Make use of user-based ACLs - it’s a great Parse feature.</li>
+<li>If a client should be able to modify only one property of your class, think of encapsulating this field in the separate class. By doing it you will circumvent the possibility of illegal changes in your objects.</li>
+<li>Don’t rely on Parse - always do a proper validity check of the data it returns you.</li>
+<li>Remember that, theoretically, applicationID and clientKey can be found by any attacker, so you should build your application security grounding on this knowledge.</li>
+<li>The previous advice doesn’t cancel the necessarily of obfuscating strings in code :)</li>
+<li>Use Cloud Code in more complex situations.</li>
+</ul>
+
+
+<div><br/></div>
+
+
+<div>If you recognise some of your applications in this research, don’t blame Parse - it’s the amazing service, which minimize backend developing costs. All of the examined vulnerabilities lie heavy on the developers conscience.</div>
+
+
+<div><br/></div>
+
+
+<div>Further reading:</div>
+
+
+<ul>
+<li><a href="https://www.parse.com/docs">Parse Documentation</a></li>
+<li><a href="http://blog.parse.com/2014/06/30/parse-security-i-are-you-the-key-master">A small series of articles about Parse security</a></li>
+<li><a href="https://github.com/igrekde/ParseRevealer">Parse Revealer</a></li>
+<li><a href="http://highaltitudehacks.com/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper/">iOS Application Security Part 28 - Patching iOS Application With Hopper</a><br/></li>
+<li><a href="https://www.mikeash.com/pyblog/friday-qa-2012-01-06-the-hopper-disassembler.html">The Hopper Disassembler by Mike Ash</a></li>
+</ul>
+
+
+<div> </div>
+
+
+<p></body></html></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 37 - Adapting to iOS 8]]></title>
@@ -388,88 +601,6 @@ By default, when making an SSL connection, the client checks that the server’s
 <p><img src="http://prateek147.github.io/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
 
 <p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Wifite Walkthrough part 2: Cracking WPA access points]]></title>
-    <link href="http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points"/>
-    <updated>2014-10-27T01:43:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/10/27/wifite-walkthrough-part-2-cracking-wpa-access-points</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at cracking access points using WPA-PSK or WPA2-PSK using Wifite.</p>
-
-
-
-
-<p>If you have used tools like airodump-ng, aircrack-ng etc to crack WPA access points before, you would know that the required thing to successfully crack a WPA-PSK network is a captured WPA four-way handshake. More details about the WPA four-way handshake can be found on <a href="http://en.wikipedia.org/wiki/IEEE_802.11i-2004">this</a> wikipedia page.</p>
-
-
-
-
-<p>As mentioned in the previous article, there is a bug in Wifite that may or may not be there in your particular version of Wifite. The bug basically doesn't aireplay-ng to function properly and displays an error like <i>aireplay-ng exited unexpectedly </i>. In order to fix this, you will have to make slight modifications in the code of wifite. You can install gedit (apt-get install gedit) which is a text editor and then edit the wifite python script (found in /usr/bin/wifite) using the steps mentioned <a href="https://code.google.com/p/wifite/issues/detail?id=127">here</a>. To open wifite, use the command <i>gedit /usr/bin/wifite</i>. This will open up the source code of wifite. Then replace every occurence of <i>cmd = ['aireplay-ng',</i> with <i>cmd = ['aireplay-ng','--ignore-negative-one',</i></p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>To start wifite for cracking a WPA access point, give it the option <i>-wpa</i> to only target WPA networks. Also, give it a dictionary file as an input for cracking the WPA passphrase with the <i>-dict</i> option. In kali linux, the wordlists are stored at the location <i>/usr/share/wordlists</i>. Wifite will now start scanning for WPA access points.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/wifite2/1.png" width="947" height="316" alt="1"></p>
-
-<p>Press Ctrl+C to give a target number. In my case, the target number is 2 which is an access point i have configured for testing purposes. The access point uses WPA2-PSK encryption with the key as "password".</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/wifite2/2.png" width="741" height="443" alt="2"></p>
-
-<p>Wifite will now start listening for the handshake. Once it has found it, it will automatically start cracking the passphrase using the dictionary file that we supplied.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/wifite2/4.png" width="834" height="358" alt="4"></p>
-
-<p>And as you can see, Wifite has successfully found the passphrase for the access point.</p>
-
-
-
-
-<p>Sometimes, things may not work as smoothly. In order to capture a WPA handshake between the client and the access point, the client has to connect to the wireless network during that period when we are monitoring the network. If the client is already connected, there will be no handshake that is captured. Wifite does this by automatically sending deauthentication packets to a particular client or a broadcast deauthentication packet if it is required. You can specify the time between deauthentication packets using the -wpadt flag. Hence, when the client tries to reconnect to the access point, the handshake is captured.</p>
-
-
-
-
-<p>You can also specify which tool you want to use to crack the passphrase once the four-way handshake has been successfully captured. By default, aircrack-ng is selected. You can also use cowpatty, pyrit or tshark to crack the passphrase.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/wifite2/5.png" width="622" height="92" alt="5"></p>
-
-<p>Another cool option in Wifite is to anonymize your MAC address using the <i>-mac</i> option. Even though it is quite trivial using simple commands or <i>macchanger</i> utility to change the MAC address for a specific interface, it is good to have this feature in the tool itself. However, in order to make this work, you first have to take that specific interface for which you want to change the MAC address down to managed mode if it is in monitor mode previously. You can use the command <i>iwconfig</i> to check all the interfaces that are in monitor mode and then take them down using the command <i>airmon-ng stop interface-name</i> command. As we can see from the image below, the mon0 interface is in monitor mode.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/wifite2/6.png" width="698" height="287" alt="6"></p>
-
-<p>Hence, lets take it down using the command <i>airmon-ng stop mon0</i></p>
-
-
-<p>.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/wifite2/7.png" width="678" height="351" alt="7"></p>
-
-<p>Now we can add the <i>-mac</i> option to anonymize the MAC address. As you can see, Wifite is intelligent enough to change the MAC address to something that is similar the existing MAC address of the interface and not to something ridiculous (for e.g AA:BB:CC:DD:EE:FF) which is a giveaway.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/wifite2/8.png" width="895" height="378" alt="8"></p>
-
-<p>And when you stop the capture, Wifite is nice enough to change the MAC address back to the original one.</p>
-
-
-
-
-<p>In this article, we looked at how we can use Wifite to crack networks using WPA-PSK or WPA2-PSK. Wifite is great at its job and automates almost everything, however it is important to understand how it uses the tools like airodump-ng, aircrack-ng etc under the hood to perform its task. I would recommend that you go through the source code of Wifite and figure out how this is done.</p>
 
 ]]></content>
   </entry>
