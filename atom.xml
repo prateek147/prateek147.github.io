@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-01-25T00:42:13+04:00</updated>
+  <updated>2015-01-25T15:00:50+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -134,9 +134,6 @@
 
 
 <div>We can create a table using all the derived data:</div>
-
-
-<div>(&lt;table&gt;&lt;tr&gt;&lt;th&gt;Class Name&lt;/th&gt;&lt;th&gt;Data Structure&lt;/th&gt;&lt;th&gt;Access Permissions&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ChatRoom&lt;/td&gt;&lt;td&gt;chatId (String) &lt;br&gt;user1 (User) &lt;br&gt;user2 (User)&lt;/td&gt;&lt;td&gt;GET: False &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Checkin&lt;/td&gt;&lt;td&gt;availableToShareTable (Bool) &lt;br&gt;date (Date) &lt;br&gt;invisible (Bool) &lt;br&gt;statusCheckin (String) &lt;br&gt;statusUser (String) &lt;br&gt;user (User) &lt;br&gt;workspace (Workspace)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: True &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ChatMessage&lt;/td&gt;&lt;td&gt;chatId (String) &lt;br&gt;Message (String) &lt;br&gt;sender (User) &lt;br&gt;unread (Bool)&lt;/td&gt;&lt;td&gt;GET: False &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Notification&lt;/td&gt;&lt;td&gt;date (Date) &lt;br&gt;sendUser (User) &lt;br&gt;chekin (Cheking) &lt;br&gt;status (Bool) &lt;br&gt;type (Number) &lt;br&gt;accepted (Bool)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Review&lt;/td&gt;&lt;td&gt;date (Date) &lt;br&gt;parkingStatus (Number) &lt;br&gt;powerStatus (Number) &lt;br&gt;soundStatus (Number) &lt;br&gt;user (PFUser) &lt;br&gt;wifiStatus (Number) &lt;br&gt;workspace (Workspace)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: False &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Workspace&lt;/td&gt;&lt;td&gt;address (String) &lt;br&gt;cc (String) &lt;br&gt;city (String) &lt;br&gt;country (String) &lt;br&gt;foursquareId (String) &lt;br&gt;lat (String) &lt;br&gt;lng (String) &lt;br&gt;location (PFGeoPoint) &lt;br&gt;name (String) &lt;br&gt;postalCode (String) &lt;br&gt;state (String)&lt;/td&gt;&lt;td&gt;GET: True &lt;br&gt;FIND: True &lt;br&gt;UPDATE: True &lt;br&gt;CREATE: True &lt;br&gt;DELETE: False &lt;br&gt;ADD FIELDS: True&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;)</div>
 
 
 <div><br/></div>
