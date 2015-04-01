@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Jan 24th, 2015 security iOS Application Security Part 38 - Attacking &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Mar 29th, 2015 security Android Application hacking with Insecure Bank &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -123,6 +123,327 @@ body {
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-29T12:08:00+04:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/29/android-application-hacking-with-insecure-bank-part-4">Android Application hacking with Insecure Bank Part 4</a></h1>
+      <p>In this article, we will look at a very handy framework for analysis of android applications named Drozer. Drozer is a very useful tool as it eliminates the need for having seperate tools for performing different security checks in an android application. It has a list of modules that you can use to interact with the application using Android&#8217;s Inter-Process communication. Additionally, you can also install exploits and use it to exploit an android device.</p>
+
+
+
+
+<p>The main purpose of this article is to make sure you are familiar with drozer so we can use it in the future articles. </p>
+
+
+
+
+<p>The first thing to do is to install the drozer community edition from <a href="https://www.mwrinfosecurity.com/products/drozer/">this</a> link. You need to install both the drozer installer and the Agent.apk file which is the application that needs to be deployed on the device/emulator and acts as a communicator between the system and the application to be audited. </p>
+
+
+
+
+<p>Once drozer has been installed on your system, install the agent.apk on your device/emulator.</p>
+
+
+<p><img src="/images/posts/ib4/1.png" width="600" height="90" alt="1"></p>
+
+<p>You will first need to set up port forwarding so that your system can connect to a TCP socket opened by the Agent inside the emulator, or on the device. By default, drozer uses port 31415:</p>
+
+
+<p><img src="/images/posts/ib4/2.png" width="800" height="54" alt="2"></p>
+
+<p>Also make sure to start the agent application and start the server.</p>
+
+
+<p><img src="/images/posts/ib4/3.png" width="513" height="277" alt="3"></p>
+
+<p>Now you can connect to the agent using the following command.</p>
+
+
+<p><img src="/images/posts/ib4/4.png" width="750" height="360" alt="4"></p>
+
+<p>You can list all the different modules by using the list command.</p>
+
+
+<p><img src="/images/posts/ib4/5.png" width="900" height="220" alt="5"></p>
+
+<p>Every module requires different options. If you want to see the different options for a particular module, use run followed by the module name followed by -h.</p>
+
+
+<p><img src="/images/posts/ib4/6.png" width="900" height="420" alt="6"></p>
+
+<p>For e.g, to see a list of all the packages installed, you can use the module app.package.list.</p>
+
+
+<p><img src="/images/posts/ib4/7.png" width="500" height="220" alt="7"></p>
+
+<p>Now, to find info about a particular packages, use the module app.package.info. It will give out a lot of info about the application, for e.g the path where the application files are stored, the permissions that the application uses etc.</p>
+
+
+<p><img src="/images/posts/ib4/8.png" width="550" height="280" alt="8"></p>
+
+<p>Another useful module is app.package.attacksurface. It tells you about the exported components as well as whether the application is debuggable or not. We will look at exploiting debuggable applications in later articles.</p>
+
+
+<p><img src="/images/posts/ib4/9.png" width="500" height="120" alt="9"></p>
+
+<p>Now, let&#8217;s do the same thing we did in the last article, call an exported activity in the insecure bank application. For that, we will use the module app.activity.start.</p>
+
+
+<p><img src="/images/posts/ib4/10.png" width="800" height="32" alt="10"></p>
+
+<p>And you will see the same result.</p>
+
+
+<p><img src="/images/posts/ib4/11.png" width="700" height="320" alt="11"></p>
+
+<p>In some cases, the activity might have an intent filter. For e.g, below is a sample intent filter.</p>
+
+
+
+
+<p>
+    
+<activity android:name="ShareActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+    </intent-filter>
+</activity>
+</p>
+
+
+
+
+<p>Drozer supports calling activities by specifying actions and extra paramters also.</p>
+
+
+<p><img src="/images/posts/ib4/12.png" width="700" height="245" alt="12"></p>
+
+<p>Here is an example of calling an activity with extra parameter</p>
+
+
+
+
+<p><i>
+run app.activity.start &#8211;component com.mwr.example.intenttest com.mwr.example.intenttest.IntentActivity &#8211;flags ACTIVITY_NEW_TASK &#8211;extra string URL &#8220;Some Text&#8221;
+</i></p>
+
+
+
+
+<p>In this article, we got comfortable with using Drozer. Drozer can do much more, and we will be discussing all those features as we discuss more vulnerabilities in InsecureBank in the next article.</p>
+
+
+
+
+      
+      
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-28T12:04:00+04:00" pubdate data-updated="true">Mar 28<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/28/android-application-hacking-with-insecure-bank-part-3">Android Application hacking with Insecure Bank Part 3</a></h1>
+      <p>In this article, we will look at attacking components in Android applications, starting with activities. But first, it is essential to understand what Android application components are. Android application components are the essential building blocks of an Android application. The behaviour and interaction between these components is defined in the manifest.xml file in the application. Mainly there are 4 types of components and it is important to understand their purpose and function.</p>
+
+
+
+
+<p>The description of the 4 components given below has been taken from <a href="http://www.tutorialspoint.com/android/android_application_components.htm">this</a> link.</p>
+
+
+
+
+<table>
+<tr><th style="width:25%">Components</th><th>Description</th></tr>
+<tr><td>Activities</td><td>They dictate the UI and handle the user interaction to the smartphone screen</td></tr>
+<tr><td>Services</td><td>They handle background processing associated with an application.</td></tr>
+<tr><td>Broadcast Receivers</td><td>They handle communication between Android OS and applications.</td></tr>
+<tr><td>Content Providers</td><td>They handle data and database management issues.</td></tr>
+</table>
+
+
+
+
+
+      
+       <a href="/2015/03/28/android-application-hacking-with-insecure-bank-part-3">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-27T12:04:00+04:00" pubdate data-updated="true">Mar 27<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/27/android-application-hacking-with-insecure-bank-part-2">Android Application hacking with Insecure Bank Part 2</a></h1>
+      <p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
+
+
+
+
+
+      
+       <a href="/2015/03/27/android-application-hacking-with-insecure-bank-part-2">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+        <h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-24T12:04:00+04:00" pubdate data-updated="true">Mar 24<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory">iOS Application Security Part 39 – Sensitive information in memory</a></h1>
+      <p>In this article, we will look at analyzing the memory contents of an iOS application. iOS applications may store sensitive information like passwords, session IDs etc in the memory of the application without releasing them. In some cases, releasing these variables may not be an option. For e.g, it might be required for the application to send an authentication token with every request and hence there has to be a reference to it in the memory somewhere. Even though these variables might be encrypted when stored locally in the application, these variables will be in their unencryped format while the application is running. Hence, analyzing the contents of the memory is an important thing while pentesting an iOS application. If there are some important properties or instance variables that are not required, they should be released from the memory.</p>
+
+
+
+
+
+      
+       <a href="/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>

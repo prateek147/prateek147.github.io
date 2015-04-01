@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android Application hacking with Insecure Bank Part 2 - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="Android Application Hacking With Insecure Bank Part 2 Mar 27th, 2015 Posted by Prateek Gianchandani In the previous article, we looked at setting up &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<style>
+body {
+    -moz-transform: scale(0.8, 0.); /* Moz-browsers */
+    zoom: 0.8; /* Other non-webkit browsers */
+    zoom: 80%; /* Webkit browsers */
+    
+}
+</style>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Android Application Hacking With Insecure Bank Part 2
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-27T12:04:00+04:00" pubdate data-updated="true">Mar 27<span>th</span>, 2015</time></h5>
+  <h4>
+  
+
+<p>Posted by <a href="http://highaltitudehacks.com/about/">Prateek Gianchandani</a></p>
+<h4>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>At this point, i would also like to mention that if you are looking for a VM that contains all the tools to cater to your android application pentesting needs, have a look at <a href="https://androidtamer.com/">Android Tamer</a>.</p>
+
+
+
+
+<p>First of all, make sure you have the latest version of InsecureBankv2 on your system. You can do a <i>git pull</i> to merge all the latest changes to your master branch.</p>
+
+
+<p><img src="/images/posts/ib2/1.png" width="649" height="422" alt="1"></p>
+
+<p>Once this is done, let&#8217;s do some analysis on the apk file. Copy the apk file into a seperate folder for some analysis. Just like an iOS ipa file, an apk file is a compressed file, so you can decompress it by just changing the extension from apk to zip and then extracting it.</p>
+
+
+<p><img src="/images/posts/ib2/2.png" width="873" height="378" alt="2"></p>
+
+<p>Now browse over to the extracted folder and have a look. You can see a lot of files here.</p>
+
+
+<p><img src="/images/posts/ib2/3.png" width="592" height="130" alt="3"></p>
+
+<p>Let&#8217;s describe them one by one.</p>
+
+
+
+
+<ul>
+    <li>AndroidManifest.xml - This is probably by far the most important source of information. From a security point of view, it contains information about the various components used in an application and lists the conditions in which they can be launched. It also displays information about the permissiosns that the application uses. I would highly recommend you to go through Google&#8217;s <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">documentation</a> on the manifest file. We will discuss each component of an android application as we discuss vulnerabilities in them.</li>
+    
+    <li>assets - This is used to store raw assets file. The files stored here as compiled as is into the apk file.</li>
+    
+    <li>res - Used to store resources such as images, layout files, and string values.</li>
+    
+    <li>META-INF - Contains important information about the signature and the person who signed the application.</li>
+    
+    <li>classes.dex - This is where the compiled application code lies. To decompile an application, you need to convert the dex file to a jar file which can then be read by a java decompiler</li>
+    
+    
+</ul>
+
+
+
+
+<p>The information about the public key certificate is stored in the CERT.RSA file in the META-INF folder. To find out information about the public key certificate, use the command <i> keytool –printcert –file META-INF/CERT.RSA </i></p>
+
+
+<p><img src="/images/posts/ib2/z.png" width="730" height="426" alt="Z"></p>
+
+<p>Please note that it is also possible to modify the code of an apk file after decompiling and then recompile it to deploy to a device. However, once the application code is modified, it loses its integrity and hence needs to be resigned with a new public/private key pair. I would recommend that you have a look at <a href="http://developer.android.com/tools/publishing/app-signing.html">this</a> article that explains how to create your own public/private key pair. We will look at modifying application logic and then recompiling it in later articles in this series.</p>
+
+
+
+
+<p>Once an application has been recompiled, you can verify its integrity using the jarsigner application.</p>
+
+
+<p><img src="/images/posts/ib2/j.png" width="760" height="64" alt="J"></p>
+
+<p>Now let&#8217;s decompile the application using dex2jar. dex2jar can also take input as an apk file (rather than .dex file) and converts it into a jar file.</p>
+
+
+<p><img src="/images/posts/ib2/x.png" width="654" height="87" alt="X"></p>
+
+<p>Once this is done, you can simple open this file in JD-GUI and have a look at the source code.</p>
+
+
+<p><img src="/images/posts/ib2/y.png" width="1026" height="621" alt="Y"></p>
+
+<p>We can now scan through the source code to find potential vulnerabilities in the application. We can clearly note how easy it is to reverse engineer an apk file and look at the source code. It is important to note here that we are able to see the source code and understand it mainly because there is no code obfuscation applied in the application. Google provides tools like Proguard to help in obfuscating code. While this is not foolproof, there is also a commercial version of Proguard knows an DexGuard that works even better in applying code obfuscation. We will look at obfuscating application code in later articles.</p>
+
+
+
+
+<p>In this article, we looked at how we can extract information from an apk file. In the next article, we will start looking at the different types of vulnerabilities demonstrated in InsecurBankv2.</p>
+
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="//categories/security/"><span class="badge">security</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory" title="Previous Post: iOS Application Security Part 39 – Sensitive information in memory">&laquo; iOS Application Security Part 39 – Sensitive information in memory</a>
+          
+          
+            <a class="basic-alignment right" href="/2015/03/28/android-application-hacking-with-insecure-bank-part-3" title="Next Post: Android Application hacking with Insecure Bank Part 3">Android Application hacking with Insecure Bank Part 3 &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2015 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2';
+        var disqus_url = 'http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

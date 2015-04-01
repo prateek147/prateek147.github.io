@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-01-26T14:05:24+04:00</updated>
+  <updated>2015-04-01T12:11:23+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,500 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 4]]></title>
+    <link href="http://prateek147.github.io/2015/03/29/android-application-hacking-with-insecure-bank-part-4"/>
+    <updated>2015-03-29T12:08:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/29/android-application-hacking-with-insecure-bank-part-4</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at a very handy framework for analysis of android applications named Drozer. Drozer is a very useful tool as it eliminates the need for having seperate tools for performing different security checks in an android application. It has a list of modules that you can use to interact with the application using Android's Inter-Process communication. Additionally, you can also install exploits and use it to exploit an android device.</p>
+
+
+
+
+<p>The main purpose of this article is to make sure you are familiar with drozer so we can use it in the future articles. </p>
+
+
+
+
+<p>The first thing to do is to install the drozer community edition from <a href="https://www.mwrinfosecurity.com/products/drozer/">this</a> link. You need to install both the drozer installer and the Agent.apk file which is the application that needs to be deployed on the device/emulator and acts as a communicator between the system and the application to be audited. </p>
+
+
+
+
+<p>Once drozer has been installed on your system, install the agent.apk on your device/emulator.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/1.png" width="600" height="90" alt="1"></p>
+
+<p>You will first need to set up port forwarding so that your system can connect to a TCP socket opened by the Agent inside the emulator, or on the device. By default, drozer uses port 31415:</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/2.png" width="800" height="54" alt="2"></p>
+
+<p>Also make sure to start the agent application and start the server.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/3.png" width="513" height="277" alt="3"></p>
+
+<p>Now you can connect to the agent using the following command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/4.png" width="750" height="360" alt="4"></p>
+
+<p>You can list all the different modules by using the list command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/5.png" width="900" height="220" alt="5"></p>
+
+<p>Every module requires different options. If you want to see the different options for a particular module, use run followed by the module name followed by -h.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/6.png" width="900" height="420" alt="6"></p>
+
+<p>For e.g, to see a list of all the packages installed, you can use the module app.package.list.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/7.png" width="500" height="220" alt="7"></p>
+
+<p>Now, to find info about a particular packages, use the module app.package.info. It will give out a lot of info about the application, for e.g the path where the application files are stored, the permissions that the application uses etc.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/8.png" width="550" height="280" alt="8"></p>
+
+<p>Another useful module is app.package.attacksurface. It tells you about the exported components as well as whether the application is debuggable or not. We will look at exploiting debuggable applications in later articles.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/9.png" width="500" height="120" alt="9"></p>
+
+<p>Now, let's do the same thing we did in the last article, call an exported activity in the insecure bank application. For that, we will use the module app.activity.start.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/10.png" width="800" height="32" alt="10"></p>
+
+<p>And you will see the same result.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/11.png" width="700" height="320" alt="11"></p>
+
+<p>In some cases, the activity might have an intent filter. For e.g, below is a sample intent filter.</p>
+
+
+
+
+<p>
+    
+<activity android:name="ShareActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+    </intent-filter>
+</activity>
+</p>
+
+
+
+
+<p>Drozer supports calling activities by specifying actions and extra paramters also.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/12.png" width="700" height="245" alt="12"></p>
+
+<p>Here is an example of calling an activity with extra parameter</p>
+
+
+
+
+<p><i>
+run app.activity.start --component com.mwr.example.intenttest com.mwr.example.intenttest.IntentActivity --flags ACTIVITY_NEW_TASK --extra string URL "Some Text"
+</i></p>
+
+
+
+
+<p>In this article, we got comfortable with using Drozer. Drozer can do much more, and we will be discussing all those features as we discuss more vulnerabilities in InsecureBank in the next article.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 3]]></title>
+    <link href="http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3"/>
+    <updated>2015-03-28T12:04:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at attacking components in Android applications, starting with activities. But first, it is essential to understand what Android application components are. Android application components are the essential building blocks of an Android application. The behaviour and interaction between these components is defined in the manifest.xml file in the application. Mainly there are 4 types of components and it is important to understand their purpose and function.</p>
+
+
+
+
+<p>The description of the 4 components given below has been taken from <a href="http://www.tutorialspoint.com/android/android_application_components.htm">this</a> link.</p>
+
+
+
+
+<table>
+<tr><th style="width:25%">Components</th><th>Description</th></tr>
+<tr><td>Activities</td><td>They dictate the UI and handle the user interaction to the smartphone screen</td></tr>
+<tr><td>Services</td><td>They handle background processing associated with an application.</td></tr>
+<tr><td>Broadcast Receivers</td><td>They handle communication between Android OS and applications.</td></tr>
+<tr><td>Content Providers</td><td>They handle data and database management issues.</td></tr>
+</table>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h4>Activities</h4>
+
+
+<p>An activity represents a single screen with a user interface. For example, an email application might have one activity that shows a list of new emails, another activity to compose an email, and another activity for reading emails. If an application has more than one activity, then one of them should be marked as the activity that is presented when the application is launched.</p>
+
+<p>An activity is implemented as a subclass of Activity class as follows:</p>
+
+<pre>public class MainActivity extends Activity {
+
+}</pre>
+
+
+
+
+<h4>Services</h4>
+
+
+<p>A service is a component that runs in the background to perform long-running operations. For example, a service might play music in the background while the user is in a different application, or it might fetch data over the network without blocking user interaction with an activity.</p>
+
+<p>A service is implemented as a subclass of Service class as follows:</p>
+
+<pre>public class MyService extends Service {
+
+}</pre>
+
+
+<h4>Broadcast Receivers</h4>
+
+
+<p>Broadcast Receivers simply respond to broadcast messages from other applications or from the system. For example, applications can also initiate broadcasts to let other applications know that some data has been downloaded to the device and is available for them to use, so this is broadcast receiver who will intercept this communication and will initiate appropriate action.</p>
+
+<p>A broadcast receiver is implemented as a subclass of BroadcastReceiver class and each message is broadcasted as an Intent object.</p>
+
+<pre>public class MyReceiver  extends  BroadcastReceiver {
+
+}</pre>
+
+
+<h4>Content Providers</h4>
+
+
+<p>A content provider component supplies data from one application to others on request. Such requests are handled by the methods of the ContentResolver class. The data may be stored in the file system, the database or somewhere else entirely.
+
+A content provider is implemented as a subclass of ContentProvider class and must implement a standard set of APIs that enable other applications to perform transactions.</p>
+
+
+
+
+<pre>public class MyContentProvider extends  ContentProvider {
+
+}</pre>
+
+
+
+
+<h4>Additional Components</h4>
+
+
+<p>There are additional components which will be used in the construction of above mentioned entities, their logic, and wiring between them. These components are:</p>
+
+<table class="src">
+<tr><th style="width:25%">Components</th><th>Description</th></tr>
+<tr><td>Fragments</td><td>Represents a behavior or a portion of user interface in an Activity.</td></tr>
+<tr><td>Views</td><td>UI elements that are drawn onscreen including buttons, lists forms etc.</td></tr>
+<tr><td>Layouts</td><td>View hierarchies that control screen format and appearance of the views.</td></tr>
+<tr><td>Intents</td><td>Messages wiring components together.</td></tr>
+<tr><td>Resources</td><td>External elements, such as strings, constants and drawables pictures.</td></tr>
+<tr><td>Manifest</td><td>Configuration file for the application.</td></tr>
+</table>
+
+
+
+
+<h4>One of the most important attributes of components is the exported property. Here is the documentation from android about it.</h4>
+
+
+
+
+<h4>android:exported</h4>
+
+
+
+
+<p>Whether or not the activity can be launched by components of other applications — "true" if it can be, and "false" if not. If "false", the activity can be launched only by components of the same application or applications with the same user ID.The default value depends on whether the activity contains intent filters. The absence of any filters means that the activity can be invoked only by specifying its exact class name. This implies that the activity is intended only for application-internal use (since others would not know the class name). So in this case, the default value is "false". On the other hand, the presence of at least one filter implies that the activity is intended for external use, so the default value is "true".This attribute is not the only way to limit an activity's exposure to other applications. You can also use a permission to limit the external entities that can invoke the activity (see the permission attribute).</p>
+
+
+
+
+<p>Hence, if an activity is exported, it can be called by external applications. In order to test the vulnerable activity exercise in InsecureBank application, let's first start the application on Genymotion emulator and start the backend server as well.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/1.png" width="504" height="58" alt="1"></p>
+
+<p>Once we start the app, we are presented with this login page. If the activity after a successful login is exported, then we can call that activity directly.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/2.png" width="1027" height="559" alt="2"></p>
+
+<p>Let's have a look at the manifest file of the application to see if we can find the relevant activity. To look at the manifest file, first decompress the application using apktool as shown in the image below. This will create an application folder and the manifest file will be located inside it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/4.png" width="735" height="275" alt="4"></p>
+
+<p>Here is how the manifest file looks like. As you can see, there is an activity named <i>.PostLogin</i> which is set as exported.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/3.png" width="888" height="626" alt="3"></p>
+
+<p>We can call this activity directly using the activity manager tool in the emulator. Let's have a look at the usage first.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/5.png" width="620" height="554" alt="5"></p>
+
+<p>To start an activity with the am tool, here is the command.</p>
+
+
+
+
+<pre>
+adb shell
+am start -n com.package.name/com.package.name.ActivityName
+</pre>
+
+
+
+
+<p>In this case, the package name is com.android.insecurebankv2 as can be seen from the manifest file.</p>
+
+
+
+
+<p>So let's call the PostLogin activity by using the command shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/6.png" width="894" height="97" alt="6"></p>
+
+<p>In the application, you can see that you have successfully bypassed the login page.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/7.png" width="1025" height="325" alt="7"></p>
+
+<p>You can also call activity or other components using drozer. We will look at drozer in the next article.</p>
+
+
+
+
+<p>There are a couple of ways to prevent from these kinds of vulnerabilities. First of all, the android:exported property should always be set to FALSE unless really necessary. Secondly, if the application needs to be called from some specific external applications, you can add custom permissions to the activity and only allow applications that requests that permission to call the activity.</p>
+
+
+
+
+<p>Before we move on to the next article, make sure you have a proper understanding of the <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">Android manifest</a> file and the different components in an andorid application.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 2]]></title>
+    <link href="http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2"/>
+    <updated>2015-03-27T12:04:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2</id>
+    <content type="html"><![CDATA[<p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>At this point, i would also like to mention that if you are looking for a VM that contains all the tools to cater to your android application pentesting needs, have a look at <a href="https://androidtamer.com/">Android Tamer</a>.</p>
+
+
+
+
+<p>First of all, make sure you have the latest version of InsecureBankv2 on your system. You can do a <i>git pull</i> to merge all the latest changes to your master branch.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/1.png" width="649" height="422" alt="1"></p>
+
+<p>Once this is done, let's do some analysis on the apk file. Copy the apk file into a seperate folder for some analysis. Just like an iOS ipa file, an apk file is a compressed file, so you can decompress it by just changing the extension from apk to zip and then extracting it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/2.png" width="873" height="378" alt="2"></p>
+
+<p>Now browse over to the extracted folder and have a look. You can see a lot of files here.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/3.png" width="592" height="130" alt="3"></p>
+
+<p>Let's describe them one by one.</p>
+
+
+
+
+<ul>
+    <li>AndroidManifest.xml - This is probably by far the most important source of information. From a security point of view, it contains information about the various components used in an application and lists the conditions in which they can be launched. It also displays information about the permissiosns that the application uses. I would highly recommend you to go through Google's <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">documentation</a> on the manifest file. We will discuss each component of an android application as we discuss vulnerabilities in them.</li>
+    
+    <li>assets - This is used to store raw assets file. The files stored here as compiled as is into the apk file.</li>
+    
+    <li>res - Used to store resources such as images, layout files, and string values.</li>
+    
+    <li>META-INF - Contains important information about the signature and the person who signed the application.</li>
+    
+    <li>classes.dex - This is where the compiled application code lies. To decompile an application, you need to convert the dex file to a jar file which can then be read by a java decompiler</li>
+    
+    
+</ul>
+
+
+
+
+<p>The information about the public key certificate is stored in the CERT.RSA file in the META-INF folder. To find out information about the public key certificate, use the command <i> keytool –printcert –file META-INF/CERT.RSA </i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/z.png" width="730" height="426" alt="Z"></p>
+
+<p>Please note that it is also possible to modify the code of an apk file after decompiling and then recompile it to deploy to a device. However, once the application code is modified, it loses its integrity and hence needs to be resigned with a new public/private key pair. I would recommend that you have a look at <a href="http://developer.android.com/tools/publishing/app-signing.html">this</a> article that explains how to create your own public/private key pair. We will look at modifying application logic and then recompiling it in later articles in this series.</p>
+
+
+
+
+<p>Once an application has been recompiled, you can verify its integrity using the jarsigner application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/j.png" width="760" height="64" alt="J"></p>
+
+<p>Now let's decompile the application using dex2jar. dex2jar can also take input as an apk file (rather than .dex file) and converts it into a jar file.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/x.png" width="654" height="87" alt="X"></p>
+
+<p>Once this is done, you can simple open this file in JD-GUI and have a look at the source code.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/y.png" width="1026" height="621" alt="Y"></p>
+
+<p>We can now scan through the source code to find potential vulnerabilities in the application. We can clearly note how easy it is to reverse engineer an apk file and look at the source code. It is important to note here that we are able to see the source code and understand it mainly because there is no code obfuscation applied in the application. Google provides tools like Proguard to help in obfuscating code. While this is not foolproof, there is also a commercial version of Proguard knows an DexGuard that works even better in applying code obfuscation. We will look at obfuscating application code in later articles.</p>
+
+
+
+
+<p>In this article, we looked at how we can extract information from an apk file. In the next article, we will start looking at the different types of vulnerabilities demonstrated in InsecurBankv2.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 39 – Sensitive information in memory]]></title>
+    <link href="http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory"/>
+    <updated>2015-03-24T12:04:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at analyzing the memory contents of an iOS application. iOS applications may store sensitive information like passwords, session IDs etc in the memory of the application without releasing them. In some cases, releasing these variables may not be an option. For e.g, it might be required for the application to send an authentication token with every request and hence there has to be a reference to it in the memory somewhere. Even though these variables might be encrypted when stored locally in the application, these variables will be in their unencryped format while the application is running. Hence, analyzing the contents of the memory is an important thing while pentesting an iOS application. If there are some important properties or instance variables that are not required, they should be released from the memory.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Basically, the memory of the application will contain a lot of information, most of which we will not be interested in. These things might include instantiated UIViews and other UI elements. We will definitely be interested in instantiated view controllers and their properties though. It is important to understand and focus on only the relevant information in the memory. For a penetration tester, you should mainly be interested in all the values of the properties and instance variable in an application.</p>
+
+
+
+
+<p>We will be solving the Sensitive information in memory challenge in <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a></p>
+
+
+<p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/1.PNG" width="320" height="568" alt="1"></p>
+
+<p>If we look at the challenges, the first challenge is to find properties named username and password. To do that, first we have to get the reference to the current view controller. From the class-dump output of the application, it is easy to figure out that the class name of this view controller is <i>SensitiveInformationDetailsVC</i>. We can find the reference to this class objects using the choose function in cycript. The choose function takes an Objective-C class as an argument, and attempts to scavenge the heap looking for regions of memory that are the right size and shape as the class (or any subclasses of that class) you have specified. So basically, it will find references to all objects of the classes and subclasses that you have provided.</p>
+
+
+<p></p>
+
+<p>Hence, to find the instances of the class <i>SensitiveInformationDetailsVC</i>, let's use the choose function with the class name as the argument.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/2.png" width="469" height="81" alt="2"></p>
+
+<p>As we can see, there is only one reference, and can be accessed using the index 0.</p>
+
+
+
+
+<p>To find out all properties, use the command a[0]->isa.messages.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/3.png" width="1140" height="344" alt="3"></p>
+
+<p>Now, you can scan the output for all property names that you find interesting. Since we already know the property names in the challenge, which is username and password, we can directly access them using the commands shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/4.png" width="264" height="99" alt="4"></p>
+
+<p>That's it. Pretty simple isn't it.</p>
+
+
+
+
+<p>Next, we need to find some instance variable. For this, we need to define a function that will print all the instance variables for a particular instance.</p>
+
+
+
+
+<p>function tryPrintIvars(a){ var x={}; for(i in *a){ try{ x[i] = (*a)[i]; } catch(e){} } return x; }</p>
+
+
+
+
+<p>Now, lets give the input as the instance of the class <i>SensitiveInformationDetailsVC</i> and we can see that it printed out all the instance variables along with their values.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/5.png" width="1150" height="514" alt="5"></p>
+
+<p>However, we cannot find an instance variable named passwd. What's going on ? Well, here's the thing. The thing with instance variables is that they can be initialized within a particular method. If the function hasn't been called, the instance variable wouldn't be initialized. Also, because of a feature knows an ARC (Automatic reference counting) in iOS, the variables will automatically be released once the function has stopped executing. In some cases, you might not be able to call a function via manual browsing of the application, and that's where cycript becomes useful. Going back to the methods of this class, we see that there is a method named <i>initializeLogin</i>. And since it is the only other method apart from the regular iOS methods like viewDidLoad and didReceiveMemoryWarning, it is safe to assume that the instance variable is created in this method.</p>
+
+
+<p></p>
+
+<p>Once we call the function initializeLogin, the instance variable will instantiate and be stored in the memory of the application. The trick here is to use GDB to analye the application contents during the runtime and find the value of the variable before the function stops executing.. I will leave this as an exercise for you. And just for the sake of convenience, here is the source code of the initializeLogin method.</p>
+
+
+
+
+<pre>
+-(void)initializeLogin {
+    //DO random stuff
+    NSString *passwd = @"MYw0r1d1821";
+    //Finish doing random stuff
+}</pre>
+
+
+<p></p></p>
+
+<p>Mark Beard has written a nice article on dumping application memory from the heap and also released a tool to do so. I would recommend that you check the <a href="https://blog.netspi.com/ios-tutorial-dumping-the-application-heap-from-memory/">article</a> out as well. </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 38 - Attacking apps using Parse (Guest Lecture by Egor Tolstoy)]]></title>
@@ -220,385 +714,6 @@
 
 
 <p></body></html></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 37 - Adapting to iOS 8]]></title>
-    <link href="http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8"/>
-    <updated>2014-12-21T00:14:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8</id>
-    <content type="html"><![CDATA[<p>In this article we will look at all the things you need to do to set up a pentesting platform on iOS 8 and be comfortable with using all the tools.</p>
-
-
-
-
-<h3>Jailbreaking your device</h3>
-
-
-
-
-<p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is prerry straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
-
-
-
-
-<p><i>Note: I was getting an error with Pangu saying that there was not enough space on my device even though there was enough space. I tried by putting my device into Airplane mode and by turning off Wifi on my laptop and it worked for me.</i></p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>Once you jailbreak your device, you can install OpenSSH in your device using Cydia and get connectivity to your device.</p>
-
-
-
-
-<h3>Location of applications</h3>
-
-
-
-
-<p>One of the major changes within the file structure is that the user applications are no longer located at the location <i>/var/mobile/Applications</i>. The application bundle is stored in the location <i>/var/mobile/Containers/Bundle/Application</i> (Appname.app) whereas the application data (Documents, Library, tmp folder) is stored in the location <i>/var/mobile/Containers/Data/Application</i>. The name of the folder (a unique ID) will also be different for the same application. So while checking an application, it is recommended to look at both the locations.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios37/location1.png" width="848" height="236" alt="Location1">
-<img src="http://prateek147.github.io/images/posts/ios37/location2.png" width="809" height="178" alt="Location2"></p>
-
-<p>However, the applications that are installed by default on your device with iOS are still located in the location <i>/Applications/</i>. For e.g, the App store application can be seen in the below image.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios37/appstore.png" width="593" height="297" alt="Appstore"></p>
-
-<h3>Decrypting applications</h3>
-
-
-
-
-<p>You can download the latest version of clutch to decrypt iOS 8 applications from <a href="https://github.com/KJCracks/Clutch/releases">here</a>. You can download the binary for 1.4.7-git2 as of now. Once you download it on your device, just run it once and then run it again and it will show you the list of downloaded applications on your device.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios37/1.png" width="494" height="496" alt="1"></p>
-
-<p>Simply type Clutch followed by the app name to start decrypting it.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios37/2.png" width="683" height="428" alt="2"></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios37/3.png" width="622" height="295" alt="3"></p>
-
-<h3>File explorer utilities</h3>
-
-
-
-
-<p>Because of the change in the location where applications store data, iExplorer now looks inside the folder <i>/var/mobile/Containers/Data/Application</i>. It however, doesn't look into the application bundle. The same goes for iFunbox, which is another good file explorer utility for iOS devices. It is however recommended that you also look inside the application bundle folder also while testing an iOS application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios37/iexplorer.png" width="435" height="245" alt="Iexplorer"></p>
-
-<h3>Cycript & class-dump-z</h3>
-
-
-
-
-<p>Cycript and class-dump-z both work well on iOS 8 devices. However, please make sure you are using the latest version of cycript (0.9.502 at the time of writing).</p>
-
-
-
-
-<h3>Dumping keychain</h3>
-
-
-
-
-<p><a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain dumper</a> works just fine and can still dump all your keychain items in your device.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios37/keychain.png" width="436" height="102" alt="Keychain"></p>
-
-<h3>Swift</h3>
-
-
-
-
-<p>According to Apple, Swift is a new programming language for iOS and OS X apps that builds on the best of C and Objective-C, without the constraints of C compatibility. Swift adopts safe programming patterns and adds modern features to make programming easier, more flexible, and more fun. Swift’s clean slate, backed by the mature and much-loved Cocoa and Cocoa Touch frameworks, is an opportunity to reimagine how software development works. In the future articles, we will learn how to use cycript to analyze swift objects. However, i recommend you to start learning swift. One of the best resources to learn it from apart from Apple's documentation is on <a href="http://www.raywenderlich.com/74438/swift-tutorial-a-quick-start">Ray Wenderlich's blog.</a> Also, i would like to point out that it might take some time for this language to catch up and be actually used for developing iOS applications. We will cover swift in later articles in this series.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Damn Vulnerable iOS App v1.4 launched]]></title>
-    <link href="http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched"/>
-    <updated>2014-12-01T18:07:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/12/01/damn-vulnerable-ios-app-v1-dot-4-launched</id>
-    <content type="html"><![CDATA[<p>I am so excited to release the latest version of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app for iOS 8.</a> Up till now, DVIA has been downloaded more than 75000 times and i can&rsquo;t wait for the count to reach 6 digits :&ndash;)</p>
-
-<p>Following vulnerabilities and challenges have been added in the latest version.</p>
-
-<ol>
-<li>Sensitive information in memory</li>
-<li> Webkit Caching (Insecure data storage)</li>
-<li>Certificate pinning bypass </li>
-</ol>
-
-
-<p>You can download the latest version from <a href="http://damnvulnerableiosapp.com/#downloads">here</a>.
-The source code is available on the project&rsquo;s github page <a href="https://github.com/prateek147/DVIA">here</a>.</p>
-
-<h3>Manual Installation</h3>
-
-
-<p>The easiest way is to install the application from Cydia. Add the source repo.kylelevin.com and search for DamnVulnerableiOSApp.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/dvia/3.PNG" width="320" height="568" alt="3"></p>
-
-<!-- more -->
-
-
-<p>You can directly download the deb file also on your device and use dpkg -i DamnVulnerableiOSApp.deb to install the application followed by the command <i>uicache</i></p>
-
-<p><img src="http://prateek147.github.io/images/posts/dvia/4.png" width="719" height="156" alt="4"></p>
-
-<p>Or you can download the .ipa file from the <a href="http://damnvulnerableiosapp.com/#downloads">downloads</a> page, change its name from DamnVulnerableiOSApp.ipa to DamnVulnerableIOSApp.zip and unzip this file. This will unzip to a folder named Payload. Inside it, there will be a file named DamnVulnerableIOSApp.app. Then copy the .app file to the /Applications directory on the device using Scp. You can also use sftp or the utility iExplorer to upload this application.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/dvia/1.png" width="1126" height="510" alt="1"></p>
-
-<p>Now login as the mobile user, use the command su to get root privileges and give the DVIA binary executable permissions. Then use the exit command to go back as the mobile user, and use the command uicache to install the application. If this doesn’t work, you can reboot the device or try this method again.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/dvia/2.png" width="799" height="284" alt="2"></p>
-
-<p>To compile the application, you should follow the instructions mentioned <a href="http://damnvulnerableiosapp.com/2013/12/get-started/">here</a>.</p>
-
-<p>Any commits to the source code on Github or suggestions to improve the app are welcome.</p>
-
-<p>Special thanks to <a href="http://twitter.com/crylico">@crylico</a> to help test the application before release and hosting the application on his repo.</p>
-
-<p>Happy hacking !</p>
-
-<p>-Prateek</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 1]]></title>
-    <link href="http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1"/>
-    <updated>2014-11-24T00:52:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/11/24/android-application-hacking-with-insecure-bank-part-1</id>
-    <content type="html"><![CDATA[<p>In this article series, we will learn at various concepts of Android application security while exploiting a vulnerable app InsecureBankv2. We will be looking at all the concepts from a noob's perspective and hence i would recommend this blog series to beginners as well.</p>
-
-
-
-
-<p>However, the first thing to do is set up a proper mobile pentesting platform for android application testing.</p>
-
-
-
-
-<p>The first thing to do is download the Eclipse ADT bundle. You can then follow the instructions <a href="https://developer.android.com/sdk/installing/index.html?pkg=adt">here</a> to install the ADT bundle. Once this is done, make sure you install the necessary sdk packages and libraries by following the instructions <a href="https://developer.android.com/sdk/installing/adding-packages.html">here</a>.</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>Inside the adt bundle folder and inside the sdk folder, there will be two folders, one with the name <i>tools</i> and the other with the name <i>platform-tools</i>. It's important to add the location of your SDK platform tools and tools folder to the PATH environment variable. This is because you will be using most of the command line tools included in these directories and its good to have them added in the path environment variable. The command to add any path as an environment variable is <i>export PATH=/path/to/dir:$PATH</i>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/1.png" width="725" height="146" alt="1"></p>
-
-<p>Do this for both the tools and the platform-tools folder. Once this is done, you can access all the command line tools without actually browsing over to their directory. To check if this is working, type the command <i>adb</i> and see if you are able to get an output like this.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/2.png" width="728" height="417" alt="2"></p>
-
-<p>To run the application on your computer, it is important to have a good emulator. Now the android virtual device manager utility in Eclipse allows you to create your own emulators. To know how to create these virtual devices, i would recommend you check <a href="https://developer.android.com/tools/devices/index.html">this</a> article out. However, for this series, i am going to be using Genymotion to create my own emulators. There are many reasons for this. First of all, it is lightning fast and not as slow as the android emulators. Secondly, it is a rooted emulator unlike the android emulators. This means you have much more freedom of installing your own custom applications that can be used for auditing other android apps. </p>
-
-
-
-
-<p>Once you install genymotion, you should sign up for a new account (it's free) and create different emulators based on your need. Here is what my emulators look like.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/3.png" width="798" height="427" alt="3"></p>
-
-<p>Now get the latest code for the InsecureBankv2 application from <a href="https://github.com/dineshshetty/Android-InsecureBankv2">here</a>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/4.png" width="1046" height="137" alt="4"></p>
-
-<p>Start one of your genymotion emulators and see if you are able to get them running. Starting an emulator is as simple as clicking on the play button.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/5.png" width="1070" height="618" alt="5"></p>
-
-<p>Inside the folder that you just cloned from github, there will be an apk file. You can install that application onto your emulator using the command <i>adb install InsecureBankv2.apk</i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/6.png" width="939" height="134" alt="6"></p>
-
-<p>You will see that it successfully installed. And you can see the same on the emulator as well. But sometimes you might want to compile the application rather than run it with an apk file. To do that, open Eclipse and go to <i>File -> Switch Workspace</i>, and choose the Insecure bank folder that you just created. Now go to <i>File -> Import</i> and select <i>Existing Android code into workspace</i>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/7.png" width="525" height="551" alt="7"></p>
-
-<p>Select your application folder and you will see that Eclipse will import the application into your workspace. Now click on the play button on the top to run your application. Make sure your genymotion emulator is running as well. Select to run it as an android application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/8.png" width="851" height="586" alt="8"></p>
-
-<p>You will see that the application starts successfully on the genymotion emulator.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/9.png" width="1066" height="574" alt="9"></p>
-
-<p>Also start the backend python server that the android application communicates with using the command <i>python app.py --port 8888</i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/10.png" width="726" height="81" alt="10"></p>
-
-<p>In the application, go to Preferences and enter the IP address and port number of your system.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib1/11.png" width="612" height="472" alt="11"></p>
-
-<p>And now you can login to the application using the default credentials.</p>
-
-
-
-
-<ul>
-<li>dinesh/Dinesh@123$</li>
-<li>jack/Jack@123$</li>
-</ul>
-
-
-
-
-<p>Also make sure that you install the following utilities. We will cover them in detail as and when they are required.</p>
-
-
-
-
-<ol>
-    <li><a href="https://www.mwrinfosecurity.com/products/drozer/">Drozer</a></li>
-    <li><a href="https://github.com/swdunlop/AndBug">Andbug</a></li>
-    <li><a href="https://github.com/iSECPartners/Introspy-Android">Introspy</a></li>
-    <li><a href="https://code.google.com/p/dex2jar/">dex2jar</a></li>
-    <li><a href="https://code.google.com/p/android-apktool/">apktool</a></li>
-</ol>
-
-
-
-
-<p>Also, connect to your emulator using the command <i>adb shell</i> and see what are the things you can do. I would really recommend you to have a look <a href="http://developer.android.com/tools/help/adb.html">here</a> and try out all the commands possible with the Android debug bridge.</p>
-
-
-
-
-<p>Another thing that you can read up is what you can do with all the command line tools available in Android. You can read it from <a href="http://developer.android.com/tools/projects/projects-cmdline.html">here</a>. In the next article, we will start at actual exploitation of the InsecureBankv2 application.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 36 – Bypassing certificate pinning using SSL Kill switch]]></title>
-    <link href="http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch"/>
-    <updated>2014-11-03T01:00:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/11/03/ios-application-security-part-36-bypassing-certificate-pinning-using-ssl-kill-switch</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at how we can analyze network traffic for applications that use certificate pinning. One of the best definitions i found of certificate pinning is mentioned below. It is taken directly from <a href="https://www.infinum.co/the-capsized-eight/articles/securing-mobile-banking-on-android-with-ssl-certificate-pinning">this</a> url.</p>
-
-
-
-
-<p>
-By default, when making an SSL connection, the client checks that the server’s certificate:</p>
-
-
-
-
-<ul>
-<li>has a verifiable chain of trust back to a trusted (root) certificate</li>
-<li>matches the requested hostname</li>
-<li>What it doesn't do is check if the certificate in question is a specific certificate, namely the one you know your server is using.</li>
-</ul>
-
-
-
-
-<!-- more -->
-
-
-<p>Relying on matching certificates between the device&rsquo;s trust store and the remote server opens up a security hole. The device’s trust store can easily be compromised &ndash; the user can install unsafe certificates, thus allowing potential man-in-the-middle attacks.</p>
-
-<p>Certificate pinning is the solution to this problem. It means hard-coding the certificate known to be used by the server in the mobile application. The app can then ignore the device’s trust store and rely on its own, and allow only SSL connections to hosts signed with certificates stored inside the application.</p>
-
-<p>This also gives a possibility of trusting a host with a self-signed certificate without the need to install additional certificates on the device.
-</p></p>
-
-<p>Certificate pinning is used by many popular applications for e.g Twitter, Square etc. So the question that arises is, how do you bypass this certificate validation that is happening on the client side ? The important thing to note here is all that all the validation is happening on the client side. And since there are frameworks like Mobile Substrate that allow us to patch any method during runtime and modify its implementation, it is possible to disable the certificate validation that is happening in the application.</p>
-
-
-
-
-<p>A POC tool for this by released in Blackhat and it was named iOS SSL Kill Switch. The full presentation can be found <a href="https://media.blackhat.com/bh-us-12/Turbo/Diquet/BH_US_12_Diqut_Osborne_Mobile_Certificate_Pinning_Slides.pdf">here</a>. After some time, the author realized that he was able to inspect traffic from apps that used certificate pinning (for e.g Twitter), but he wasn't able to see the traffic going through the App Store app. He then realized he needed to patch even more low level methods and kill specific processes in order to inspect traffic going via the App store app. The full writeup for this could be found <a href="https://nabla-c0d3.github.io/blog/2013/08/20/intercepting-the-app-stores-traffic-on-iOS/">here</a> and it's quite interesting, so i suggest you give it a read. Also note that this tool will also be able to disable the default SSL certificate validation, so you don't need to install a certificate as trusted root as well, which is what we usually do for inspeting traffic over HTTPs.</p>
-
-
-
-
-<p>To really check that the Twitter app uses certificate pinning, install the Twitter app and route the device traffic through Burp Proxy. Make sure you are inspect traffic via HTTP/HTTPS using the steps mentioned in <a href="http://highaltitudehacks.com/2013/08/20/iOS-application-security-part-11-analyzing-network-traffic-over-http-slash-https">Part 11</a> of this series. However, when you open the twitter app and navigate around, the traffic is not captured by Burpsuite.</>
-
-
-
-
-<p>To inspect the traffic going via Twitter, ssh into your device and download the iOS SSL Kill Switch package from it's <a href="https://github.com/iSECPartners/iOS-ssl-kill-switch/releases">releases</a> link. Also, make sure to install the following packages via Cydia.</p>
-
-
-
-
-<ul>
-<li>dpkg</li>
-<li>MobileSubstrate</li>
-<li>PreferenceLoader</li>
-</ul>
-
-
-
-
-<p>Now install the deb package using the command <i>dpkg -i <packagename></i>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios36/1.png" width="967" height="134" alt="1"></p>
-
-<p>Now, respring the device using the command <i>killall -HUP SpringBoard</i>.</p>
-
-
-
-
-<p>Once this is done, go to Settings app. There will be a new menu for SSK Kill Switch and a slider to Disable certificate validation. Make sure the slider is set to on.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios36/2.png" width="832" height="254" alt="2"></p>
-
-<p>Now route the traffic in the device to pass through Burp Proxy. Open twitter app and now you can see all the data going through via the twitter app as well.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios36/3.png" width="1045" height="451" alt="3"></p>
-
-<p>To verify that SSL Kill Switch is being injected into the application, go to Xcode -> Devices (I am using Xcode 6), look for your device in the left menu and click on the arrow pointing up in the lower left corner to see the device logs. You will see that SSL Kill Switch is being injected into the application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios36/4.png" width="598" height="123" alt="4"></p>
-
-<p>Another cool utility that does the same job is <a href="https://github.com/intrepidusgroup/trustme">trustme</a>. I recommend you check it out.</p>
-
 ]]></content>
   </entry>
   

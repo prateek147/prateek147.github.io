@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-01-26T14:05:24+04:00</updated>
+  <updated>2015-04-01T12:11:23+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,500 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 4]]></title>
+    <link href="http://prateek147.github.io/2015/03/29/android-application-hacking-with-insecure-bank-part-4"/>
+    <updated>2015-03-29T12:08:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/29/android-application-hacking-with-insecure-bank-part-4</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at a very handy framework for analysis of android applications named Drozer. Drozer is a very useful tool as it eliminates the need for having seperate tools for performing different security checks in an android application. It has a list of modules that you can use to interact with the application using Android&#8217;s Inter-Process communication. Additionally, you can also install exploits and use it to exploit an android device.</p>
+
+
+
+
+<p>The main purpose of this article is to make sure you are familiar with drozer so we can use it in the future articles. </p>
+
+
+
+
+<p>The first thing to do is to install the drozer community edition from <a href="https://www.mwrinfosecurity.com/products/drozer/">this</a> link. You need to install both the drozer installer and the Agent.apk file which is the application that needs to be deployed on the device/emulator and acts as a communicator between the system and the application to be audited. </p>
+
+
+
+
+<p>Once drozer has been installed on your system, install the agent.apk on your device/emulator.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/1.png" width="600" height="90" alt="1"></p>
+
+<p>You will first need to set up port forwarding so that your system can connect to a TCP socket opened by the Agent inside the emulator, or on the device. By default, drozer uses port 31415:</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/2.png" width="800" height="54" alt="2"></p>
+
+<p>Also make sure to start the agent application and start the server.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/3.png" width="513" height="277" alt="3"></p>
+
+<p>Now you can connect to the agent using the following command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/4.png" width="750" height="360" alt="4"></p>
+
+<p>You can list all the different modules by using the list command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/5.png" width="900" height="220" alt="5"></p>
+
+<p>Every module requires different options. If you want to see the different options for a particular module, use run followed by the module name followed by -h.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/6.png" width="900" height="420" alt="6"></p>
+
+<p>For e.g, to see a list of all the packages installed, you can use the module app.package.list.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/7.png" width="500" height="220" alt="7"></p>
+
+<p>Now, to find info about a particular packages, use the module app.package.info. It will give out a lot of info about the application, for e.g the path where the application files are stored, the permissions that the application uses etc.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/8.png" width="550" height="280" alt="8"></p>
+
+<p>Another useful module is app.package.attacksurface. It tells you about the exported components as well as whether the application is debuggable or not. We will look at exploiting debuggable applications in later articles.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/9.png" width="500" height="120" alt="9"></p>
+
+<p>Now, let&#8217;s do the same thing we did in the last article, call an exported activity in the insecure bank application. For that, we will use the module app.activity.start.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/10.png" width="800" height="32" alt="10"></p>
+
+<p>And you will see the same result.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/11.png" width="700" height="320" alt="11"></p>
+
+<p>In some cases, the activity might have an intent filter. For e.g, below is a sample intent filter.</p>
+
+
+
+
+<p>
+    
+<activity android:name="ShareActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+    </intent-filter>
+</activity>
+</p>
+
+
+
+
+<p>Drozer supports calling activities by specifying actions and extra paramters also.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib4/12.png" width="700" height="245" alt="12"></p>
+
+<p>Here is an example of calling an activity with extra parameter</p>
+
+
+
+
+<p><i>
+run app.activity.start &#8211;component com.mwr.example.intenttest com.mwr.example.intenttest.IntentActivity &#8211;flags ACTIVITY_NEW_TASK &#8211;extra string URL &#8220;Some Text&#8221;
+</i></p>
+
+
+
+
+<p>In this article, we got comfortable with using Drozer. Drozer can do much more, and we will be discussing all those features as we discuss more vulnerabilities in InsecureBank in the next article.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 3]]></title>
+    <link href="http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3"/>
+    <updated>2015-03-28T12:04:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at attacking components in Android applications, starting with activities. But first, it is essential to understand what Android application components are. Android application components are the essential building blocks of an Android application. The behaviour and interaction between these components is defined in the manifest.xml file in the application. Mainly there are 4 types of components and it is important to understand their purpose and function.</p>
+
+
+
+
+<p>The description of the 4 components given below has been taken from <a href="http://www.tutorialspoint.com/android/android_application_components.htm">this</a> link.</p>
+
+
+
+
+<table>
+<tr><th style="width:25%">Components</th><th>Description</th></tr>
+<tr><td>Activities</td><td>They dictate the UI and handle the user interaction to the smartphone screen</td></tr>
+<tr><td>Services</td><td>They handle background processing associated with an application.</td></tr>
+<tr><td>Broadcast Receivers</td><td>They handle communication between Android OS and applications.</td></tr>
+<tr><td>Content Providers</td><td>They handle data and database management issues.</td></tr>
+</table>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h4>Activities</h4>
+
+
+<p>An activity represents a single screen with a user interface. For example, an email application might have one activity that shows a list of new emails, another activity to compose an email, and another activity for reading emails. If an application has more than one activity, then one of them should be marked as the activity that is presented when the application is launched.</p>
+
+<p>An activity is implemented as a subclass of Activity class as follows:</p>
+
+<pre>public class MainActivity extends Activity {
+
+}</pre>
+
+
+
+
+<h4>Services</h4>
+
+
+<p>A service is a component that runs in the background to perform long-running operations. For example, a service might play music in the background while the user is in a different application, or it might fetch data over the network without blocking user interaction with an activity.</p>
+
+<p>A service is implemented as a subclass of Service class as follows:</p>
+
+<pre>public class MyService extends Service {
+
+}</pre>
+
+
+<h4>Broadcast Receivers</h4>
+
+
+<p>Broadcast Receivers simply respond to broadcast messages from other applications or from the system. For example, applications can also initiate broadcasts to let other applications know that some data has been downloaded to the device and is available for them to use, so this is broadcast receiver who will intercept this communication and will initiate appropriate action.</p>
+
+<p>A broadcast receiver is implemented as a subclass of BroadcastReceiver class and each message is broadcasted as an Intent object.</p>
+
+<pre>public class MyReceiver  extends  BroadcastReceiver {
+
+}</pre>
+
+
+<h4>Content Providers</h4>
+
+
+<p>A content provider component supplies data from one application to others on request. Such requests are handled by the methods of the ContentResolver class. The data may be stored in the file system, the database or somewhere else entirely.
+
+A content provider is implemented as a subclass of ContentProvider class and must implement a standard set of APIs that enable other applications to perform transactions.</p>
+
+
+
+
+<pre>public class MyContentProvider extends  ContentProvider {
+
+}</pre>
+
+
+
+
+<h4>Additional Components</h4>
+
+
+<p>There are additional components which will be used in the construction of above mentioned entities, their logic, and wiring between them. These components are:</p>
+
+<table class="src">
+<tr><th style="width:25%">Components</th><th>Description</th></tr>
+<tr><td>Fragments</td><td>Represents a behavior or a portion of user interface in an Activity.</td></tr>
+<tr><td>Views</td><td>UI elements that are drawn onscreen including buttons, lists forms etc.</td></tr>
+<tr><td>Layouts</td><td>View hierarchies that control screen format and appearance of the views.</td></tr>
+<tr><td>Intents</td><td>Messages wiring components together.</td></tr>
+<tr><td>Resources</td><td>External elements, such as strings, constants and drawables pictures.</td></tr>
+<tr><td>Manifest</td><td>Configuration file for the application.</td></tr>
+</table>
+
+
+
+
+<h4>One of the most important attributes of components is the exported property. Here is the documentation from android about it.</h4>
+
+
+
+
+<h4>android:exported</h4>
+
+
+
+
+<p>Whether or not the activity can be launched by components of other applications — &#8220;true&#8221; if it can be, and &#8220;false&#8221; if not. If &#8220;false&#8221;, the activity can be launched only by components of the same application or applications with the same user ID.The default value depends on whether the activity contains intent filters. The absence of any filters means that the activity can be invoked only by specifying its exact class name. This implies that the activity is intended only for application-internal use (since others would not know the class name). So in this case, the default value is &#8220;false&#8221;. On the other hand, the presence of at least one filter implies that the activity is intended for external use, so the default value is &#8220;true&#8221;.This attribute is not the only way to limit an activity&#8217;s exposure to other applications. You can also use a permission to limit the external entities that can invoke the activity (see the permission attribute).</p>
+
+
+
+
+<p>Hence, if an activity is exported, it can be called by external applications. In order to test the vulnerable activity exercise in InsecureBank application, let&#8217;s first start the application on Genymotion emulator and start the backend server as well.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/1.png" width="504" height="58" alt="1"></p>
+
+<p>Once we start the app, we are presented with this login page. If the activity after a successful login is exported, then we can call that activity directly.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/2.png" width="1027" height="559" alt="2"></p>
+
+<p>Let&#8217;s have a look at the manifest file of the application to see if we can find the relevant activity. To look at the manifest file, first decompress the application using apktool as shown in the image below. This will create an application folder and the manifest file will be located inside it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/4.png" width="735" height="275" alt="4"></p>
+
+<p>Here is how the manifest file looks like. As you can see, there is an activity named <i>.PostLogin</i> which is set as exported.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/3.png" width="888" height="626" alt="3"></p>
+
+<p>We can call this activity directly using the activity manager tool in the emulator. Let&#8217;s have a look at the usage first.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/5.png" width="620" height="554" alt="5"></p>
+
+<p>To start an activity with the am tool, here is the command.</p>
+
+
+
+
+<pre>
+adb shell
+am start -n com.package.name/com.package.name.ActivityName
+</pre>
+
+
+
+
+<p>In this case, the package name is com.android.insecurebankv2 as can be seen from the manifest file.</p>
+
+
+
+
+<p>So let&#8217;s call the PostLogin activity by using the command shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/6.png" width="894" height="97" alt="6"></p>
+
+<p>In the application, you can see that you have successfully bypassed the login page.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib3/7.png" width="1025" height="325" alt="7"></p>
+
+<p>You can also call activity or other components using drozer. We will look at drozer in the next article.</p>
+
+
+
+
+<p>There are a couple of ways to prevent from these kinds of vulnerabilities. First of all, the android:exported property should always be set to FALSE unless really necessary. Secondly, if the application needs to be called from some specific external applications, you can add custom permissions to the activity and only allow applications that requests that permission to call the activity.</p>
+
+
+
+
+<p>Before we move on to the next article, make sure you have a proper understanding of the <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">Android manifest</a> file and the different components in an andorid application.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 2]]></title>
+    <link href="http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2"/>
+    <updated>2015-03-27T12:04:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2</id>
+    <content type="html"><![CDATA[<p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>At this point, i would also like to mention that if you are looking for a VM that contains all the tools to cater to your android application pentesting needs, have a look at <a href="https://androidtamer.com/">Android Tamer</a>.</p>
+
+
+
+
+<p>First of all, make sure you have the latest version of InsecureBankv2 on your system. You can do a <i>git pull</i> to merge all the latest changes to your master branch.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/1.png" width="649" height="422" alt="1"></p>
+
+<p>Once this is done, let&#8217;s do some analysis on the apk file. Copy the apk file into a seperate folder for some analysis. Just like an iOS ipa file, an apk file is a compressed file, so you can decompress it by just changing the extension from apk to zip and then extracting it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/2.png" width="873" height="378" alt="2"></p>
+
+<p>Now browse over to the extracted folder and have a look. You can see a lot of files here.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/3.png" width="592" height="130" alt="3"></p>
+
+<p>Let&#8217;s describe them one by one.</p>
+
+
+
+
+<ul>
+    <li>AndroidManifest.xml - This is probably by far the most important source of information. From a security point of view, it contains information about the various components used in an application and lists the conditions in which they can be launched. It also displays information about the permissiosns that the application uses. I would highly recommend you to go through Google&#8217;s <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">documentation</a> on the manifest file. We will discuss each component of an android application as we discuss vulnerabilities in them.</li>
+    
+    <li>assets - This is used to store raw assets file. The files stored here as compiled as is into the apk file.</li>
+    
+    <li>res - Used to store resources such as images, layout files, and string values.</li>
+    
+    <li>META-INF - Contains important information about the signature and the person who signed the application.</li>
+    
+    <li>classes.dex - This is where the compiled application code lies. To decompile an application, you need to convert the dex file to a jar file which can then be read by a java decompiler</li>
+    
+    
+</ul>
+
+
+
+
+<p>The information about the public key certificate is stored in the CERT.RSA file in the META-INF folder. To find out information about the public key certificate, use the command <i> keytool –printcert –file META-INF/CERT.RSA </i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/z.png" width="730" height="426" alt="Z"></p>
+
+<p>Please note that it is also possible to modify the code of an apk file after decompiling and then recompile it to deploy to a device. However, once the application code is modified, it loses its integrity and hence needs to be resigned with a new public/private key pair. I would recommend that you have a look at <a href="http://developer.android.com/tools/publishing/app-signing.html">this</a> article that explains how to create your own public/private key pair. We will look at modifying application logic and then recompiling it in later articles in this series.</p>
+
+
+
+
+<p>Once an application has been recompiled, you can verify its integrity using the jarsigner application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/j.png" width="760" height="64" alt="J"></p>
+
+<p>Now let&#8217;s decompile the application using dex2jar. dex2jar can also take input as an apk file (rather than .dex file) and converts it into a jar file.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/x.png" width="654" height="87" alt="X"></p>
+
+<p>Once this is done, you can simple open this file in JD-GUI and have a look at the source code.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2/y.png" width="1026" height="621" alt="Y"></p>
+
+<p>We can now scan through the source code to find potential vulnerabilities in the application. We can clearly note how easy it is to reverse engineer an apk file and look at the source code. It is important to note here that we are able to see the source code and understand it mainly because there is no code obfuscation applied in the application. Google provides tools like Proguard to help in obfuscating code. While this is not foolproof, there is also a commercial version of Proguard knows an DexGuard that works even better in applying code obfuscation. We will look at obfuscating application code in later articles.</p>
+
+
+
+
+<p>In this article, we looked at how we can extract information from an apk file. In the next article, we will start looking at the different types of vulnerabilities demonstrated in InsecurBankv2.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 39 – Sensitive information in memory]]></title>
+    <link href="http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory"/>
+    <updated>2015-03-24T12:04:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at analyzing the memory contents of an iOS application. iOS applications may store sensitive information like passwords, session IDs etc in the memory of the application without releasing them. In some cases, releasing these variables may not be an option. For e.g, it might be required for the application to send an authentication token with every request and hence there has to be a reference to it in the memory somewhere. Even though these variables might be encrypted when stored locally in the application, these variables will be in their unencryped format while the application is running. Hence, analyzing the contents of the memory is an important thing while pentesting an iOS application. If there are some important properties or instance variables that are not required, they should be released from the memory.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Basically, the memory of the application will contain a lot of information, most of which we will not be interested in. These things might include instantiated UIViews and other UI elements. We will definitely be interested in instantiated view controllers and their properties though. It is important to understand and focus on only the relevant information in the memory. For a penetration tester, you should mainly be interested in all the values of the properties and instance variable in an application.</p>
+
+
+
+
+<p>We will be solving the Sensitive information in memory challenge in <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a></p>
+
+
+<p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/1.PNG" width="320" height="568" alt="1"></p>
+
+<p>If we look at the challenges, the first challenge is to find properties named username and password. To do that, first we have to get the reference to the current view controller. From the class-dump output of the application, it is easy to figure out that the class name of this view controller is <i>SensitiveInformationDetailsVC</i>. We can find the reference to this class objects using the choose function in cycript. The choose function takes an Objective-C class as an argument, and attempts to scavenge the heap looking for regions of memory that are the right size and shape as the class (or any subclasses of that class) you have specified. So basically, it will find references to all objects of the classes and subclasses that you have provided.</p>
+
+
+<p></p>
+
+<p>Hence, to find the instances of the class <i>SensitiveInformationDetailsVC</i>, let&#8217;s use the choose function with the class name as the argument.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/2.png" width="469" height="81" alt="2"></p>
+
+<p>As we can see, there is only one reference, and can be accessed using the index 0.</p>
+
+
+
+
+<p>To find out all properties, use the command a[0]->isa.messages.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/3.png" width="1140" height="344" alt="3"></p>
+
+<p>Now, you can scan the output for all property names that you find interesting. Since we already know the property names in the challenge, which is username and password, we can directly access them using the commands shown below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/4.png" width="264" height="99" alt="4"></p>
+
+<p>That&#8217;s it. Pretty simple isn&#8217;t it.</p>
+
+
+
+
+<p>Next, we need to find some instance variable. For this, we need to define a function that will print all the instance variables for a particular instance.</p>
+
+
+
+
+<p>function tryPrintIvars(a){ var x={}; for(i in *a){ try{ x[i] = (*a)[i]; } catch(e){} } return x; }</p>
+
+
+
+
+<p>Now, lets give the input as the instance of the class <i>SensitiveInformationDetailsVC</i> and we can see that it printed out all the instance variables along with their values.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios39/5.png" width="1150" height="514" alt="5"></p>
+
+<p>However, we cannot find an instance variable named passwd. What&#8217;s going on ? Well, here&#8217;s the thing. The thing with instance variables is that they can be initialized within a particular method. If the function hasn&#8217;t been called, the instance variable wouldn&#8217;t be initialized. Also, because of a feature knows an ARC (Automatic reference counting) in iOS, the variables will automatically be released once the function has stopped executing. In some cases, you might not be able to call a function via manual browsing of the application, and that&#8217;s where cycript becomes useful. Going back to the methods of this class, we see that there is a method named <i>initializeLogin</i>. And since it is the only other method apart from the regular iOS methods like viewDidLoad and didReceiveMemoryWarning, it is safe to assume that the instance variable is created in this method.</p>
+
+
+<p></p>
+
+<p>Once we call the function initializeLogin, the instance variable will instantiate and be stored in the memory of the application. The trick here is to use GDB to analye the application contents during the runtime and find the value of the variable before the function stops executing.. I will leave this as an exercise for you. And just for the sake of convenience, here is the source code of the initializeLogin method.</p>
+
+
+
+
+<pre>
+-(void)initializeLogin {
+    //DO random stuff
+    NSString *passwd = @"MYw0r1d1821";
+    //Finish doing random stuff
+}</pre>
+
+
+<p></p></p>
+
+<p>Mark Beard has written a nice article on dumping application memory from the heap and also released a tool to do so. I would recommend that you check the <a href="https://blog.netspi.com/ios-tutorial-dumping-the-application-heap-from-memory/">article</a> out as well. </p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 38 - Attacking apps using Parse (Guest Lecture by Egor Tolstoy)]]></title>
@@ -1805,582 +2299,6 @@ By default, when making an SSL connection, the client checks that the server’s
 
 
 <p>*</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 28 - Patching iOS Application with Hopper]]></title>
-    <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper"/>
-    <updated>2014-01-17T21:41:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper</id>
-    <content type="html"><![CDATA[<p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an iOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn&#8217;t have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
-
-
-
-
-<p>According to Hopperapp.com ..</p>
-
-
-
-
-<p><i>Hopper is a reverse engineering tool for OS X, Linux and Windows, that lets you disassemble, decompile and debug (OS X only) your 32/64bits Intel Mac, Windows and iOS (ARM) executables! Take a look at the feature list below! </i></p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>And&#8230;</p>
-
-
-
-
-<p><i>Even if Hopper can disassemble any kind of Intel executable, it does not forget its main platform. Hopper is specialized in retrieving Objective-C information in the files you analyze, like selectors, strings and messages sent.</i></p>
-
-
-
-
-<p>In this article, i am using a paid version of Hopper which cost about $60. I think it is an incredible price given the things we can do with this application. I would recommend you check out the demo version which lets you perform some tasks to get a feel of Hopper. Anyways, once you download the Hopper app, this is the interface we are looking at.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/1.png" width="1440" height="846" alt="1"></p>
-
-<p>In this article also, we will use the same demo application that we used in <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a>, the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application that you can download from my github profile. I highly recommend that you read Part 26 before you proceeed with this article. Just to quickly recap, the GDB-Demo had a login form like this.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/2.png" width="316" height="484" alt="2"></p>
-
-<p>It accepts a certain username/password combination in order to allow us to login. Our task is to patch this application in such a way that the application allows us to login even if the username/password combination is not correct. Please note that in this article, we will be debugging and patching the application which is x86 architecture on a laptop , however you can do the same patching with ARM executable as well by copying the binary from the device.</p>
-
-
-
-
-<p>Once you have downloaded the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application, run it using Xcode. This will install the application in the iOS simulator. Now our task is to find the location of the application binary on our system. If you run an application in Xcode, it will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the created date of these folders. The latest one would be our application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/4.png" width="1145" height="239" alt="4"></p>
-
-<p>Use the command <i>open DirectoryName</i> and this will open the directory in Finder.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/5.png" width="992" height="360" alt="5"></p>
-
-<p>Go inside the folder GDB-Demo.app (this is the application bundle) by right clicking on it and choosing the option <i>Show Package contents</i>. Inside this folder, you will find the application binary with the name GDB-Demo. This is the binary that we will provide to Hopper.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/6.png" width="770" height="303" alt="6"></p>
-
-<p>Now open Hopper app and go to File->Read Executable To Disassemble. Give the location of the GDB-Demo binary. Also make sure to quit Xcode but keep the simulator open.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/2.png" width="316" height="484" alt="2"></p>
-
-<p>Hopper will now start dissasembling the application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/7.png" width="1437" height="805" alt="7"></p>
-
-<p>On the left hand side, if you select the <i>Strings</i> section, you will see all the constant strings that Hopper was able to dump from the binary. If you have read part 26 on this series, you will note that the password is also present in this list ;-).</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/8.png" width="381" height="576" alt="8"></p>
-
-<p>If you select the labels section on the left, it will give you all the labels it was able to dump from the application. This includes labels to method implementations, constant strings, classes etc..</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/9.png" width="389" height="582" alt="9"></p>
-
-<p>We know that the method that is important is loginButtonTapped. So lets search for it in the labels section. Once we find the method, tap on it and it will take you to its disassembly.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/10.png" width="1437" height="653" alt="10"></p>
-
-<p>One kickass feature of Hopper is that it can provide Pseudo code for a function. To check out the Pseudo code for this function, click on Pseudo Code on the top right.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/11.png" width="336" height="94" alt="11"></p>
-
-<p>As you can see, Hopper provides you with a Pseudo code for this function.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/12.png" width="868" height="748" alt="12"></p>
-
-<p>This is such an amazing feature. It helps us so much in figuring out what this method is supposed to do. In this case, it just gives away the password. Another awesome feature of this application is Show CFG which helps you find the flow of the application. Just click on <i>Show CFG</i> next to the Pseudo code button.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/13.png" width="737" height="813" alt="13"></p>
-
-<p>If we scroll down a bit in this function, we get to the point shown in the image below. We can see that the left flow takes us to a point where we see the text <i>Incorrect Username or Password</i>, whereas the right flow has some text <i>admin page</i>. Obviously, i would like the flow to go to the right side.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/14.png" width="1434" height="819" alt="14"></p>
-
-<p>Now lets check the condition that decides which way the flow goes. As we can see from the image below, the assembly instruction is <i>jne 0xcbc</i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/15.png" width="527" height="384" alt="15"></p>
-
-<p>0x2cbc is a label that corresponds to the right hand side. So if we can modify the instruction in such a way that the flow is always taken towards the right hand side, then our task will be accomplished.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/16.png" width="429" height="145" alt="16"></p>
-
-<p>Well, its pretty simple to do this. Just replace <i>jne 0xcbc</i> by <i>jmp 0xcbc</i>. To do this, click on this specific instruction in the dissassembly and click on Modify->Assemble instruction</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/17.png" width="1217" height="425" alt="17"></p>
-
-<p>Then we write down the instruction that we want and click on Assemble and Go Next. That&#8217;s it, this is the only change we want to do.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/18.png" width="720" height="250" alt="18"></p>
-
-<p>Now lets save this executable and overwrite the previous one. Go to File -> Produce New Executable and overwrite the original executable.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/19.png" width="608" height="396" alt="19"></p>
-
-<p>Now go the simulator application, quit any running instance of GDB-Demo application and restart the application. Tap on Login and you will see that the login has been bypassed.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios28/20.png" width="336" height="509" alt="20"></p>
-
-<p>Congratulations, we just patched an application using Hopper. This was just a small feature of Hopper. Hopper lets us do many more things. I would recommend you check them out and no, i am not associated with Hopper nor do i know the author personally. I just think its a cool app and for $60, its an extremely good deal !</p>
-
-
-
-
-<p>In the next article, we will learn about Insecure or Broken Cryptography.</p>
-
-
-<pre><code>&lt;/body&gt;
-</code></pre>
-
-<p></html></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 27 - Setting up a mobile pentesting environment with iOS 7 Jailbreak]]></title>
-    <link href="http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak"/>
-    <updated>2014-01-17T21:35:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak</id>
-    <content type="html"><![CDATA[<p>In this article we will look at how we can set up a mobile pentesting platform on our device with the new iOS 7 jailbreak. There has been quite a lot of discussion on the web about whether it is safe for a user to jailbreak their devices yet. However, if you are really interested in iOS pentesting then there is no absolutely no reason now why you shouldn&#8217;t jailbreak your device. Since this jailbreak was launched by the evasi0n team without any prior notice to the developers, most of the tweaks didn&#8217;t work with iOS 7 when the jailbreak was first made public. One of the most critical pieces of software Mobile Substrate which is used in many tweaks initially didn&#8217;t work on iOS 7. However, things have settled down since then. An update for Mobile Substrate (named Cydia Substrate) was released a few weeks back and many tweaks were also updated for iOS 7. Some things however don&#8217;t work well on iOS 7 devices. In this article, we will look at all those things which we need to do to set up a proper pentesting platform on a device running iOS 7. </p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<h3>How to Jailbreak</h3>
-
-
-
-
-<p>You can jailbreak your device by downloading the evasi0n software from evasi0n.com . The current jailbreak supports devices upto the latest iOS version, which is 7.0.4. Once it is downloaded on your computer, just connect your device to your computer through USB, open evasi0n and click on Jailbreak to start the jailbreak process. In my case, the device is already jailbroken so i don&#8217;t need to jailbreak it again.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/1.png" width="480" height="361" alt="1"></p>
-
-<p>Follow the instructions given by the software. Once the jailbreak is finished, you will see a new application named Cydia installed on your device. The very first thing you need to do is to install new version of Mobile Substrate for iOS 7 (called the Cydia Substrate) and Substrate safe mode. Mobile Substrate is a very important piece of software as most of the tweaks depend on it to function properly. Substrate safe mode allows a device to reboot in a safe mode without any of the tweaks for a situation where tweaks may cause problems for your device and the device starts disfunctioning.</p>
-
-
-
-
-<p>Searching for Cydia will give you <i>Cydia Substrate</i>.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/2.PNG" width="320" height="568" alt="2"></p>
-
-<p>And searching for Substrate will give you  <i>Substrate Safe Mode</i>. Install both of these by tapping on them and then tapping on Install.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/3.PNG" width="320" height="568" alt="3"></p>
-
-<p>Once this is installed, the next thing you need to do is to install OpenSSH on your device. This will help you connect to your device using ssh. Just searching for OpenSSH will give you the desired result.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/4.PNG" width="320" height="568" alt="4"></p>
-
-<p>Tap on it and then tap on Install. This will install OpenSSH on your device.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/5.PNG" width="320" height="568" alt="5"></p>
-
-<p>Now the next thing to do is to change your SSH password. You can find the IP of your device by going to the Settings app, selecting Wifi, and then tapping on the info button on the network you are connected to. By default, the password for both <i>mobile</i> and <i>root</i> user is <i>alpine</i>. We must change this password.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/6.png" width="567" height="122" alt="6"></p>
-
-<p>Now, install the Big boss recommended tools package from Cydia. It contains most of the essential tools that you need to work in a jailbroken environment.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/7.PNG" width="320" height="568" alt="7"></p>
-
-<p>Now you need to install some other essential tools. Let&#8217;s start with clutch. Clutch can be used to decrypt the applications that are downloaded from the App Store. You can download clutch from <a href="http://dl.dropboxusercontent.com/u/34557464/clutch">this</a> url. Then move it to /usr/bin and make sure to give it executable permissions.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/8.png" width="834" height="226" alt="8"></p>
-
-<p>Note - If you ever get an error like this while running a command that requires root privileges&#8230;</p>
-
-
-<p><i>E: Could not get lock /var/lib/dpkg/lock &ndash; open (35: Resource temporarily unavailable)
-E: Unable to lock the administration directory (/var/lib/dpkg/), is another process using it?</i></p>
-
-<p>This means that the Cydia app is running on your device and is in foreground. Cydia runs with root privileges and hence if you try to run another process with root privileges, it is not able to get a lock on it. Press the home button on your device to take the Cydia app to background. Now you can run the terminal command that requires root privileges. </p>
-
-
-
-
-<p>Another imporant tool is class-dump-z. As of today (Jan 10, 2014), the original class-dump-z doesn&#8217;t work with iOS 7 devices. However, you can see the class information using the old tool class-dump.</p>
-
-
-<p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios27/9.png" width="835" height="315" alt="9"></p>
-
-<p>As far as cycript is concerned, it also gives a Segmentation fault when run against iOS 7 devices. However, if you install an older version, i.e 0.9.458
-    or previous, it does seem to work but with limited functionality.So assuming there was some issue with Mobile Substrate not working properly, i jailbreaked my device again. After this, i was able to successfully run cycript properly with complete functionality.</p>
-
-
-
-
-<p>You can download Cycript from <a href="http://cycript.org/debs/">here</a> and then use the <i>dpkg -i packageName</i> command to install Cycript.</p>
-
-
-
-
-<p>You might also want to install gdb on your device. A proper version of GDB can be found <a href="https://dl.dropboxusercontent.com/u/34557464/gdb">here</a></p>
-
-
-
-
-<p>So these are all the things that you need to setup a Mobile Pentesting platform on iOS 7. If you have any suggestions, please add it in the comments and i will include it in the article. In the next article, we will learn about Application Patching using a pretty awesome tool called Hopper.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 26 – Patching iOS Applications using IDA Pro and Hex Fiend]]></title>
-    <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend"/>
-    <updated>2013-12-17T13:08:00+04:00</updated>
-    <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend</id>
-    <content type="html"><![CDATA[<p>In the <a href="http://highaltitudehacks.com/security">previous</a> applications we have looked at how we can hijack method implementations during runtime using Cycript, and even change the logic of the code rather than changing the complete implementation using GDB. All of these things have been done to serve a purpose, which is to make the application do what we want. However, using Cycript or GDB is a bit of a pain as one has to do repeat the same process everytime after you restart the application. This is where patching the application is useful. Once a change has been made in the application&#8217;s binary, its permanent. So you don&#8217;t have to repeat the same process over and over again. Once the binary is patched, you can then run it on a jailbroken device with the changed logic.</p>
-
-
-
-
-<p>In this article, we will be using the same application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> that we had used in <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">Part 22</a> of this series. If you remember, we had found a way to change the logic of the method that gets called when Login was tapped and hence bypassed the login authentication check. In this article, we are going to permanently patch this check so we are always authenticated.</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>The first thing you need to do is install the demo version of IDA Pro from their <a href="https://hex-rays.com/products/ida/index.shtml">website</a>. IDA Pro is a pretty awesome multi-processor disassembler and debugger. Once it is downloaded, open it up and choose the option <i>Go</i> which just opens up IDA without any preselected binary.  Please note that when you run an application on the simulator using Xcode, the code is compiled for the i386 architecture, whereas when you run the application on a device using Xcode, it is compiled for the ARM architecture. The demo version of IDA Pro supports both these architectures, however in this tutorial we are going to compile the application on i386 architecture (i.e on a simulator) to save the effort of copying the application binary from the device to our computer.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/1.png" style="width: 90%; height: 90%"/ ></p>
-
-<p>Now open Xcode and run the <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> application that you had just downloaded using simulator.  ake sure the application builds successfully and that it installs propery on the simulator. This will generate an application directory inside the folder <i>/Users/$username/Library/Application Support/iPhone Simulator/$ios version of simulator/Applications/</i>. In my case, the location is <i>/Users/Prateek/Library/Application Support/iPhone Simulator 6.1/Applications/</i>. Once you are in this directory, you have to find your application folder. Using the command <i>ls -al</i> will give you the last modified date of these folders. The latest one would be our application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/2.png" style="width: 90%; height: 90%"/></p>
-
-<p>Use the command <i>open DirectoryName</i> and this will open the directory in Finder.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/3.png" style="width: 50%; height: 50%"/></p>
-
-<p>Go inside the folder GDB-Demo.app (this is the application bundle) by right clicking on it and choosing the option <i>Show Package contents</i>. Inside this folder, you will find the application binary with the name GDB-Demo. This is the binary that we will provide to IDA Pro.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/4.png" style="width: 50%; height: 50%"/></p>
-
-<p>Now drag and drop the application binary on the IDA pro icon. Click on Ok and proceed.</p>
-
-
-
-
-<p>You will see the disassembled code like this.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/6.png" style="width: 80%; height: 80%"/></p>
-
-<p>Coming back to the application, we know that the application has a login page like the one shown below. We had already modified the logic of this application using GDB in <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">Part 22</a>. We also know that the method whose logic was changed was <i>-(IBAction)loginButtonTapped:(id)sender</i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/7.png" style="width: 20%; height: 20%"/></p>
-
-<p>In IDA Pro, you can see a functions window on the left. Choose any function from the list of functions and press <i>Ctrl+F</i>. Now search for the function loginButtonTapped. Once you have found it, double click on it. You will be shown the dissassembly for this function on the right side.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/8.png" style="width: 80%; height: 80%"/></p>
-
-<p>To view this in sort of a graphical format, double click on the function name in the functions window and press <i>Space</i>. The view will change to something like this. This is a better way of examining the disassembly as it also helps us in understanding the flow of the function. If you want to switch to the previous view, you can press <i>Space</i> again.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/9.png" style="width: 80%; height: 80%"/></p>
-
-<p>Scroll down in the function disassembly on the right side. You can see that the flow of the function can lead to different blocks of code depending on specific conditions. It is obvious that somewhere within this function there is a check for whether the username and password are correct or not and authenticate or disallow the user. After scrolling down for a bit, we arrive at this block. This looks very interesting. On the right side, i can see <i>UIAlertView</i> in the code section whereas the left section shows a string named <i>adminPage</i>. </p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/10.png" style="width: 80%; height: 80%"/></p>
-
-<p>I would really like the flow to go to the left hand side, where it says <i>adminPage</i>. The instruction that decides which block of code the execution will jump to is just one instruction before.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/11.png" style="width: 50%; height: 50%"/></p>
-
-<p>It says <i>jnz loc_2CBC</i>, where <i>loc_2CBC</i> is a label and jnz stands for <i>Jump if not zero</i> instruction. We can see that the code block on the left contains this label.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/12.png" style="width: 50%; height: 50%"/></p>
-
-<p>This means execution will jump to left if the zero flag is not set. If i can modify the instruction <i>jnz</i> to <i>jz</i>, then my purpose would be solved as the logic would be reversed and i will be authenticated. So what do i need to convert this from jnz to jz.</p>
-
-
-
-
-<p>MORE MONEY !</p>
-
-
-
-
-<p>Well, that was a bit of humour. A licensed version of IDA Pro will get the job done for you and you can simply modify this instruction. However, we are going to do this the free way, even though it requires a bit of extra effort and calculation but its worth it and we will also learn a few new things on the way. In the next article, we will also discuss an alternative named Hopper that is not as expensive as IDA but very good in terms of functionality. For that first we need to find the address of the <i>jnz</i> instruction. To do that, double click on this instruction so that it gets yellow&#8230;</p>
-
-
-<p></p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/13.png" style="width: 50%; height: 50%"/></p>
-
-<p>Now press Space..</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/14.png" style="width: 90%; height: 90%"/></p>
-
-<p>As we can clearly see, the address of this instruction is <i>00002CB1</i>. However, we cannot just go ahead and change the address at this instruction, This is because this address is the absolute address of this instruction and it will be different every time the application is launched. What we need to find out is the offset of this instruction relative to the Mach-O binary. This instruction has to be modified in the code section of the assembly. Hence the offset of this instruction relative to the binary can be calculated as ..</p>
-
-
-
-
-<p><b>(Offset of code section relative to binary) + (Absolute address of the instruction to be changed - Starting address of the code section)</b></p>
-
-
-
-
-<p>Right now we just know the Absolute address of the instruction to be changed. We can find the other two things using otool. Browse to the application directory <i>/Users/Prateek/Library/Application Support/iPhone Simulator/6.1/Applications/1804F89F-AD44-4782-BB29-47F5C521D10D/GDB-Demo.app</i> and use the following command as shown in the image below.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/15.png" style="width: 80%; height: 80%"/></p>
-
-<p>Look for the text section.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/16.png" style="width: 50%; height: 50%"/></p>
-
-<p>As you can see, the starting address is 0x000026f0(Hex) and the offset is 5872(Decimal). Please note that these things may be different in your case.</p>
-
-
-
-
-<p>Hence, using these values and the above equation we can find the offset as ..</p>
-
-
-
-
-<p><b>5872(Decimal) + (0x00002CB1(Hex)- 0x000026f0(Hex)) =  0x1cb1</b></p>
-
-
-
-
-<p>Now, as we discussed earlier, we need to replace the jnz instruction with a jz instruction. You can see from <a href="http://www.unixwiz.net/techtips/x86-jumps.html">this</a> link that the opcode for the JNZ instruction is <i>OF 85</i> whereas the opcode for the JZ instruction is <i>OF 84</i>.</p>
-
-
-
-
-<p>Now download the application <i>Hex Fiend</i> and open it up. Drag and drop the application binary to it.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/17.png" style="width: 90%; height: 90%"/"></p>
-
-<p>Now click on Edit &#8211;> Jump to Offset and type the offset as 0x1cb1. This will take you to the line with the jnz instruction. </p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/18.png" style="width: 90%; height: 90%"/></p>
-
-<p>Now look for the opcode OF 85. Change it to 0F 84 as shown below.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/19.png" style="width: 90%; height: 90%"/></p>
-
-<p>Now save your changes and exit Hexfiend. As you remember, we had installed the app previously in the simulator. So fire up the iOS simulator, quit the GDB-Demo app if it is running and open it again. Now just tap on Login without entering anything in the username and password. It will direct you to the admin page.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios26/20.png" style="width: 20%; height: 20%"/></p>
-
-<p>Perfect, we just patched a binary using old school techniques. In the next article, we will look at a tool named Hopper and learn how to patch iOS applications using it. </p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 25 – Secure Coding Practices for iOS Development]]></title>
-    <link href="http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development"/>
-    <updated>2013-12-17T13:07:00+04:00</updated>
-    <id>http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at some of the best practices an iOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
-
-
-
-
-<h3>Local Data Storage</h3>
-
-
-
-
-<p>It is extremely important for developers to know what kind of data they should be storing locally in their application. Frankly speaking, no data is secure when stored locally in the application. In <a href="http://highaltitudehacks.com/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults">part 20</a> of this series, we have looked at Local Data Storage in great detail.</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<ul>
-    <li>Important data like Passwords, Session ID&#8217;s etc should never be stored locally on the device. If there is no other option, it should be stored on the keychain. This is because you can be assured that the hacker won&#8217;t be able to find out the data in your keychain as long as the user&#8217;s device is not jailbroken. Since more than 70% people have upgraded their iOS devices to iOS 7 and since there is no public jailbreak for iOS 7 yet, you can be assured that the hacker won&#8217;t be able to get the information stored in your keychain (yet). Some people might say that the process of storing data in the keychain isn&#8217;t as simple as saving data in NSUserDefaults. But we can always use third-party wrappers that can make the job extremely simple for us. For e.g, <a href="http://highaltitudehacks.com/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax/">here</a> is an article that demonstrates the use of a wrapper named PDKeychainBindings and show how simple it is to save data in the keychain. Here is a snippet of code for saving data in the keychain using this wrapper.</li>
-    
-<pre>
-PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-[[[Model sharedModel] currentUser] setAuthToken:[bindings objectForKey:@"authToken"]];
-</pre>
-
-<p>However, please note that on a jailbroken device, keychain information is not secure. It is also advisable to use your own encryption methods to encrypt the string that needs to be protected and then save on the keychain. This adds an extra layer of security because even though the attacker can get the encrypted string from the keychain, he will still have to decrypt this encrypted string.</p>
-
-
-    <li>NSUserDefaults should never be used to store confidential information like passwords, authentication tokens etc. This is because all the information saved by NSUserDefaults is present in an unencrypted format in a plist file that can be found in the location <i>Library -> Preferences -> $AppBundleId.plist</i> inside your application bundle. Any one can use a tool iExplorer to get a peek inside the application bundle and get the plist file even if the device is not jailbroken.</li> 
-    
-    <li>Plist files should also be never used to store confidential information like passwords etc because they can also be fetched very easily from inside the application bundle even on a non-jailbroken device. All the content inside a plist file is stored in unencrypted format.</li> 
-    
-    <li>Core Data files are also stored as unencrypted database files in your application bundle.The Core Data framework internally uses Sql queries to store its data and hence all the files are stored as .db files. One can easily copy these files to their computer and use a tool like sqlite3 to examine all the content in these database files.</li> 
-    
-    
-</ul>
-
-
-
-
-<h3>Transport Layer Security</h3>
-
-
-<pre><code>&lt;ul&gt;
-    &lt;li&gt;Do not allow self signed certificates to be used when releasing the application. Most developers allows self signed certificates in debug mode but the same shouldn't be done when releasing the application.&lt;/li&gt;
-    &lt;li&gt;Do not use a parameter unique to the device (MAC address, IP, UDID) to determine things like the Session ID, authentication token etc.&lt;/li&gt;
-    &lt;li&gt;Important decisions like Authentication and Authorization should be taken on the backend. Remember that a hacker has the ability to manipulate the runtime of your application.&lt;/li&gt;
-    &lt;li&gt;Proper input validation should occur both on the client side as well as the server side. A malicious hacker can always modify the request using Burpsuite. It is important to validate the parameters being sent to the backend to avoid any kind of injection attacks.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3&gt;Use Encryption&lt;/h3&gt;
-</code></pre>
-
-<ul>
-    <li>Encrypt important files before saving them locally. Again, you don&#8217;t have to be an Cryptography guru to encrypt those files. There are a lot of third party libraries that can get the job done for you. I have written an <a href="http://highaltitudehacks.com/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox">article</a> on <i>Encrypting images and saving them in App Sandbox </i> that uses the <a href="https://github.com/rnapier/RNCryptor">RNCryptor</a> library available on Github. The same technique can be used to encrypt any kind of file. Here is a snippet that shows how easy it is to encrypt a file.</li>
-    
-<code>
-    UIImage *imageToEncrypt = [UIImage imageNamed:@"SomeImage"];
-    NSString  *imagePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/encryptedImage.png"];
-
-    NSData *data = UIImagePNGRepresentation(fetchedImage);
-    NSError *error;
-    NSData *encryptedData = [RNEncryptor encryptData:data
-                                        withSettings:kRNCryptorAES256Settings
-                                            password:@"ABC123"
-                                               error:&error];
-   [encryptedData writeToFile:imagePath atomically:YES];
-</code>
-        
-<p>To encrypt SQlite files, you should also consider using <a href="http://sqlcipher.net/">SQLCipher</a>.</p>
-        
-</ul>
-
-
-
-
-<h3>Add checks to prevent Runtime Analysis</h3>
-
-
-
-
-<ul>
-    <li>Remember that with a copy of your application binary, a hacker is in complete control. It is therefore important to make his job as difficult as possible. One of the ways to do that is to block debuggers to attach to the application. We have already learnt how to do that in <a href="http://resources.infosecinstitute.com/ios-application-security-part-23-defending-runtime-analysis-manipulation/">Part 23</a></li> of this series. Your main.m file should look something like this&#8230;</a>
-    
-<img src="http://prateek147.github.io/images/posts/ios25/3.png" width="844" height="338" alt="3">
-    
-    <p>This will block debuggers from attaching to this application. We have already learnt how we were able to trace calls using <a href="http://highaltitudehacks.com/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it">Snoop-it</a>. Here is a screenshot from the same article.</p>
-    
-    <img src="http://prateek147.github.io/images/posts/ios25/1.png" width="717" height="309" alt="1">
-    
-    <p>With the line of code added above in main.m file, we wouldn&#8217;t be able to do this now. This is because Snoop-it traces calls by attaching a debugger to the application when it starts, and now with the above check, it won&#8217;t be able to do that and the application will crash. Please note that this will not prevent the application from tools like Cycript because they do not trace the application.</p>
-    
-</ul>
-
-
-
-
-<h3>Some other minor things</h3>
-
-
-
-
-<ul>
-    <li>TextFields that have inputs as passwords should be used with <i>Secure</i> option. This is because iOS usually caches all the things that you enter in textfields, provided it doesn&#8217;t have the <i>Secure</i> tag. Also disable <i>AutoCorrection</i> for those text fields. In the image below, you can see that the  textfield has <i>AutoCorrection</i> set to NO and the <i>Secure</i> tag is being enabled.</li>
-    
-    <img src="http://prateek147.github.io/images/posts/ios25/2.png" width="674" height="192" alt="2">
-    
-<li>Clear the Pasteboard once the application enters background. You can do this by adding the following line in the method <i>- (void)applicationDidEnterBackground:(UIApplication *)application</i> in AppDelegate. Ify you are using a custom Pasteboard, replace <i>[UIPasteboard generalPasteboard]</i> with your custom pasteboard.</li>
-
-<pre>
-    - (void)applicationDidEnterBackground:(UIApplication *)application
-    {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        [UIPasteboard generalPasteboard].items = nil;
-    }
-    
-</pre>    
-<li>Add a prompt or validate input before doing anything critical using URL schemes. We know that any application can register for a URL scheme. For e.g, the Skype app can register for the URL scheme skype:// and any application can call this url with a particular parameter. This allows for a little bit of communication between applications. Previously, there was a vulnerability in Skype where any user can make a call to anyone by using the following url.
-
-<pre>
-    skype://123123123?call
-</pre>
-
-Since the skype app didn&#8217;t prompt the user before making the call, the calls were directly sent. It would have been better to prompt the user befor actually making the call. The input to the URL scheme should also be validated. You can add validation in the method <i>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url</i> in AppDelegate</li>
-
-<pre>
-    - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-        //Validate input from the url
-        return YES;
-    }
-</pre>
-
-<li>Some applications use UIWebViews that can be used to display content from a URL. There have been <a href="https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&cad=rja&ved=0CEcQFjAB&url=https%3A%2F%2Fsuperevr.com%2Fblog%2F2011%2Fxss-in-skype-for-ios%2F&ei=nfCOUpLNHsq8rAfUwoGQCg&usg=AFQjCNGLyriyo0tNWE9nfO4vdxWHb7KoFw&sig2=gNsCv0PGojvQGfW6YojWVQ&bvm=bv.57084495,d.bmk">vulnerabilities</a> discovered previously in UIWebviews in popular applications.UIWebviews also support javascript and currently there is no public API available to disable javascript in a UIWebview. Therefore if any user controlled input is used to populate content in a UIWebview, it can be manipulated during runtime to execute javascript code on the UIWebview. Even if the input is not user controlled, the attacker can manipulate the content being added to the UIWebview druring runtime and hence execute any javascript code he wants. Since there is not much a developer can do about it due to the restrictions imposed by Apple, a developer should make sure that the content he loads into the UIWebview is not malicious by a) Making sure the data is loaded over HTTPs b) Making sure the content in the UIWebview does not depend on user input and c) validate the contents of the URL by using the function <i>dataWithContentsOfURL</i> present in the NSData class.</li>
-
-
-
-</ul>
-
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Jan 24th, 2015 Comments security iOS Application Security Part 38 - &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Mar 29th, 2015 Comments security Android Application hacking with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -121,6 +121,335 @@ body {
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-29T12:08:00+04:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2015/03/29/android-application-hacking-with-insecure-bank-part-4#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/29/android-application-hacking-with-insecure-bank-part-4">Android Application hacking with Insecure Bank Part 4</a></h1>
+      <p>In this article, we will look at a very handy framework for analysis of android applications named Drozer. Drozer is a very useful tool as it eliminates the need for having seperate tools for performing different security checks in an android application. It has a list of modules that you can use to interact with the application using Android&#8217;s Inter-Process communication. Additionally, you can also install exploits and use it to exploit an android device.</p>
+
+
+
+
+<p>The main purpose of this article is to make sure you are familiar with drozer so we can use it in the future articles. </p>
+
+
+
+
+<p>The first thing to do is to install the drozer community edition from <a href="https://www.mwrinfosecurity.com/products/drozer/">this</a> link. You need to install both the drozer installer and the Agent.apk file which is the application that needs to be deployed on the device/emulator and acts as a communicator between the system and the application to be audited. </p>
+
+
+
+
+<p>Once drozer has been installed on your system, install the agent.apk on your device/emulator.</p>
+
+
+<p><img src="/images/posts/ib4/1.png" width="600" height="90" alt="1"></p>
+
+<p>You will first need to set up port forwarding so that your system can connect to a TCP socket opened by the Agent inside the emulator, or on the device. By default, drozer uses port 31415:</p>
+
+
+<p><img src="/images/posts/ib4/2.png" width="800" height="54" alt="2"></p>
+
+<p>Also make sure to start the agent application and start the server.</p>
+
+
+<p><img src="/images/posts/ib4/3.png" width="513" height="277" alt="3"></p>
+
+<p>Now you can connect to the agent using the following command.</p>
+
+
+<p><img src="/images/posts/ib4/4.png" width="750" height="360" alt="4"></p>
+
+<p>You can list all the different modules by using the list command.</p>
+
+
+<p><img src="/images/posts/ib4/5.png" width="900" height="220" alt="5"></p>
+
+<p>Every module requires different options. If you want to see the different options for a particular module, use run followed by the module name followed by -h.</p>
+
+
+<p><img src="/images/posts/ib4/6.png" width="900" height="420" alt="6"></p>
+
+<p>For e.g, to see a list of all the packages installed, you can use the module app.package.list.</p>
+
+
+<p><img src="/images/posts/ib4/7.png" width="500" height="220" alt="7"></p>
+
+<p>Now, to find info about a particular packages, use the module app.package.info. It will give out a lot of info about the application, for e.g the path where the application files are stored, the permissions that the application uses etc.</p>
+
+
+<p><img src="/images/posts/ib4/8.png" width="550" height="280" alt="8"></p>
+
+<p>Another useful module is app.package.attacksurface. It tells you about the exported components as well as whether the application is debuggable or not. We will look at exploiting debuggable applications in later articles.</p>
+
+
+<p><img src="/images/posts/ib4/9.png" width="500" height="120" alt="9"></p>
+
+<p>Now, let&#8217;s do the same thing we did in the last article, call an exported activity in the insecure bank application. For that, we will use the module app.activity.start.</p>
+
+
+<p><img src="/images/posts/ib4/10.png" width="800" height="32" alt="10"></p>
+
+<p>And you will see the same result.</p>
+
+
+<p><img src="/images/posts/ib4/11.png" width="700" height="320" alt="11"></p>
+
+<p>In some cases, the activity might have an intent filter. For e.g, below is a sample intent filter.</p>
+
+
+
+
+<p>
+    
+<activity android:name="ShareActivity">
+    <intent-filter>
+        <action android:name="android.intent.action.SEND"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <data android:mimeType="text/plain"/>
+    </intent-filter>
+</activity>
+</p>
+
+
+
+
+<p>Drozer supports calling activities by specifying actions and extra paramters also.</p>
+
+
+<p><img src="/images/posts/ib4/12.png" width="700" height="245" alt="12"></p>
+
+<p>Here is an example of calling an activity with extra parameter</p>
+
+
+
+
+<p><i>
+run app.activity.start &#8211;component com.mwr.example.intenttest com.mwr.example.intenttest.IntentActivity &#8211;flags ACTIVITY_NEW_TASK &#8211;extra string URL &#8220;Some Text&#8221;
+</i></p>
+
+
+
+
+<p>In this article, we got comfortable with using Drozer. Drozer can do much more, and we will be discussing all those features as we discuss more vulnerabilities in InsecureBank in the next article.</p>
+
+
+
+
+      
+      
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-28T12:04:00+04:00" pubdate data-updated="true">Mar 28<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/28/android-application-hacking-with-insecure-bank-part-3">Android Application hacking with Insecure Bank Part 3</a></h1>
+      <p>In this article, we will look at attacking components in Android applications, starting with activities. But first, it is essential to understand what Android application components are. Android application components are the essential building blocks of an Android application. The behaviour and interaction between these components is defined in the manifest.xml file in the application. Mainly there are 4 types of components and it is important to understand their purpose and function.</p>
+
+
+
+
+<p>The description of the 4 components given below has been taken from <a href="http://www.tutorialspoint.com/android/android_application_components.htm">this</a> link.</p>
+
+
+
+
+<table>
+<tr><th style="width:25%">Components</th><th>Description</th></tr>
+<tr><td>Activities</td><td>They dictate the UI and handle the user interaction to the smartphone screen</td></tr>
+<tr><td>Services</td><td>They handle background processing associated with an application.</td></tr>
+<tr><td>Broadcast Receivers</td><td>They handle communication between Android OS and applications.</td></tr>
+<tr><td>Content Providers</td><td>They handle data and database management issues.</td></tr>
+</table>
+
+
+
+
+
+      
+       <a href="/2015/03/28/android-application-hacking-with-insecure-bank-part-3">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-27T12:04:00+04:00" pubdate data-updated="true">Mar 27<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/27/android-application-hacking-with-insecure-bank-part-2">Android Application hacking with Insecure Bank Part 2</a></h1>
+      <p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
+
+
+
+
+
+      
+       <a href="/2015/03/27/android-application-hacking-with-insecure-bank-part-2">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-24T12:04:00+04:00" pubdate data-updated="true">Mar 24<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory">iOS Application Security Part 39 – Sensitive information in memory</a></h1>
+      <p>In this article, we will look at analyzing the memory contents of an iOS application. iOS applications may store sensitive information like passwords, session IDs etc in the memory of the application without releasing them. In some cases, releasing these variables may not be an option. For e.g, it might be required for the application to send an authentication token with every request and hence there has to be a reference to it in the memory somewhere. Even though these variables might be encrypted when stored locally in the application, these variables will be in their unencryped format while the application is running. Hence, analyzing the contents of the memory is an important thing while pentesting an iOS application. If there are some important properties or instance variables that are not required, they should be released from the memory.</p>
+
+
+
+
+
+      
+       <a href="/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -1103,239 +1432,6 @@ By default, when making an SSL connection, the client checks that the server’s
 
       
        <a href="/2014/01/17/ios-application-security-part-29-insecure-or-broken-cryptography">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2014-01-17T21:41:00+04:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper">iOS Application Security Part 28 - Patching iOS Application with Hopper</a></h1>
-      <p>In <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Part 26</a> of this series, we looked at how we can use IDA Pro and Hex Fiend to patch an iOS application and modify its implementation. Patching an application has the specific advantage that once a change has been made, it is permanent. However, if you look back at the article on <a href="http://highaltitudehacks.com/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">IDA Pro</a>, you will realize that the process of patching the application was a bit tedious, mainly because we didn&#8217;t have a licensed version of IDA Pro which costs a lot. In this article, we will look at a utility named Hopper which we can use as an alternative to IDA Pro. It is less costly than IDA Pro and also provides a sleek interface to work with.</p>
-
-
-
-
-<p>According to Hopperapp.com ..</p>
-
-
-
-
-<p><i>Hopper is a reverse engineering tool for OS X, Linux and Windows, that lets you disassemble, decompile and debug (OS X only) your 32/64bits Intel Mac, Windows and iOS (ARM) executables! Take a look at the feature list below! </i></p>
-
-
-
-
-
-      
-       <a href="/2014/01/17/ios-application-security-part-28-patching-ios-application-with-hopper">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2014-01-17T21:35:00+04:00" pubdate data-updated="true">Jan 17<span>th</span>, 2014</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak">iOS Application Security Part 27 - Setting up a mobile pentesting environment with iOS 7 Jailbreak</a></h1>
-      <p>In this article we will look at how we can set up a mobile pentesting platform on our device with the new iOS 7 jailbreak. There has been quite a lot of discussion on the web about whether it is safe for a user to jailbreak their devices yet. However, if you are really interested in iOS pentesting then there is no absolutely no reason now why you shouldn&#8217;t jailbreak your device. Since this jailbreak was launched by the evasi0n team without any prior notice to the developers, most of the tweaks didn&#8217;t work with iOS 7 when the jailbreak was first made public. One of the most critical pieces of software Mobile Substrate which is used in many tweaks initially didn&#8217;t work on iOS 7. However, things have settled down since then. An update for Mobile Substrate (named Cydia Substrate) was released a few weeks back and many tweaks were also updated for iOS 7. Some things however don&#8217;t work well on iOS 7 devices. In this article, we will look at all those things which we need to do to set up a proper pentesting platform on a device running iOS 7. </p>
-
-
-
-
-
-      
-       <a href="/2014/01/17/ios-application-security-part-27-setting-up-a-mobile-pentesting-environment-with-ios-7-jailbreak">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2013-12-17T13:08:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">iOS Application Security Part 26 – Patching iOS Applications using IDA Pro and Hex Fiend</a></h1>
-      <p>In the <a href="http://highaltitudehacks.com/security">previous</a> applications we have looked at how we can hijack method implementations during runtime using Cycript, and even change the logic of the code rather than changing the complete implementation using GDB. All of these things have been done to serve a purpose, which is to make the application do what we want. However, using Cycript or GDB is a bit of a pain as one has to do repeat the same process everytime after you restart the application. This is where patching the application is useful. Once a change has been made in the application&#8217;s binary, its permanent. So you don&#8217;t have to repeat the same process over and over again. Once the binary is patched, you can then run it on a jailbroken device with the changed logic.</p>
-
-
-
-
-<p>In this article, we will be using the same application <a href="https://github.com/prateek147/gdb-demo">GDB-Demo</a> that we had used in <a href="http://resources.infosecinstitute.com/ios-application-security-part-22-runtime-analysis-manipulation-using-gdb/">Part 22</a> of this series. If you remember, we had found a way to change the logic of the method that gets called when Login was tapped and hence bypassed the login authentication check. In this article, we are going to permanently patch this check so we are always authenticated.</p>
-
-
-
-
-
-      
-       <a href="/2013/12/17/ios-application-security-part-26-patching-ios-applications-using-ida-pro-and-hex-fiend">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2013-12-17T13:07:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development">iOS Application Security Part 25 – Secure Coding Practices for iOS Development</a></h1>
-      <p>In this article, we will look at some of the best practices an iOS developer should follow in order to make sure that their application is not easily exploitable by hackers.</p>
-
-
-
-
-<h3>Local Data Storage</h3>
-
-
-
-
-<p>It is extremely important for developers to know what kind of data they should be storing locally in their application. Frankly speaking, no data is secure when stored locally in the application. In <a href="http://highaltitudehacks.com/2013/10/26/ios-application-security-part-20-local-data-storage-nsuserdefaults">part 20</a> of this series, we have looked at Local Data Storage in great detail.</p>
-
-
-
-
-
-      
-       <a href="/2013/12/17/ios-application-security-part-25-secure-coding-practices-for-ios-development">Read on &rarr;</a> 
     </div>
   </div>
 
