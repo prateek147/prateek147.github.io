@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Damn Vulnerable iOS App solutions free for download - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 40 - Testing apps on your Mac - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Damn Vulnerable iOS App Solutions Free for Download Apr 3rd, 2015 Posted by Prateek Gianchandani I have decided to give away the solutions for DVIA &hellip;">
+  <meta name="description" content="iOS Application Security Part 40 - Testing Apps on Your Mac Apr 28th, 2015 Posted by Prateek Gianchandani In this article, we will discuss the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://prateek147.github.io/2015/04/03/damn-vulnerable-ios-app-solutions-free-for-download">
+  <link rel="canonical" href="http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -117,7 +117,7 @@ body {
 
   <header>
   <div class="jumbotron">
-    Damn Vulnerable iOS App Solutions Free for Download
+    iOS Application Security Part 40 - Testing Apps on Your Mac
 	<h5>
 
 
@@ -130,7 +130,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-04-03T16:26:00+04:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T01:25:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
   <h4>
   
 
@@ -140,12 +140,106 @@ body {
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>I have decided to give away the solutions for DVIA for free. The reason for this has been too many people coming up with queries for the solutions and i believed giving away the solutions for free would really benefit the infosec community.
-It has taken me a lot of nights and hard work to create this project and specially the solutions.
-If you think this project has been useful to you and your organization, please consider making a donation to this project.
-You can donate to this project and download the solutions for free from <a href="http://damnvulnerableiosapp.com/#solutions">here</a>.</p>
+      <p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
 
-<p>-Prateek</p>
+
+
+
+<h3>Installing ipa files from iTunes on your simulator</h3>
+
+
+
+
+<p>Sadly, there is no way you can do that. This is because the iTunes applications are compiled for the ARM platform whereas the applications that run on your simulator are compiled for the x86/x64 platform. So, to test any application properly on your Mac, you must have the source code of the application to run it on the simulator.</p>
+
+
+
+
+<p>In this case, we are going to perform our testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h3>Analyzing local data storage</h3>
+
+
+
+
+<p>One of the most important things to check during performing penetration testing of iOS applications is checking for insecure local data storage vulnerabilites. You can easily check this by looking at the application folder created on your Mac by Xcode.This folder is available at the following locations.</p>
+
+
+
+
+<p>iOS 8 - /Users/[username]/Library/Developer/CoreSimulator/Devices/[a unique number]/data/Containers/Data/Application/[another unique number]/ </p>
+
+
+<p>iOS 7 - /Users/[username]/Library/Application Support/iPhone Simulator/[ios version]/Applications/[a unique id]/</p>
+
+
+
+
+<p>Make sure to check this folder and see if the application is not storing any sensitive data to this folder.</p>
+
+
+
+
+<h3>Checking logs</h3>
+
+
+
+
+<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the. However, if you see this behaviour, don&#8217;t immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
+
+
+<p><img src="/images/posts/ios40/2.png" width="882" height="602" alt="2"></p>
+
+<h3>Attaching debuggers and Tracing method calls</h3>
+
+
+
+
+<p>You can attach a debugger to the running application in the simulator. Its better to use LLDB debugger since it comes installed with Xcode command line tools. The iOS application running on the simulator can also be seen as a running process on your computer by using the command <i>ps aux</i>. You can attach to the running application both by using the pid or the name.</p>
+
+
+<p><img src="/images/posts/ios40/lldb.png" width="511" height="249" alt="Lldb"></p>
+
+<p>You can easily trace the method calls by using the inbuilt debugger LLDB in Xcode. To do that, you need to add a symbolic breakpoint in Xcode. See the plus arrow in the bottom left and click on it to add a symbolic breakpoint.</p>
+
+
+<p><img src="/images/posts/ios40/3.png" width="759" height="441" alt="3"></p>
+
+<p>Now set a breakpoint for the <i>objc_msgSend</i> call. Click on Add action and add the debugger command as <i>p (void)printf(&#8220;[%s, %s]\n&#8221;, (char*)object_getClassName($arg1), $arg2)</i> and make sure you check the option to continue execution of the program. You will notice that you are now able to trace all the method calls.</p>
+
+
+<p><img src="/images/posts/ios40/4.png" width="885" height="802" alt="4"></p>
+
+<h3>Attaching cycript</h3>
+
+
+
+
+<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your.</p>
+
+
+<p><img src="/images/posts/ios40/cycript.png" width="536" height="104" alt="Cycript"></p>
+
+<h3>Monitoring Network traffic</h3>
+
+
+
+
+<p>You can pretty much see all the network traffic over HTTP/HTTPs without any issues. You can either use Burpsuite or Charles for it. For HTTPs traffic, you will have to install the SSL certificate on your simulator. To do this, simply drag and drop the certificate file to your simulator, and click on install to install the certificate.</p>
+
+
+<p><img src="/images/posts/ios40/cert.png" width="375" height="484" alt="Cert"></p>
+
+<p>That&#8217;s it for this article. In the next article, we will look at using the LLDB debugger for debugging iOS applications.</p>
+
 
     </div>
   </div>
@@ -196,10 +290,10 @@ You can donate to this project and download the solutions for free from <a href=
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2015/03/29/android-application-hacking-with-insecure-bank-part-4" title="Previous Post: Android Application hacking with Insecure Bank Part 4">&laquo; Android Application hacking with Insecure Bank Part 4</a>
+            <a class="basic-alignment left" href="/2015/04/03/damn-vulnerable-ios-app-solutions-free-for-download" title="Previous Post: Damn Vulnerable iOS App solutions free for download">&laquo; Damn Vulnerable iOS App solutions free for download</a>
           
           
-            <a class="basic-alignment right" href="/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac" title="Next Post: iOS Application Security Part 40 - Testing apps on your Mac">iOS Application Security Part 40 - Testing apps on your Mac &raquo;</a>
+            <a class="basic-alignment right" href="/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb" title="Next Post: iOS Application Security Part 41 - Debugging applications using LLDB">iOS Application Security Part 41 - Debugging applications using LLDB &raquo;</a>
           
         </p>
       </div>
@@ -265,8 +359,8 @@ alt="web analytics"></a></div></noscript>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://prateek147.github.io/2015/04/03/damn-vulnerable-ios-app-solutions-free-for-download';
-        var disqus_url = 'http://prateek147.github.io/2015/04/03/damn-vulnerable-ios-app-solutions-free-for-download';
+        var disqus_identifier = 'http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac';
+        var disqus_url = 'http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-04-03T16:32:57+04:00</updated>
+  <updated>2015-04-28T01:32:17+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,250 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 41 - Debugging applications using LLDB]]></title>
+    <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb"/>
+    <updated>2015-04-28T01:26:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb</id>
+    <content type="html"><![CDATA[<p>In this article we will learn about the LLDB debugger used by Apple&#8217;s Xcode for debugging applications, understand why it is better for security testing, and then learn how to use it to debug iOS applications.</p>
+
+
+
+
+<p>The following excerpt is from Apple&#8217;s documentation.</p>
+
+
+
+
+<p>LLDB is Apple&#8217;s <i>from the ground up</i> replacement for GDB, developed in close coordination with the LLVM compilers to bring you state-of-the-art debugging with extensive capabilities in flow control and data inspection. Starting with Xcode 5, all new and preexisting development projects are automatically reconfigured to use LLDB. The standard LLDB installation provides you with an extensive set of commands designed to be compatible with familiar GDB commands. In addition to using the standard configuration, you can easily customize LLDB to suit your needs</p>
+
+
+
+
+<p>A good way to start leaning about the LLDB debugger is to watch this video from WWDC 2014.</p>
+
+
+
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/IPhgcbuDk_k" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<p>But the question that remains is, why is LLDB better than GDB ?</p>
+
+
+
+
+<p>To sum it up, there are a few reasons for that.</p>
+
+
+
+
+<ul>
+    <li>It works well for iOS 8</li>
+    <li>LLDB is much faster, has support for multithread programming, and is scriptable.</li>
+    <li>LLDB understands the dot syntax. You can use something like <i>po self.propertyName</i> or even <i>po instanceVariable</i> to find any value of a property or instance variable while debugging applications.</li>
+    <li>It has plug-in support for functionality and extensions.</li>
+</ul>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>To debug applications on an iOS device, we will use the command line utility debugserver which is used by Apple&#8217;s Xcode to debug applications on the device. Usually, it gets installed on the device automatically when a device is marked for development, which requires a valid provisioning profile, but it can only debug applications that were signed by that particular provisioning profile. This is because of lack of entitlement to allow task_for_pid(). Hence, in order to debug any application, we must create a new entitlement file with the mentioned flag set to true, sign the debug server application with that entitlement file, and then deploy the console app to the device. Please note that the current location of debugserver application on the Mac is a read-only ramdisk, hence the application must be copied to a different location before signing with the new entitlement file.</p>
+
+
+
+
+<p>Hence, the first step to do is to mount Xcode&#8217;s developer disk image on your Mac and copy the debugserver binary to a seperate location where you can resign it. Use the following command.</p>
+
+
+
+
+<p><i>hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/[ios version]\ \(12B411\)/DeveloperDiskImage.dmg</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/1.png" width="648" height="343" alt="1"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/2.png" width="767" height="225" alt="2"></p>
+
+<p>Once this is done, create a new file with the name entitlements.plist and enter the following data in it.</p>
+
+
+
+
+<pre>
+&lt?xml version="1.0" encoding="UTF-8"?&gt
+&lt!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/ PropertyList-1.0.dtd"&gt
+<plist version="1.0">
+<dict>
+    &ltkey&gtcom.apple.springboard.debugapplications</key>
+    &lttrue/&gt
+    &ltkey&gtrun-unsigned-code</key>
+    &lttrue/&gt
+    &ltkey&gtget-task-allow</key>
+    &lttrue/&gt
+    &ltkey&gttask_for_pid-allow</key>
+    &lttrue/&gt
+</dict> 
+</plist>
+</pre>
+
+
+
+
+<p>Now, you have to resign the debugserver binary with the new entitlements file.</p>
+
+
+<p><i>codesign -s &ndash; &mdash;entitlements entitlements.plist -f debugserver</i></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/3.png" width="806" height="42" alt="3"></p>
+
+<p>Once this is done, deploy the binary to the device. To start debugserver on the device, use the command shown below, and also specify the name of the application you want to hook to, which in this case is Twitter.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/4.png" width="624" height="163" alt="4"></p>
+
+<p>Now on your computer, start lldb to enter the lldb interpreter. Now use the following commands as shown below to to connect to the device. Make sure to replace the IP address here with the IP address of your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/5.png" width="590" height="409" alt="5"></p>
+
+<p>Once this is done, you will see that you are successfully able to debug the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/6.png" width="715" height="380" alt="6"></p>
+
+<p>Now you can use the po command to print out specific objects instantiated in the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/7.png" width="451" height="84" alt="7"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/8.png" width="587" height="95" alt="8"></p>
+
+<p>The syntax for LLDB is a bit different. For e.g, here is the syntax for printing all the register variables.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/9.png" width="705" height="500" alt="9"></p>
+
+<p>That&#8217;s it for this article. In this article, we learnt how to deploy LLDB to the device and use it to run some basic commands. In the next article, we will look at some advanced usage of LLDB and how it can be used to find  sensitive information in memory.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 40 - Testing apps on your Mac]]></title>
+    <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac"/>
+    <updated>2015-04-28T01:25:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac</id>
+    <content type="html"><![CDATA[<p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
+
+
+
+
+<h3>Installing ipa files from iTunes on your simulator</h3>
+
+
+
+
+<p>Sadly, there is no way you can do that. This is because the iTunes applications are compiled for the ARM platform whereas the applications that run on your simulator are compiled for the x86/x64 platform. So, to test any application properly on your Mac, you must have the source code of the application to run it on the simulator.</p>
+
+
+
+
+<p>In this case, we are going to perform our testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h3>Analyzing local data storage</h3>
+
+
+
+
+<p>One of the most important things to check during performing penetration testing of iOS applications is checking for insecure local data storage vulnerabilites. You can easily check this by looking at the application folder created on your Mac by Xcode.This folder is available at the following locations.</p>
+
+
+
+
+<p>iOS 8 - /Users/[username]/Library/Developer/CoreSimulator/Devices/[a unique number]/data/Containers/Data/Application/[another unique number]/ </p>
+
+
+<p>iOS 7 - /Users/[username]/Library/Application Support/iPhone Simulator/[ios version]/Applications/[a unique id]/</p>
+
+
+
+
+<p>Make sure to check this folder and see if the application is not storing any sensitive data to this folder.</p>
+
+
+
+
+<h3>Checking logs</h3>
+
+
+
+
+<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the. However, if you see this behaviour, don&#8217;t immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/2.png" width="882" height="602" alt="2"></p>
+
+<h3>Attaching debuggers and Tracing method calls</h3>
+
+
+
+
+<p>You can attach a debugger to the running application in the simulator. Its better to use LLDB debugger since it comes installed with Xcode command line tools. The iOS application running on the simulator can also be seen as a running process on your computer by using the command <i>ps aux</i>. You can attach to the running application both by using the pid or the name.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/lldb.png" width="511" height="249" alt="Lldb"></p>
+
+<p>You can easily trace the method calls by using the inbuilt debugger LLDB in Xcode. To do that, you need to add a symbolic breakpoint in Xcode. See the plus arrow in the bottom left and click on it to add a symbolic breakpoint.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/3.png" width="759" height="441" alt="3"></p>
+
+<p>Now set a breakpoint for the <i>objc_msgSend</i> call. Click on Add action and add the debugger command as <i>p (void)printf(&#8220;[%s, %s]\n&#8221;, (char*)object_getClassName($arg1), $arg2)</i> and make sure you check the option to continue execution of the program. You will notice that you are now able to trace all the method calls.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/4.png" width="885" height="802" alt="4"></p>
+
+<h3>Attaching cycript</h3>
+
+
+
+
+<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/cycript.png" width="536" height="104" alt="Cycript"></p>
+
+<h3>Monitoring Network traffic</h3>
+
+
+
+
+<p>You can pretty much see all the network traffic over HTTP/HTTPs without any issues. You can either use Burpsuite or Charles for it. For HTTPs traffic, you will have to install the SSL certificate on your simulator. To do this, simply drag and drop the certificate file to your simulator, and click on install to install the certificate.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/cert.png" width="375" height="484" alt="Cert"></p>
+
+<p>That&#8217;s it for this article. In the next article, we will look at using the LLDB debugger for debugging iOS applications.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Damn Vulnerable iOS App solutions free for download]]></title>
@@ -1741,103 +1985,6 @@ By default, when making an SSL connection, the client checks that the server’s
 
 <iframe width="560" height="315" src="http://prateek147.github.io//www.youtube.com/embed/PwES8Sk00wk" frameborder="0" allowfullscreen></iframe>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 30 - Attacking URL schemes]]></title>
-    <link href="http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes"/>
-    <updated>2014-03-07T01:25:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at how we can use a feature in iOS named url schemes to exploit an application. URL schemes are used by applications to communicate with each other. Every application can register for a particular url scheme. For e.g, the <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a> registers for the url scheme <i>dvia</i>. This means that any url starting with dvia:// protocol will open up the dvia application. Depending on the parameters and the endpoint in this url, the dvia application can decide what to do it. Another example is the phone application in iOS. It registers for the url scheme <i>tel</i> and a url like tel://1-393-222-2222 will invoke the phone application and call a number. The problem arises when the url is not validated or the user is not prompted for confirmation in the application before making a particular decision. </p>
-
-
-
-
-<p>The first step is to find the actual url scheme an application is registered to. This information can be found by looking at the info.plist file in the application sandbox folder using any file explorer utility like iExplorer.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios30/2.png" width="502" height="372" alt="2"></p>
-
-<!-- more -->
-
-
-
-
-<p>In this case, we can see that the url scheme for the <a href="http://damnvulnerableiosapp.com">DVIA</a> application is dvia.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios30/1.png" width="603" height="141" alt="1"></p>
-
-<p>An application can register for more than 1 url scheme. For e.g, in the image below, we can see that the Facebook iOS application registers for about 8 url schemes.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios30/3.png" width="600" height="260" alt="3"></p>
-
-<p>The next step is to find the actual url structure the application is looking for in order to perform some action. There are a couple of ways of doing it and these steps may or may not work in all the cases. One of the very simple ways is to look for any string in the application starting with that url scheme. This can be done using the strings commands or a utility like Hopper. Note that you will first have to decrypt the application binary using clutch in case the application was downloaded from the App store as all app store binaries are encrypted.So let me copy the decrypted Whatsapp app binary to desktop and open it using Hopper. I know that it&#8217;s url scheme is whatsapp, so let me search for the string whatsapp://</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios30/4.png" width="458" height="362" alt="4"></p>
-
-<p>This can give you some information about the endpoints the application is expecting. For e.g, over here you can open a url like whatsapp://image/xyz to see how the application reacts to it. By supplying a url, i mean just going to safari and typing in the url and see how the whatsapp application reacts to it.</p>
-
-
-
-
-<p>One of the other ways to find out how the url scheme is being handled is to reverse engineer a particular method in the App delegate file. If you are familiar with a bit of iOS development, you will also know that the method that is called to handle an incoming url is</p>
-
-
-<p><code>
-&ndash; (BOOL)application:(UIApplication <em>)application openURL:(NSURL </em>)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-</code></p>
-
-<p>in the App Delegate class.</p>
-
-
-
-
-<p>So it&#8217;s a good idea to search for this method&#8217;s implementation using Hopper and try to look at its Pseudo code to find out what is happening. </p>
-
-
-
-
-<p>In order to prevent vulnerabilities related to url schemes, proper validation should also be performed inside this method. For e.g, the <i>sourceApplication</i> parameter can be used to find out the application calling this url scheme. You can have a whitelist of the applications that you want to call this url scheme and compare it against this source application. If this calling application is not in the list of whitelisted applications, you should not perform any action. Another important validation step could be to prompt an alert to the user and ask him to confirm the action. This will mostly protect against all url scheme related issues.</p>
-
-
-
-
-<p>One of the very famous vulnerabilities related to URL schemes was found in the Skype iOS application. The skype application didn&#8217;t perform any validation when a url like skype://14085555555?cal was called and made the call to the appropriate number without validation. More details about this vulnerability can be found <a href="http://software-security.sans.org/blog/2010/11/08/insecure-handling-url-schemes-apples-ios/">here</a>.</p>
-
-
-
-
-<p>In case you are wondering how the attacker will force the user to call that particular url with the url scheme for the application, it can be done in many ways. The attacker can lure the user into viewing a webpage that can contain some javascript like</p>
-
-
-<p><code>&lt;script&gt;document.location=&lsquo;tel://1123456789&rsquo;&lt;script&gt;</code></p>
-
-<p>or iframe like </p>
-
-
-<p><code>&lt;iframe src=&ldquo;tel://1123456789&rdquo;&gt;&lt;/iframe&gt;</code></p>
-
-<p>So as we can see, if an application doesn&#8217;t validate an incoming url properly, it might lead to a security vulnerability. If you have any questions, please ask them in the comments section below and i will get back to you.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GDB segmentation fault issue fix with jailbroken device]]></title>
-    <link href="http://prateek147.github.io/2014/03/06/gdb-issue"/>
-    <updated>2014-03-06T15:15:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/03/06/gdb-issue</id>
-    <content type="html"><![CDATA[<p>If you have been experiencing segmentation fault issues with GDB while attaching to a process on a jailbroken iOS device, it is because the GDB that comes with Cydia is broken and you need to install a proper version.</p>
-
-<p>You can download a proper working version of GDB from <a href="https://dl.dropboxusercontent.com/u/34557464/gdb">here</a>.</p>
-
-<p>You need to copy this executable into <i>/usr/bin</i> on your jailbroken iOS device and give it executable permissions.</p>
-
-<p>If it still doesn&rsquo;t work, let me know what issue you are facing by writing a comment below.</p>
 ]]></content>
   </entry>
   

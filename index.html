@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Apr 3rd, 2015 Comments security Damn Vulnerable iOS App solutions free &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Apr 28th, 2015 Comments security iOS Application Security Part 41 - &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -121,6 +121,165 @@ body {
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T01:26:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb">iOS Application Security Part 41 - Debugging applications using LLDB</a></h1>
+      <p>In this article we will learn about the LLDB debugger used by Apple&#8217;s Xcode for debugging applications, understand why it is better for security testing, and then learn how to use it to debug iOS applications.</p>
+
+
+
+
+<p>The following excerpt is from Apple&#8217;s documentation.</p>
+
+
+
+
+<p>LLDB is Apple&#8217;s <i>from the ground up</i> replacement for GDB, developed in close coordination with the LLVM compilers to bring you state-of-the-art debugging with extensive capabilities in flow control and data inspection. Starting with Xcode 5, all new and preexisting development projects are automatically reconfigured to use LLDB. The standard LLDB installation provides you with an extensive set of commands designed to be compatible with familiar GDB commands. In addition to using the standard configuration, you can easily customize LLDB to suit your needs</p>
+
+
+
+
+<p>A good way to start leaning about the LLDB debugger is to watch this video from WWDC 2014.</p>
+
+
+
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/IPhgcbuDk_k" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<p>But the question that remains is, why is LLDB better than GDB ?</p>
+
+
+
+
+<p>To sum it up, there are a few reasons for that.</p>
+
+
+
+
+<ul>
+    <li>It works well for iOS 8</li>
+    <li>LLDB is much faster, has support for multithread programming, and is scriptable.</li>
+    <li>LLDB understands the dot syntax. You can use something like <i>po self.propertyName</i> or even <i>po instanceVariable</i> to find any value of a property or instance variable while debugging applications.</li>
+    <li>It has plug-in support for functionality and extensions.</li>
+</ul>
+
+
+
+
+
+      
+       <a href="/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T01:25:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac">iOS Application Security Part 40 - Testing apps on your Mac</a></h1>
+      <p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
+
+
+
+
+<h3>Installing ipa files from iTunes on your simulator</h3>
+
+
+
+
+<p>Sadly, there is no way you can do that. This is because the iTunes applications are compiled for the ARM platform whereas the applications that run on your simulator are compiled for the x86/x64 platform. So, to test any application properly on your Mac, you must have the source code of the application to run it on the simulator.</p>
+
+
+
+
+<p>In this case, we are going to perform our testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a></p>
+
+
+
+
+
+      
+       <a href="/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -1222,117 +1381,6 @@ By default, when making an SSL connection, the client checks that the server’s
 
       
        <a href="/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2014-03-07T01:25:00+04:00" pubdate data-updated="true">Mar 7<span>th</span>, 2014</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2014/03/07/ios-application-security-part-30-attacking-url-schemes#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2014/03/07/ios-application-security-part-30-attacking-url-schemes">iOS Application Security Part 30 - Attacking URL schemes</a></h1>
-      <p>In this article, we will look at how we can use a feature in iOS named url schemes to exploit an application. URL schemes are used by applications to communicate with each other. Every application can register for a particular url scheme. For e.g, the <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a> registers for the url scheme <i>dvia</i>. This means that any url starting with dvia:// protocol will open up the dvia application. Depending on the parameters and the endpoint in this url, the dvia application can decide what to do it. Another example is the phone application in iOS. It registers for the url scheme <i>tel</i> and a url like tel://1-393-222-2222 will invoke the phone application and call a number. The problem arises when the url is not validated or the user is not prompted for confirmation in the application before making a particular decision. </p>
-
-
-
-
-<p>The first step is to find the actual url scheme an application is registered to. This information can be found by looking at the info.plist file in the application sandbox folder using any file explorer utility like iExplorer.</p>
-
-
-<p><img src="/images/posts/ios30/2.png" width="502" height="372" alt="2"></p>
-
-
-      
-       <a href="/2014/03/07/ios-application-security-part-30-attacking-url-schemes">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2014-03-06T15:15:00+04:00" pubdate data-updated="true">Mar 6<span>th</span>, 2014</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2014/03/06/gdb-issue#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2014/03/06/gdb-issue">GDB segmentation fault issue fix with jailbroken device</a></h1>
-      <p>If you have been experiencing segmentation fault issues with GDB while attaching to a process on a jailbroken iOS device, it is because the GDB that comes with Cydia is broken and you need to install a proper version.</p>
-
-<p>You can download a proper working version of GDB from <a href="https://dl.dropboxusercontent.com/u/34557464/gdb">here</a>.</p>
-
-<p>You need to copy this executable into <i>/usr/bin</i> on your jailbroken iOS device and give it executable permissions.</p>
-
-<p>If it still doesn&rsquo;t work, let me know what issue you are facing by writing a comment below.</p>
-
-      
-      
     </div>
   </div>
 

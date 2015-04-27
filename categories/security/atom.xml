@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-04-03T16:32:57+04:00</updated>
+  <updated>2015-04-28T01:32:17+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,250 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 41 - Debugging applications using LLDB]]></title>
+    <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb"/>
+    <updated>2015-04-28T01:26:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb</id>
+    <content type="html"><![CDATA[<p>In this article we will learn about the LLDB debugger used by Apple's Xcode for debugging applications, understand why it is better for security testing, and then learn how to use it to debug iOS applications.</p>
+
+
+
+
+<p>The following excerpt is from Apple's documentation.</p>
+
+
+
+
+<p>LLDB is Apple's <i>from the ground up</i> replacement for GDB, developed in close coordination with the LLVM compilers to bring you state-of-the-art debugging with extensive capabilities in flow control and data inspection. Starting with Xcode 5, all new and preexisting development projects are automatically reconfigured to use LLDB. The standard LLDB installation provides you with an extensive set of commands designed to be compatible with familiar GDB commands. In addition to using the standard configuration, you can easily customize LLDB to suit your needs</p>
+
+
+
+
+<p>A good way to start leaning about the LLDB debugger is to watch this video from WWDC 2014.</p>
+
+
+
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/IPhgcbuDk_k" frameborder="0" allowfullscreen></iframe>
+
+
+
+
+<p>But the question that remains is, why is LLDB better than GDB ?</p>
+
+
+
+
+<p>To sum it up, there are a few reasons for that.</p>
+
+
+
+
+<ul>
+    <li>It works well for iOS 8</li>
+    <li>LLDB is much faster, has support for multithread programming, and is scriptable.</li>
+    <li>LLDB understands the dot syntax. You can use something like <i>po self.propertyName</i> or even <i>po instanceVariable</i> to find any value of a property or instance variable while debugging applications.</li>
+    <li>It has plug-in support for functionality and extensions.</li>
+</ul>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>To debug applications on an iOS device, we will use the command line utility debugserver which is used by Apple's Xcode to debug applications on the device. Usually, it gets installed on the device automatically when a device is marked for development, which requires a valid provisioning profile, but it can only debug applications that were signed by that particular provisioning profile. This is because of lack of entitlement to allow task_for_pid(). Hence, in order to debug any application, we must create a new entitlement file with the mentioned flag set to true, sign the debug server application with that entitlement file, and then deploy the console app to the device. Please note that the current location of debugserver application on the Mac is a read-only ramdisk, hence the application must be copied to a different location before signing with the new entitlement file.</p>
+
+
+
+
+<p>Hence, the first step to do is to mount Xcode's developer disk image on your Mac and copy the debugserver binary to a seperate location where you can resign it. Use the following command.</p>
+
+
+
+
+<p><i>hdiutil attach /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/[ios version]\ \(12B411\)/DeveloperDiskImage.dmg</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/1.png" width="648" height="343" alt="1"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/2.png" width="767" height="225" alt="2"></p>
+
+<p>Once this is done, create a new file with the name entitlements.plist and enter the following data in it.</p>
+
+
+
+
+<pre>
+&lt?xml version="1.0" encoding="UTF-8"?&gt
+&lt!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/ PropertyList-1.0.dtd"&gt
+<plist version="1.0">
+<dict>
+    &ltkey&gtcom.apple.springboard.debugapplications</key>
+    &lttrue/&gt
+    &ltkey&gtrun-unsigned-code</key>
+    &lttrue/&gt
+    &ltkey&gtget-task-allow</key>
+    &lttrue/&gt
+    &ltkey&gttask_for_pid-allow</key>
+    &lttrue/&gt
+</dict> 
+</plist>
+</pre>
+
+
+
+
+<p>Now, you have to resign the debugserver binary with the new entitlements file.</p>
+
+
+<p><i>codesign -s &ndash; &mdash;entitlements entitlements.plist -f debugserver</i></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/3.png" width="806" height="42" alt="3"></p>
+
+<p>Once this is done, deploy the binary to the device. To start debugserver on the device, use the command shown below, and also specify the name of the application you want to hook to, which in this case is Twitter.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/4.png" width="624" height="163" alt="4"></p>
+
+<p>Now on your computer, start lldb to enter the lldb interpreter. Now use the following commands as shown below to to connect to the device. Make sure to replace the IP address here with the IP address of your device.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/5.png" width="590" height="409" alt="5"></p>
+
+<p>Once this is done, you will see that you are successfully able to debug the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/6.png" width="715" height="380" alt="6"></p>
+
+<p>Now you can use the po command to print out specific objects instantiated in the application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/7.png" width="451" height="84" alt="7"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/8.png" width="587" height="95" alt="8"></p>
+
+<p>The syntax for LLDB is a bit different. For e.g, here is the syntax for printing all the register variables.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios41/9.png" width="705" height="500" alt="9"></p>
+
+<p>That's it for this article. In this article, we learnt how to deploy LLDB to the device and use it to run some basic commands. In the next article, we will look at some advanced usage of LLDB and how it can be used to find  sensitive information in memory.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 40 - Testing apps on your Mac]]></title>
+    <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac"/>
+    <updated>2015-04-28T01:25:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac</id>
+    <content type="html"><![CDATA[<p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
+
+
+
+
+<h3>Installing ipa files from iTunes on your simulator</h3>
+
+
+
+
+<p>Sadly, there is no way you can do that. This is because the iTunes applications are compiled for the ARM platform whereas the applications that run on your simulator are compiled for the x86/x64 platform. So, to test any application properly on your Mac, you must have the source code of the application to run it on the simulator.</p>
+
+
+
+
+<p>In this case, we are going to perform our testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a></p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h3>Analyzing local data storage</h3>
+
+
+
+
+<p>One of the most important things to check during performing penetration testing of iOS applications is checking for insecure local data storage vulnerabilites. You can easily check this by looking at the application folder created on your Mac by Xcode.This folder is available at the following locations.</p>
+
+
+
+
+<p>iOS 8 - /Users/[username]/Library/Developer/CoreSimulator/Devices/[a unique number]/data/Containers/Data/Application/[another unique number]/ </p>
+
+
+<p>iOS 7 - /Users/[username]/Library/Application Support/iPhone Simulator/[ios version]/Applications/[a unique id]/</p>
+
+
+
+
+<p>Make sure to check this folder and see if the application is not storing any sensitive data to this folder.</p>
+
+
+
+
+<h3>Checking logs</h3>
+
+
+
+
+<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the. However, if you see this behaviour, don't immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/2.png" width="882" height="602" alt="2"></p>
+
+<h3>Attaching debuggers and Tracing method calls</h3>
+
+
+
+
+<p>You can attach a debugger to the running application in the simulator. Its better to use LLDB debugger since it comes installed with Xcode command line tools. The iOS application running on the simulator can also be seen as a running process on your computer by using the command <i>ps aux</i>. You can attach to the running application both by using the pid or the name.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/lldb.png" width="511" height="249" alt="Lldb"></p>
+
+<p>You can easily trace the method calls by using the inbuilt debugger LLDB in Xcode. To do that, you need to add a symbolic breakpoint in Xcode. See the plus arrow in the bottom left and click on it to add a symbolic breakpoint.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/3.png" width="759" height="441" alt="3"></p>
+
+<p>Now set a breakpoint for the <i>objc_msgSend</i> call. Click on Add action and add the debugger command as <i>p (void)printf("[%s, %s]\n", (char*)object_getClassName($arg1), $arg2)</i> and make sure you check the option to continue execution of the program. You will notice that you are now able to trace all the method calls.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/4.png" width="885" height="802" alt="4"></p>
+
+<h3>Attaching cycript</h3>
+
+
+
+
+<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/cycript.png" width="536" height="104" alt="Cycript"></p>
+
+<h3>Monitoring Network traffic</h3>
+
+
+
+
+<p>You can pretty much see all the network traffic over HTTP/HTTPs without any issues. You can either use Burpsuite or Charles for it. For HTTPs traffic, you will have to install the SSL certificate on your simulator. To do this, simply drag and drop the certificate file to your simulator, and click on install to install the certificate.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios40/cert.png" width="375" height="484" alt="Cert"></p>
+
+<p>That's it for this article. In the next article, we will look at using the LLDB debugger for debugging iOS applications.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Damn Vulnerable iOS App solutions free for download]]></title>
@@ -333,195 +577,6 @@ am start -n com.package.name/com.package.name.ActivityName
 
 
 <p>Before we move on to the next article, make sure you have a proper understanding of the <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">Android manifest</a> file and the different components in an andorid application.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 2]]></title>
-    <link href="http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2"/>
-    <updated>2015-03-27T12:04:00+04:00</updated>
-    <id>http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2</id>
-    <content type="html"><![CDATA[<p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>At this point, i would also like to mention that if you are looking for a VM that contains all the tools to cater to your android application pentesting needs, have a look at <a href="https://androidtamer.com/">Android Tamer</a>.</p>
-
-
-
-
-<p>First of all, make sure you have the latest version of InsecureBankv2 on your system. You can do a <i>git pull</i> to merge all the latest changes to your master branch.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/1.png" width="649" height="422" alt="1"></p>
-
-<p>Once this is done, let's do some analysis on the apk file. Copy the apk file into a seperate folder for some analysis. Just like an iOS ipa file, an apk file is a compressed file, so you can decompress it by just changing the extension from apk to zip and then extracting it.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/2.png" width="873" height="378" alt="2"></p>
-
-<p>Now browse over to the extracted folder and have a look. You can see a lot of files here.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/3.png" width="592" height="130" alt="3"></p>
-
-<p>Let's describe them one by one.</p>
-
-
-
-
-<ul>
-    <li>AndroidManifest.xml - This is probably by far the most important source of information. From a security point of view, it contains information about the various components used in an application and lists the conditions in which they can be launched. It also displays information about the permissiosns that the application uses. I would highly recommend you to go through Google's <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">documentation</a> on the manifest file. We will discuss each component of an android application as we discuss vulnerabilities in them.</li>
-    
-    <li>assets - This is used to store raw assets file. The files stored here as compiled as is into the apk file.</li>
-    
-    <li>res - Used to store resources such as images, layout files, and string values.</li>
-    
-    <li>META-INF - Contains important information about the signature and the person who signed the application.</li>
-    
-    <li>classes.dex - This is where the compiled application code lies. To decompile an application, you need to convert the dex file to a jar file which can then be read by a java decompiler</li>
-    
-    
-</ul>
-
-
-
-
-<p>The information about the public key certificate is stored in the CERT.RSA file in the META-INF folder. To find out information about the public key certificate, use the command <i> keytool –printcert –file META-INF/CERT.RSA </i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/z.png" width="730" height="426" alt="Z"></p>
-
-<p>Please note that it is also possible to modify the code of an apk file after decompiling and then recompile it to deploy to a device. However, once the application code is modified, it loses its integrity and hence needs to be resigned with a new public/private key pair. I would recommend that you have a look at <a href="http://developer.android.com/tools/publishing/app-signing.html">this</a> article that explains how to create your own public/private key pair. We will look at modifying application logic and then recompiling it in later articles in this series.</p>
-
-
-
-
-<p>Once an application has been recompiled, you can verify its integrity using the jarsigner application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/j.png" width="760" height="64" alt="J"></p>
-
-<p>Now let's decompile the application using dex2jar. dex2jar can also take input as an apk file (rather than .dex file) and converts it into a jar file.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/x.png" width="654" height="87" alt="X"></p>
-
-<p>Once this is done, you can simple open this file in JD-GUI and have a look at the source code.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/y.png" width="1026" height="621" alt="Y"></p>
-
-<p>We can now scan through the source code to find potential vulnerabilities in the application. We can clearly note how easy it is to reverse engineer an apk file and look at the source code. It is important to note here that we are able to see the source code and understand it mainly because there is no code obfuscation applied in the application. Google provides tools like Proguard to help in obfuscating code. While this is not foolproof, there is also a commercial version of Proguard knows an DexGuard that works even better in applying code obfuscation. We will look at obfuscating application code in later articles.</p>
-
-
-
-
-<p>In this article, we looked at how we can extract information from an apk file. In the next article, we will start looking at the different types of vulnerabilities demonstrated in InsecurBankv2.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 39 – Sensitive information in memory]]></title>
-    <link href="http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory"/>
-    <updated>2015-03-24T12:04:00+04:00</updated>
-    <id>http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at analyzing the memory contents of an iOS application. iOS applications may store sensitive information like passwords, session IDs etc in the memory of the application without releasing them. In some cases, releasing these variables may not be an option. For e.g, it might be required for the application to send an authentication token with every request and hence there has to be a reference to it in the memory somewhere. Even though these variables might be encrypted when stored locally in the application, these variables will be in their unencryped format while the application is running. Hence, analyzing the contents of the memory is an important thing while pentesting an iOS application. If there are some important properties or instance variables that are not required, they should be released from the memory.</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>Basically, the memory of the application will contain a lot of information, most of which we will not be interested in. These things might include instantiated UIViews and other UI elements. We will definitely be interested in instantiated view controllers and their properties though. It is important to understand and focus on only the relevant information in the memory. For a penetration tester, you should mainly be interested in all the values of the properties and instance variable in an application.</p>
-
-
-
-
-<p>We will be solving the Sensitive information in memory challenge in <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a></p>
-
-
-<p>.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/ios39/1.PNG" width="320" height="568" alt="1"></p>
-
-<p>If we look at the challenges, the first challenge is to find properties named username and password. To do that, first we have to get the reference to the current view controller. From the class-dump output of the application, it is easy to figure out that the class name of this view controller is <i>SensitiveInformationDetailsVC</i>. We can find the reference to this class objects using the choose function in cycript. The choose function takes an Objective-C class as an argument, and attempts to scavenge the heap looking for regions of memory that are the right size and shape as the class (or any subclasses of that class) you have specified. So basically, it will find references to all objects of the classes and subclasses that you have provided.</p>
-
-
-<p></p>
-
-<p>Hence, to find the instances of the class <i>SensitiveInformationDetailsVC</i>, let's use the choose function with the class name as the argument.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios39/2.png" width="469" height="81" alt="2"></p>
-
-<p>As we can see, there is only one reference, and can be accessed using the index 0.</p>
-
-
-
-
-<p>To find out all properties, use the command a[0]->isa.messages.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios39/3.png" width="1140" height="344" alt="3"></p>
-
-<p>Now, you can scan the output for all property names that you find interesting. Since we already know the property names in the challenge, which is username and password, we can directly access them using the commands shown below.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios39/4.png" width="264" height="99" alt="4"></p>
-
-<p>That's it. Pretty simple isn't it.</p>
-
-
-
-
-<p>Next, we need to find some instance variable. For this, we need to define a function that will print all the instance variables for a particular instance.</p>
-
-
-
-
-<p>function tryPrintIvars(a){ var x={}; for(i in *a){ try{ x[i] = (*a)[i]; } catch(e){} } return x; }</p>
-
-
-
-
-<p>Now, lets give the input as the instance of the class <i>SensitiveInformationDetailsVC</i> and we can see that it printed out all the instance variables along with their values.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios39/5.png" width="1150" height="514" alt="5"></p>
-
-<p>However, we cannot find an instance variable named passwd. What's going on ? Well, here's the thing. The thing with instance variables is that they can be initialized within a particular method. If the function hasn't been called, the instance variable wouldn't be initialized. Also, because of a feature knows an ARC (Automatic reference counting) in iOS, the variables will automatically be released once the function has stopped executing. In some cases, you might not be able to call a function via manual browsing of the application, and that's where cycript becomes useful. Going back to the methods of this class, we see that there is a method named <i>initializeLogin</i>. And since it is the only other method apart from the regular iOS methods like viewDidLoad and didReceiveMemoryWarning, it is safe to assume that the instance variable is created in this method.</p>
-
-
-<p></p>
-
-<p>Once we call the function initializeLogin, the instance variable will instantiate and be stored in the memory of the application. The trick here is to use GDB to analye the application contents during the runtime and find the value of the variable before the function stops executing.. I will leave this as an exercise for you. And just for the sake of convenience, here is the source code of the initializeLogin method.</p>
-
-
-
-
-<pre>
--(void)initializeLogin {
-    //DO random stuff
-    NSString *passwd = @"MYw0r1d1821";
-    //Finish doing random stuff
-}</pre>
-
-
-<p></p></p>
-
-<p>Mark Beard has written a nice article on dumping application memory from the heap and also released a tool to do so. I would recommend that you check the <a href="https://blog.netspi.com/ios-tutorial-dumping-the-application-heap-from-memory/">article</a> out as well. </p>
 
 ]]></content>
   </entry>
