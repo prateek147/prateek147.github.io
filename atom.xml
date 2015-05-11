@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-04-28T01:32:17+04:00</updated>
+  <updated>2015-05-12T00:11:50+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 42 - LLDB Usage continued]]></title>
+    <link href="http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued"/>
+    <updated>2015-05-12T00:10:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at some of the most important commands in LLDB to debug applications.</p>
+
+
+
+
+<p>If you have been following this blog series, you would have noticed that we have been using GDB until now for debugging applications, but the support for GDB has been disabled by Apple. Apple has compiled a very useful list of GDB to LLDB commands to get you up to date with debugging via LLDB that can be found <a href="https://developer.apple.com/library/mac/documentation/IDEs/Conceptual/gdb_to_lldb_transition_guide/document/lldb-command-examples.html">here</a>.</p>
+
+
+
+
+<p>We will look at some of the most important commands after hooking into an application. In this case, lets start debugging the Twitter app. So make sure that the Twitter app is running in the foreground on the device and start a listener for the Twitter app.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/1.png" width="604" height="156" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>On your system, do the usual process of connecting to the debugserver application on the device to perform remote debugging. You can also use usbmuxd if you feel that debugging over Wifi is slow.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/2.png" width="913" height="653" alt="2"></p>
+
+<p>Once the connection has been established, you can now run debbugger commands to analyze the application. Let&#8217;s print out the AppDelegate object.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/3.png" width="485" height="62" alt="3"></p>
+
+<p>We can read registers using the <i>register read</i> command. To read all the registers, use the <i>register read &#8211;all</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/4.png" width="706" height="613" alt="4"></p>
+
+<p>Note the difference in the registers ? It&#8217;s because of the new arm64 architecture for this application. Another important command is <i>image list</i> which will let you identify the location of the main executable and all the shared libraries.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/5.png" width="963" height="534" alt="5"></p>
+
+<p>The <i>image dump sections</i> command will dump all the sections of the main executable and the shared libraries. You can later use this to dump information from the memory.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/6.png" width="1107" height="534" alt="6"></p>
+
+<p>Setting a breakpoint is very similar to GDB. First, see if there are any breakpoints set using the <i>br l</i>. Then set a breakpoint for the objc_msgSend function using the <i>b objc_msgSend</i> command. Then, resume the application using the <i>process continue</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/7.png" width="716" height="80" alt="7"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/8.png" width="441" height="222" alt="8"></p>
+
+<p>Once a breakpoint is hit, you can use the command <i>di -f</i> to see the disassembled code.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/9.png" width="702" height="331" alt="9"></p>
+
+<p>We can also configure LLDB to execute a command once every breakpoint is hit. This could be very handy in tracing method calls in the application. To do that, use the command <i>target stop-hook add</i> and enter the commands that you want to enter once the breakpoint is hit. In this case, i have asked LLDB to print out all the registers and continue the program execution. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/10.png" width="961" height="484" alt="10"></p>
+
+<p>If you don&#8217;t understand the purpose of these registers right now, don&#8217;t worry. I will cover arm64 architecture in a later article.</p>
+
+
+
+
+<p>It is usually a good idea to strip the debug symbols from the application binary before submitting to the App store. You can do this by going to Build Settings and set the option <i>Strip Debug Symbols During Copy</i> to Yes.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/11.png" width="937" height="509" alt="11"></p>
+
+<p>Hope you enjoyed this article. We have just scratched the surface of LLDB right now. In the next article, we will look at importing symbols from binaries and settings breakpoints on application specific methods.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 41 - Debugging applications using LLDB]]></title>
@@ -1958,33 +2040,6 @@ By default, when making an SSL connection, the client checks that the server’s
 <p>This will make the attacker believe that these methods are not of much significance when he is checking our the class-dump output of our application. Consequently, he will move on to some other classes or view controllers that he thinks are much more important.</p>
 
 <p>So here you go, there is definitely a problem with using third party applications as is without any modification. The things that make the code easily understandable (using proper naming conventions) can actually be the reason for the failure of the application.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to distribute IPA file for jailbroken devices]]></title>
-    <link href="http://prateek147.github.io/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices"/>
-    <updated>2014-03-12T11:53:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices</id>
-    <content type="html"><![CDATA[<p>So i have been getting a few queries on how to create an IPA file from Xcode and distribute it for jailbroken devices. Here is how i did it for <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS App</a>.</p>
-
-<p>First we need to run the application using Xcode on the device. This requires a valid provisioning profile. I am doing this on Xcode 5.x but on the previous versions of Xcode, it was possible to run the application on the device without a valid provisioning profile.</p>
-
-<p>Once the application is installed on the device, copy the .app folder from the device on your system.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/distribute/1.png" width="525" height="320" alt="2"></p>
-
-<!-- more -->
-
-
-<p>Navigate inside this directory on your system and self sign the application binary using ldid. Make sure you have a proper working version of ldid installed.</p>
-
-<p><img src="http://prateek147.github.io/images/posts/distribute/2.png" width="681" height="64" alt="2"></p>
-
-<p>Now create a new folder and name it Payload. Put the .app folder inside it and compress the Payload folder. It will be named Payload.zip. Rename Payload.zip to [APP_NAME].ipa, for e.g DamnVulnerableiOSApp.ipa. Once this is done, you can install the application using similar techniques as mentioned in the youtube video below.</p>
-
-<iframe width="560" height="315" src="http://prateek147.github.io//www.youtube.com/embed/PwES8Sk00wk" frameborder="0" allowfullscreen></iframe>
-
 ]]></content>
   </entry>
   

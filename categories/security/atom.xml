@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-04-28T01:32:17+04:00</updated>
+  <updated>2015-05-12T00:11:50+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,88 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 42 - LLDB Usage continued]]></title>
+    <link href="http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued"/>
+    <updated>2015-05-12T00:10:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued</id>
+    <content type="html"><![CDATA[<p>In this article, we will look at some of the most important commands in LLDB to debug applications.</p>
+
+
+
+
+<p>If you have been following this blog series, you would have noticed that we have been using GDB until now for debugging applications, but the support for GDB has been disabled by Apple. Apple has compiled a very useful list of GDB to LLDB commands to get you up to date with debugging via LLDB that can be found <a href="https://developer.apple.com/library/mac/documentation/IDEs/Conceptual/gdb_to_lldb_transition_guide/document/lldb-command-examples.html">here</a>.</p>
+
+
+
+
+<p>We will look at some of the most important commands after hooking into an application. In this case, lets start debugging the Twitter app. So make sure that the Twitter app is running in the foreground on the device and start a listener for the Twitter app.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/1.png" width="604" height="156" alt="1"></p>
+
+<!-- more -->
+
+
+
+
+<p>On your system, do the usual process of connecting to the debugserver application on the device to perform remote debugging. You can also use usbmuxd if you feel that debugging over Wifi is slow.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/2.png" width="913" height="653" alt="2"></p>
+
+<p>Once the connection has been established, you can now run debbugger commands to analyze the application. Let's print out the AppDelegate object.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/3.png" width="485" height="62" alt="3"></p>
+
+<p>We can read registers using the <i>register read</i> command. To read all the registers, use the <i>register read --all</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/4.png" width="706" height="613" alt="4"></p>
+
+<p>Note the difference in the registers ? It's because of the new arm64 architecture for this application. Another important command is <i>image list</i> which will let you identify the location of the main executable and all the shared libraries.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/5.png" width="963" height="534" alt="5"></p>
+
+<p>The <i>image dump sections</i> command will dump all the sections of the main executable and the shared libraries. You can later use this to dump information from the memory.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/6.png" width="1107" height="534" alt="6"></p>
+
+<p>Setting a breakpoint is very similar to GDB. First, see if there are any breakpoints set using the <i>br l</i>. Then set a breakpoint for the objc_msgSend function using the <i>b objc_msgSend</i> command. Then, resume the application using the <i>process continue</i> command.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/7.png" width="716" height="80" alt="7"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/8.png" width="441" height="222" alt="8"></p>
+
+<p>Once a breakpoint is hit, you can use the command <i>di -f</i> to see the disassembled code.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/9.png" width="702" height="331" alt="9"></p>
+
+<p>We can also configure LLDB to execute a command once every breakpoint is hit. This could be very handy in tracing method calls in the application. To do that, use the command <i>target stop-hook add</i> and enter the commands that you want to enter once the breakpoint is hit. In this case, i have asked LLDB to print out all the registers and continue the program execution. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/10.png" width="961" height="484" alt="10"></p>
+
+<p>If you don't understand the purpose of these registers right now, don't worry. I will cover arm64 architecture in a later article.</p>
+
+
+
+
+<p>It is usually a good idea to strip the debug symbols from the application binary before submitting to the App store. You can do this by going to Build Settings and set the option <i>Strip Debug Symbols During Copy</i> to Yes.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios42/11.png" width="937" height="509" alt="11"></p>
+
+<p>Hope you enjoyed this article. We have just scratched the surface of LLDB right now. In the next article, we will look at importing symbols from binaries and settings breakpoints on application specific methods.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 41 - Debugging applications using LLDB]]></title>
@@ -390,193 +472,6 @@ run app.activity.start --component com.mwr.example.intenttest com.mwr.example.in
 <p>In this article, we got comfortable with using Drozer. Drozer can do much more, and we will be discussing all those features as we discuss more vulnerabilities in InsecureBank in the next article.</p>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 3]]></title>
-    <link href="http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3"/>
-    <updated>2015-03-28T12:04:00+04:00</updated>
-    <id>http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3</id>
-    <content type="html"><![CDATA[<p>In this article, we will look at attacking components in Android applications, starting with activities. But first, it is essential to understand what Android application components are. Android application components are the essential building blocks of an Android application. The behaviour and interaction between these components is defined in the manifest.xml file in the application. Mainly there are 4 types of components and it is important to understand their purpose and function.</p>
-
-
-
-
-<p>The description of the 4 components given below has been taken from <a href="http://www.tutorialspoint.com/android/android_application_components.htm">this</a> link.</p>
-
-
-
-
-<table>
-<tr><th style="width:25%">Components</th><th>Description</th></tr>
-<tr><td>Activities</td><td>They dictate the UI and handle the user interaction to the smartphone screen</td></tr>
-<tr><td>Services</td><td>They handle background processing associated with an application.</td></tr>
-<tr><td>Broadcast Receivers</td><td>They handle communication between Android OS and applications.</td></tr>
-<tr><td>Content Providers</td><td>They handle data and database management issues.</td></tr>
-</table>
-
-
-
-
-<!-- more -->
-
-
-
-
-<h4>Activities</h4>
-
-
-<p>An activity represents a single screen with a user interface. For example, an email application might have one activity that shows a list of new emails, another activity to compose an email, and another activity for reading emails. If an application has more than one activity, then one of them should be marked as the activity that is presented when the application is launched.</p>
-
-<p>An activity is implemented as a subclass of Activity class as follows:</p>
-
-<pre>public class MainActivity extends Activity {
-
-}</pre>
-
-
-
-
-<h4>Services</h4>
-
-
-<p>A service is a component that runs in the background to perform long-running operations. For example, a service might play music in the background while the user is in a different application, or it might fetch data over the network without blocking user interaction with an activity.</p>
-
-<p>A service is implemented as a subclass of Service class as follows:</p>
-
-<pre>public class MyService extends Service {
-
-}</pre>
-
-
-<h4>Broadcast Receivers</h4>
-
-
-<p>Broadcast Receivers simply respond to broadcast messages from other applications or from the system. For example, applications can also initiate broadcasts to let other applications know that some data has been downloaded to the device and is available for them to use, so this is broadcast receiver who will intercept this communication and will initiate appropriate action.</p>
-
-<p>A broadcast receiver is implemented as a subclass of BroadcastReceiver class and each message is broadcasted as an Intent object.</p>
-
-<pre>public class MyReceiver  extends  BroadcastReceiver {
-
-}</pre>
-
-
-<h4>Content Providers</h4>
-
-
-<p>A content provider component supplies data from one application to others on request. Such requests are handled by the methods of the ContentResolver class. The data may be stored in the file system, the database or somewhere else entirely.
-
-A content provider is implemented as a subclass of ContentProvider class and must implement a standard set of APIs that enable other applications to perform transactions.</p>
-
-
-
-
-<pre>public class MyContentProvider extends  ContentProvider {
-
-}</pre>
-
-
-
-
-<h4>Additional Components</h4>
-
-
-<p>There are additional components which will be used in the construction of above mentioned entities, their logic, and wiring between them. These components are:</p>
-
-<table class="src">
-<tr><th style="width:25%">Components</th><th>Description</th></tr>
-<tr><td>Fragments</td><td>Represents a behavior or a portion of user interface in an Activity.</td></tr>
-<tr><td>Views</td><td>UI elements that are drawn onscreen including buttons, lists forms etc.</td></tr>
-<tr><td>Layouts</td><td>View hierarchies that control screen format and appearance of the views.</td></tr>
-<tr><td>Intents</td><td>Messages wiring components together.</td></tr>
-<tr><td>Resources</td><td>External elements, such as strings, constants and drawables pictures.</td></tr>
-<tr><td>Manifest</td><td>Configuration file for the application.</td></tr>
-</table>
-
-
-
-
-<h4>One of the most important attributes of components is the exported property. Here is the documentation from android about it.</h4>
-
-
-
-
-<h4>android:exported</h4>
-
-
-
-
-<p>Whether or not the activity can be launched by components of other applications — "true" if it can be, and "false" if not. If "false", the activity can be launched only by components of the same application or applications with the same user ID.The default value depends on whether the activity contains intent filters. The absence of any filters means that the activity can be invoked only by specifying its exact class name. This implies that the activity is intended only for application-internal use (since others would not know the class name). So in this case, the default value is "false". On the other hand, the presence of at least one filter implies that the activity is intended for external use, so the default value is "true".This attribute is not the only way to limit an activity's exposure to other applications. You can also use a permission to limit the external entities that can invoke the activity (see the permission attribute).</p>
-
-
-
-
-<p>Hence, if an activity is exported, it can be called by external applications. In order to test the vulnerable activity exercise in InsecureBank application, let's first start the application on Genymotion emulator and start the backend server as well.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib3/1.png" width="504" height="58" alt="1"></p>
-
-<p>Once we start the app, we are presented with this login page. If the activity after a successful login is exported, then we can call that activity directly.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib3/2.png" width="1027" height="559" alt="2"></p>
-
-<p>Let's have a look at the manifest file of the application to see if we can find the relevant activity. To look at the manifest file, first decompress the application using apktool as shown in the image below. This will create an application folder and the manifest file will be located inside it.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib3/4.png" width="735" height="275" alt="4"></p>
-
-<p>Here is how the manifest file looks like. As you can see, there is an activity named <i>.PostLogin</i> which is set as exported.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib3/3.png" width="888" height="626" alt="3"></p>
-
-<p>We can call this activity directly using the activity manager tool in the emulator. Let's have a look at the usage first.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib3/5.png" width="620" height="554" alt="5"></p>
-
-<p>To start an activity with the am tool, here is the command.</p>
-
-
-
-
-<pre>
-adb shell
-am start -n com.package.name/com.package.name.ActivityName
-</pre>
-
-
-
-
-<p>In this case, the package name is com.android.insecurebankv2 as can be seen from the manifest file.</p>
-
-
-
-
-<p>So let's call the PostLogin activity by using the command shown below.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib3/6.png" width="894" height="97" alt="6"></p>
-
-<p>In the application, you can see that you have successfully bypassed the login page.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib3/7.png" width="1025" height="325" alt="7"></p>
-
-<p>You can also call activity or other components using drozer. We will look at drozer in the next article.</p>
-
-
-
-
-<p>There are a couple of ways to prevent from these kinds of vulnerabilities. First of all, the android:exported property should always be set to FALSE unless really necessary. Secondly, if the application needs to be called from some specific external applications, you can add custom permissions to the activity and only allow applications that requests that permission to call the activity.</p>
-
-
-
-
-<p>Before we move on to the next article, make sure you have a proper understanding of the <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">Android manifest</a> file and the different components in an andorid application.</p>
 
 ]]></content>
   </entry>
