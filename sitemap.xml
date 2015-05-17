@@ -483,16 +483,22 @@
         <lastmod>2015-05-12T00:11:21+04:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued
+        </loc>
+        <lastmod>2015-05-17T14:18:55+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://prateek147.github.io/about/</loc>
         <lastmod>2014-11-24T00:31:47+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/archives/</loc>
-        <lastmod>2015-05-12T00:11:21+04:00</lastmod>
+        <lastmod>2015-05-17T14:18:55+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/</loc>
-        <lastmod>2015-05-12T00:11:21+04:00</lastmod>
+        <lastmod>2015-05-17T14:18:55+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/security.html</loc>
@@ -508,7 +514,7 @@
     </url>
     <url>
         <loc>http://prateek147.github.io/</loc>
-        <lastmod>2015-05-12T00:11:21+04:00</lastmod>
+        <lastmod>2015-05-17T14:18:55+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/ios/</loc>

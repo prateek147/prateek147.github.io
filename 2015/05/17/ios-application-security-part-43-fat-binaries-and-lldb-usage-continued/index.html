@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS Application Security Part 42 - LLDB Usage continued - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="iOS Application Security Part 42 - LLDB Usage Continued May 12th, 2015 Posted by Prateek Gianchandani In this article, we will look at some of the &hellip;">
+  <meta name="description" content="iOS Application Security Part 43 - FAT Binaries &amp; LLDB Usage Continued May 17th, 2015 Posted by Prateek Gianchandani In this article, we will &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued">
+  <link rel="canonical" href="http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -117,7 +117,7 @@ body {
 
   <header>
   <div class="jumbotron">
-    iOS Application Security Part 42 - LLDB Usage Continued
+    iOS Application Security Part 43 - FAT Binaries &amp; LLDB Usage Continued
 	<h5>
 
 
@@ -130,7 +130,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-05-12T00:10:00+04:00" pubdate data-updated="true">May 12<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-05-17T14:18:00+04:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time></h5>
   <h4>
   
 
@@ -140,79 +140,85 @@ body {
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article, we will look at some of the most important commands in LLDB to debug applications.</p>
+      <p>In this article, we will talk about FAT binaries and see more usage of LLDB.</p>
 
 
 
 
-<p>If you have been following this blog series, you would have noticed that we have been using GDB until now for debugging applications, but the support for GDB has been disabled by Apple. Apple has compiled a very useful list of GDB to LLDB commands to get you up to date with debugging via LLDB that can be found <a href="https://developer.apple.com/library/mac/documentation/IDEs/Conceptual/gdb_to_lldb_transition_guide/document/lldb-command-examples.html">here</a>.</p>
+<p>Fat binaries are single binaries that are compiled for different architectures. They are done so because it is easier to ship a single binary for different architectures. Apple has been changing the architecture in the last three versions of it&#8217;s iPhones, armv7, armv7s, and arm64. The good thing is that new iOS devices can run applications compiled for older architectures as well. However it is recommended to upgrade the architecture of the application for enhanced performance.</p>
 
 
 
 
-<p>We will look at some of the most important commands after hooking into an application. In this case, lets start debugging the Twitter app. So make sure that the Twitter app is running in the foreground on the device and start a listener for the Twitter app.</p>
+<p>You can see the architecture for your project by going to the Project in Xcode and looking under Build Settings.</p>
 
 
-<p><img src="/images/posts/ios42/1.png" width="604" height="156" alt="1"></p>
+<p><img src="/images/posts/ios43/1.png" width="645" height="229" alt="1"></p>
 
 <!-- more -->
 
 
 
 
-<p>On your system, do the usual process of connecting to the debugserver application on the device to perform remote debugging. You can also use usbmuxd if you feel that debugging over Wifi is slow.</p>
+<p>A good way to find the architectures for which a binary is deployed is using otool. You can use the -f command to look at the fat headers.</p>
 
 
-<p><img src="/images/posts/ios42/2.png" width="913" height="653" alt="2"></p>
+<p><img src="/images/posts/ios43/2.png" width="243" height="202" alt="2"></p>
 
-<p>Once the connection has been established, you can now run debbugger commands to analyze the application. Let&#8217;s print out the AppDelegate object.</p>
-
-
-<p><img src="/images/posts/ios42/3.png" width="485" height="62" alt="3"></p>
-
-<p>We can read registers using the <i>register read</i> command. To read all the registers, use the <i>register read &#8211;all</i> command.</p>
+<p>As you can see, it doesn&#8217;t mention the architecture name but the cputype and cpusubtype. However, after a bit of lookup from the information on cputype and cpusubtype, you can find out that the first one is armv7s whereas the second one is armv64. You can also use Clutch to find this out. Whitle decrypting, it can give information about the kinds of architectures the binary had. As you can see, in this case it was armv7 and arm64.</p>
 
 
-<p><img src="/images/posts/ios42/4.png" width="706" height="613" alt="4"></p>
+<p><img src="/images/posts/ios43/3.png" width="514" height="332" alt="3"></p>
 
-<p>Note the difference in the registers ? It&#8217;s because of the new arm64 architecture for this application. Another important command is <i>image list</i> which will let you identify the location of the main executable and all the shared libraries.</p>
-
-
-<p><img src="/images/posts/ios42/5.png" width="963" height="534" alt="5"></p>
-
-<p>The <i>image dump sections</i> command will dump all the sections of the main executable and the shared libraries. You can later use this to dump information from the memory.</p>
+<p>The easiest way is to find via the tool lipo</p>
 
 
-<p><img src="/images/posts/ios42/6.png" width="1107" height="534" alt="6"></p>
+<p><img src="/images/posts/ios43/3s.png" width="576" height="42" alt="3s"></p>
 
-<p>Setting a breakpoint is very similar to GDB. First, see if there are any breakpoints set using the <i>br l</i>. Then set a breakpoint for the objc_msgSend function using the <i>b objc_msgSend</i> command. Then, resume the application using the <i>process continue</i> command.</p>
-
-
-<p><img src="/images/posts/ios42/7.png" width="716" height="80" alt="7"></p>
-
-<p><img src="/images/posts/ios42/8.png" width="441" height="222" alt="8"></p>
-
-<p>Once a breakpoint is hit, you can use the command <i>di -f</i> to see the disassembled code.</p>
+<p>In some cases, if some tool doesn&#8217;t work against a particular application, it is better to strip that architecture from the binary. This can be done using a tool named lipo. This is essentially useful as a lot of tools don&#8217;t work against arm64 binaries.</p>
 
 
-<p><img src="/images/posts/ios42/9.png" width="702" height="331" alt="9"></p>
+<p><img src="/images/posts/ios43/4.png" width="743" height="137" alt="4"></p>
 
-<p>We can also configure LLDB to execute a command once every breakpoint is hit. This could be very handy in tracing method calls in the application. To do that, use the command <i>target stop-hook add</i> and enter the commands that you want to enter once the breakpoint is hit. In this case, i have asked LLDB to print out all the registers and continue the program execution. </p>
-
-
-<p><img src="/images/posts/ios42/10.png" width="961" height="484" alt="10"></p>
-
-<p>If you don&#8217;t understand the purpose of these registers right now, don&#8217;t worry. I will cover arm64 architecture in a later article.</p>
+<p>So with this little intro about fat binaries out of the way, lets carry on using LLDB. Like last article, we will be performing the analysis on Twitter app. Using Hopper, we can see some methods in the Twitter app.</p>
 
 
+<p></p>
+
+<p><img src="/images/posts/ios43/5.png" width="1019" height="551" alt="5"></p>
+
+<p>So let&#8217;s set a breakpoint for the method <i>b -[T1CommerceOfferHowWorksView setHiddenObserver:]</i>.</p>
 
 
-<p>It is usually a good idea to strip the debug symbols from the application binary before submitting to the App store. You can do this by going to Build Settings and set the option <i>Strip Debug Symbols During Copy</i> to Yes.</p>
+<p><img src="/images/posts/ios43/6.png" width="557" height="76" alt="6"></p>
+
+<p>Oops, looks like we are unable to set a breakpoint. But why is that ? The reason is, LLDB hasn&#8217;t loaded the symbols from the binary yet. The symbols are what contains information about the class names and methods. This is unlike GDB where it loads the symbols while performing analysis on the binary. Remember however that you are running the LLDB client on your system and not the device. To confirm that you have not yet loaded the symbols, you can use the command <i>image dump symtab</i> to load the symbols and look for this particular method, you will not find it.</p>
 
 
-<p><img src="/images/posts/ios42/11.png" width="937" height="509" alt="11"></p>
+<p><img src="/images/posts/ios43/7.png" width="902" height="427" alt="7"></p>
 
-<p>Hope you enjoyed this article. We have just scratched the surface of LLDB right now. In the next article, we will look at importing symbols from binaries and settings breakpoints on application specific methods.</p>
+<p>In order to load the symbols from the binary into LLDB, first download the LLDB binary onto your computer, then use the following command to load the symbols. Note that the architeture is set to armv7 by default.</p>
+
+
+<p><img src="/images/posts/ios43/8.png" width="605" height="65" alt="8"></p>
+
+<p>And now, you can see that you can set the breakpoint.</p>
+
+
+<p><img src="/images/posts/ios43/9.png" width="854" height="59" alt="9"></p>
+
+<p>If you know that the app is compiled for a 64 bit architecture, and the device is a 64 bit device, you should set the architecture to arm64. Does that make a difference ? Yes. Because the address will be different for the same method for different architectures (Fat binaries) and the method will not be called if you have set the breakpoint for a different architecture than the device it is compiled on.</p>
+
+
+<p><img src="/images/posts/ios43/10.png" width="921" height="101" alt="10"></p>
+
+<p>Another thing. If you ever run a command and get the error <i>invalid frame</i>, it means that the process is still running. In order to execute commands, the process must be paused. This can be done using the <i>process interrupt</i> command.</p>
+
+
+<p><img src="/images/posts/ios43/x1.png" width="477" height="99" alt="X1">
+<img src="/images/posts/ios43/x2.png" width="570" height="259" alt="X2"></p>
+
+<p>If you think that arm64 is hard to understand and it is a bit difficult to modify the runtime flow, you can load the same executable on a 32 bit device and use GDB or LLDB to modify the variables and change the runtime flow. This is because most applications currently come with 32 bit support. However, in the coming year or so, this will not be the case. We will also cover arm64 assembly in a later article.</p>
 
 
     </div>
@@ -264,10 +270,8 @@ body {
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb" title="Previous Post: iOS Application Security Part 41 - Debugging applications using LLDB">&laquo; iOS Application Security Part 41 - Debugging applications using LLDB</a>
+            <a class="basic-alignment left" href="/2015/05/12/ios-application-security-part-42-lldb-usage-continued" title="Previous Post: iOS Application Security Part 42 - LLDB Usage continued">&laquo; iOS Application Security Part 42 - LLDB Usage continued</a>
           
-          
-            <a class="basic-alignment right" href="/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued" title="Next Post: iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued">iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued &raquo;</a>
           
         </p>
       </div>
@@ -333,8 +337,8 @@ alt="web analytics"></a></div></noscript>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued';
-        var disqus_url = 'http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued';
+        var disqus_identifier = 'http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued';
+        var disqus_url = 'http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. May 12th, 2015 Comments security iOS Application Security Part 42 - &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. May 17th, 2015 Comments security iOS Application Security Part 43 - FAT &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -121,6 +121,68 @@ body {
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-05-17T14:18:00+04:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued">iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued</a></h1>
+      <p>In this article, we will talk about FAT binaries and see more usage of LLDB.</p>
+
+
+
+
+<p>Fat binaries are single binaries that are compiled for different architectures. They are done so because it is easier to ship a single binary for different architectures. Apple has been changing the architecture in the last three versions of it&#8217;s iPhones, armv7, armv7s, and arm64. The good thing is that new iOS devices can run applications compiled for older architectures as well. However it is recommended to upgrade the architecture of the application for enhanced performance.</p>
+
+
+
+
+<p>You can see the architecture for your project by going to the Project in Xcode and looking under Build Settings.</p>
+
+
+<p><img src="/images/posts/ios43/1.png" width="645" height="229" alt="1"></p>
+
+
+      
+       <a href="/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -1327,65 +1389,6 @@ By default, when making an SSL connection, the client checks that the server’s
 
       
        <a href="/2014/03/25/ios-application-security-part-32-automating-tasks-with-ios-reverse-engineering-toolkit-iret">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2014-03-18T17:40:00+04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps">iOS Application Security Part 31 - The problem with using third party libraries for securing your apps</a></h1>
-      <p>In this article, we will talk about why we shouldn&rsquo;t completely rely on using third party libraries for securing our apps. Usually, some of the things we try to do in our application are adding checks to detect piracy, jailbroken device etc. It is such a pain to write all the code from scratch which is why we usually resort to using third party libraries that can get the job done for us. In this example, we will be looking at a library named <i>AntiPiracy</i> which can be found on <a href="https://github.com/Shmoopi/AntiPiracy">this</a> url that aims to solve our problem.</p>
-
-<p>On a first glance, it looks amazing .. here is a snippet of the description from it&rsquo;s github page</p>
-
-<p><i>The Full Shmoopi Anti-Piracy Library utilizes over a dozen algorithms to detect piracy, (not just four) including:</p>
-
-<p><em>Signer Identity Checks </em>Process ID Checks <em>Plist Checks </em>Bundled Item Checks (CodeRules, Resources, Etc) <em>Encryption Checks </em>Anti-Debugging <em>Encryption Checks </em>Anti-Tampering <em>Binary Checks </em>Integrity Checks <em>CRC Checks </em>MD5/SHA1 Hashing Checks *And much, much more…</p>
-
-<p></i></p>
-
-<p>Looks great. Here is a screenshot from its Github page that explains the implementation.</p>
-
-
-      
-       <a href="/2014/03/18/ios-application-security-part-31-the-problem-with-using-third-party-libraries-for-securing-your-apps">Read on &rarr;</a> 
     </div>
   </div>
 
