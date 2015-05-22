@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="iOS Application Security Part 43 - FAT Binaries &amp; LLDB Usage Continued May 17th, 2015 Posted by Prateek Gianchandani In this article, we will &hellip;">
+  <meta name="description" content="iOS Application Security Part 44 - Bypassing Jailbreak Detection Using Xcon May 23rd, 2015 Posted by Prateek Gianchandani In this small article, we &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued">
+  <link rel="canonical" href="http://prateek147.github.io/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -117,7 +117,7 @@ body {
 
   <header>
   <div class="jumbotron">
-    iOS Application Security Part 43 - FAT Binaries &amp; LLDB Usage Continued
+    iOS Application Security Part 44 - Bypassing Jailbreak Detection Using Xcon
 	<h5>
 
 
@@ -130,7 +130,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-05-17T14:18:00+04:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-05-23T02:24:00+04:00" pubdate data-updated="true">May 23<span>rd</span>, 2015</time></h5>
   <h4>
   
 
@@ -140,85 +140,47 @@ body {
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article, we will talk about FAT binaries and see more usage of LLDB.</p>
+      <p>In this small article, we will look at a very handful utility named <a href="https://www.theiphonewiki.com/wiki/XCon">Xcon</a>for bypassing Jailbreak detection. As per the wiki page &#8230;</p>
 
 
 
 
-<p>Fat binaries are single binaries that are compiled for different architectures. They are done so because it is easier to ship a single binary for different architectures. Apple has been changing the architecture in the last three versions of it&#8217;s iPhones, armv7, armv7s, and arm64. The good thing is that new iOS devices can run applications compiled for older architectures as well. However it is recommended to upgrade the architecture of the application for enhanced performance.</p>
+<p><i>xCon is a collaborative project by n00neimp0rtant and Lunatik that aims to be an all-in-one solution for hooking every known method and function responsible for informing an application of a jailbroken device. At first, the project aimed to patch applications on a per-app basis, but now it uses lower-level hooks to cover any apps that attempt to use the same procedure, even patching apps not explicitly reversed by the developers. Originally an open-source project, it remains closed-source now to discourage App Store developers from working around xCon&#8217;s hooks.</i></p>
 
 
 
 
-<p>You can see the architecture for your project by going to the Project in Xcode and looking under Build Settings.</p>
+<p>A very handful resource for detecting jailbroken devices can be found <a href="https://www.theiphonewiki.com/wiki/Bypassing_Jailbreak_Detection">here</a>. Here is a screenshot from the page. The purpose of Xcon is to make sure all these checks fail.</p>
 
 
-<p><img src="/images/posts/ios43/1.png" width="645" height="229" alt="1"></p>
+
 
 <!-- more -->
 
 
+<p><img src="images/1.png" width="1249" height="432" alt="1"></p>
+
+<p>Downloading Xcon in your project is very straightforward. Make sure http://apt.modmyi.com is added as a source in Cydia and search for Xcon. Install in on your device and restart your device.</p>
 
 
-<p>A good way to find the architectures for which a binary is deployed is using otool. You can use the -f command to look at the fat headers.</p>
+<p><img src="images/x.PNG" width="375" height="677" alt="X"></p>
+
+<p>Once you run any app, you will notice that the library will inject into the process as can be seen from the following device logs.
+    
+<img src="images/2.png" width="760" height="146" alt="2">
+
+<p>If you are performing jailbreak detection in your application, it is recommended to have your app checked against Xcon. The library is closed source as making it open source will help developers understand how it works and hence make workarounds to their code.</p>
+Please note that the current version of Xcon has a lot of issues with iOS 8 and 64 bit devices. Hence it is recommended to run your app on a 32 bit device if you want to test it against Xcon. A complete list of all the issues occuring with Xcon can be found <a href="https://github.com/n00neimp0rtant/xCon-Issues">here.</a></p>
 
 
-<p><img src="/images/posts/ios43/2.png" width="243" height="202" alt="2"></p>
+<p><img src="images/5.png" width="776" height="90" alt="5"></p>
 
-<p>As you can see, it doesn&#8217;t mention the architecture name but the cputype and cpusubtype. However, after a bit of lookup from the information on cputype and cpusubtype, you can find out that the first one is armv7s whereas the second one is armv64. You can also use Clutch to find this out. Whitle decrypting, it can give information about the kinds of architectures the binary had. As you can see, in this case it was armv7 and arm64.</p>
-
-
-<p><img src="/images/posts/ios43/3.png" width="514" height="332" alt="3"></p>
-
-<p>The easiest way is to find via the tool lipo</p>
+<p>Xcon has already patched jailbreak checks done by a lot of the popular apps and it also maintains a list of it. A screenshot of it can be found below. To see the complete list, you can visit Xcon&#8217;s page.</p>
 
 
-<p><img src="/images/posts/ios43/3s.png" width="576" height="42" alt="3s"></p>
+<p><img src="images/4.png" width="1508" height="449" alt="4"></p>
 
-<p>In some cases, if some tool doesn&#8217;t work against a particular application, it is better to strip that architecture from the binary. This can be done using a tool named lipo. This is essentially useful as a lot of tools don&#8217;t work against arm64 binaries.</p>
-
-
-<p><img src="/images/posts/ios43/4.png" width="743" height="137" alt="4"></p>
-
-<p>So with this little intro about fat binaries out of the way, lets carry on using LLDB. Like last article, we will be performing the analysis on Twitter app. Using Hopper, we can see some methods in the Twitter app.</p>
-
-
-<p></p>
-
-<p><img src="/images/posts/ios43/5.png" width="1019" height="551" alt="5"></p>
-
-<p>So let&#8217;s set a breakpoint for the method <i>b -[T1CommerceOfferHowWorksView setHiddenObserver:]</i>.</p>
-
-
-<p><img src="/images/posts/ios43/6.png" width="557" height="76" alt="6"></p>
-
-<p>Oops, looks like we are unable to set a breakpoint. But why is that ? The reason is, LLDB hasn&#8217;t loaded the symbols from the binary yet. The symbols are what contains information about the class names and methods. This is unlike GDB where it loads the symbols while performing analysis on the binary. Remember however that you are running the LLDB client on your system and not the device. To confirm that you have not yet loaded the symbols, you can use the command <i>image dump symtab</i> to load the symbols and look for this particular method, you will not find it.</p>
-
-
-<p><img src="/images/posts/ios43/7.png" width="902" height="427" alt="7"></p>
-
-<p>In order to load the symbols from the binary into LLDB, first download the LLDB binary onto your computer, then use the following command to load the symbols. Note that the architeture is set to armv7 by default.</p>
-
-
-<p><img src="/images/posts/ios43/8.png" width="605" height="65" alt="8"></p>
-
-<p>And now, you can see that you can set the breakpoint.</p>
-
-
-<p><img src="/images/posts/ios43/9.png" width="854" height="59" alt="9"></p>
-
-<p>If you know that the app is compiled for a 64 bit architecture, and the device is a 64 bit device, you should set the architecture to arm64. Does that make a difference ? Yes. Because the address will be different for the same method for different architectures (Fat binaries) and the method will not be called if you have set the breakpoint for a different architecture than the device it is compiled on.</p>
-
-
-<p><img src="/images/posts/ios43/10.png" width="921" height="101" alt="10"></p>
-
-<p>Another thing. If you ever run a command and get the error <i>invalid frame</i>, it means that the process is still running. In order to execute commands, the process must be paused. This can be done using the <i>process interrupt</i> command.</p>
-
-
-<p><img src="/images/posts/ios43/x1.png" width="477" height="99" alt="X1">
-<img src="/images/posts/ios43/x2.png" width="570" height="259" alt="X2"></p>
-
-<p>If you think that arm64 is hard to understand and it is a bit difficult to modify the runtime flow, you can load the same executable on a 32 bit device and use GDB or LLDB to modify the variables and change the runtime flow. This is because most applications currently come with 32 bit support. However, in the coming year or so, this will not be the case. We will also cover arm64 assembly in a later article.</p>
+<p>Xcon is a recommended package to install on your device if you are pentesting an app that does jailbreak detection or if you are a developer and want to know that your jailbreak detection algorithm is accurate.</p>
 
 
     </div>
@@ -270,10 +232,8 @@ body {
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2015/05/12/ios-application-security-part-42-lldb-usage-continued" title="Previous Post: iOS Application Security Part 42 - LLDB Usage continued">&laquo; iOS Application Security Part 42 - LLDB Usage continued</a>
+            <a class="basic-alignment left" href="/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued" title="Previous Post: iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued">&laquo; iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued</a>
           
-          
-            <a class="basic-alignment right" href="/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon" title="Next Post: iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon">iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon &raquo;</a>
           
         </p>
       </div>
@@ -339,8 +299,8 @@ alt="web analytics"></a></div></noscript>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued';
-        var disqus_url = 'http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued';
+        var disqus_identifier = 'http://prateek147.github.io/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon';
+        var disqus_url = 'http://prateek147.github.io/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon';
         var disqus_script = 'embed.js';
       
     (function () {
