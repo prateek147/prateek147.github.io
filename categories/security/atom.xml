@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-05-23T02:29:54+04:00</updated>
+  <updated>2015-05-31T03:28:11+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,92 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0]]></title>
+    <link href="http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0"/>
+    <updated>2015-05-31T03:25:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0</id>
+    <content type="html"><![CDATA[<p>In this article, i would like to give a quick walkthrough of the new vulnerabilities and challenges that we have added in version 2.0 of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a>.</p>
+
+
+
+
+<p>In the Insecure Data storage section, we have added challenges for the following databases.</p>
+
+
+
+
+<ul>
+    <li>Realm Database</li>
+    <li>Couchbase Lite</li>
+    <li>YapDatabase</li>
+</ul>
+
+
+
+
+<!-- more -->
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios45/1.png" width="235" height="321" alt="1">
+<img src="http://prateek147.github.io/images/posts/ios45/2.png" width="235" height="310" alt="2">
+<img src="http://prateek147.github.io/images/posts/ios45/3.png" width="235" height="314" alt="3"></p>
+
+<p>We have also added a new section on <i>Extension vulnerabilities</i>, which covers vulnerabilities in different application extensions, a feature that was introduced with iOS 8.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios45/4.png" width="235" height="328" alt="4">
+<img src="http://prateek147.github.io/images/posts/ios45/5.png" width="235" height="328" alt="5"></p>
+
+<p>In the <i>Runtime Manipulation section</i>, we have added a challenge where you can write a cycript script to brute force a login screen.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios45/6.png" width="235" height="281" alt="6"></p>
+
+<p>Another new section is <i>Attacks on third party libraries</i>, which demonstrates the security gaps that can occur in your application when you use third party libraries in your project.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios45/7.png" width="235" height="315" alt="7">
+<img src="http://prateek147.github.io/images/posts/ios45/8.png" width="235" height="320" alt="8">
+<img src="http://prateek147.github.io/images/posts/ios45/9.png" width="235" height="265" alt="9">
+<img src="http://prateek147.github.io/images/posts/ios45/10.png" width="235" height="256" alt="10">
+<img src="http://prateek147.github.io/images/posts/ios45/11.png" width="235" height="281" alt="11">
+<img src="http://prateek147.github.io/images/posts/ios45/12.png" width="235" height="266" alt="12"></p>
+
+<p>In the section on <i>Side Channel Data leakage</i>, we have added another vulnerability demonstrating insecure storage of cookies.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ios45/13.png" width="233" height="365" alt="13"></p>
+
+<p>The current downloadable IPA file from the website is a fat binary that will work on both 32 bit and 64 bit devices. This app will work on all iOS versions starting from iOS 7.0.</p>
+
+
+
+
+<p>Some important links</p>
+
+
+
+
+<ol>
+    <li><a href="http://damnvulnerableiosapp.com">Official Website</a></li>
+    <li><a href="http://github.com/prateek147/DVIA">Github Page</a></li>
+    <li><a href="http://damnvulnerableiosapp.com#downloads">Downloads Page</a></li>
+</ol>
+
+
+
+
+<p>We are working on getting the new solutions out as soon as possible so please be patient. For previous vulnerabilities, you can download the solutions for free from <a href="http://damnvulnerableiosapp.com#solutions">here</a>.</p>
+
+
+
+
+<p>For any bugs, suggestions etc, please don't hesitate to contact me. Also, a very special thanks to <a href="http://twitter.com/igrekde">Egor</a> for his contributions to the project.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon]]></title>
@@ -365,114 +451,6 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
 <p><img src="http://prateek147.github.io/images/posts/ios41/9.png" width="705" height="500" alt="9"></p>
 
 <p>That's it for this article. In this article, we learnt how to deploy LLDB to the device and use it to run some basic commands. In the next article, we will look at some advanced usage of LLDB and how it can be used to find  sensitive information in memory.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 40 - Testing apps on your Mac]]></title>
-    <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac"/>
-    <updated>2015-04-28T01:25:00+04:00</updated>
-    <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac</id>
-    <content type="html"><![CDATA[<p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
-
-
-
-
-<h3>Installing ipa files from iTunes on your simulator</h3>
-
-
-
-
-<p>Sadly, there is no way you can do that. This is because the iTunes applications are compiled for the ARM platform whereas the applications that run on your simulator are compiled for the x86/x64 platform. So, to test any application properly on your Mac, you must have the source code of the application to run it on the simulator.</p>
-
-
-
-
-<p>In this case, we are going to perform our testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a></p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<h3>Analyzing local data storage</h3>
-
-
-
-
-<p>One of the most important things to check during performing penetration testing of iOS applications is checking for insecure local data storage vulnerabilites. You can easily check this by looking at the application folder created on your Mac by Xcode.This folder is available at the following locations.</p>
-
-
-
-
-<p>iOS 8 - /Users/[username]/Library/Developer/CoreSimulator/Devices/[a unique number]/data/Containers/Data/Application/[another unique number]/ </p>
-
-
-<p>iOS 7 - /Users/[username]/Library/Application Support/iPhone Simulator/[ios version]/Applications/[a unique id]/</p>
-
-
-
-
-<p>Make sure to check this folder and see if the application is not storing any sensitive data to this folder.</p>
-
-
-
-
-<h3>Checking logs</h3>
-
-
-
-
-<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the. However, if you see this behaviour, don't immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios40/2.png" width="882" height="602" alt="2"></p>
-
-<h3>Attaching debuggers and Tracing method calls</h3>
-
-
-
-
-<p>You can attach a debugger to the running application in the simulator. Its better to use LLDB debugger since it comes installed with Xcode command line tools. The iOS application running on the simulator can also be seen as a running process on your computer by using the command <i>ps aux</i>. You can attach to the running application both by using the pid or the name.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios40/lldb.png" width="511" height="249" alt="Lldb"></p>
-
-<p>You can easily trace the method calls by using the inbuilt debugger LLDB in Xcode. To do that, you need to add a symbolic breakpoint in Xcode. See the plus arrow in the bottom left and click on it to add a symbolic breakpoint.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios40/3.png" width="759" height="441" alt="3"></p>
-
-<p>Now set a breakpoint for the <i>objc_msgSend</i> call. Click on Add action and add the debugger command as <i>p (void)printf("[%s, %s]\n", (char*)object_getClassName($arg1), $arg2)</i> and make sure you check the option to continue execution of the program. You will notice that you are now able to trace all the method calls.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios40/4.png" width="885" height="802" alt="4"></p>
-
-<h3>Attaching cycript</h3>
-
-
-
-
-<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios40/cycript.png" width="536" height="104" alt="Cycript"></p>
-
-<h3>Monitoring Network traffic</h3>
-
-
-
-
-<p>You can pretty much see all the network traffic over HTTP/HTTPs without any issues. You can either use Burpsuite or Charles for it. For HTTPs traffic, you will have to install the SSL certificate on your simulator. To do this, simply drag and drop the certificate file to your simulator, and click on install to install the certificate.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios40/cert.png" width="375" height="484" alt="Cert"></p>
-
-<p>That's it for this article. In the next article, we will look at using the LLDB debugger for debugging iOS applications.</p>
 
 ]]></content>
   </entry>
