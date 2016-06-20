@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: backtrack | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/backtrack/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2016-06-07T09:12:32+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Backtrack 5 R3 Walkthrough part 4]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-4"/>
+    <updated>2013-06-15T03:33:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-4</id>
+    <content type="html"><![CDATA[<h2>DHCPig</h2>
+
+
+
+
+<p>DHCPig is a very nice and handy little tool used to carry out an advanced DHCP exhaustion attack. It does this by grabbing all the IP addresses in its subnet by sending different DHCP requests for those IP addresses. It also finds out its neighbour's IP addresses in its vicinity and releases their IP addresses by sending DHCP releases to the server. It then waits for a specific timeout on its sent packets, and if the timeout is reached, it means all the IP addresses in the network are now used up.However, some neighbours may still have IP addresses on the network that will have IP addresses conflicting with the IP addresses taken up the attacking machine. In this case, DHCpig can also knock all the windows systems offline by sending gratuitous ARP requests from all the IP address in the network. A gratuitous ARP request is used to check for duplicate IP addresses. If there is another device on the network using the same IP address (our attacking machine), the windows machine will receive an ARP reply from the attacker's machine. This way, the Window's machine will know that it has an IP address conflict with another system on the network. As a result, it will try to obtain another IP address but since all the IP addresses are now exhausted, it wont be able to get a new IP address. </p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>Running DHCPig is as simple as giving just the interface as the argument. Type the command as shown in the figure below to run DHCPig. In the figure below, DHCpig tries to gather all the IP addresses in the network.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/1.png" width="833" height="519" alt="1"></p>
+
+<p>At the same time, it also sending DHCPRELEASE for the neighbors that it found on the network.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/2.png" width="707" height="496" alt="2"></p>
+
+<p>Once this process is done, it will wait for a timeout for allocation of an IP address and if the timeout occurs, it will try to knock all the systems (windows based) offline by sending gratuitous ARP requests from their IP addresses. Note that this technique won't work on a linux based system mainly because linux systems will hold on to their IP addresses even if they detect a conflict in the IP address.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/3.png" width="817" height="522" alt="3"></p>
+
+<p>If you want to know more about DHCpig, check out its <a href ="https://github.com/kamorin/DHCPig">github page</a>.</p>
+
+
+
+
+<h2>MitmProxy</h2>
+
+
+
+
+<p>MitmProxy is an SSL capable HTTP proxy. It provides a console interface that allows the functionality of inspecting and manipulating traffic on the fly by acting as a man in the middle. Mitmdump is the command line version of mitmproxy. We can also save traffic flowing through the proxy for later analysis, and we can also replay the captured traffic whenever we want. We can also write python scripts to manipulate the traffic on the fly. MitmProxy can be found under the following directory in Backtrack 5 R3.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/4.png" width="645" height="121" alt="4"></p>
+
+<p>To run MitmProxy, just type ./mitmproxy and it will start the program. By default, mitmproxy listens on port 8080. Hence all the traffic passing through port 8080 would be seen by mitmproxy. Before we configure our browser to use port 8080 as a proxy, lets type "?" and see the different options that are available to us.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/5.png" width="1097" height="647" alt="5"></p>
+
+<p>Now, configure your browser to use port 8080 on localhost as a proxy. Using our browser, lets now browse to a particular website. You will see that all the requests are being seen by mitmproxy. Notice the 2 arrows ">>". It shows you to select different request/reponse and perform actions on them. You can switch between different request/response using the j and k keys. Intercepted responses will be shown in an orange text. Currently there are no intercepted responses mainly because we haven't configured mitmproxy to intercept any kind of response. Also, you can see the event log by holding down the "e" key.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/6.png" width="1132" height="629" alt="6"></p>
+
+<p>We can also select a particular flow and look at the details of it. To select any particular flow just take the pointer (the double arrows) next to it and press enter.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/7.png" width="1129" height="197" alt="7"></p>
+
+<p>Here you will see all the details of this request. You can also see the response by switching to the response tab. To switch to the response tab, just press Tab. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/8.png" width="1129" height="629" alt="8"></p>
+
+<p>At any time, you can just press q to go back. Let's now take a look at how mitmproxy can be used to intercept traffic and modify it. Mitmproxy interception works by taking certain intereption patterns which are python style regular expressions. A complete list of filter expressions can be found on http://mitmproxy.org/doc/filters.html.</p>
+
+
+
+
+<p>Let's set up a simple filter here. To set up an interception filter, just press "i".</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/9.png" width="1131" height="39" alt="9"></p>
+
+<p>In this case i am going to set up a filter which looks for the string "ping" in the body and intercepts the request/response if found.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/10.png" width="1130" height="42" alt="10"></p>
+
+<p>Now lets browse over to ping.com from our browser. You will notice that the response gets intercepted. Intercepted request/reponse are marked with orange text.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/11.png" width="1061" height="96" alt="11"></p>
+
+<p>If you want, you can edit the response before it is displayed in the browser. Just take your pointer over to it and press enter. Then press Tab to switch to the intercepted response. To edit the response, just press the "e" key and it will ask you which part of the response (code, message, header, raw body) you can edit. In this case, lets select header.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/12.png" width="1130" height="631" alt="12"></p>
+
+<p>Once you select header, you will be taken to an editor where you can edit the headers. In this case, i can just set the Cache-Control header value to "no-cache".</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/13.png" width="1131" height="221" alt="13"></p>
+
+<p>Now we need to forward the response, just keep pressing q until you go to the main page where you will see all the flows, then select the flow that was just intercepted.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/14.png" width="1131" height="39" alt="14"></p>
+
+<p>Now press a to forward this response. You will see that the page will now load up in the browser and the subsequent requests/responses will now show up.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/15.png" width="1130" height="315" alt="15"></p>
+
+<p>You can also save all the traffic from mitmproxy to an output file. Just use the -w command to specify the output file name and mitmproxy will write all the traffic that it sees onto the output file. In this case, i save all the traffic to a file named capturedTraffic.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/17.png" width="791" height="117" alt="17"></p>
+
+<p>Now i can replay all this traffic again whenever i want. Just use the following command to replay the traffic again. This feature could be very useful in automating certain tasks such as connecting to a network or downloading something from a particular url etc. The -n option asks mitmdump to start mitmdump without binding to a particular port.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/18.png" width="1134" height="269" alt="18"></p>
+
+<p>You can also use python scripts to modify the traffic programatically. The examples folder in mitmproxy contains a set of sample scripts that can help you do the task. ALl these scripts use the mitmproxy API to help perform the task. To know more about the mitmproxy API, go to http://mitmproxy.org/doc/scripts.html</p>
+
+
+
+
+<p>To use the script, just use the -s option and give the location of the script. In this case we will be using a simple script called upsidedowninternet.py that will check for PNG's in the response and make them upside down.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/19.png" width="801" height="28" alt="19"></p>
+
+<p>And the result is images upside down. :). In later articles, we will learn about how we can use Mitmproxy to intercept SSL requests.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r4/20.png" width="957" height="586" alt="20"></p>
+
+<h2>References:</h2>
+
+
+
+
+<ul>
+     <li><p>DHCPig</br><a href ="https://github.com/kamorin/DHCPig">https://github.com/kamorin/DHCPig</a></p>
+     </li>
+     <li><p>MitmProxy official website</br><a href ="http://mitmproxy.org">http://mitmproxy.org</a></p>
+     </li>
+</ul>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Backtrack 5 R3 Walkthrough part 3]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-3"/>
+    <updated>2013-06-15T03:12:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-3</id>
+    <content type="html"><![CDATA[<p>This article is in continuation to part 2 of the Backtrack 5 r3 walkthrough series. In this article we will we looking at some of the other new tools that were added into Backtrack 5 with the release of its latest version R3. </p>
+
+
+
+
+<!-- more -->
+
+
+<h2>Wifite</h2>
+
+
+
+
+<p>Wifite is probabaly one of the best tools out there for cracking wireless networks. It just makes the whole task so simple for you by hiding all the intricate details of cracking a wireless network and making the whole process automated. It can crack WEP/WPA/WPS encrypted networks in a row. Some of the features of Wifite are..</p>
+
+
+
+
+<ul>
+    <li>Automate the whole process of cracking wireless networks. Just run the python file wifite.py and it will start scanning for wireless networks nearby and will ask you to select which targets to attack.</li>
+    <li>Automatically detects hidden Essid's by deauthenticating the connected client and checking the association and authentication packets to figure out the Essid.</li>
+    <li>Backs up all the cracked passwords as well as the WPA handshakes so you can use them later.</li>
+    <li>You can customize the attack by selecting the type of attack (for e.g arp request replay for cracking WEP), select the pps (packets per second), set the channel to sniff on etc.</li>
+    <li>Gives you options in the middle of an attack. Just press Ctrl+C and it will ask you whether you want to quit, move on to the next target, or start cracking (if you think enough info has been collected) etc.</li>
+    <li>Very easy to upgrade. Just type <i>./wifite.py -upgrade</i>  to upgrade.</li>
+</ul>
+
+
+
+
+<p>In this example, we will use wifite to crack WEP. To have a look at all the commands that wifite has to offer, just type <i>./wifite.py -h</i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/1.png" width="919" height="647" alt="1"></p>
+
+<p>Firstly, let's just try a generic attack. Just type <i>./wifite.py</i> and you will see that it automatically puts a wireless interface into monitor mode and starts scanning for the nearby wireless networks.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/2.png" width="678" height="229" alt="2"></p>
+
+<p>As you can see from the figure below, it found 2 nearby networks. It also lets you know if it found any clients connected to it as it is important sometimes to have a client associated with the network too. Press Ctrl + C when you think wifite has found all the nearby wireless networks.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/3.png" width="560" height="120" alt="3"></p>
+
+<p>It will now ask you to select the target for the network which you want to attack. You can also specify multiple networks seperated by commas. In this case we are interested in cracking the network with the ESSID "Infosec Test" which i set up for testing purposes. So i just type 1 and press enter.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/4.png" width="746" height="270" alt="4"></p>
+
+<p>Once you have done this, you will see that it has started the attack against the network. In this case, it is using the arp-replay attack to crack the WEP key. The minimum number of IV's for wifite to being cracking the WEP key is 10000 by default. But you can always change that in wifite. Also, it is always a good option to specify the pps for every attack as sometimes wifite will try to capture packets at higher rates which might turn your wireless card into a denial of service mode and hence stop the attack. The following command shown below helps to set both the things that we just discussed.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/5.png" width="684" height="30" alt="5"></p>
+
+<p>Coming back to our previous attack against the "Infosec Test", we see that it is still capturing IV's.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/6.png" width="657" height="274" alt="6"></p>
+
+<p>Once it has captured sufficient IV's, you will notice that it cracked the WEP key. In this case, it found the WEP key to be "0987654321". This is one of the reasons why wifite is such an awesome tool out there for wi-fi cracking.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/7.png" width="809" height="522" alt="7"></p>
+
+<p>Wifite also offers some other cool customization options. For e.g the following command will ask wifite to endlessly attack the target WEP network. This means that the program will not stop until it has cracked the WEP key for the target network. This attack could be handy in case when you are near a network that does not have any connected client to it or has very less activity. Just use this command and forget about it, wifite will automatically crack the WEP key as soon as it gathers sufficient information. You will also notice that it informs you whether you have already cracked the network by looking at its database. Having a database is another handy feature as it stores all the cracked passwords for all the networks as well as any captured WPA handshakes so that you can carry out a bruteforce attack whenever you want.</p>
+
+
+<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/8.png" width="811" height="377" alt="8"></p>
+
+<p>The following command will scan for all nearby WPA networks and store the WPA handshakes without carrying out a bruteforce attack. This feature could come in handy when you want to gather the information as quickly as possible in a particular location. You can always crack the WPA key using the handshake somewhere else.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/9.png" width="856" height="426" alt="9"></p>
+
+<p>If you want to know more about the wifite tool, i recommend you have a look at its official website <a href="http://code.google.com/p/wifite/">http://code.google.com/p/wifite/</a>.</p>
+
+
+
+
+<h2>Iphone Analyzer</h2>
+
+
+
+
+<p>Iphone Analyzer is an IOS device forensics tool. Unlike its name, Iphone Analyzer works for all IOS devices. It is used to analyze data from iTunes backups and provides a rich interface to explore the content of the device as well as recover them. In case of Mac OS X, Iphone analyzer automatically detects the location of the backup file. However, while using it with Backtrack 5 R3, you will have to provide it with the location of the backup file. It also allows you to analyze your IOS device over SSH, which is a very handy feature. Though this feature of Iphone analyzer is still in the beta version but this feature can be very useful especially when performing penetration tests on jailbroken IOS devices. Iphone analyzer allows you to see your text messages, photos, call records etc. IOS uses sqlite for managing its database. Iphone analyzer also allows you to analyze the various sqlite files, the schema which is used to enter data into the database as well as the contents of the file. It also allows you to browse the file structure like you would normally do via a terminal on a jailbroken device.</p>
+
+
+
+
+<p>To analyze a jailbroken device using Iphone Analyzer, click on File --> Open: Other --> Open over SSH. Then enter the IP address of the device and the ssh username and password.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/15.png" width="450" height="197" alt="15"></p>
+
+<p>Let's use Iphone Analyzer to analyze a backup file. As you can see from the figure below, on a MAC OS, it automatically detects the locations of the backup files. While running it on Backtrack 5, you will have to give it the location of the backup file. Click on the backup file you want to analyze and then click on "Analyze Iphone backup"</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/11.png" width="1296" height="810" alt="11"></p>
+
+<p>Once this is done, you are presented with this beautiful interface that allows you to explore the contents of your backup file. At the top-center, you will see a lot of information about the IOS device like GUID, Serial Number, UDID, the last backup date, the phone number etc. On the bottom of this, you will see a detail section which contains all the information that Iphone Analyzer could obtain from the info.plist file. On the left side, you will see a Bookmarks and File System section. On the right side is the Manifest section. This gives you a lot of the information about the actual path of your applications in the directory structure. Please note that since this is not a jailbroken device, most of the information will be non-readable.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/12.png" width="1440" height="812" alt="12"></p>
+
+<p>As shown in the figure below, the Bookmarks section will allow to find out the information which you are most likely to be looking for. It includes information about your Address Book, Voicemail, Location Map, Facebook Friends, Messages, incoming and outgoing calls etc.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/13.png" width="258" height="584" alt="13"></p>
+
+<p>Similarly, if you want, you can explore the filesystem of the device by clicking on the Filesystem tab. This will allow you to look at the various sqlite and plist files. The figure below shows information about a plist file that apple stores on your system named "com.apple.wifi.plist". Using this file, it is possible to figure out the latest networks you have connected to. As you can see from the image below, the plist file tells me information about a network with the ESSID "Buzz@Barista".</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/14.png" width="1269" height="768" alt="14"></p>
+
+<p>You can also analyze various sqlite files using Iphone Analyzer. The figure below shows the database structure of a sqlite file named ocspcache.sqlite3. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/10.png" width="1432" height="604" alt="10"></p>
+
+<p>Alternatively, if you just want to look at the content stored in the sqlite file, you can click on "Browse Data" and this will show you the all the database information about the sqlite file.</p>
+
+
+<p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/17.png" width="1291" height="527" alt="17"></p>
+
+<p> If you will at the very bottom, you will see a button named "Deleted fragments". Another cool feature of Iphone analyzer is to recover deleted items from the database, though it is not as effective but still very useful under certain circumstances.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r3/16.png" width="1287" height="548" alt="16"></p>
+
+<h2>References:</h2>
+
+
+
+
+<ul>
+<li><p>Wifite official website</br><a href ="http://code.google.com/p/wifite/">http://code.google.com/p/wifite/</a></p>
+</li>
+<li><p>Iphone Analyzer user guide</br><a href ="http://www.crypticbit.com/files/ipa_user_guide.pdf">http://www.crypticbit.com/files/ipa_user_guide.pdf</a></p>
+</li>
+</ul>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Backtrack 5 R3 Walkthrough part 2]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-2"/>
+    <updated>2013-06-15T03:07:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-2</id>
+    <content type="html"><![CDATA[<p>This article is in continuation to <a href="http://resources.infosecinstitute.com/backtrack-5-part-1/">part 1</a> of the Backtrack Walkthrough Series. In the previous articles we discussed some of the most important new tools that were added in the most recent revision of Backtrack 5 like Dnmap, Fern-Wifi-Cracker etc. In this article we will look at some of the other main tools added in Backtrack 5 R3.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h2>HTExploit</h2>
+
+
+
+
+<p>HTExploit was released at Blackhat 2012 by Matias KATZ and Maximiliano SOLER. HTExploit (HiperText access Exploit) is a tool that is used to bypass authentication mechanisms which is deployed on websites using .htaccess files. The tool is written in Python. Once the restriction is bypassed, it will be possible to figure out the contents of a directory and even download those files. The tool works in a recursive manner,i.e once it downloads the first chunk of files, it looks for links inside those files and downloads those files as well. This process keeps on going until it has downloaded the entire content of the directory. It then generates an html report informing us about all the files that it has downloaded.</p>
+
+
+
+
+<p>The tool has 2 modules that can be executed.</p>
+
+
+<ol>
+    <li>Detect- This module only informs the user if the target is vulnerable to the exploit or not.</li>
+    <li>Full - This module runs the attack on the directory using a dictionary that contains a list of the common file names. If those file names are found and if the directory is vulnerable, it is possible to download that file from the server.</li>
+</ol>
+
+
+
+
+<p>In a recent chat session with Maximiliano Soler, one of the 2 people behind this tool, he informed us about how the actual vulnerability is exploited.</p>
+
+
+
+
+<p>Maximilano Soler:<i>The main problem is that sometimes the restrictions are based in the directive by using "Limit GET POST".So the problem is that they only put these well known methods for authentication checking. But what happens when we create a different method? for eg. "POTATO".Apache will proceed with the request and pass this "unknown" method to PHP. PHP says...ok, I will use this method like "GET". Voila! If you have the exact name of the file, you will be able to download it. This is not a bruteforce attack as we are able to figure out the contents of your directory without knowing your password. There are some ways in which you can protect yourself. Remove the methods from "Limit". Use Limit with GET and POST, but also with LimitExcept. Alternatively, you can use a module from Apache Mod_AllowMethods. If you are a developer you could also validate the typical variables: $PHP_AUTH_USER, $_SERVER["REQUEST_METHOD"]. If something else is found that GET or POST, then disallow it.</i></p>
+
+
+
+
+<p>Here is some sample code used in htaccess files that puts limitations for only GET and POST methods.</p>
+
+
+<p>
+<img src="http://prateek147.github.io/images/posts/bt5r2/1.png" width="297" height="105" alt="1"></p>
+
+<p>HTExploit can be found under the directory /pentest/web/htexploit.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/2.png" width="653" height="391" alt="2"></p>
+
+<p>And now for a demo of HTExploit, i modified the htaccess settings in one of my websites and was able to successfully run the tool against it. Type the command as shown in the image below to run HTExploit against a targeted website.Once it detect that the target is vulnerable, it will ask you if you want to run a full scan on it. </p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/4.png" width="712" height="305" alt="4"></p>
+
+<p>After this, wait for the scan to complete.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/5.png" width="910" height="332" alt="5"></p>
+
+<p>Once the scan is run, it will generate a HTML report reporting the files that it was able to download locally. Here is what a sample report looks like.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/5_2.png" width="845" height="550" alt="5 2"></p>
+
+<h2>Wifi Honey</h2>
+
+
+
+
+<p>Wifi Honey is another great tool that was introduced with Bactrack 5 R3. Basically, in most of the cases it is possible to crack the WEP or WPA encryption key of a network  with just a client which is probing for that network. In case of WEP, it is possible by Caffe Latte attack whereas in WPA, it is possible to capture the first 2 packets of the WPA handshake by using just the probing client and that gives us sufficient information in order to crack the WPA key for that network. Using airodump-ng, it is very easy to figure out which network (ESSID) the client is probing for. However, what is not clear by figuring out the ESSID of the probed network is the encryption that network is using. Only by knowing the kind of encryption will we be able to figure out how to crack the encryption. A general technique used to figure this out is by creating four different access points with encryption such as None, WEP, WPA, and WPA 2 using airbase-ng. The probing client will then connect to one of these networks and hence the kind of encryption being used is figured out. At the same time, airodump-ng could also be used to capture the traffic and hence later used to crack WPA. What Wifi Honey does is automate this whole process of creating fake Access points. It create 5 virtual interfaces, 4 of them for creating 4 AP's with same ESSID but different encryption and another 5th interface for airodump-ng to monitor the traffic on. Hence, at the time the probing client connects to our fake Access point, airodump-ng is being used to capture the traffic.</p>
+
+
+
+
+<p>Wifi Honey takes 3 parameters, the ESSID of the network that is being probed, the channel no on which you want the AP to listen, and the interface on which you want to create it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/6.png" width="733" height="167" alt="6"></p>
+
+<p>Once we enter this, we will see that it creates 4 networks of the same name with different encryption and also starts airodump-ng at the same time to capture the traffic. Now the probing client will connect to this network and the captured traffic by airodump-ng could be used to crack the encryption key.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/7.png" width="1050" height="562" alt="7"></p>
+
+<h2>UrlCrazy</h2>
+
+
+
+
+<p>URLCrazy is a tool to determine if a domain name is being abused or not by looking at different examples of domain names caused by typos in the original domain name. For e.g a phishing attack can be carried out very easily by changing just one character in a domain name and then redirecting the user to that domain name, mainly because the user will not be able to recognize the change. What Urlcrazy does is use typos in your domain names to generate new domain names and figure out if those domain names exist or not. If they exist, it fetches out info like A and MX records for that particular domain name.</p>
+
+
+
+
+<p>Here are the different options available in urlcrazy.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/8.png" width="796" height="574" alt="8"></p>
+
+<p>Let's run a urlcrazy query against google.com. As you can see, it found a number of domain names similar to Google.</p>
+
+
+<p> <img src="http://prateek147.github.io/images/posts/bt5r2/9.png" width="878" height="613" alt="9"></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r2/10.png" width="873" height="600" alt="10"></p>
+
+<p>In some cases, the url found may not be used for malicious purposes. For e.g google.fr is just the French version of Google and so on. However, some other search results look like they were bought mainly to be used in case someone typed that domain name instead of Google by mistake. Overall, this tool could be highly beneficial to large corporations who are looking to protect themselves from phishing attacks and any other form of corporate espionage.</p>
+
+
+
+
+<h2>References:</h2>
+
+
+
+
+<ul>
+ <li><p>HTExploit</br><a href ="http://www.mkit.com.ar/labs/htexploit/">http://www.mkit.com.ar/labs/htexploit/</a></p>
+ </li>
+ <li><p>Wifi Honey - DigiNinja</br><a href ="http://www.digininja.org/projects/wifi_honey.php">http://www.digininja.org/projects/wifi_honey.php </a></p>
+ </li>
+ <li><p>URLCrazy</br><a href ="http://www.morningstarsecurity.com/research/urlcrazy">http://www.morningstarsecurity.com/research/urlcrazy</a></p>
+ </li>
+</ul>
+
+
+
+
+<p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Backtrack 5 R3 Walkthrough part 1]]></title>
+    <link href="http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-1"/>
+    <updated>2013-06-15T03:00:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/06/15/backtrack-5-r3-walkthrough-part-1</id>
+    <content type="html"><![CDATA[<p>Backtrack is one of the most popular Linux distributions used for Penetration testing and Security Auditing. The Backtrack development team is sponsored by Offensive Security. On 13th August 2012, Backtrack 5 R3 was released. This included the addition of about 60 new tools, most of which were released during the Defcon and Blackhat conference held in Las Vegas in July 2012. In this series of articles, we will look at most of the new tools that were introduced with Backtrack 5 R3 and look at their usage. Some of the notable changes included tools for mobile penetration testing, GUI tools for Wi-fi cracking and a whole new category of tools called Physical Exploitation.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<h2>Getting Backtrack 5 R3</h2>
+
+
+
+
+<p><p>There are two ways to get up and running quickly with Backtrack 5 R3. If you are already running Backtrack 5 R2, you can upgrade to Backtrack 5 R3 by following the steps described on this <a href="http://www.backtrack-linux.org/backtrack/upgrade-from-backtrack-5-r2-to-backtrack-5-r3/">page</a>. Or you can do a fresh install of Backtrack 5 R3 from the <a href="http://www.backtrack-linux.org/downloads/">downloads</a> section on Backtrack&rsquo;s official website.</a></p>
+
+<p><p>A list of the new tools released with Backtrack 5 R3 according to Backtrack&rsquo;s official website are libcrafter, blueranger, dbd, inundator, intersect, mercury, cutycapt, trixd00r, artemisa, rifiuti2, netgear-telnetenable, jboss-autopwn, deblaze, sakis3g, voiphoney, apache-users, phrasendrescher, kautilya, manglefizz, rainbowcrack, rainbowcrack-mt, lynis-audit, spooftooph, wifihoney, twofi, truecrack, uberharvest, acccheck, statsprocessor, iphoneanalyzer, jad, javasnoop, mitmproxy, ewizard, multimac, netsniff-ng, smbexec, websploit, dnmap, johnny, unix-privesc-check, sslcaudit, dhcpig, intercepter-ng, u3-pwn, binwalk, laudanum, wifite, tnscmd10g bluepot, dotdotpwn, subterfuge, jigsaw, urlcrazy, creddump, android-sdk, apktool, ded, dex2jar, droidbox, smali, termineter, bbqsql, htexploit, smartphone-pentest-framework, fern-wifi-cracker, powersploit, and webhandler. We will be discussing most of these tools in this series.</p></p>
+
+<p><h2>Fern-Wifi-Cracker</h2></p>
+
+<p><p>Fern Wi-fi cracker is a program written in python that provides a GUI for cracking wireless networks. Normally, you need to run aireplay-ng, airodump-ng and aircrack-ng separately in order to crack wireless networks, but Fern-Wifi-cracker makes this job very simple for us by acting as a facade over these tools and hiding all the intricate details from us. It also comes with a bunch of tools that helps you perform attacks like Session Hijacking, locate a particular system&rsquo;s geolocation based on its Mac address etc.</p></p>
+
+<p><p>Fern Wi-fi cracker can be found under the category Wireless Exploitation tools as shown in the figure below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/1.png" width="1012" height="676" alt="1"></p>
+
+<p><p>Before starting with Fern Wi-fi cracker, it is important to note that you have a Wi-fi card that supports packet injection. In my case, i am running Backtrack 5 R3 as a VM and i have connected an external Alfa Wi-fi card to it. You can verify if your card can be put into monitor mode by just typing airmon-ng and it will show you the list of interfaces that can be put in monitor mode. Once this is done, open up Fern Wi-fi cracker.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/2.png" width="644" height="118" alt="2"></p>
+
+<p><p>Select the appropriate interface on which you want to sniff on.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/3.png" width="624" height="627" alt="3"></p>
+
+<p><p>Once you have selected it, it will automatically create a virtual interface (mon0) on top of the selected interface (wlan0) as is clear from the image below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/4.png" width="298" height="67" alt="4"></p>
+
+<p><p>Now, click on &ldquo;Scan for access points&rdquo;. As you can see from the results, it found 4 networks with WEP and 1 network with WPA.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/5.png" width="618" height="610" alt="5"></p>
+
+<p><p>In this case, we will be cracking a WEP network named &ldquo;Infosec test&rdquo; which i set up for testing purposes. Click on the network &ldquo;Infosec test&rdquo; and it will show you its specific information like the BSSID of the access point, the channel on which the Access point is transmitting on etc. On the bottom right, you can select from a variety of attacks like the Arp request replay attack, caffe latte attack etc. In my case, i will be going for an Arp request replay attack. Once this is done, click on &ldquo;Wi-fi attack&rdquo; and this will start the whole process of cracking WEP. </p></p>
+
+<p><p>You will now see that some IV&rsquo;s are being captured as shown in the image below. The tool will also tell you if your card is injecting arp packets properly or not as shown in the bottom right section of the image below.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/6.png" width="770" height="574" alt="6"></p>
+
+<p><p>Once enough IV&rsquo;s have been collected, it will start cracking the WEP key automatically.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/wep.png" width="1407" height="689" alt="Wep"></p>
+
+<p><p>Similarly, Fern Wi-fi cracker can be used to crack WPA. It just makes the whole process so simple for us. It also provides some extra functionality for hijacking sessions and locating a computer&rsquo;s geolocation via its Mac address. I recommend you check it out.</p></p>
+
+<p><h2>Dnmap</h2></p>
+
+<p><p>Imagine you have to scan a huge network containing thousands of computers. Scanning via nmap from a single computer will take quite a long time. In order to solve this problem, Dnmap was created. Dnmap is a framework which follows a client/server architecture. The server issues nmap commands to the clients and the clients execute it. In this way, the load of performing such a large scan is distributed among the clients. The commands that the server gives to its clients are put in a command file. The results are stored in a log file which are saved on both the server and the client. The whole process of running Dnmap follows these steps.</p></p>
+
+<p><ol>
+<li>Create a list of commands that you want to run and store it in a file, say commands.txt. Note the IP address of the server.</li>
+<li>Run the dnmap server and give the commands file as an argument.</li>
+<li>Connect the clients to the server. Note that the server should be reachable from the client.</li>
+</ol></p>
+
+<p><p>Let&rsquo;s do the demo now. I have 2 virtual machines both running Backtrack 5 R3. I am going to run the Dnmap server on one of the virtual machines and a client on the second one. </p></p>
+
+<p><p>Open dnmap under the category Information Gathering &mdash;> Network Analysis &mdash;> Identify Live hosts. The next step is to create a commands.txt file. As you can see from the image below, i have 3 commands in the commands.txt file.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/7.png" width="769" height="178" alt="7">
+<p>Now type the command as shown in the image below to start the dnmap server. I have started the dnmap server to listen on port 800. As you can see, it currently detects no clients. Hence the next step is to get some clients to connect to this dnmap server. Also, it is better to specify the location of the log file that will be holding all the results.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/8.png" width="795" height="357" alt="8">
+<p> On my other BT machine, i run the following command to connect the client to the server. Note that the internal IP address of my dnmap server is 10.0.2.15 and since my other virtual machine is also in the same internal network, it is able to reach to the server. You also need to specify the port to which you are connecting to on the server. Also, it is optional to specify an alias for the client.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/9.png" width="640" height="334" alt="9"></p>
+
+<p><p>Once the client establishes connection with the server,  you will see that the client starts executing the commands that it is getting from the server. </p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/10.png" width="886" height="293" alt="10"></p>
+
+<p><p>On the server side, you will notice that it recognizes this client and shows it in the output. It also keeps giving you regular information like the number of commands executed, uptime, online status etc.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/11.png" width="1328" height="496" alt="11"></p>
+
+<p><p>Once the scans are completed, dnmap stores the results in a directory named nmap_output. The results are saved in  .nmap, .gnmap and xml formats. There are separate output files for each command. It is advisable to clear all the previous files in the nmap_output directory or save them somewhere else before starting a new scan. Here is what a sample response file looks like.</p></p>
+
+<p><img src="http://prateek147.github.io/images/posts/bt5r1/12.png" width="785" height="172" alt="12"></p>
+
+<p><p> In this article, we looked at a couple of the most popular tools that were introduced with Backtrack 5 R3. In further articles in this series, we will be    discussing about many other new tools that were shipped with Backtrack 5 R3. If there is a particular tool that you want me to write about or if you have any questions, comments, suggestions regarding this series, please write them down in the comments below.</p></p>
+
+<p><h2>References:</h2></p>
+
+<p> <ul>
+ <li><p>Upgrade from Backtrack 5 R2 to R3</br><a href ="http://www.backtrack-linux.org/backtrack/upgrade-from-backtrack-5-r2-to-backtrack-5-r3/"><a href="http://www.backtrack-linux.org/backtrack/upgrade-from-backtrack-5-r2-to-backtrack-5-r3/">http://www.backtrack-linux.org/backtrack/upgrade-from-backtrack-5-r2-to-backtrack-5-r3/</a></a></p>
+ </li>
+ <li><p>Fern-Wifi-Cracker</br><a href ="http://code.google.com/p/fern-wifi-cracker/"><a href="http://code.google.com/p/fern-wifi-cracker/">http://code.google.com/p/fern-wifi-cracker/</a></a></p>
+ </li>
+ <li><p>Dnmap framework official page</br><a href ="http://sourceforge.net/projects/dnmap/"><a href="http://sourceforge.net/projects/dnmap/">http://sourceforge.net/projects/dnmap/</a></a></p>
+ </li></p>
+
+<p><p>This article was originally published on the <a href="http://resources.infosecinstitute.com/">resources</a> page at <a href="http://infosecinstitute.com/">Infosec Institute</a>. For more information, please visit my author <a href="http://resources.infosecinstitute.com/author/prateek/">page</a>.</p></p>
+]]></content>
+  </entry>
+  
+</feed>

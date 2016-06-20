@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ios | Prateek Gianchandani]]></title>
+  <link href="http://prateek147.github.io//categories/ios/atom.xml" rel="self"/>
+  <link href="http://prateek147.github.io/"/>
+  <updated>2016-06-07T09:12:32+04:00</updated>
+  <id>http://prateek147.github.io/</id>
+  <author>
+    <name><![CDATA[Prateek Gianchandani]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to distribute IPA file for jailbroken devices]]></title>
+    <link href="http://prateek147.github.io/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices"/>
+    <updated>2014-03-12T11:53:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/03/12/how-to-distribute-ipa-for-jailbroken-devices</id>
+    <content type="html"><![CDATA[<p>So i have been getting a few queries on how to create an IPA file from Xcode and distribute it for jailbroken devices. Here is how i did it for <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS App</a>.</p>
+
+<p>First we need to run the application using Xcode on the device. This requires a valid provisioning profile. I am doing this on Xcode 5.x but on the previous versions of Xcode, it was possible to run the application on the device without a valid provisioning profile.</p>
+
+<p>Once the application is installed on the device, copy the .app folder from the device on your system.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/distribute/1.png" width="525" height="320" alt="2"></p>
+
+<!-- more -->
+
+
+<p>Navigate inside this directory on your system and self sign the application binary using ldid. Make sure you have a proper working version of ldid installed.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/distribute/2.png" width="681" height="64" alt="2"></p>
+
+<p>Now create a new folder and name it Payload. Put the .app folder inside it and compress the Payload folder. It will be named Payload.zip. Rename Payload.zip to [APP_NAME].ipa, for e.g DamnVulnerableiOSApp.ipa. Once this is done, you can install the application using similar techniques as mentioned in the youtube video below.</p>
+
+<iframe width="560" height="315" src="http://prateek147.github.io//www.youtube.com/embed/PwES8Sk00wk" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Dev - Encrypting images and saving them in App Sandbox]]></title>
+    <link href="http://prateek147.github.io/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox"/>
+    <updated>2013-09-26T17:41:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/09/26/ios-dev-encrypted-images-and-saving-them-in-app-sandbox</id>
+    <content type="html"><![CDATA[<p>One of the requirements in my latest project was to encrypt an image and save it on the device in the application&rsquo;s sandbox, then decrypt is during runtime and upload it to the server. I looked at the documentation for Apple&rsquo;s CommonCrypto Framework, but it was taking me plenty of time to implement it so instead i decided to use some wrappers that would get the job done for me. I found the <a href="https://github.com/rnapier/RNCryptor">RNCryptor</a> library on Github that uses AES encrypton. It was pretty simple to implement it. First, download the files from its github url and include all the files that are relevant to you present inside the <b>RNCryptor</b> folder on your project. In my case, i just imported all of them for now.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/imageen/1.png" width="292" height="102" alt="1"></p>
+
+<p>Then use the following code to encrypt the image.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//  Code for encrypting and saveing image&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">UIImage</span> <span class="o">*</span><span class="n">imageToEncrypt</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;SomeImage&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">fetchedImage</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNEncryptor</span> <span class="nl">encryptData:</span><span class="n">data</span>
+</span><span class='line'>                                    <span class="nl">withSettings:</span><span class="n">kRNCryptorAES256Settings</span>
+</span><span class='line'>                                        <span class="nl">password:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                           <span class="nl">error:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>   <span class="p">[</span><span class="n">encryptedData</span> <span class="nl">writeToFile:</span><span class="n">imagePath</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Note that encryting and decrypting the image requires a passcode (ABC123). To decrypt the image, use the following code ..</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="c1">//  Code for loading image by decryption&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfFile:</span><span class="n">imagePath</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">decryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNDecryptor</span> <span class="nl">decryptData:</span><span class="n">encryptedData</span>
+</span><span class='line'>                                    <span class="nl">withPassword:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                           <span class="nl">error:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'><span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData:</span><span class="n">decryptedData</span><span class="p">];</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p> See, its pretty simple. If you have any questions, let me know in the comments secton below and i will get back to you.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS Dev - Storing Info in Keychain with NSUserDefaults like syntax]]></title>
+    <link href="http://prateek147.github.io/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax"/>
+    <updated>2013-09-17T17:55:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/09/17/ios-dev-storing-info-in-keychain-with-nsuserdefaults-like-syntax</id>
+    <content type="html"><![CDATA[<p>Recently, i decided to improve the security of one of my applications by storing some of the information that i was previously saving in NSUserDefaults in the Keychain. Basically, this doesn&rsquo;t make that much of a difference if your device is jailbroken. However, if your device is not jailbroken then it is possible to fetch the information saved by NSUserDefaults but not from the Keychain. This is because NSUserDefaults saves the information in an unencrypted format in a plist file inside the application sandbox which can be easily fetched. It can also be fetched from an iTunes backup. Hence, saving info in the Keychain adds an extra layer of security in that case.</p>
+
+<p>I started looking for some Keychain Wrappers and bumped into this amazing library from Github named <a href="https://github.com/carlbrown/PDKeychainBindingsController">PDKeychainBindingsController</a>. I found it ridiculously simple to use.</p>
+
+<!-- more -->
+
+
+<p>First i added the relevant files to my project.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/keychain/1.png" width="292" height="102" alt="1"></p>
+
+<p>Then i imported <b>PDKeychainBindings.h</b> in whichever file i wanted to use it and changed the implementation from NSUserDefaults which was like this&hellip;</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="n">NSUserDefaults</span> <span class="o">*</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSUserDefaults</span> <span class="n">standardUserDefaults</span><span class="p">];</span>
+</span><span class='line'> <span class="p">[[</span><span class="n">Model</span> <span class="n">sharedModel</span><span class="p">]</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">setAuthToken:</span><span class="p">[</span><span class="n">defaults</span> <span class="nl">objectForKey:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>to this&hellip;</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">PDKeychainBindings</span> <span class="o">*</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDKeychainBindings</span> <span class="n">sharedKeychainBindings</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[[</span><span class="n">Model</span> <span class="n">sharedModel</span><span class="p">]</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">setAuthToken:</span><span class="p">[</span><span class="n">bindings</span> <span class="nl">objectForKey:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>To save objects in the keychain, use this ..</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">PDKeychainBindings</span> <span class="o">*</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDKeychainBindings</span> <span class="n">sharedKeychainBindings</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">bindings</span> <span class="nl">setObject:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">XYZ</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="nl">forKey:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>As Simple as that !</p>
+
+<p>I would recommend this library to anyone who wants to save information in their keychain because of its ease of use. If you still face any issues, write down a comment and i will get back to you :&ndash;)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What to expect from the new iPhone (5S/5C) - Rumor roundup]]></title>
+    <link href="http://prateek147.github.io/2013/08/23/what-to-expect-from-iphone-5s-slash-5c"/>
+    <updated>2013-08-23T14:44:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/08/23/what-to-expect-from-iphone-5s-slash-5c</id>
+    <content type="html"><![CDATA[<p>The smartphone world is buzzing about rumors for the new Iphone. The new Iphone is rumored to be launched on September 10 in an event in San Francisco, which means that the invitations for the event would be sent to the press sometime around September 3. This time, Apple is reported to be releasing two models of iPhone, one is the iPhone 5s and the other a cheaper variant, reportedly named as the iPhone 5C. Here is a complete rumor roundup from multiple sources about the next generation iPhone.</p>
+
+<h2>Fingerprint Sensor</h2>
+
+
+<p>There is absolutely no doubt regarding the fact that the new iPhone will come with a biometric fingerprint sensor.Code for biometric scanning has already been discovered in the beta versions of IOS 7 (by Hamza Sood) released to developers.</p>
+
+<p><img src = "http://asset3.cbsistatic.com/cnwk.1d/i/tim2/2013/07/29/BQXGg5-CUAAiXp6_610x585.jpg%3Alarge"/></p>
+
+<!-- more -->
+
+
+<p> The sensor will be placed just beneath the home button. To authenticate you just have to place your thumb on the home button. If this technology is there in the next iPhone, it will solve many complex problems. Users don&rsquo;t need to enter or even remember a passcode everytime. Now we don&rsquo;t have to enter our Apple ID password everytime we purchase an app, something i think was very frustrating but also necessary for security related purposes. The Keychain information that is protected with a passcode will now be protected with a metric related to your fingerprint. And most of all, the technology will be very simple to use which i think will make it very popular. Everyones knows that when <a href="http://www.forbes.com/sites/karstenstrauss/2012/07/27/apple-acquires-authentec-a-fingerprint-as-a-key/">Apple acquired Authentec</a> for $356 million, a company known for having developed technology to authenticate users based on fingerprints that can actually be embedded into IOS devices, they must have done it for a very good reason.</p>
+
+<p> <h2>IOS 7</h2></p>
+
+<p> Again, there is absolutely no doubt about the fact that the new Iphone will come with IOS 7 preinstalled. If you haven’t seen it yet, check out this video from WWDC 2013 introducing the key features of IOS 7.</p>
+
+<p> <iframe width="560" height="315" src="http://prateek147.github.io//www.youtube.com/embed/zcebqUdvDrw" frameborder="0" allowfullscreen></iframe></p>
+
+<h2>An A7 Chip</h2>
+
+
+<p><img src="http://cdn.macrumors.com/article-new/2013/04/a7_mockup.jpg" />
+Photo Credit: <a href="http://macrumors.com">Macrumors</a></p>
+
+<p>Surely the new Iphone will be powered by a new A7 chip. Over the last few years, Apple has been able to increase the processing speed of the new chip to twice as that of that of the previous chip. I expect it to be the same way this year as well. The interesting part is that <a href="http://www.idownloadblog.com/2013/07/31/ios-7-code-reveals-a7-chip/">Apple has again been working with Samsung</a> in developing this chip.</p>
+
+<h2>Other Hardware improvements</h2>
+
+
+<p>We already know about the software improvements that the new Iphone is suppossed to have (IOS 7). The new Iphone is reported to come with the same amount of RAM (1 GB) as the previous generation iPhones. The camera is reported to have a dual-LED flash for taking better pictures in low light. However, the rumors suggest that it will be an 8 MP camera again. Personally, i would like to see the number go up.</p>
+
+<h2>A new cheaper variant and more colours</h2>
+
+
+<p>This time, Apple is also rumored to be coming out with a cheaper variant of the current Iphone, probably named as iPhone 5C, which will have a plastic back instead of an aluminium one. This will help Apple is cutting down the manufacturing costs and hence make the iPhone 5C cheaper than its current lineup of iPhones. It is also rumored that this cheaper variant of the iPhone will be coated in Liquid Metal, thereby making it scratch resistant, as is supposedly shown in the video below. <a href="http://www.zdnet.com/blog/apple/why-is-apple-licensing-liquidmetal-can-you-say-bounceable-iphones/7909">Apple&rsquo;s acquisition of Liquid Metal</a> did make a lot of news 3 years ago, but since then we haven&rsquo;t seen the technology being used in Apple products. Maybe now is the time.</p></p>
+
+<iframe width="560" height="315" src="http://prateek147.github.io//www.youtube.com/embed/cOhAzd0tp28" frameborder="0" allowfullscreen></iframe>
+
+
+<p>It is also rumored that the iPhone 5S will come in black, white and champagne gold colour whereas the iPhone 5C will have much more colours to offer to its users.</p>
+
+<h2>One More thing</h2>
+
+
+<p>This comes from the era when Steve Jobs was the CEO of Apple. Apple had always been successful at hiding that &ldquo;One more thing&rdquo; from the people and most of the time it has proved to be the most groundbreaking feature of that product. However, since the passing of late Steve Jobs, we haven&rsquo;t seen that &ldquo;One more thing&rdquo; being mentioned in Apple presentations. Hoping it to be the other way round this time.</p>
+
+<iframe width="420" height="315" src="http://prateek147.github.io//www.youtube.com/embed/2QQLyS0MnzM" frameborder="0" allowfullscreen></iframe>
+
+
+<p>In any case, there is not much time left. If the rumored date Sept 10 is true, invitations to the press will be sent by 3rd Sept and there will definitely be some hint in the image that Apple usually sends out with their invitations. Looking forward to the event &hellip;.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IOS 7 Beta 3 : Some bugs that i want Apple to Fix !]]></title>
+    <link href="http://prateek147.github.io/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix"/>
+    <updated>2013-07-10T15:03:00+04:00</updated>
+    <id>http://prateek147.github.io/2013/07/10/ios-7-beta-3-some-bugs-i-want-apple-to-fix</id>
+    <content type="html"><![CDATA[<p>So i have had IOS 7 on my iPhone 5 since the day it was released at WWDC 2013. Since then, i have seen a number of bugs being fixed with the coming beta versions. However, there are some bugs that are still there, easily reproducible and not fixed yet !</p>
+
+<h2>The black Background bug.</h2>
+
+
+<p>To reproduce this, you need to have only one app running. Make sure you are on this app and double tap the home button.</p>
+
+<!-- more -->
+
+
+<p><img src="/images/posts/ios7bugs/IMG_1129.PNG" width="320" height="568"></p>
+
+<p>Now close this app by swiping your finger from the bottom to the top.</p>
+
+<p><img src="/images/posts/ios7bugs/IMG_1130.PNG" width="320" height="568"></p>
+
+<p>Come to home screen and you will see a black Background !</p>
+
+<p><img src="/images/posts/ios7bugs/IMG_1132.PNG" width="320" height="568"></p>
+
+<h2>Unresponsive Sleep button!!</h2>
+
+
+<p>This happens when you reproduce the bug mentioned above. The sleep button on the top right doesn&rsquo;t seem to respond at all. It takes about 10-15 seconds before it starts functioning properly.</p>
+
+<h2>Siri Can't turn on the Flashlight !!</h2>
+
+
+<p>I swear i was able to do this on IOS 7 beta 1 and 2. But looks like it doesn&rsquo;t work on IOS 7 beta 3. It doesn&rsquo;t look like a feature change as i can&rsquo;t think of any reason why Apple would disallow turning on the flashlight via Siri. I think it&rsquo;s a useful feature and should be added with the final release.</p>
+
+<p><img src="/images/posts/ios7bugs/IMG_1134.PNG" width="320" height="568"></p>
+
+<p>Overall, IOS 7 Beta 3 is much more refined that the previous versions and i hope they will push a stable version in time for iPhone 5s.</p>
+
+<p>Have any bug to report in IOS 7 ? Let me know and i will add it to this blog with your name.</p>
+]]></content>
+  </entry>
+  
+</feed>
