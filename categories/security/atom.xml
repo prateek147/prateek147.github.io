@@ -4,7 +4,7 @@
   <title><![CDATA[Category: security | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/security/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-12-19T14:56:14+04:00</updated>
+  <updated>2016-06-23T00:58:02+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0]]></title>
     <link href="http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0"/>
-    <updated>2015-05-31T03:25:00+04:00</updated>
+    <updated>2015-05-31T00:18:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0</id>
     <content type="html"><![CDATA[<p>In this article, i would like to give a quick walkthrough of the new vulnerabilities and challenges that we have added in version 2.0 of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a>.</p>
 
@@ -35,13 +35,12 @@
 </ul>
 
 
-
+<p><img src="http://prateek147.github.io/images/posts/ios45/1.png" width="235" height="321" alt="1"></p>
 
 <!-- more -->
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios45/1.png" width="235" height="321" alt="1">
-<img src="http://prateek147.github.io/images/posts/ios45/2.png" width="235" height="310" alt="2">
+<p><img src="http://prateek147.github.io/images/posts/ios45/2.png" width="235" height="310" alt="2">
 <img src="http://prateek147.github.io/images/posts/ios45/3.png" width="235" height="314" alt="3"></p>
 
 <p>We have also added a new section on <i>Extension vulnerabilities</i>, which covers vulnerabilities in different application extensions, a feature that was introduced with iOS 8.</p>
@@ -102,7 +101,7 @@
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon]]></title>
     <link href="http://prateek147.github.io/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon"/>
-    <updated>2015-05-23T02:24:00+04:00</updated>
+    <updated>2015-05-23T00:18:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon</id>
     <content type="html"><![CDATA[<p>In this small article, we will look at a very handful utility named <a href="https://www.theiphonewiki.com/wiki/XCon">Xcon</a>for bypassing Jailbreak detection. As per the wiki page ...</p>
 
@@ -152,7 +151,7 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued]]></title>
     <link href="http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued"/>
-    <updated>2015-05-17T14:18:00+04:00</updated>
+    <updated>2015-05-17T00:18:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued</id>
     <content type="html"><![CDATA[<p>In this article, we will talk about FAT binaries and see more usage of LLDB.</p>
 
@@ -240,7 +239,7 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 42 - LLDB Usage continued]]></title>
     <link href="http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued"/>
-    <updated>2015-05-12T00:10:00+04:00</updated>
+    <updated>2015-05-12T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued</id>
     <content type="html"><![CDATA[<p>In this article, we will look at some of the most important commands in LLDB to debug applications.</p>
 
@@ -322,7 +321,7 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 41 - Debugging applications using LLDB]]></title>
     <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb"/>
-    <updated>2015-04-28T01:26:00+04:00</updated>
+    <updated>2015-04-28T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb</id>
     <content type="html"><![CDATA[<p>In this article we will learn about the LLDB debugger used by Apple's Xcode for debugging applications, understand why it is better for security testing, and then learn how to use it to debug iOS applications.</p>
 
@@ -340,6 +339,11 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
 
 
 <p>A good way to start leaning about the LLDB debugger is to watch this video from WWDC 2014.</p>
+
+
+
+
+<!-- more -->
 
 
 
@@ -365,11 +369,6 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
     <li>LLDB understands the dot syntax. You can use something like <i>po self.propertyName</i> or even <i>po instanceVariable</i> to find any value of a property or instance variable while debugging applications.</li>
     <li>It has plug-in support for functionality and extensions.</li>
 </ul>
-
-
-
-
-<!-- more -->
 
 
 
@@ -451,6 +450,8 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
 <p><img src="http://prateek147.github.io/images/posts/ios41/9.png" width="705" height="500" alt="9"></p>
 
 <p>That's it for this article. In this article, we learnt how to deploy LLDB to the device and use it to run some basic commands. In the next article, we will look at some advanced usage of LLDB and how it can be used to find  sensitive information in memory.</p>
+
+
 
 ]]></content>
   </entry>

@@ -35,14 +35,7 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-<style>
-body {
-    -moz-transform: scale(0.8, 0.); /* Moz-browsers */
-    zoom: 0.8; /* Other non-webkit browsers */
-    zoom: 80%; /* Webkit browsers */
-    
-}
-</style>
+
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -73,11 +66,11 @@ body {
     
         <li ><a href="/security/">Security</a></li>
     
+        <li ><a href="/everest/">Everest</a></li>
+    
         <li ><a href="/archives/index.html">Archives</a></li>
     
         <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
-    
-        <li ><a href="/everest/">Everest</a></li>
     
         <li ><a href="/about/">About Me</a></li>
     
@@ -138,7 +131,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-05-31T03:25:00+04:00" pubdate data-updated="true">May 31<span>st</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-05-31T00:18:00+04:00" pubdate data-updated="true">May 31<span>st</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -169,7 +162,7 @@ body {
 </ul>
 
 
-
+<p><img src="/images/posts/ios45/1.png" width="235" height="321" alt="1"></p>
 
 
       
@@ -202,7 +195,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-05-23T02:24:00+04:00" pubdate data-updated="true">May 23<span>rd</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-05-23T00:18:00+04:00" pubdate data-updated="true">May 23<span>rd</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -262,7 +255,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-05-17T14:18:00+04:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-05-17T00:18:00+04:00" pubdate data-updated="true">May 17<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -322,7 +315,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-05-12T00:10:00+04:00" pubdate data-updated="true">May 12<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-05-12T00:17:00+04:00" pubdate data-updated="true">May 12<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -382,7 +375,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T01:26:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T00:17:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -412,31 +405,6 @@ body {
 
 
 <p>A good way to start leaning about the LLDB debugger is to watch this video from WWDC 2014.</p>
-
-
-
-
-<iframe width="420" height="315" src="https://www.youtube.com/embed/IPhgcbuDk_k" frameborder="0" allowfullscreen></iframe>
-
-
-
-
-<p>But the question that remains is, why is LLDB better than GDB ?</p>
-
-
-
-
-<p>To sum it up, there are a few reasons for that.</p>
-
-
-
-
-<ul>
-    <li>It works well for iOS 8</li>
-    <li>LLDB is much faster, has support for multithread programming, and is scriptable.</li>
-    <li>LLDB understands the dot syntax. You can use something like <i>po self.propertyName</i> or even <i>po instanceVariable</i> to find any value of a property or instance variable while debugging applications.</li>
-    <li>It has plug-in support for functionality and extensions.</li>
-</ul>
 
 
 
@@ -472,7 +440,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T01:25:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T00:17:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -486,10 +454,7 @@ body {
     </div>
     <div class="span10">
       <h1 class="link"><a href="/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac">iOS Application Security Part 40 - Testing apps on your Mac</a></h1>
-      <p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
-
-
-
+      <p>p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the device. This could be useful for many reasons, sometimes you may not have a jailbroken device but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p></p>
 
 <h3>Installing ipa files from iTunes on your simulator</h3>
 
@@ -537,7 +502,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-04-03T16:26:00+04:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-03T00:17:00+04:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -551,10 +516,7 @@ body {
     </div>
     <div class="span10">
       <h1 class="link"><a href="/2015/04/03/damn-vulnerable-ios-app-solutions-free-for-download">Damn Vulnerable iOS App solutions free for download</a></h1>
-      <p>I have decided to give away the solutions for DVIA for free. The reason for this has been too many people coming up with queries for the solutions and i believed giving away the solutions for free would really benefit the infosec community.
-It has taken me a lot of nights and hard work to create this project and specially the solutions.
-If you think this project has been useful to you and your organization, please consider making a donation to this project.
-You can donate to this project and download the solutions for free from <a href="http://damnvulnerableiosapp.com/#solutions">here</a>.</p>
+      <p>I have decided to give away the solutions for DVIA for free. The reason for this has been too many people coming up with queries for the solutions and i believed giving away the solutions for free would really benefit the infosec community. It has taken me a lot of nights and hard work to create this project and specially the solutions. If you think this project has been useful to you and your organization, please consider making a donation to this project. You can donate to this project and download the solutions for free from <a href="http://damnvulnerableiosapp.com/#solutions">here</a>.</p>
 
 <p>-Prateek</p>
 
@@ -588,7 +550,7 @@ You can donate to this project and download the solutions for free from <a href=
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-03-29T12:08:00+04:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-29T00:17:00+04:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -611,16 +573,6 @@ You can donate to this project and download the solutions for free from <a href=
 
 
 
-
-<p>The first thing to do is to install the drozer community edition from <a href="https://www.mwrinfosecurity.com/products/drozer/">this</a> link. You need to install both the drozer installer and the Agent.apk file which is the application that needs to be deployed on the device/emulator and acts as a communicator between the system and the application to be audited. </p>
-
-
-
-
-<p>Once drozer has been installed on your system, install the agent.apk on your device/emulator.</p>
-
-
-<p><img src="/images/posts/ib4/1.png" width="600" height="90" alt="1"></p>
 
 
       
@@ -653,7 +605,7 @@ You can donate to this project and download the solutions for free from <a href=
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-03-28T12:04:00+04:00" pubdate data-updated="true">Mar 28<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-28T00:17:00+04:00" pubdate data-updated="true">Mar 28<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -673,17 +625,6 @@ You can donate to this project and download the solutions for free from <a href=
 
 
 <p>The description of the 4 components given below has been taken from <a href="http://www.tutorialspoint.com/android/android_application_components.htm">this</a> link.</p>
-
-
-
-
-<table>
-<tr><th style="width:25%">Components</th><th>Description</th></tr>
-<tr><td>Activities</td><td>They dictate the UI and handle the user interaction to the smartphone screen</td></tr>
-<tr><td>Services</td><td>They handle background processing associated with an application.</td></tr>
-<tr><td>Broadcast Receivers</td><td>They handle communication between Android OS and applications.</td></tr>
-<tr><td>Content Providers</td><td>They handle data and database management issues.</td></tr>
-</table>
 
 
 
@@ -719,57 +660,7 @@ You can donate to this project and download the solutions for free from <a href=
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-03-27T12:04:00+04:00" pubdate data-updated="true">Mar 27<span>th</span>, 2015</time></h5>
-          <div class="row-fluid">
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2015/03/27/android-application-hacking-with-insecure-bank-part-2">Android Application hacking with Insecure Bank Part 2</a></h1>
-      <p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
-
-
-
-
-
-      
-       <a href="/2015/03/27/android-application-hacking-with-insecure-bank-part-2">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2015-03-24T12:04:00+04:00" pubdate data-updated="true">Mar 24<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-24T00:16:00+04:00" pubdate data-updated="true">Mar 24<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -784,6 +675,11 @@ You can donate to this project and download the solutions for free from <a href=
     <div class="span10">
       <h1 class="link"><a href="/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory">iOS Application Security Part 39 – Sensitive information in memory</a></h1>
       <p>In this article, we will look at analyzing the memory contents of an iOS application. iOS applications may store sensitive information like passwords, session IDs etc in the memory of the application without releasing them. In some cases, releasing these variables may not be an option. For e.g, it might be required for the application to send an authentication token with every request and hence there has to be a reference to it in the memory somewhere. Even though these variables might be encrypted when stored locally in the application, these variables will be in their unencryped format while the application is running. Hence, analyzing the contents of the memory is an important thing while pentesting an iOS application. If there are some important properties or instance variables that are not required, they should be released from the memory.</p>
+
+
+
+
+<p>Basically, the memory of the application will contain a lot of information, most of which we will not be interested in. These things might include instantiated UIViews and other UI elements. We will definitely be interested in instantiated view controllers and their properties though. It is important to understand and focus on only the relevant information in the memory. For a penetration tester, you should mainly be interested in all the values of the properties and instance variable in an application.</p>
 
 
 
@@ -819,7 +715,7 @@ You can donate to this project and download the solutions for free from <a href=
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-01-24T23:39:00+04:00" pubdate data-updated="true">Jan 24<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-03-23T00:16:00+04:00" pubdate data-updated="true">Mar 23<span>rd</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -832,35 +728,20 @@ You can donate to this project and download the solutions for free from <a href=
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse">iOS Application Security Part 38 - Attacking apps using Parse (Guest Lecture by Egor Tolstoy)</a></h1>
-      <p><b>This is a guest lecture by <a href="http://etolstoy.ru">Egor Tolstoy</a>. Egor is a full-time iOS developer working at Rambler&amp;Co and living with his lovely wife in Moscow, Russia. In his spare time he investigate iOS applications for different vulnerabilities and blogs about my research.</b></p>
-
-<div><a href="http://parse.com/">Parse</a> is a wonderful BaaS which helps with setting up backend infrastructure for your mobile application as fast as possible. Maybe just because of this simplicity many developers forget about a number of new security issues and vulnerabilities.</div>
+      <h1 class="link"><a href="/2015/03/23/android-application-hacking-with-insecure-bank-part-2">Android Application hacking with Insecure Bank Part 2</a></h1>
+      <p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
 
 
-<div><br/></div>
 
 
-<div><img src="/images/posts/ios38/8822BC1A-FA0D-4BFF-8DC0-8CC103DFB92D.png" height="495" width="816"/><br/></div>
-
-
-<div><br/></div>
-
-
-<div>For those who don’t know what this service is, let’s make a brief introduction. Parse provides a lot of useful capabilities to mobile developer: cloud data storage, push notifications, usage statistics and crash logs gathering, code hosting, background jobs and a many other things. Within the boundaries of thes research we are interested in the cloud data storage, named <i>Cloud Core</i>.</div>
-
-
-<div>All the data in Cloud Core is stored in so called custom classes (ordinary database tables).</div>
-
-
-<div><br/></div>
+<p>At this point, i would also like to mention that if you are looking for a VM that contains all the tools to cater to your android application pentesting needs, have a look at <a href="https://androidtamer.com/">Android Tamer</a>.</p>
 
 
 
 
 
       
-       <a href="/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse">Read on &rarr;</a> 
+       <a href="/2015/03/23/android-application-hacking-with-insecure-bank-part-2">Read on &rarr;</a> 
     </div>
   </div>
 
@@ -889,7 +770,7 @@ You can donate to this project and download the solutions for free from <a href=
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-12-21T00:14:00+04:00" pubdate data-updated="true">Dec 21<span>st</span>, 2014</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-01-24T00:16:00+04:00" pubdate data-updated="true">Jan 24<span>th</span>, 2015</time></h5>
           <div class="row-fluid">
           
           </div>
@@ -902,7 +783,62 @@ You can donate to this project and download the solutions for free from <a href=
           
     </div>
     <div class="span10">
-      <h1 class="link"><a href="/2014/12/21/ios-application-security-part-37-adapting-to-ios-8">iOS Application Security Part 37 - Adapting to iOS 8</a></h1>
+      <h1 class="link"><a href="/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse-guest-lecture-by-egor-tolstoy">iOS Application Security Part 38 - Attacking apps using Parse (Guest Lecture by Egor Tolstoy)</a></h1>
+      <p><b>This is a guest lecture by <a href="http://etolstoy.ru">Egor Tolstoy</a>. Egor is a full-time iOS developer working at Rambler&amp;Co and living with his lovely wife in Moscow, Russia. In his spare time he investigate iOS applications for different vulnerabilities and blogs about my research.</b></p>
+
+<div><a href="http://parse.com/">Parse</a> is a wonderful BaaS which helps with setting up backend infrastructure for your mobile application as fast as possible. Maybe just because of this simplicity many developers forget about a number of new security issues and vulnerabilities.</div>
+
+
+<div><br/></div>
+
+
+
+
+
+      
+       <a href="/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse-guest-lecture-by-egor-tolstoy">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2014-12-20T00:27:00+04:00" pubdate data-updated="true">Dec 20<span>th</span>, 2014</time></h5>
+          <div class="row-fluid">
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/security/"><span class="badge">security</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2014/12/20/ios-application-security-part-37-adapting-to-ios-8">iOS Application Security Part 37 - Adapting to iOS 8</a></h1>
       <p>In this article we will look at all the things you need to do to set up a pentesting platform on iOS 8 and be comfortable with using all the tools.</p>
 
 
@@ -913,19 +849,14 @@ You can donate to this project and download the solutions for free from <a href=
 
 
 
-<p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is prerry straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
-
-
-
-
-<p><i>Note: I was getting an error with Pangu saying that there was not enough space on my device even though there was enough space. I tried by putting my device into Airplane mode and by turning off Wifi on my laptop and it worked for me.</i></p>
+<p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is pretty straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
 
 
 
 
 
       
-       <a href="/2014/12/21/ios-application-security-part-37-adapting-to-ios-8">Read on &rarr;</a> 
+       <a href="/2014/12/20/ios-application-security-part-37-adapting-to-ios-8">Read on &rarr;</a> 
     </div>
   </div>
 
@@ -987,7 +918,7 @@ The source code is available on the project&rsquo;s github page <a href="https:/
 
 <p>The easiest way is to install the application from Cydia. Add the source repo.kylelevin.com and search for DamnVulnerableiOSApp.</p>
 
-<p><img src="/images/posts/dvia/3.PNG" width="320" height="568" alt="3"></p>
+<p><img src="/images/posts/dvia/3.png" width="320" height="568" alt="3"></p>
 
 
       
@@ -4683,7 +4614,7 @@ Anonymous systems are used to allow users to surf the web, communicate with serv
       <div class="row-fluid">
         <footer class="footer-page" role="contentinfo">
           <p>
-  Copyright &copy; 2015 - Prateek Gianchandani -
+  Copyright &copy; 2016 - Prateek Gianchandani -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
 </p>
 

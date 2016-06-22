@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2015-12-19T14:56:14+04:00</updated>
+  <updated>2016-06-23T00:58:02+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0]]></title>
     <link href="http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0"/>
-    <updated>2015-05-31T03:25:00+04:00</updated>
+    <updated>2015-05-31T00:18:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0</id>
     <content type="html"><![CDATA[<p>In this article, i would like to give a quick walkthrough of the new vulnerabilities and challenges that we have added in version 2.0 of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a>.</p>
 
@@ -35,13 +35,12 @@
 </ul>
 
 
-
+<p><img src="http://prateek147.github.io/images/posts/ios45/1.png" width="235" height="321" alt="1"></p>
 
 <!-- more -->
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios45/1.png" width="235" height="321" alt="1">
-<img src="http://prateek147.github.io/images/posts/ios45/2.png" width="235" height="310" alt="2">
+<p><img src="http://prateek147.github.io/images/posts/ios45/2.png" width="235" height="310" alt="2">
 <img src="http://prateek147.github.io/images/posts/ios45/3.png" width="235" height="314" alt="3"></p>
 
 <p>We have also added a new section on <i>Extension vulnerabilities</i>, which covers vulnerabilities in different application extensions, a feature that was introduced with iOS 8.</p>
@@ -102,7 +101,7 @@
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon]]></title>
     <link href="http://prateek147.github.io/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon"/>
-    <updated>2015-05-23T02:24:00+04:00</updated>
+    <updated>2015-05-23T00:18:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon</id>
     <content type="html"><![CDATA[<p>In this small article, we will look at a very handful utility named <a href="https://www.theiphonewiki.com/wiki/XCon">Xcon</a>for bypassing Jailbreak detection. As per the wiki page &#8230;</p>
 
@@ -152,7 +151,7 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 43 - FAT binaries &amp; LLDB usage continued]]></title>
     <link href="http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued"/>
-    <updated>2015-05-17T14:18:00+04:00</updated>
+    <updated>2015-05-17T00:18:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/17/ios-application-security-part-43-fat-binaries-and-lldb-usage-continued</id>
     <content type="html"><![CDATA[<p>In this article, we will talk about FAT binaries and see more usage of LLDB.</p>
 
@@ -240,7 +239,7 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 42 - LLDB Usage continued]]></title>
     <link href="http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued"/>
-    <updated>2015-05-12T00:10:00+04:00</updated>
+    <updated>2015-05-12T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/05/12/ios-application-security-part-42-lldb-usage-continued</id>
     <content type="html"><![CDATA[<p>In this article, we will look at some of the most important commands in LLDB to debug applications.</p>
 
@@ -322,7 +321,7 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 41 - Debugging applications using LLDB]]></title>
     <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb"/>
-    <updated>2015-04-28T01:26:00+04:00</updated>
+    <updated>2015-04-28T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-41-debugging-applications-using-lldb</id>
     <content type="html"><![CDATA[<p>In this article we will learn about the LLDB debugger used by Apple&#8217;s Xcode for debugging applications, understand why it is better for security testing, and then learn how to use it to debug iOS applications.</p>
 
@@ -340,6 +339,11 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
 
 
 <p>A good way to start leaning about the LLDB debugger is to watch this video from WWDC 2014.</p>
+
+
+
+
+<!-- more -->
 
 
 
@@ -365,11 +369,6 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
     <li>LLDB understands the dot syntax. You can use something like <i>po self.propertyName</i> or even <i>po instanceVariable</i> to find any value of a property or instance variable while debugging applications.</li>
     <li>It has plug-in support for functionality and extensions.</li>
 </ul>
-
-
-
-
-<!-- more -->
 
 
 
@@ -452,18 +451,17 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
 
 <p>That&#8217;s it for this article. In this article, we learnt how to deploy LLDB to the device and use it to run some basic commands. In the next article, we will look at some advanced usage of LLDB and how it can be used to find  sensitive information in memory.</p>
 
+
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 40 - Testing apps on your Mac]]></title>
     <link href="http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac"/>
-    <updated>2015-04-28T01:25:00+04:00</updated>
+    <updated>2015-04-28T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/04/28/ios-application-security-part-40-testing-apps-on-your-mac</id>
-    <content type="html"><![CDATA[<p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
-
-
-
+    <content type="html"><![CDATA[<p>p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the device. This could be useful for many reasons, sometimes you may not have a jailbroken device but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p></p>
 
 <h3>Installing ipa files from iTunes on your simulator</h3>
 
@@ -508,12 +506,12 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
 
 
 
-<h3>Checking logs</h3>
+<h3>Checking device logs</h3>
 
 
 
 
-<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the. However, if you see this behaviour, don&#8217;t immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
+<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the device. However, if you see this behaviour, don&#8217;t immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a device, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios40/2.png" width="882" height="602" alt="2"></p>
@@ -543,7 +541,7 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
 
 
 
-<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your.</p>
+<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your device.</p>
 
 
 <p><img src="http://prateek147.github.io/images/posts/ios40/cycript.png" width="536" height="104" alt="Cycript"></p>
@@ -566,12 +564,9 @@ Please note that the current version of Xcon has a lot of issues with iOS 8 and 
   <entry>
     <title type="html"><![CDATA[Damn Vulnerable iOS App solutions free for download]]></title>
     <link href="http://prateek147.github.io/2015/04/03/damn-vulnerable-ios-app-solutions-free-for-download"/>
-    <updated>2015-04-03T16:26:00+04:00</updated>
+    <updated>2015-04-03T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/04/03/damn-vulnerable-ios-app-solutions-free-for-download</id>
-    <content type="html"><![CDATA[<p>I have decided to give away the solutions for DVIA for free. The reason for this has been too many people coming up with queries for the solutions and i believed giving away the solutions for free would really benefit the infosec community.
-It has taken me a lot of nights and hard work to create this project and specially the solutions.
-If you think this project has been useful to you and your organization, please consider making a donation to this project.
-You can donate to this project and download the solutions for free from <a href="http://damnvulnerableiosapp.com/#solutions">here</a>.</p>
+    <content type="html"><![CDATA[<p>I have decided to give away the solutions for DVIA for free. The reason for this has been too many people coming up with queries for the solutions and i believed giving away the solutions for free would really benefit the infosec community. It has taken me a lot of nights and hard work to create this project and specially the solutions. If you think this project has been useful to you and your organization, please consider making a donation to this project. You can donate to this project and download the solutions for free from <a href="http://damnvulnerableiosapp.com/#solutions">here</a>.</p>
 
 <p>-Prateek</p>
 ]]></content>
@@ -580,7 +575,7 @@ You can donate to this project and download the solutions for free from <a href=
   <entry>
     <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 4]]></title>
     <link href="http://prateek147.github.io/2015/03/29/android-application-hacking-with-insecure-bank-part-4"/>
-    <updated>2015-03-29T12:08:00+04:00</updated>
+    <updated>2015-03-29T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/03/29/android-application-hacking-with-insecure-bank-part-4</id>
     <content type="html"><![CDATA[<p>In this article, we will look at a very handy framework for analysis of android applications named Drozer. Drozer is a very useful tool as it eliminates the need for having seperate tools for performing different security checks in an android application. It has a list of modules that you can use to interact with the application using Android&#8217;s Inter-Process communication. Additionally, you can also install exploits and use it to exploit an android device.</p>
 
@@ -588,6 +583,11 @@ You can donate to this project and download the solutions for free from <a href=
 
 
 <p>The main purpose of this article is to make sure you are familiar with drozer so we can use it in the future articles. </p>
+
+
+
+
+<!-- more -->
 
 
 
@@ -601,11 +601,6 @@ You can donate to this project and download the solutions for free from <a href=
 
 
 <p><img src="http://prateek147.github.io/images/posts/ib4/1.png" width="600" height="90" alt="1"></p>
-
-<!-- more -->
-
-
-
 
 <p>You will first need to set up port forwarding so that your system can connect to a TCP socket opened by the Agent inside the emulator, or on the device. By default, drozer uses port 31415:</p>
 
@@ -695,15 +690,13 @@ run app.activity.start &#8211;component com.mwr.example.intenttest com.mwr.examp
 
 <p>In this article, we got comfortable with using Drozer. Drozer can do much more, and we will be discussing all those features as we discuss more vulnerabilities in InsecureBank in the next article.</p>
 
-
-
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 3]]></title>
     <link href="http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3"/>
-    <updated>2015-03-28T12:04:00+04:00</updated>
+    <updated>2015-03-28T00:17:00+04:00</updated>
     <id>http://prateek147.github.io/2015/03/28/android-application-hacking-with-insecure-bank-part-3</id>
     <content type="html"><![CDATA[<p>In this article, we will look at attacking components in Android applications, starting with activities. But first, it is essential to understand what Android application components are. Android application components are the essential building blocks of an Android application. The behaviour and interaction between these components is defined in the manifest.xml file in the application. Mainly there are 4 types of components and it is important to understand their purpose and function.</p>
 
@@ -715,6 +708,11 @@ run app.activity.start &#8211;component com.mwr.example.intenttest com.mwr.examp
 
 
 
+<!-- more -->
+
+
+
+
 <table>
 <tr><th style="width:25%">Components</th><th>Description</th></tr>
 <tr><td>Activities</td><td>They dictate the UI and handle the user interaction to the smartphone screen</td></tr>
@@ -722,13 +720,6 @@ run app.activity.start &#8211;component com.mwr.example.intenttest com.mwr.examp
 <tr><td>Broadcast Receivers</td><td>They handle communication between Android OS and applications.</td></tr>
 <tr><td>Content Providers</td><td>They handle data and database management issues.</td></tr>
 </table>
-
-
-
-
-<!-- more -->
-
-
 
 
 <h4>Activities</h4>
@@ -888,113 +879,21 @@ am start -n com.package.name/com.package.name.ActivityName
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 2]]></title>
-    <link href="http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2"/>
-    <updated>2015-03-27T12:04:00+04:00</updated>
-    <id>http://prateek147.github.io/2015/03/27/android-application-hacking-with-insecure-bank-part-2</id>
-    <content type="html"><![CDATA[<p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
-
-
-
-
-<!-- more -->
-
-
-
-
-<p>At this point, i would also like to mention that if you are looking for a VM that contains all the tools to cater to your android application pentesting needs, have a look at <a href="https://androidtamer.com/">Android Tamer</a>.</p>
-
-
-
-
-<p>First of all, make sure you have the latest version of InsecureBankv2 on your system. You can do a <i>git pull</i> to merge all the latest changes to your master branch.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/1.png" width="649" height="422" alt="1"></p>
-
-<p>Once this is done, let&#8217;s do some analysis on the apk file. Copy the apk file into a seperate folder for some analysis. Just like an iOS ipa file, an apk file is a compressed file, so you can decompress it by just changing the extension from apk to zip and then extracting it.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/2.png" width="873" height="378" alt="2"></p>
-
-<p>Now browse over to the extracted folder and have a look. You can see a lot of files here.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/3.png" width="592" height="130" alt="3"></p>
-
-<p>Let&#8217;s describe them one by one.</p>
-
-
-
-
-<ul>
-    <li>AndroidManifest.xml - This is probably by far the most important source of information. From a security point of view, it contains information about the various components used in an application and lists the conditions in which they can be launched. It also displays information about the permissiosns that the application uses. I would highly recommend you to go through Google&#8217;s <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">documentation</a> on the manifest file. We will discuss each component of an android application as we discuss vulnerabilities in them.</li>
-    
-    <li>assets - This is used to store raw assets file. The files stored here as compiled as is into the apk file.</li>
-    
-    <li>res - Used to store resources such as images, layout files, and string values.</li>
-    
-    <li>META-INF - Contains important information about the signature and the person who signed the application.</li>
-    
-    <li>classes.dex - This is where the compiled application code lies. To decompile an application, you need to convert the dex file to a jar file which can then be read by a java decompiler</li>
-    
-    
-</ul>
-
-
-
-
-<p>The information about the public key certificate is stored in the CERT.RSA file in the META-INF folder. To find out information about the public key certificate, use the command <i> keytool –printcert –file META-INF/CERT.RSA </i></p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/z.png" width="730" height="426" alt="Z"></p>
-
-<p>Please note that it is also possible to modify the code of an apk file after decompiling and then recompile it to deploy to a device. However, once the application code is modified, it loses its integrity and hence needs to be resigned with a new public/private key pair. I would recommend that you have a look at <a href="http://developer.android.com/tools/publishing/app-signing.html">this</a> article that explains how to create your own public/private key pair. We will look at modifying application logic and then recompiling it in later articles in this series.</p>
-
-
-
-
-<p>Once an application has been recompiled, you can verify its integrity using the jarsigner application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/j.png" width="760" height="64" alt="J"></p>
-
-<p>Now let&#8217;s decompile the application using dex2jar. dex2jar can also take input as an apk file (rather than .dex file) and converts it into a jar file.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/x.png" width="654" height="87" alt="X"></p>
-
-<p>Once this is done, you can simple open this file in JD-GUI and have a look at the source code.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ib2/y.png" width="1026" height="621" alt="Y"></p>
-
-<p>We can now scan through the source code to find potential vulnerabilities in the application. We can clearly note how easy it is to reverse engineer an apk file and look at the source code. It is important to note here that we are able to see the source code and understand it mainly because there is no code obfuscation applied in the application. Google provides tools like Proguard to help in obfuscating code. While this is not foolproof, there is also a commercial version of Proguard knows an DexGuard that works even better in applying code obfuscation. We will look at obfuscating application code in later articles.</p>
-
-
-
-
-<p>In this article, we looked at how we can extract information from an apk file. In the next article, we will start looking at the different types of vulnerabilities demonstrated in InsecurBankv2.</p>
-
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[iOS Application Security Part 39 – Sensitive information in memory]]></title>
     <link href="http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory"/>
-    <updated>2015-03-24T12:04:00+04:00</updated>
+    <updated>2015-03-24T00:16:00+04:00</updated>
     <id>http://prateek147.github.io/2015/03/24/ios-application-security-part-39-sensitive-information-in-memory</id>
     <content type="html"><![CDATA[<p>In this article, we will look at analyzing the memory contents of an iOS application. iOS applications may store sensitive information like passwords, session IDs etc in the memory of the application without releasing them. In some cases, releasing these variables may not be an option. For e.g, it might be required for the application to send an authentication token with every request and hence there has to be a reference to it in the memory somewhere. Even though these variables might be encrypted when stored locally in the application, these variables will be in their unencryped format while the application is running. Hence, analyzing the contents of the memory is an important thing while pentesting an iOS application. If there are some important properties or instance variables that are not required, they should be released from the memory.</p>
 
 
 
 
-<!-- more -->
-
-
-
-
 <p>Basically, the memory of the application will contain a lot of information, most of which we will not be interested in. These things might include instantiated UIViews and other UI elements. We will definitely be interested in instantiated view controllers and their properties though. It is important to understand and focus on only the relevant information in the memory. For a penetration tester, you should mainly be interested in all the values of the properties and instance variable in an application.</p>
+
+
+
+
+<!-- more -->
 
 
 
@@ -1073,20 +972,123 @@ am start -n com.package.name/com.package.name.ActivityName
 
 <p>Mark Beard has written a nice article on dumping application memory from the heap and also released a tool to do so. I would recommend that you check the <a href="https://blog.netspi.com/ios-tutorial-dumping-the-application-heap-from-memory/">article</a> out as well. </p>
 
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Application hacking with Insecure Bank Part 2]]></title>
+    <link href="http://prateek147.github.io/2015/03/23/android-application-hacking-with-insecure-bank-part-2"/>
+    <updated>2015-03-23T00:16:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/03/23/android-application-hacking-with-insecure-bank-part-2</id>
+    <content type="html"><![CDATA[<p>In the previous article, we looked at setting up a mobile pentesting platform for Android applications. By now, you must have set up an emulator using genymotion and installed all the android command line tools along with some other additonal tools (drozer, dex2jar, apktool). In this article, we will look at some information gathering techniques. We will see how we can decompile an application to its java source, analyze the signature of the application and many more things.</p>
+
+
+
+
+<p>At this point, i would also like to mention that if you are looking for a VM that contains all the tools to cater to your android application pentesting needs, have a look at <a href="https://androidtamer.com/">Android Tamer</a>.</p>
+
+
+
+
+<!-- more -->
+
+
+
+
+<p>First of all, make sure you have the latest version of InsecureBankv2 on your system. You can do a <i>git pull</i> to merge all the latest changes to your master branch.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2//1.png" width="649" height="422" alt="1"></p>
+
+<p>Once this is done, let&#8217;s do some analysis on the apk file. Copy the apk file into a seperate folder for some analysis. Just like an iOS ipa file, an apk file is a compressed file, so you can decompress it by just changing the extension from apk to zip and then extracting it.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2//2.png" width="873" height="378" alt="2"></p>
+
+<p>Now browse over to the extracted folder and have a look. You can see a lot of files here.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2//3.png" width="592" height="130" alt="3"></p>
+
+<p>Let&#8217;s describe them one by one.</p>
+
+
+
+
+<ul>
+    <li>AndroidManifest.xml - This is probably by far the most important source of information. From a security point of view, it contains information about the various components used in an application and lists the conditions in which they can be launched. It also displays information about the permissiosns that the application uses. I would highly recommend you to go through Google&#8217;s <a href="http://developer.android.com/guide/topics/manifest/manifest-intro.html">documentation</a> on the manifest file. We will discuss each component of an android application as we discuss vulnerabilities in them.</li>
+    
+    <li>assets - This is used to store raw assets file. The files stored here as compiled as is into the apk file.</li>
+    
+    <li>res - Used to store resources such as /images/posts/ib2/, layout files, and string values.</li>
+    
+    <li>META-INF - Contains important information about the signature and the person who signed the application.</li>
+    
+    <li>classes.dex - This is where the compiled application code lies. To decompile an application, you need to convert the dex file to a jar file which can then be read by a java decompiler</li>
+    
+    
+</ul>
+
+
+
+
+<p>The information about the public key certificate is stored in the CERT.RSA file in the META-INF folder. To find out information about the public key certificate, use the command <i> keytool –printcert –file META-INF/CERT.RSA </i></p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2//z.png" width="730" height="426" alt="Z"></p>
+
+<p>Please note that it is also possible to modify the code of an apk file after decompiling and then recompile it to deploy to a device. However, once the application code is modified, it loses its integrity and hence needs to be resigned with a new public/private key pair. I would recommend that you have a look at <a href="http://developer.android.com/tools/publishing/app-signing.html">this</a> article that explains how to create your own public/private key pair. We will look at modifying application logic and then recompiling it in later articles in this series.</p>
+
+
+
+
+<p>Once an application has been recompiled, you can verify its integrity using the jarsigner application.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2//j.png" width="760" height="64" alt="J"></p>
+
+<p>Now let&#8217;s decompile the application using dex2jar. dex2jar can also take input as an apk file (rather than .dex file) and converts it into a jar file.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2//x.png" width="654" height="87" alt="X"></p>
+
+<p>Once this is done, you can simple open this file in JD-GUI and have a look at the source code.</p>
+
+
+<p><img src="http://prateek147.github.io/images/posts/ib2//y.png" width="1026" height="621" alt="Y"></p>
+
+<p>We can now scan through the source code to find potential vulnerabilities in the application. We can clearly note how easy it is to reverse engineer an apk file and look at the source code. It is important to note here that we are able to see the source code and understand it mainly because there is no code obfuscation applied in the application. Google provides tools like Proguard to help in obfuscating code. While this is not foolproof, there is also a commercial version of Proguard knows an DexGuard that works even better in applying code obfuscation. We will look at obfuscating application code in later articles.</p>
+
+
+
+
+<p>In this article, we looked at how we can extract information from an apk file. In the next article, we will start looking at the different types of vulnerabilities demonstrated in InsecurBankv2.</p>
+
+
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 38 - Attacking apps using Parse (Guest Lecture by Egor Tolstoy)]]></title>
-    <link href="http://prateek147.github.io/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse"/>
-    <updated>2015-01-24T23:39:00+04:00</updated>
-    <id>http://prateek147.github.io/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse</id>
+    <link href="http://prateek147.github.io/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse-guest-lecture-by-egor-tolstoy"/>
+    <updated>2015-01-24T00:16:00+04:00</updated>
+    <id>http://prateek147.github.io/2015/01/24/ios-application-security-part-38-attacking-apps-using-parse-guest-lecture-by-egor-tolstoy</id>
     <content type="html"><![CDATA[<p><b>This is a guest lecture by <a href="http://etolstoy.ru">Egor Tolstoy</a>. Egor is a full-time iOS developer working at Rambler&amp;Co and living with his lovely wife in Moscow, Russia. In his spare time he investigate iOS applications for different vulnerabilities and blogs about my research.</b></p>
 
 <div><a href="http://parse.com/">Parse</a> is a wonderful BaaS which helps with setting up backend infrastructure for your mobile application as fast as possible. Maybe just because of this simplicity many developers forget about a number of new security issues and vulnerabilities.</div>
 
 
 <div><br/></div>
+
+
+
+
+<!-- more -->
+
+
 
 
 <div><img src="http://prateek147.github.io/images/posts/ios38/8822BC1A-FA0D-4BFF-8DC0-8CC103DFB92D.png" height="495" width="816"/><br/></div>
@@ -1223,7 +1225,7 @@ am start -n com.package.name/com.package.name.ActivityName
 <div><a href="https://gist.github.com/igrekde/cb8e2c12408715c9f739#file-parse-security-2">https://gist.github.com/igrekde/cb8e2c12408715c9f739#file-parse-security-2</a><br/></div>
 
 
-<div><img src="http://prateek147.github.io/images/posts/ios38/cubefree-screen.png" height="1138" width="1284"/><br/></div>
+<div><img src="http://prateek147.github.io/images/posts/ios38/cubefree-screen.png" height="569" width="642"/><br/></div>
 
 
 <div><br/></div>
@@ -1281,16 +1283,14 @@ am start -n com.package.name/com.package.name.ActivityName
 
 <div> </div>
 
-
-<p></body></html></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 37 - Adapting to iOS 8]]></title>
-    <link href="http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8"/>
-    <updated>2014-12-21T00:14:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/12/21/ios-application-security-part-37-adapting-to-ios-8</id>
+    <link href="http://prateek147.github.io/2014/12/20/ios-application-security-part-37-adapting-to-ios-8"/>
+    <updated>2014-12-20T00:27:00+04:00</updated>
+    <id>http://prateek147.github.io/2014/12/20/ios-application-security-part-37-adapting-to-ios-8</id>
     <content type="html"><![CDATA[<p>In this article we will look at all the things you need to do to set up a pentesting platform on iOS 8 and be comfortable with using all the tools.</p>
 
 
@@ -1301,17 +1301,17 @@ am start -n com.package.name/com.package.name.ActivityName
 
 
 
-<p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is prerry straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
-
-
-
-
-<p><i>Note: I was getting an error with Pangu saying that there was not enough space on my device even though there was enough space. I tried by putting my device into Airplane mode and by turning off Wifi on my laptop and it worked for me.</i></p>
+<p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is pretty straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
 
 
 
 
 <!-- more -->
+
+
+
+
+<p><i>Note: I was getting an error with Pangu saying that there was not enough space on my device even though there was enough space. I tried by putting my device into Airplane mode and by turning off Wifi on my laptop and it worked for me.</i></p>
 
 
 
@@ -1329,30 +1329,30 @@ am start -n com.package.name/com.package.name.ActivityName
 <p>One of the major changes within the file structure is that the user applications are no longer located at the location <i>/var/mobile/Applications</i>. The application bundle is stored in the location <i>/var/mobile/Containers/Bundle/Application</i> (Appname.app) whereas the application data (Documents, Library, tmp folder) is stored in the location <i>/var/mobile/Containers/Data/Application</i>. The name of the folder (a unique ID) will also be different for the same application. So while checking an application, it is recommended to look at both the locations.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios37/location1.png" width="848" height="236" alt="Location1">
-<img src="http://prateek147.github.io/images/posts/ios37/location2.png" width="809" height="178" alt="Location2"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios37//location1.png" width="848" height="236" alt="Location1">
+<img src="http://prateek147.github.io/images/posts/ios37//location2.png" width="809" height="178" alt="Location2"></p>
 
 <p>However, the applications that are installed by default on your device with iOS are still located in the location <i>/Applications/</i>. For e.g, the App store application can be seen in the below image.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios37/appstore.png" width="593" height="297" alt="Appstore"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios37//appstore.png" width="593" height="297" alt="Appstore"></p>
 
 <h3>Decrypting applications</h3>
 
 
 
 
-<p>You can download the latest version of clutch to decrypt iOS 8 applications from <a href="https://github.com/KJCracks/Clutch/releases">here</a>. You can download the binary for 1.4.7-git2 as of now. Once you download it on your device, just run it once and then run it again and it will show you the list of downloaded applications on your device.</p>
+<p>You can download the latest version of clutch to decrypt iOS 8 applications from <a href="https://github.com/KJCracks/Clutch/releases">here</a>. You can download the binary for 1.4.7-git2 as of now. Once you download it on your device, just run it once and then run it again and it will show you the list of encrypted applications on your device.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios37/1.png" width="494" height="496" alt="1"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios37//1.png" width="494" height="496" alt="1"></p>
 
 <p>Simply type Clutch followed by the app name to start decrypting it.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios37/2.png" width="683" height="428" alt="2"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios37//2.png" width="683" height="428" alt="2"></p>
 
-<p><img src="http://prateek147.github.io/images/posts/ios37/3.png" width="622" height="295" alt="3"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios37//3.png" width="622" height="295" alt="3"></p>
 
 <h3>File explorer utilities</h3>
 
@@ -1362,7 +1362,7 @@ am start -n com.package.name/com.package.name.ActivityName
 <p>Because of the change in the location where applications store data, iExplorer now looks inside the folder <i>/var/mobile/Containers/Data/Application</i>. It however, doesn&#8217;t look into the application bundle. The same goes for iFunbox, which is another good file explorer utility for iOS devices. It is however recommended that you also look inside the application bundle folder also while testing an iOS application.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios37/iexplorer.png" width="435" height="245" alt="Iexplorer"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios37//iexplorer.png" width="435" height="245" alt="Iexplorer"></p>
 
 <h3>Cycript & class-dump-z</h3>
 
@@ -1382,14 +1382,14 @@ am start -n com.package.name/com.package.name.ActivityName
 <p><a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain dumper</a> works just fine and can still dump all your keychain items in your device.</p>
 
 
-<p><img src="http://prateek147.github.io/images/posts/ios37/keychain.png" width="436" height="102" alt="Keychain"></p>
+<p><img src="http://prateek147.github.io/images/posts/ios37//keychain.png" width="436" height="102" alt="Keychain"></p>
 
 <h3>Swift</h3>
 
 
 
 
-<p>According to Apple, Swift is a new programming language for iOS and OS X apps that builds on the best of C and Objective-C, without the constraints of C compatibility. Swift adopts safe programming patterns and adds modern features to make programming easier, more flexible, and more fun. Swift’s clean slate, backed by the mature and much-loved Cocoa and Cocoa Touch frameworks, is an opportunity to reimagine how software development works. In the future articles, we will learn how to use cycript to analyze swift objects. However, i recommend you to start learning swift. One of the best resources to learn it from apart from Apple&#8217;s documentation is on <a href="http://www.raywenderlich.com/74438/swift-tutorial-a-quick-start">Ray Wenderlich&#8217;s blog.</a> Also, i would like to point out that it might take some time for this language to catch up and be actually used for developing iOS applications. We will cover swift in later articles in this series.</p>
+<p>According to Apple, Swift is a new programming language for iOS and OS X apps that builds on the best of C and Objective-C, without the constraints of C compatibility. Swift adopts safe programming patterns and adds modern features to make programming easier, more flexible, and more fun. Swift’s clean slate, backed by the mature and much-loved Cocoa and Cocoa Touch frameworks, is an opportunity to reimagine how software development works. In the future articles, we will learn how to use cycript to analyze applications written in swift. However, i recommend you to start learning swift. One of the best resources to learn it from apart from Apple&#8217;s documentation is on <a href="http://www.raywenderlich.com/74438/swift-tutorial-a-quick-start">Ray Wenderlich&#8217;s blog.</a> Also, i would like to point out that it might take some time for this language to catch up and be actually used for developing iOS applications. We will cover swift in later articles in this series.</p>
 
 ]]></content>
   </entry>
@@ -1418,7 +1418,7 @@ The source code is available on the project&rsquo;s github page <a href="https:/
 
 <p>The easiest way is to install the application from Cydia. Add the source repo.kylelevin.com and search for DamnVulnerableiOSApp.</p>
 
-<p><img src="http://prateek147.github.io/images/posts/dvia/3.PNG" width="320" height="568" alt="3"></p>
+<p><img src="http://prateek147.github.io/images/posts/dvia/3.png" width="320" height="568" alt="3"></p>
 
 <!-- more -->
 

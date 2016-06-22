@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="iOS Application Security Part 40 - Testing Apps on Your Mac Apr 28th, 2015 Posted by Prateek Gianchandani In this article, we will discuss the &hellip;">
+  <meta name="description" content="iOS Application Security Part 40 - Testing Apps on Your Mac Apr 28th, 2015 Posted by Prateek Gianchandani p>In this article, we will discuss the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -35,14 +35,7 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
-<style>
-body {
-    -moz-transform: scale(0.8, 0.); /* Moz-browsers */
-    zoom: 0.8; /* Other non-webkit browsers */
-    zoom: 80%; /* Webkit browsers */
-    
-}
-</style>
+
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -73,11 +66,11 @@ body {
     
         <li ><a href="/security/">Security</a></li>
     
+        <li ><a href="/everest/">Everest</a></li>
+    
         <li ><a href="/archives/index.html">Archives</a></li>
     
         <li ><a href="http://damnvulnerableiosapp.com">DVIA</a></li>
-    
-        <li ><a href="/everest/">Everest</a></li>
     
         <li ><a href="/about/">About Me</a></li>
     
@@ -128,7 +121,7 @@ body {
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T01:25:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-28T00:17:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2015</time></h5>
   <h4>
   
 
@@ -138,10 +131,7 @@ body {
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the. This could be useful for many reasons, sometimes you may not have a jailbroken but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p>
-
-
-
+      <p>p>In this article, we will discuss the extent to which you can test applications on your Mac rather than the device. This could be useful for many reasons, sometimes you may not have a jailbroken device but want to get a POC for a vulnerability. We will discuss what are the things you can and cannot do. To test the application on your system, you will need to have Xcode installed on your system and you will run the applications on the iOS simulator.</p></p>
 
 <h3>Installing ipa files from iTunes on your simulator</h3>
 
@@ -186,12 +176,12 @@ body {
 
 
 
-<h3>Checking logs</h3>
+<h3>Checking device logs</h3>
 
 
 
 
-<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the. However, if you see this behaviour, don&#8217;t immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
+<p>You can easily check the logs that the applications is logging by looking at the logs section in Xcode. For example, over here, we can see that the application is logging sensitive data to the device. However, if you see this behaviour, don&#8217;t immediately report it as a vulnerability. Some developers add a check to detect whether the application is running on a simulator or a device, and only log information if it is running on a simulator. If there is no such check, then this is definitely a vulnerability.</p>
 
 
 <p><img src="/images/posts/ios40/2.png" width="882" height="602" alt="2"></p>
@@ -221,7 +211,7 @@ body {
 
 
 
-<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your.</p>
+<p>You can even attach Cycript to the running application process in the simulator and demonstrate POC for vulnerabilities. Cycript works for Mac as well and you use the exact syntax that you use while auditing application on your device.</p>
 
 
 <p><img src="/images/posts/ios40/cycript.png" width="536" height="104" alt="Cycript"></p>
@@ -314,7 +304,7 @@ body {
       <div class="row-fluid">
         <footer class="footer-page" role="contentinfo">
           <p>
-  Copyright &copy; 2015 - Prateek Gianchandani -
+  Copyright &copy; 2016 - Prateek Gianchandani -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
 </p>
 
