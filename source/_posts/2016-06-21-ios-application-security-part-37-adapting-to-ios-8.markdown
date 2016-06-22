@@ -1,20 +1,10 @@
 ---
 layout: post
-title: "iOS Application Security Part 46 - App Transport Security"
-date: 2016-05-09 09:17
+title: "iOS Application Security Part 37 - Adapting to iOS 8"
+date: 2014-21-12 00:27
 comments: true
 categories: [security]
 ---
-
-<!DOCTYPE html>
-<html>
-<head>
-	<link rel="stylesheet" href="Main.css" type="text/css" media="screen" title="no title"  charset="utf-8"/>
-	<title>iOS Application Security Part 37   - Adapting to iOS 8</title>
-</head>
-	<body>
-		
-<h1>iOS Application Security Part 37 - Adapting to iOS 8</h1>
 
 <p>In this article we will look at all the things you need to do to set up a pentesting platform on iOS 8 and be comfortable with using all the tools.</p>
 
@@ -30,29 +20,29 @@ categories: [security]
 
 <p>One of the major changes within the file structure is that the user applications are no longer located at the location <i>/var/mobile/Applications</i>. The application bundle is stored in the location <i>/var/mobile/Containers/Bundle/Application</i> (Appname.app) whereas the application data (Documents, Library, tmp folder) is stored in the location <i>/var/mobile/Containers/Data/Application</i>. The name of the folder (a unique ID) will also be different for the same application. So while checking an application, it is recommended to look at both the locations.</p>
 
-<img src="images/location1.png" width="848" height="236" alt="Location1">
-<img src="images/location2.png" width="809" height="178" alt="Location2">
+<img src="/images/posts/ios37//location1.png" width="848" height="236" alt="Location1">
+<img src="/images/posts/ios37//location2.png" width="809" height="178" alt="Location2">
 
 <p>However, the applications that are installed by default on your device with iOS are still located in the location <i>/Applications/</i>. For e.g, the App store application can be seen in the below image.</p>
 
-<img src="images/appstore.png" width="593" height="297" alt="Appstore">
+<img src="/images/posts/ios37//appstore.png" width="593" height="297" alt="Appstore">
 
 <h3>Decrypting applications</h3>
 
 <p>You can download the latest version of clutch to decrypt iOS 8 applications from <a href="https://github.com/KJCracks/Clutch/releases">here</a>. You can download the binary for 1.4.7-git2 as of now. Once you download it on your device, just run it once and then run it again and it will show you the list of encrypted applications on your device.</p>
 
-<img src="images/1.png" width="494" height="496" alt="1">
+<img src="/images/posts/ios37//1.png" width="494" height="496" alt="1">
 
 <p>Simply type Clutch followed by the app name to start decrypting it.</p>
 
-<img src="images/2.png" width="683" height="428" alt="2">
+<img src="/images/posts/ios37//2.png" width="683" height="428" alt="2">
 
-<img src="images/3.png" width="622" height="295" alt="3">
+<img src="/images/posts/ios37//3.png" width="622" height="295" alt="3">
 <h3>File explorer utilities</h3>
 
 <p>Because of the change in the location where applications store data, iExplorer now looks inside the folder <i>/var/mobile/Containers/Data/Application</i>. It however, doesn't look into the application bundle. The same goes for iFunbox, which is another good file explorer utility for iOS devices. It is however recommended that you also look inside the application bundle folder also while testing an iOS application.</p>
 
-<img src="images/iexplorer.png" width="435" height="245" alt="Iexplorer">
+<img src="/images/posts/ios37//iexplorer.png" width="435" height="245" alt="Iexplorer">
 
 <h3>Cycript & class-dump-z</h3>
 
@@ -62,7 +52,7 @@ categories: [security]
 	
 <p><a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain dumper</a> works just fine and can still dump all your keychain items in your device.</p>
 
-<img src="images/keychain.png" width="436" height="102" alt="Keychain">
+<img src="/images/posts/ios37//keychain.png" width="436" height="102" alt="Keychain">
 
 <h3>Swift</h3>
 
