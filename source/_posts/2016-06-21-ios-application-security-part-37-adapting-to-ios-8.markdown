@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "iOS Application Security Part 37 - Adapting to iOS 8"
-date: 2014-21-12 00:27
+date: 2014-12-20 00:27
 comments: true
 categories: [security]
 ---
@@ -11,6 +11,8 @@ categories: [security]
 <h3>Jailbreaking your device</h3>
 
 <p>If your device is running iOS 8.1 or earlier, you can use <a href="http://en.pangu.io/">pangu</a> to jailbreak your device. The process is pretty straightforward. We will not be covering jailbreaking your device in this article but if you want to know how it is done, you can read <a href="http://www.redmondpie.com/how-to-jailbreak-ios-8.1-untethered-using-pangu8/">this</a> article.</p>
+
+<!-- more -->
 
 <p><i>Note: I was getting an error with Pangu saying that there was not enough space on my device even though there was enough space. I tried by putting my device into Airplane mode and by turning off Wifi on my laptop and it worked for me.</i></p>
 

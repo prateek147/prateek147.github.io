@@ -71,8 +71,6 @@ navigation:
   url: /index.html
 - text: Security
   url: /security/
-- text: iOS Development
-  url: /ios/
 - text: Everest
   url: /everest/
 - text: Archives
