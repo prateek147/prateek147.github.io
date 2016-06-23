@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2016-06-23T01:00:04+04:00</updated>
+  <updated>2016-06-23T21:38:41+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -12,6 +12,49 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Application Security Part 46 - App Transport Security]]></title>
+    <link href="http://prateek147.github.io/2016/06/23/ios-application-security-part-46-app-transport-security"/>
+    <updated>2016-06-23T01:03:00+04:00</updated>
+    <id>http://prateek147.github.io/2016/06/23/ios-application-security-part-46-app-transport-security</id>
+    <content type="html"><![CDATA[<p>One of the most common misconfiguration issues that i find during testing iOS apps is the bypass of the App Transport Security feature introduced by Apple in iOS 9. Here&rsquo;s an excerpt from Apple&rsquo;s documentation about ATS.</p>
+
+<p><b><i>&ldquo;Starting in iOS 9.0 and OS X v10.11, a new security feature called App Transport Security (ATS) is available to apps and is enabled by default. It improves the privacy and data integrity of connections between an app and web services by enforcing additional security requirements for HTTP-based networking requests. Specifically, with ATS enabled, HTTP connections must use HTTPS (RFC 2818). Attempts to connect using insecure HTTP fail. Furthermore, HTTPS requests must use best practices for secure communications.&rdquo;</i></b></p>
+
+<!-- more -->
+
+
+<p>It is important to note that just using HTTPs is not enough. The following screenshot taken from Apple&rsquo;s <a href="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33">documentation</a> discusses the necessary conditions necessary for ATS.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios46/1.png" width="2186" height="1114" alt="1"></p>
+
+<p>Since updating to iOS 9, developers start getting errors like if the app is not communicating over a secure connection.</p>
+
+<p><b><i>Connection failed: Error Domain=NSURLErrorDomain Code=-1022 &ldquo;The resource could not be loaded because the App Transport Security policy requires the use of a secure connection.&rdquo; UserInfo={NSUnderlyingError=0x7fada0f31880 {Error Domain=kCFErrorDomainCFNetwork Code=-1022 &ldquo;(null)&rdquo;}, NSErrorFailingURLStringKey=MyServiceURL, NSErrorFailingURLKey=MyServiceURL, NSLocalizedDescription=The resource could not be loaded because the App Transport Security policy requires the use of a secure connection.}</i></b></p>
+
+<p>The reason for this is because developers are mostly testing their apps against a staging server with a misconfigured certificate. In some cases, they might be communication with production servers over HTTPs but might not be using old TLS versions. A simple google search will take you to a <a href="http://stackoverflow.com/questions/32631184/the-resource-could-not-be-loaded-because-the-app-transport-security-policy-requi">Stack overflow</a> that tells you how to bypass ATS by setting a single key NSAllowsArbitraryLoads to YES in the Info.plist file.</p>
+
+<p>The following configuration in the Info.plist file shows the ATS feature bypass implemented.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios46/x.png" width="499" height="190" alt="X"></p>
+
+<p>However, in some cases the developer might have a secure communication with their backend server. But communication with third party servers for Analytics, Crash logs etc might not be over a secure connection. In this case, they can add certain domains as an exception.</p>
+
+<p><img src="http://prateek147.github.io/images/posts/ios46/y.png" width="558" height="108" alt="Y"></p>
+
+<p>To find whether the app has ATS enabled or not, you can perform the following steps.</p>
+
+<ol>
+<li>Decrypt the app using Clutch</li>
+<li>Unzip the decrypted IPA file and look inside the Info.plist file.</li>
+<li>Look for the key <i>App Transport Security</i>.</li>
+</ol>
+
+
+<p>By the end of 2016, App transport security is going to be a <a href="https://techcrunch.com/2016/06/14/apple-will-require-https-connections-for-ios-apps-by-the-end-of-2016/">requirement</a> for App Store apps. It is important that you report any ATS bypass to the developers during security assessment of iOS Apps.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0]]></title>
@@ -1954,68 +1997,6 @@ By default, when making an SSL connection, the client checks that the server’s
 </code></pre>
 
 <p></html></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Application Security Part 34 - Tracing Method calls using Logify]]></title>
-    <link href="http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify"/>
-    <updated>2014-04-18T16:59:00+04:00</updated>
-    <id>http://prateek147.github.io/2014/04/18/ios-application-security-part-34-tracing-method-calls-using-logify</id>
-    <content type="html"><![CDATA[<p>In the previous articles, we have seen how applications like Snoop-it can trace method calls specific to the application at runtime. This is very important in deducing the flow of the application. The same process can be performed by using a perl script named Logify.pl that comes installed with Theos. The script takes input as a header file and generates the hooking code that we can add in our tweak. We can also specify the classes we want to check. Once the tweak is installed on the device, whenever a method for that particular class is called, the tweak logs out the method along with the arguments to syslog. The first step here is to get the header files for a particular application. You can get the header files by using the -H option in class-dump-z. Once the headers folder is generated, you can copy it to your system.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/1.png" width="1389" height="315" alt="1"></p>
-
-<!-- more -->
-
-
-
-
-<p>Now we can use the Logify.pl script on these header files to generate our tweak. In this case, we are testing on <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS application</a>. Let&#8217;s add all the classes for which we want to log the method calls. In our case, we select three classes for which we want to trace the method calls, ClientSideInjectionVC, JailbreakDetectionVC and DamnVulnerableAppUtilities.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/2.png" width="773" height="65" alt="2"></p>
-
-<p>This is how our Tweak.xm file looks like.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/3.png" width="883" height="458" alt="3"></p>
-
-<p>Now let&#8217;s create a tweak and replace its Tweak.xm file with our own. Also, give the filter as the bundle identifier for DVIA, as we only want to trace calls for DVIA. Have a look at the <a href="http://highaltitudehacks.com/2014/04/18/ios-application-security-part-33-writing-tweaks-using-theos-cydia-substrate">previous</a> article if you are new to writing tweaks.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/4.png" width="867" height="392" alt="4"></p>
-
-<p>Build the package.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/5.png" width="1251" height="103" alt="5"></p>
-
-<p>Now install it on your device and respring your device.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/6.png" width="1069" height="238" alt="6"></p>
-
-<p>Now check the folder <i>/Library/MobileSubstrate/DynamicLibraries</i> on your device to see whether the tweak was installed, and sure enough, we can see that it has been installed.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/7.png" width="309" height="388" alt="7"></p>
-
-<p>Now run the DVIA app. Make sure your device is connected to your computer and go to Xcode –> Window –> Organizer –> Devices & select your device and click on Console. You will see the DVIAMethodTracer tweak being loaded into your application.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/8.png" width="1146" height="250" alt="8"></p>
-
-<p>And now as you browse around in the application and invoke methods for the particular classes that we have set up Logify for, you will see that these methods are logged along with the value of their arguments.</p>
-
-
-<p><img src="http://prateek147.github.io/images/posts/ios34/9.png" width="1263" height="358" alt="9"></p>
-
-<p>Logify can be a very useful tool in figuring out the order in which methods are called and hence deducing a lot about the flow of the application.</p>
-
-
-
 ]]></content>
   </entry>
   

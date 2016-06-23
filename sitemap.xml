@@ -501,16 +501,22 @@
         <lastmod>2016-06-23T01:00:01+04:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://prateek147.github.io/2016/06/23/ios-application-security-part-46-app-transport-security
+        </loc>
+        <lastmod>2016-06-23T21:38:33+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://prateek147.github.io/about/</loc>
         <lastmod>2016-06-20T23:55:00+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/archives/</loc>
-        <lastmod>2016-06-23T01:00:01+04:00</lastmod>
+        <lastmod>2016-06-23T21:38:33+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/</loc>
-        <lastmod>2016-06-23T01:00:01+04:00</lastmod>
+        <lastmod>2016-06-23T21:38:33+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/downloads/code/security.html</loc>
@@ -526,7 +532,7 @@
     </url>
     <url>
         <loc>http://prateek147.github.io/</loc>
-        <lastmod>2016-06-23T01:00:01+04:00</lastmod>
+        <lastmod>2016-06-23T21:38:33+04:00</lastmod>
     </url>
     <url>
         <loc>http://prateek147.github.io/ios/</loc>

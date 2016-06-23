@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0 - Prateek Gianchandani</title>
+  <title>iOS Application Security Part 46 - App Transport Security - Prateek Gianchandani</title>
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS App Version 2.0 May 31st, 2015 Posted by Prateek Gianchandani In this article &hellip;">
+  <meta name="description" content="iOS Application Security Part 46 - App Transport Security Jun 23rd, 2016 Posted by Prateek Gianchandani One of the most common misconfiguration &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0">
+  <link rel="canonical" href="http://prateek147.github.io/2016/06/23/ios-application-security-part-46-app-transport-security">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -108,7 +108,7 @@
 
   <header>
   <div class="jumbotron">
-    iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS App Version 2.0
+    iOS Application Security Part 46 - App Transport Security
 	<h5>
 
 
@@ -121,7 +121,7 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2015-05-31T00:18:00+04:00" pubdate data-updated="true">May 31<span>st</span>, 2015</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2016-06-23T01:03:00+04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2016</time></h5>
   <h4>
   
 
@@ -131,85 +131,41 @@
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>In this article, i would like to give a quick walkthrough of the new vulnerabilities and challenges that we have added in version 2.0 of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a>.</p>
+      <p>One of the most common misconfiguration issues that i find during testing iOS apps is the bypass of the App Transport Security feature introduced by Apple in iOS 9. Here&rsquo;s an excerpt from Apple&rsquo;s documentation about ATS.</p>
 
-
-
-
-<p>In the Insecure Data storage section, we have added challenges for the following databases.</p>
-
-
-
-
-<ul>
-    <li>Realm Database</li>
-    <li>Couchbase Lite</li>
-    <li>YapDatabase</li>
-</ul>
-
-
-
+<p><b><i>&ldquo;Starting in iOS 9.0 and OS X v10.11, a new security feature called App Transport Security (ATS) is available to apps and is enabled by default. It improves the privacy and data integrity of connections between an app and web services by enforcing additional security requirements for HTTP-based networking requests. Specifically, with ATS enabled, HTTP connections must use HTTPS (RFC 2818). Attempts to connect using insecure HTTP fail. Furthermore, HTTPS requests must use best practices for secure communications.&rdquo;</i></b></p>
 
 <!-- more -->
 
 
-<p><img src="/images/posts/ios45/1.png" width="235" height="321" alt="1"></p>
+<p>It is important to note that just using HTTPs is not enough. The following screenshot taken from Apple&rsquo;s <a href="https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW33">documentation</a> discusses the necessary conditions necessary for ATS.</p>
 
-<p><img src="/images/posts/ios45/2.png" width="235" height="310" alt="2">
-<img src="/images/posts/ios45/3.png" width="235" height="314" alt="3"></p>
+<p><img src="/images/posts/ios46/1.png" width="2186" height="1114" alt="1"></p>
 
-<p>We have also added a new section on <i>Extension vulnerabilities</i>, which covers vulnerabilities in different application extensions, a feature that was introduced with iOS 8.</p>
+<p>Since updating to iOS 9, developers start getting errors like if the app is not communicating over a secure connection.</p>
 
+<p><b><i>Connection failed: Error Domain=NSURLErrorDomain Code=-1022 &ldquo;The resource could not be loaded because the App Transport Security policy requires the use of a secure connection.&rdquo; UserInfo={NSUnderlyingError=0x7fada0f31880 {Error Domain=kCFErrorDomainCFNetwork Code=-1022 &ldquo;(null)&rdquo;}, NSErrorFailingURLStringKey=MyServiceURL, NSErrorFailingURLKey=MyServiceURL, NSLocalizedDescription=The resource could not be loaded because the App Transport Security policy requires the use of a secure connection.}</i></b></p>
 
-<p><img src="/images/posts/ios45/4.png" width="235" height="328" alt="4">
-<img src="/images/posts/ios45/5.png" width="235" height="328" alt="5"></p>
+<p>The reason for this is because developers are mostly testing their apps against a staging server with a misconfigured certificate. In some cases, they might be communication with production servers over HTTPs but might not be using old TLS versions. A simple google search will take you to a <a href="http://stackoverflow.com/questions/32631184/the-resource-could-not-be-loaded-because-the-app-transport-security-policy-requi">Stack overflow</a> that tells you how to bypass ATS by setting a single key NSAllowsArbitraryLoads to YES in the Info.plist file.</p>
 
-<p>In the <i>Runtime Manipulation section</i>, we have added a challenge where you can write a cycript script to brute force a login screen.</p>
+<p>The following configuration in the Info.plist file shows the ATS feature bypass implemented.</p>
 
+<p><img src="/images/posts/ios46/x.png" width="499" height="190" alt="X"></p>
 
-<p><img src="/images/posts/ios45/6.png" width="235" height="281" alt="6"></p>
+<p>However, in some cases the developer might have a secure communication with their backend server. But communication with third party servers for Analytics, Crash logs etc might not be over a secure connection. In this case, they can add certain domains as an exception.</p>
 
-<p>Another new section is <i>Attacks on third party libraries</i>, which demonstrates the security gaps that can occur in your application when you use third party libraries in your project.</p>
+<p><img src="/images/posts/ios46/y.png" width="558" height="108" alt="Y"></p>
 
-
-<p><img src="/images/posts/ios45/7.png" width="235" height="315" alt="7">
-<img src="/images/posts/ios45/8.png" width="235" height="320" alt="8">
-<img src="/images/posts/ios45/9.png" width="235" height="265" alt="9">
-<img src="/images/posts/ios45/10.png" width="235" height="256" alt="10">
-<img src="/images/posts/ios45/11.png" width="235" height="281" alt="11">
-<img src="/images/posts/ios45/12.png" width="235" height="266" alt="12"></p>
-
-<p>In the section on <i>Side Channel Data leakage</i>, we have added another vulnerability demonstrating insecure storage of cookies.</p>
-
-
-<p><img src="/images/posts/ios45/13.png" width="233" height="365" alt="13"></p>
-
-<p>The current downloadable IPA file from the website is a fat binary that will work on both 32 bit and 64 bit devices. This app will work on all iOS versions starting from iOS 7.0.</p>
-
-
-
-
-<p>Some important links</p>
-
-
-
+<p>To find whether the app has ATS enabled or not, you can perform the following steps.</p>
 
 <ol>
-    <li><a href="http://damnvulnerableiosapp.com">Official Website</a></li>
-    <li><a href="http://github.com/prateek147/DVIA">Github Page</a></li>
-    <li><a href="http://damnvulnerableiosapp.com#downloads">Downloads Page</a></li>
+<li>Decrypt the app using Clutch</li>
+<li>Unzip the decrypted IPA file and look inside the Info.plist file.</li>
+<li>Look for the key <i>App Transport Security</i>.</li>
 </ol>
 
 
-
-
-<p>We are working on getting the new solutions out as soon as possible so please be patient. For previous vulnerabilities, you can download the solutions for free from <a href="http://damnvulnerableiosapp.com#solutions">here</a>.</p>
-
-
-
-
-<p>For any bugs, suggestions etc, please don&#8217;t hesitate to contact me. Also, a very special thanks to <a href="http://twitter.com/igrekde">Egor</a> for his contributions to the project.</p>
-
+<p>By the end of 2016, App transport security is going to be a <a href="https://techcrunch.com/2016/06/14/apple-will-require-https-connections-for-ios-apps-by-the-end-of-2016/">requirement</a> for App Store apps. It is important that you report any ATS bypass to the developers during security assessment of iOS Apps.</p>
 
     </div>
   </div>
@@ -260,10 +216,8 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/2015/05/23/ios-application-security-part-44-bypassing-jailbreak-detection-using-xcon" title="Previous Post: iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon">&laquo; iOS Application Security Part 44 - Bypassing Jailbreak detection using Xcon</a>
+            <a class="basic-alignment left" href="/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0" title="Previous Post: iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0">&laquo; iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0</a>
           
-          
-            <a class="basic-alignment right" href="/2016/06/23/ios-application-security-part-46-app-transport-security" title="Next Post: iOS Application Security Part 46 - App Transport Security">iOS Application Security Part 46 - App Transport Security &raquo;</a>
           
         </p>
       </div>
@@ -329,8 +283,8 @@ alt="web analytics"></a></div></noscript>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0';
-        var disqus_url = 'http://prateek147.github.io/2015/05/31/ios-application-security-part-45-enhancements-in-damn-vulnerable-ios-app-version-2-dot-0';
+        var disqus_identifier = 'http://prateek147.github.io/2016/06/23/ios-application-security-part-46-app-transport-security';
+        var disqus_url = 'http://prateek147.github.io/2016/06/23/ios-application-security-part-46-app-transport-security';
         var disqus_script = 'embed.js';
       
     (function () {
