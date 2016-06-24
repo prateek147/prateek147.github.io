@@ -24,11 +24,11 @@ The reason for this is because developers are mostly testing their apps against 
 
 The following configuration in the Info.plist file shows the ATS feature bypass implemented.
 
-<img src="/images/posts/ios46/x.png" width="998" height="380" alt="X">
+<img src="/images/posts/ios46/x.png" width="499" height="190" alt="X">
 
 However, in some cases the developer might have a secure communication with their backend server. But communication with third party servers for Analytics, Crash logs etc might not be over a secure connection. In this case, they can add certain domains as an exception.
 
-<img src="/images/posts/ios46/y.png" width="1116" height="216" alt="Y">
+<img src="/images/posts/ios46/y.png" width="558" height="108" alt="Y">
 
 To find whether the app has ATS enabled or not, you can perform the following steps.
 
