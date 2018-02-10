@@ -79,8 +79,7 @@ navigation:
   url: http://damnvulnerableiosapp.com
 - text: About Me
   url: /about/
-- text: Hire Me
-  url: /hire-me/
+
 
 # Github repositories
 github_user: prateek147
