@@ -9,7 +9,7 @@
   <meta name="author" content="Prateek Gianchandani">
 
   
-  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Jun 19th, 2013 Comments burpsuite security Burpsuite Walkthrough &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Prateek Gianchandani. Security Researcher. Mountaineer. Diver. Jun 21st, 2013 Comments ios Pagination in Restkit 0.2 using RKPaginator &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,8 +74,6 @@
     
         <li ><a href="/about/">About Me</a></li>
     
-        <li ><a href="/hire-me/">Hire Me</a></li>
-    
 </ul>
 
 <ul class="nav pull-right">
@@ -112,6 +110,77 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-21T21:30:00+04:00" pubdate data-updated="true">Jun 21<span>st</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://prateek147.github.io/2013/06/21/pagination-in-restkit-0-dot-2-using-rkpaginator-ios-development#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="//categories/ios/"><span class="badge">ios</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/2013/06/21/pagination-in-restkit-0-dot-2-using-rkpaginator-ios-development">Pagination in Restkit 0.2 using RKPaginator</a></h1>
+      <p>Restkit 0.2 supports pagination through a class called RKPaginator. It has all the necessary methods for supporting pagination properly and efficiently.</p>
+
+<p>The first step is to define the properties required for pagination.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//Properties required for pagination</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">)</span> <span class="n">RKPaginator</span> <span class="o">*</span><span class="n">paginator</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">strong</span><span class="p">)</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">objects</span><span class="p">;</span>
+</span><span class='line'><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span><span class="n">assign</span><span class="p">)</span> <span class="kt">BOOL</span> <span class="n">isPaginatorLoading</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Also make sure to define the url path for your request. The parameters after <code>:</code> denotes the attributes of the RKPaginator object. For e.g, in the below path, instead of <code>:currentPage</code>, the value that will be passed is the <code>currentPage</code> attribute of the paginator object. The two attributes that are necessarily required are <code>perPage</code> and <code>currentPage</code>.</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#define kUrlStringForPagination @&quot;/ios-pagination/?dummy_variable=dummyVariable&amp;page=:currentPage&amp;per_page=:perPage&amp;dummy_variable2=dummyVariable2&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+      
+       <a href="/2013/06/21/pagination-in-restkit-0-dot-2-using-rkpaginator-ios-development">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -1156,62 +1225,6 @@
 
     </article>
     
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2013-06-13T20:35:00+04:00" pubdate data-updated="true">Jun 13<span>th</span>, 2013</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://prateek147.github.io/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="//categories/security/"><span class="badge">security</span></a>
-          
-          <a href="//categories/w3af/"><span class="badge">w3af</span></a>
-          
-          <a href="//categories/web-application-security/"><span class="badge">web-application-security</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools">w3af walkthrough and tutorial part 4 - w3af tools</a></h1>
-      <p>In the previous articles in this series, we looked at all the plugins available in w3af and looked at their applications in different scenarios. In this article, we will look at some of the other tools present in w3af which allow us to send Manual Requests, perform Fuzzing, Encode and Decode requests and responses, use a Proxy to intercept and modify requests and responses, and allow us to perform a comparison between different HTTP requests and responses. We will also look at how we can write our own w3af scripts to automate the task of Web Application Penetration Testing. We will then look at the various profiles present in w3af.</p>
-
-
-
-
-
-      
-       <a href="/2013/06/13/w3af-walkthrough-and-tutorial-part-4-w3af-tools">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
   
   <div class="pagination">
     
@@ -1230,7 +1243,7 @@
       <div class="row-fluid">
         <footer class="footer-page" role="contentinfo">
           <p>
-  Copyright &copy; 2016 - Prateek Gianchandani -
+  Copyright &copy; 2018 - Prateek Gianchandani -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
 </p>
 
