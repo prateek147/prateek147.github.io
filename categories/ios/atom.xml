@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ios | Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io//categories/ios/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2018-02-11T04:04:19+04:00</updated>
+  <updated>2018-02-11T04:04:46+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -51,37 +51,61 @@
 
 <p>Then use the following code to encrypt the image.</p>
 
-<p>{% codeblock lang:objc %}
-//  Code for encrypting and saveing image</p>
-
-<pre><code>UIImage *imageToEncrypt = [UIImage imageNamed:@"SomeImage"];
-NSString  *imagePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/encryptedImage.png"];
-
-NSData *data = UIImagePNGRepresentation(fetchedImage);
-NSError *error;
-NSData *encryptedData = [RNEncryptor encryptData:data
-                                    withSettings:kRNCryptorAES256Settings
-                                        password:@"ABC123"
-                                           error:&amp;error];
-</code></pre>
-
-<p>   [encryptedData writeToFile:imagePath atomically:YES];
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">//  Code for encrypting and saveing image&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">UIImage</span> <span class="o">*</span><span class="n">imageToEncrypt</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageNamed:</span><span class="s">@&quot;SomeImage&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">fetchedImage</span><span class="p">);</span>
+</span><span class='line'><span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNEncryptor</span> <span class="nl">encryptData:</span><span class="n">data</span>
+</span><span class='line'>                                    <span class="nl">withSettings:</span><span class="n">kRNCryptorAES256Settings</span>
+</span><span class='line'>                                        <span class="nl">password:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                           <span class="nl">error:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>   <span class="p">[</span><span class="n">encryptedData</span> <span class="nl">writeToFile:</span><span class="n">imagePath</span> <span class="nl">atomically:</span><span class="n">YES</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Note that encryting and decrypting the image requires a passcode (ABC123). To decrypt the image, use the following code ..</p>
 
-<p>{% codeblock lang:objc %}
- //  Code for loading image by decryption</p>
-
-<pre><code>NSString  *imagePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/encryptedImage.png"];
-NSData *encryptedData = [NSData dataWithContentsOfFile:imagePath];
-NSData *decryptedData = [RNDecryptor decryptData:encryptedData
-                                    withPassword:@"ABC123"
-                                           error:&amp;error];
-UIImage *image = [UIImage imageWithData:decryptedData];
-</code></pre>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="c1">//  Code for loading image by decryption&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">NSString</span>  <span class="o">*</span><span class="n">imagePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSHomeDirectory</span><span class="p">()</span> <span class="nl">stringByAppendingPathComponent:</span><span class="s">@&quot;Documents/encryptedImage.png&quot;</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">encryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSData</span> <span class="nl">dataWithContentsOfFile:</span><span class="n">imagePath</span><span class="p">];</span>
+</span><span class='line'><span class="n">NSData</span> <span class="o">*</span><span class="n">decryptedData</span> <span class="o">=</span> <span class="p">[</span><span class="n">RNDecryptor</span> <span class="nl">decryptData:</span><span class="n">encryptedData</span>
+</span><span class='line'>                                    <span class="nl">withPassword:</span><span class="s">@&quot;ABC123&quot;</span>
+</span><span class='line'>                                           <span class="nl">error:</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">error</span><span class="p">];</span>
+</span><span class='line'><span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nl">imageWithData:</span><span class="n">decryptedData</span><span class="p">];</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p> See, its pretty simple. If you have any questions, let me know in the comments secton below and i will get back to you.</p>
 ]]></content>
@@ -105,24 +129,27 @@ UIImage *image = [UIImage imageWithData:decryptedData];
 
 <p>Then i imported <b>PDKeychainBindings.h</b> in whichever file i wanted to use it and changed the implementation from NSUserDefaults which was like this&hellip;</p>
 
-<p>{% codeblock lang:objc %}
- NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
- [[Model sharedModel] currentUser] setAuthToken:[defaults objectForKey:@&ldquo;authToken&rdquo;]];
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="n">NSUserDefaults</span> <span class="o">*</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSUserDefaults</span> <span class="n">standardUserDefaults</span><span class="p">];</span>
+</span><span class='line'> <span class="p">[[</span><span class="n">Model</span> <span class="n">sharedModel</span><span class="p">]</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">setAuthToken:</span><span class="p">[</span><span class="n">defaults</span> <span class="nl">objectForKey:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>to this&hellip;</p>
 
-<p>{% codeblock lang:objc %}
-PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-[[[Model sharedModel] currentUser] setAuthToken:[bindings objectForKey:@&ldquo;authToken&rdquo;]];
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">PDKeychainBindings</span> <span class="o">*</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDKeychainBindings</span> <span class="n">sharedKeychainBindings</span><span class="p">];</span>
+</span><span class='line'><span class="p">[[[</span><span class="n">Model</span> <span class="n">sharedModel</span><span class="p">]</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">setAuthToken:</span><span class="p">[</span><span class="n">bindings</span> <span class="nl">objectForKey:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;]];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>To save objects in the keychain, use this ..</p>
 
-<p>{% codeblock lang:objc %}
-PDKeychainBindings *bindings = [PDKeychainBindings sharedKeychainBindings];
-[bindings setObject:@&ldquo;XYZ&rdquo; forKey:@&ldquo;authToken&rdquo;];
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">PDKeychainBindings</span> <span class="o">*</span><span class="n">bindings</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDKeychainBindings</span> <span class="n">sharedKeychainBindings</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">bindings</span> <span class="nl">setObject:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">XYZ</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="nl">forKey:</span><span class="err">@</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">authToken</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;];</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>As Simple as that !</p>
 
@@ -205,15 +232,15 @@ Photo Credit: <a href="http://macrumors.com">Macrumors</a></p>
 <!-- more -->
 
 
-<p>{% img /images/posts/ios7bugs/IMG_1129.PNG 320 568 %}</p>
+<p><img src="/images/posts/ios7bugs/IMG_1129.PNG" width="320" height="568"></p>
 
 <p>Now close this app by swiping your finger from the bottom to the top.</p>
 
-<p>{% img /images/posts/ios7bugs/IMG_1130.PNG 320 568 %}</p>
+<p><img src="/images/posts/ios7bugs/IMG_1130.PNG" width="320" height="568"></p>
 
 <p>Come to home screen and you will see a black Background !</p>
 
-<p>{% img /images/posts/ios7bugs/IMG_1132.PNG 320 568 %}</p>
+<p><img src="/images/posts/ios7bugs/IMG_1132.PNG" width="320" height="568"></p>
 
 <h2>Unresponsive Sleep button!!</h2>
 
@@ -225,7 +252,7 @@ Photo Credit: <a href="http://macrumors.com">Macrumors</a></p>
 
 <p>I swear i was able to do this on IOS 7 beta 1 and 2. But looks like it doesn&rsquo;t work on IOS 7 beta 3. It doesn&rsquo;t look like a feature change as i can&rsquo;t think of any reason why Apple would disallow turning on the flashlight via Siri. I think it&rsquo;s a useful feature and should be added with the final release.</p>
 
-<p>{% img /images/posts/ios7bugs/IMG_1134.PNG 320 568 %}</p>
+<p><img src="/images/posts/ios7bugs/IMG_1134.PNG" width="320" height="568"></p>
 
 <p>Overall, IOS 7 Beta 3 is much more refined that the previous versions and i hope they will push a stable version in time for iPhone 5s.</p>
 
