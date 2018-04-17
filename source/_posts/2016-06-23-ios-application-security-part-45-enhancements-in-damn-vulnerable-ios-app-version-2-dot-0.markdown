@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 2.0"
+title: "iOS Application Security Part 45 - Enhancements in Damn Vulnerable iOS app version 1.5"
 date: 2015-05-31 00:18
 comments: true
 categories: [security]
 ---
 
-<p>In this article, i would like to give a quick walkthrough of the new vulnerabilities and challenges that we have added in version 2.0 of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a>.</p>
+<p>In this article, i would like to give a quick walkthrough of the new vulnerabilities and challenges that we have added in version 1.5 of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS app</a>.</p>
 
 <p>In the Insecure Data storage section, we have added challenges for the following databases.</p>
 
