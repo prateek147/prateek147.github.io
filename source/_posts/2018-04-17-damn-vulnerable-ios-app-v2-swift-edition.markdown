@@ -8,7 +8,7 @@ categories: [security]
 
 I am glad to release a completely new version of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS App</a> written in Swift 4. With developers now migrating to Swift for developing apps, it is important to have a testbed app for iOS in Swift. Though I have added some sections in Objective-C too which the users can use to test Objective-C related vulns.
 
-<img src="/images/posts/dvia2/1.png" width="310" height="552" alt="1">
+<img src="/images/posts/dvia2/dvia.png" width="310" height="552" alt="1">
 
 The following vulnerabilities are covered in this version. 
 
