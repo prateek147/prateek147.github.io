@@ -46,7 +46,7 @@ The best way to install DVIA on any device (jailbroken or not) is using <a href=
 <li>Go to your device, <em>Settings -> General -> Device Management</em>. Select the Apple ID you used to install the app. Click on <em>Verify App</em> under DVIAv2.</li>
 </ol>
 
-<h2>Compiling DVIA using Xcode </h3>
+<h2>Compiling DVIA using Xcode </h2>
 
 <h3>Steps</h3>
 
@@ -59,7 +59,7 @@ The best way to install DVIA on any device (jailbroken or not) is using <a href=
 </ol>
 
 
-<h3>Some Important Links</h3>
+<h2>Some Important Links</h2>
 
 <ol>
 <li>Application Website - <a href="http://damnvulnerableiosapp.com">Here</a></li>
