@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Releasing Damn Vulnerable iOS App v2.0 - Swift version"
+title: "Releasing Damn Vulnerable iOS App v2.0 - written in Swift"
 date: 2018-04-19 01:03
 comments: true
 categories: [security]
@@ -59,7 +59,7 @@ The best way to install DVIA on any device (jailbroken or not) is using <a href=
 </ol>
 
 
-<strong>Some Important Links</strong>
+<h3>Some Important Links</h3>
 
 <ol>
 <li>Application Website - <a href="http://damnvulnerableiosapp.com">Here</a></li>
