@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2018-04-19T15:38:36+04:00</updated>
+  <updated>2018-04-19T15:50:42+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -20,7 +20,7 @@
     <id>http://prateek147.github.io/2018/04/19/damn-vulnerable-ios-app-v2-swift-edition</id>
     <content type="html"><![CDATA[<p>I am glad to release a completely new version of <a href="http://damnvulnerableiosapp.com">Damn Vulnerable iOS App</a> written in Swift 4. With developers now migrating to Swift for developing apps, it is important to have a testbed app for iOS in Swift. Though I have added some sections in Objective-C too which the users can use to test Objective-C related vulns.</p>
 
-<p><img src="http://prateek147.github.io/images/posts/dvia2/1.png" width="310" height="552" alt="1"></p>
+<p><img src="http://prateek147.github.io/images/posts/dvia2/dvia.png" width="310" height="552" alt="1"></p>
 
 <p>The following vulnerabilities are covered in this version.</p>
 
