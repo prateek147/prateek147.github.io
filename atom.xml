@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2018-04-19T15:28:10+04:00</updated>
+  <updated>2018-04-19T15:38:36+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Releasing Damn Vulnerable iOS App v2.0 - Swift version]]></title>
+    <title type="html"><![CDATA[Releasing Damn Vulnerable iOS App v2.0 - written in Swift]]></title>
     <link href="http://prateek147.github.io/2018/04/19/damn-vulnerable-ios-app-v2-swift-edition"/>
     <updated>2018-04-19T01:03:00+04:00</updated>
     <id>http://prateek147.github.io/2018/04/19/damn-vulnerable-ios-app-v2-swift-edition</id>
@@ -83,7 +83,7 @@
 <li>Now you can build and run the project on the device. You will have to trust the app again by going under Settings &ndash;> General &ndash;> Device Management. </li>
 </ol></p>
 
-<p><strong>Some Important Links</strong></p>
+<p><h3>Some Important Links</h3></p>
 
 <p><ol>
 <li>Application Website &ndash; <a href="http://damnvulnerableiosapp.com">Here</a></li>
