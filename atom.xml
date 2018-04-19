@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2018-04-19T15:56:02+04:00</updated>
+  <updated>2018-04-19T16:03:21+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -71,43 +71,81 @@
 
 
 
-<p><h2>Compiling DVIA using Xcode </h3></p>
+<h2>Compiling DVIA using Xcode </h2>
 
-<p><h3>Steps</h3></p>
 
-<p><ol>
-<li>Clone the DVIA repo , git clone <a href="https://github.com/prateek147/DVIA-v2">https://github.com/prateek147/DVIA-v2</a></li>
+
+
+<h3>Steps</h3>
+
+
+
+
+<ol>
+<li>Clone the DVIA repo , git clone https://github.com/prateek147/DVIA-v2</li>
 <li>cd to the project root directory where the <em>Podfile</em> is present (/DVIA-v2/DVIA-v2). Then run <em>pod install</em></li>
 <li>Open the <em>DVIA-v2.xcworkspace</em> file with Xcode. You can now directly run the app on a simulator.</li>
 <li>For running on the device, go under Project settings in Xcode on the top left, head over to the <em>General</em> tab and under <em>Signing</em>, enter credentials for your Apple ID.</li>
-<li>Now you can build and run the project on the device. You will have to trust the app again by going under Settings &ndash;> General &ndash;> Device Management. </li>
-</ol></p>
+<li>Now you can build and run the project on the device. You will have to trust the app again by going under Settings -> General -> Device Management. </li>
+</ol>
 
-<p><h3>Some Important Links</h3></p>
 
-<p><ol>
-<li>Application Website &ndash; <a href="http://damnvulnerableiosapp.com">Here</a></li>
-<li>Github Page &ndash; <a href="https://github.com/prateek147/DVIA-v2"><a href="https://github.com/prateek147/DVIA-v2">https://github.com/prateek147/DVIA-v2</a></a></li>
-<li>Download Page &ndash; <a href="http://damnvulnerableiosapp.com#downloads">Here</a></li>
-</ol></p>
 
-<p><h2>Donate</h2></p>
 
-<p><p>if you benefit from this project and want to make a contribution, please consider making a donation to The Juniper Fund (www.thejuniperfund.org/)</p></p>
+<h2>Some Important Links</h2>
 
-<p><p>The Juniper fund is focusing on high altitude workers involved with climbing and expedition support in the high mountains of Nepal. When a high altitude worker has an accident (death or debilitating injury), the impact to the family is devastating. The juniper fund provides funds to the affected families with a 3-Tier model &ndash; Cost of Living grant, vocational training and small business grant. For more information,  visit <a href="http://www.thejuniperfund.org">www.thejuniperfund.org</a>.</p></p>
 
-<p><p>Or watch the videos below.</p></p>
 
-<p><iframe width="560" height="314" src="https://www.youtube.com/embed/HsV6jaA5J2I" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
 
-<p><iframe width="560" height="315" src="https://www.youtube.com/embed/6dHXcoF590E" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></p>
+<ol>
+<li>Application Website - <a href="http://damnvulnerableiosapp.com">Here</a></li>
+<li>Github Page - <a href="https://github.com/prateek147/DVIA-v2">https://github.com/prateek147/DVIA-v2</a></li>
+<li>Download Page - <a href="http://damnvulnerableiosapp.com#downloads">Here</a></li>
+</ol>
 
-<p><strong>Solutions</strong>
+
+
+
+<h2>Donate</h2>
+
+
+
+
+<p>if you benefit from this project and want to make a contribution, please consider making a donation to The Juniper Fund (www.thejuniperfund.org/)</p>
+
+
+
+
+<p>The Juniper fund is focusing on high altitude workers involved with climbing and expedition support in the high mountains of Nepal. When a high altitude worker has an accident (death or debilitating injury), the impact to the family is devastating. The juniper fund provides funds to the affected families with a 3-Tier model - Cost of Living grant, vocational training and small business grant. For more information,  visit <a href="http://www.thejuniperfund.org">www.thejuniperfund.org</a>.</p>
+
+
+
+
+<p>Or watch the videos below.</p>
+
+
+
+
+<iframe width="560" height="314" src="https://www.youtube.com/embed/HsV6jaA5J2I" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6dHXcoF590E" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
+<p><strong>Solutions</strong></p>
+
 <p>I am still working on the solutions and would post them in form of blog posts starting soon.</p>
-<p>For any questions, shoot me an email at Prateek at damnvulnerableiosapp.com or DM me on <a href="https://twitter.com/prateekg147">Twitter</a>. For any bugs/functionalities, please raise them via the <a href="https://github.com/prateek147/DVIA-v2">Github</a> page.</p></p>
 
-<p><p>Happy Hacking !</p></p>
+
+<p>For any questions, shoot me an email at Prateek at damnvulnerableiosapp.com or DM me on <a href="https://twitter.com/prateekg147">Twitter</a>. For any bugs/functionalities, please raise them via the <a href="https://github.com/prateek147/DVIA-v2">Github</a> page.</p>
+
+
+
+
+<p>Happy Hacking !</p>
+
 ]]></content>
   </entry>
   
