@@ -4,7 +4,7 @@
   <title><![CDATA[Prateek Gianchandani]]></title>
   <link href="http://prateek147.github.io/atom.xml" rel="self"/>
   <link href="http://prateek147.github.io/"/>
-  <updated>2018-04-19T16:41:27+04:00</updated>
+  <updated>2018-04-20T15:15:59+04:00</updated>
   <id>http://prateek147.github.io/</id>
   <author>
     <name><![CDATA[Prateek Gianchandani]]></name>
@@ -40,6 +40,7 @@
 <li><b>Network Layer Security</b> - Capture traffic over HTTP and HTTPs. Bypass Certificate and Public Key Pinning. Also understand what is ATS (App Transport Security) and check whether it is implemented or not.</li>
 <li><b>Application Patching</b> - Patch login checks, jailbreak detection methods, and in specific certain specific instructions used in the app.</li>
 <li><b>Sensitive Information in Memory</b> - Dump the information from the memory to look at the sensitive data.</li>
+<li><b>Data leakage to third parties</b> - Identify and Capture the data being leaked to third parties.</li>
 </ol>
 
 
